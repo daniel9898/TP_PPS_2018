@@ -1,0 +1,8 @@
+{
+  "usuarios":[
+    {"correo": "cliente@kbremiseria.com","clave": "cliente11","perfil":"cliente"},
+    {"correo": "chofer@kbremiseria.com","clave": "chofer22","perfil":"chofer"},
+    {"correo": "supervisor@kbremiseria.com","clave": "supervisor33","perfil":"supervisor"},
+    {"correo": "superuser@kbremiseria.com","clave": "superuser44","perfil":"superusuario"}
+  ]
+}

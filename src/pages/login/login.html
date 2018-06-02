@@ -1,0 +1,67 @@
+<ion-content padding text-center>
+  <!-- CONTENIDO PRINCIPAL -->
+  <ion-grid *ngIf="!mostrarSpinner">
+      <ion-row>
+        <ion-col class="top-5">
+          <img id="autoLogo" src="assets/imgs/auto_apagado.png" alt="login imagen">
+        </ion-col>
+      </ion-row>
+
+<!-- OPCIONES DE LOGUEO -->
+      <ion-fab top center id="botonPruebas" #fab>
+        <button ion-fab mini color="signin"><ion-icon name="md-car"></ion-icon></button>
+        <ion-fab-list side="left">
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'chofer')"><ion-icon name="ios-contacts"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'cliente')"><ion-icon name="ios-people"></ion-icon></button>
+        </ion-fab-list>
+        <ion-fab-list side="right">
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'supervisor')"><ion-icon name="ios-person-outline"></ion-icon></button>
+          <button ion-fab (click)="ingresoDePrueba($event,fab,'superusuario')"><ion-icon name="ios-contact"></ion-icon></button>
+        </ion-fab-list>
+      </ion-fab>
+
+<!-- FORMULARIO -->
+      <form [formGroup]="myLoginForm" (ngSubmit)="validarUsuario()" novalidate class="top-1">
+        <ion-row>
+          <ion-col>
+            <h5>KB REMISERIA</h5>
+            <!-- USUARIO -->
+            <ion-item>
+                <ion-input formControlName="userEmail" id="userNameInput" type="text" placeholder="Usuario" [(ngModel)]="userNameTxt" (ionFocus)='tieneFoco(1)' (ionBlur)='perdioFoco(1)'></ion-input>
+            </ion-item>
+            <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty && !focus1">
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required') && !focus1">Campo requerido</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email') && !myLoginForm.get('userEmail').hasError('required') && !focus1">Formato de email incorrecto</p>
+            </ion-item>
+            <!-- CONTRASEÑA -->
+            <ion-item>
+              <ion-input formControlName="userPassword" id="userPassInput" type="password" placeholder="Contraseña" [(ngModel)]="userPassTxt" (ionFocus)='tieneFoco(2)' (ionBlur)='perdioFoco(2)'></ion-input>
+            </ion-item>
+            <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty && !focus2">
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required') && !focus2">Campo requerido</p>
+            </ion-item>
+            <!-- SUBMIT -->
+              <button type="submit" ion-button color="signin" icon-left block
+                [disabled]="myLoginForm.invalid">
+                <ion-icon name="md-contact"></ion-icon>
+                Ingresar
+              </button>
+          </ion-col>
+        </ion-row>
+      </form>
+
+      <div>
+        <p id="mensajeRegistro">¿No tienes una cuenta?</p>
+        <p id="mensajeRegistro2" (click)="registrarse()">
+          ¡Regístrate gratis!
+          <ion-icon name="md-contact"></ion-icon>
+        </p>
+      </div>
+
+  </ion-grid>
+
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
+</ion-content>
