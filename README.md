@@ -1,8 +1,13 @@
 # TP_PPS_2018
 
 =================================
-cambios en la rama desarrollo
+[Cambios] personal branch -> desarrollo -> master
 
 ¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio:
 
-EZEQUIEL CABALLERO
+. Apellido: CABALLERO
+. Nombre: Ezequiel
+. Módulos (objetivos) a desarrollar:
+. Fecha de inicio:
+. Fecha de fin:
+. Branch: ezequiel.caballero
