@@ -1,12 +1,100 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>REGISTRO</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content>
+
+  <ion-fab class="floatBack" bottom right>
+    <button ion-fab mini color="primary" (click)="volver()">
+      <ion-icon name="md-arrow-round-back"></ion-icon>
+    </button>
+  </ion-fab>
+
+  <!-- FORMULARIO -->
+  <div *ngIf="!mostrarSpinner">
+
+    <!-- MANDATORIO -->
+    <div class="formulario1" *ngIf="!formAdicional">
+        <form [formGroup]="registroForm1" (ngSubmit)="registrarUsuario()" novalidate class="top-1">
+          <ion-row>
+            <ion-col>
+
+
+              <!-- Correo -->
+              <ion-item>
+                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo" [(ngModel)]="input_correo"></ion-input>
+                  <ion-icon *ngIf="registroForm1.get('userCorreo').hasError('email') &&
+                                  !registroForm1.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
+                  </ion-icon>
+              </ion-item>
+              <!-- Contraseña -->
+              <ion-item>
+                <ion-input formControlName="userClave" id="inputClave" type="password" placeholder="Contraseña" [(ngModel)]="input_clave"></ion-input>
+                <ion-icon *ngIf="registroForm1.get('userClave').hasError('required')" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <!-- Contraseña -->
+              <ion-item>
+                <ion-input formControlName="userClave" id="inputClave" type="password" placeholder="Repetir contraseña" [(ngModel)]="input_clave"></ion-input>
+                <ion-icon *ngIf="registroForm1.get('userClave').hasError('required')" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+
+              <!-- SUBMIT -->
+                <button type="submit" ion-button color="register" icon-left block
+                  [disabled]="registroForm1.invalid">
+                  <ion-icon name="md-contact"></ion-icon>
+                  Registrarse
+                </button>
+
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+      <!-- OPCIONALES -->
+      <div class="formulario2" *ngIf="formAdicional">
+        <form [formGroup]="registroForm2" (ngSubmit)="registrarUsuario()" novalidate class="top-1">
+          <ion-row>
+            <ion-col>
+
+              <!-- Nombre -->
+              <ion-item>
+                  <ion-input formControlName="userNombre" id="inputNombre" type="text" placeholder="Nombre" [(ngModel)]="input_nombre"></ion-input>
+                  <ion-icon *ngIf="registroForm2.get('userNombre').hasError('required')" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <!-- Edad -->
+              <ion-item>
+                  <ion-input formControlName="userEdad" id="inputEdad" type="number" placeholder="Edad" [(ngModel)]="input_edad" maxlength="4"></ion-input>
+                  <ion-icon *ngIf="registroForm2.get('userEdad').hasError('required')" color="danger" name="alert" item-right>
+                  </ion-icon>
+              </ion-item>
+              <!-- Dirección (?) -->
+              <ion-item>
+                  <ion-input formControlName="userDireccion" id="inputEdad" type="text" placeholder="Dirección" [(ngModel)]="input_direccion"></ion-input>
+                  <ion-icon *ngIf="registroForm2.get('userDireccion').hasError('required')" color="danger" name="alert" item-right>
+                  </ion-icon>
+              </ion-item>
+
+              <!-- Perfil (por defecto: cliente)-->
+              <!-- Foto -->
+
+              <!-- SUBMIT -->
+                <button type="submit" ion-button color="register" icon-left block
+                  [disabled]="registroForm2.invalid">
+                  <ion-icon name="md-contact"></ion-icon>
+                  Agregar
+                </button>
+
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+
+      <!-- DATOS ADICIONALES -->
+      <button *ngIf="!formAdicional" ion-button color="primary" (click)="activar_formAdicional()" icon-left block>
+        <ion-icon name="md-contact"></ion-icon>
+        Adicional
+      </button>
+
+  </div>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
 
 </ion-content>
