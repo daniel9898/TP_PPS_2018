@@ -1,0 +1,71 @@
+[{
+  "marca": "Mitsubishi",
+  "model": "Pajero",
+  "patente": "WBAAZ33424K750324",
+  "año": 1995,
+  "ocupado": false,
+  "activo": false
+}, {
+  "marca": "Volkswagen",
+  "model": "Type 2",
+  "patente": "WBA3T7C56FP753792",
+  "año": 1988,
+  "ocupado": true,
+  "activo": false
+}, {
+  "marca": "Mitsubishi",
+  "model": "Mirage",
+  "patente": "3VW517AT1FM577840",
+  "año": 2000,
+  "ocupado": true,
+  "activo": true
+}, {
+  "marca": "Saab",
+  "model": "900",
+  "patente": "4A31K3DT1CE123945",
+  "año": 1996,
+  "ocupado": true,
+  "activo": false
+}, {
+  "marca": "Mercedes-Benz",
+  "model": "SL-Class",
+  "patente": "1G6DA1E39C0161252",
+  "año": 2000,
+  "ocupado": false,
+  "activo": true
+}, {
+  "marca": "Toyota",
+  "model": "Land Cruiser",
+  "patente": "1G6DH8E58C0390740",
+  "año": 1997,
+  "ocupado": false,
+  "activo": false
+}, {
+  "marca": "Chevrolet",
+  "model": "2500",
+  "patente": "1HGCR6F5XEA081908",
+  "año": 1998,
+  "ocupado": true,
+  "activo": false
+}, {
+  "marca": "MINI",
+  "model": "Cooper Clubman",
+  "patente": "1FTWX3B54AE591452",
+  "año": 2012,
+  "ocupado": false,
+  "activo": true
+}, {
+  "marca": "Mitsubishi",
+  "model": "Montero",
+  "patente": "1ZVBP8AM5D5845663",
+  "año": 1999,
+  "ocupado": true,
+  "activo": false
+}, {
+  "marca": "Ford",
+  "model": "Edge",
+  "patente": "3C4PDCEG1CT382458",
+  "año": 2008,
+  "ocupado": true,
+  "activo": false
+}]
