@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-//PAGINA
+//PAGINAS
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../index-paginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
@@ -17,7 +17,7 @@ import * as $ from 'jquery';
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [UsuarioServicioProvider]
+  providers: [UsuarioServicioProvider, AuthServicioProvider]
 })
 export class LoginPage {
 
