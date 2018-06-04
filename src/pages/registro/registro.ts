@@ -30,9 +30,11 @@ export class RegistroPage {
   input_correo:string;
   input_edad:string;
   input_direccion:string;
-  input_clave:string;
+  input_clave1:string;
+  input_clave2:string;
   //FORM Adicional
   formAdicional:boolean = false;
+  mostrarErrores:boolean = false;
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
@@ -44,7 +46,8 @@ export class RegistroPage {
     this.registroForm1 = this.fbRegistration.group({
 
       userCorreo: ['', [Validators.required, Validators.email] ],
-      userClave: ['', [Validators.required] ]
+      userClave1: ['', [Validators.required] ],
+      userClave2: ['', [Validators.required] ]
 
     });
 
@@ -63,11 +66,15 @@ export class RegistroPage {
   }
 
   registrarUsuario(){
-
+    if(this.registroForm1.invalid)
+      this.mostrarErrores = true;
+    else{
+      this.formAdicional = true;
+    }
   }
 
-  activar_formAdicional(){
-    this.formAdicional = true;
+  completarUsuario(){
+    
   }
 
   volver(){
