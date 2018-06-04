@@ -1,7 +1,20 @@
-# TP_PPS_2018
+# TP_PPS_2018 - Master
 
-=================================
-Rama master
+> ¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio.
 
-¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio:
 
+## Para el sábado 08/06/2018
+
+
+#### Lucas Bonanni
+* Módulos (objetivos) a desarrollar: ABM vehículos
+* Fecha de inicio: 02/06/2018
+* Fecha de fin: 07/06/2018
+* Branch: [lucas.bonanni](https://github.com/lucasbonanni/TP_PPS_2018/tree/lucas.bonanni)
+
+
+#### Ezequiel Caballero
+* Módulos (objetivos) a desarrollar: ABM clientes
+* Fecha de inicio: 02/06/2018
+* Fecha de fin: 07/06/2018
+* Branch: [ezequiel.caballero](https://github.com/lucasbonanni/TP_PPS_2018/tree/ezequiel.caballero)
