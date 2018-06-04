@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { vehiculo } from '../../../classes/vehiculo.model';
 
 /**
  * Generated class for the SupervisorRegistroVehiculoPage page.
@@ -14,12 +15,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'supervisor-registro-vehiculo.html',
 })
 export class SupervisorRegistroVehiculoPage {
-
+  vehiculo: vehiculo;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.vehiculo = new vehiculo();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorRegistroVehiculoPage');
+    this.vehiculo = this.navParams.data;
   }
 
 }

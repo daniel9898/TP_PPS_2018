@@ -7,12 +7,38 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>supervisor-lista-vehiculos</ion-title>
+    <!-- <ion-title>supervisor-lista-vehiculos</ion-title> -->
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="buscar" autocomplete="true" animated="true"></ion-searchbar>
+    <ion-buttons right>
+        <!-- <button ion-button clear>Guardar</button> -->
+        <button ion-button icon-only>
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-list>
+    <ion-item-sliding *ngFor="let vehiculo of vehiculos; index as i;">
+      <ion-item (click)="verVehiculo(i)">
+          <ion-icon *ngIf="vehiculo.ocupado" name="radio-button-on" color="danger" item-start></ion-icon>
+          {{vehiculo.marca}} {{vehiculo.modelo }} 
+          <ion-icon *ngIf="vehiculo.ocupado" name="ios-arrow-forward" item-end></ion-icon>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="danger" [disabled]="vehiculo.ocupado">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <ion-fab right bottom>
+      <button ion-fab color="secondary">
+          <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab>
 
 </ion-content>
