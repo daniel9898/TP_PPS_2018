@@ -1,21 +1,30 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-/**
- * Generated class for the ClientePerfilPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-cliente-perfil',
   templateUrl: 'cliente-perfil.html',
 })
 export class ClientePerfilPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  itemsRef: AngularFireList<any>;
+  items: Observable<any[]>;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              db: AngularFireDatabase) {
+
+    this.itemsRef = db.list('usuarios');
+    //this.items = db.list('/usuarios').valueChanges();
+    // Use snapshotChanges().map() to store the key
+    this.items = this.itemsRef.snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
   }
 
   ionViewDidLoad() {
