@@ -25,7 +25,7 @@ export class LoginPage {
   usuario_perfil:string = "";
   usuario_foto:string = "";
   mostrarSpinner:boolean = false;
-  user: Observable<firebase.User>;
+  //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
   flag:boolean = false;
@@ -45,7 +45,7 @@ export class LoginPage {
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
-        this.user = afAuth.authState;
+        //this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
         this.userNameTxt = "";
         this.userPassTxt = null;

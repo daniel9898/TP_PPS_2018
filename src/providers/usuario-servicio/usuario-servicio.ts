@@ -53,7 +53,7 @@ export class UsuarioServicioProvider {
 
       this.afDB.list('/usuarios')
         .valueChanges()
-        .takeUntil(this.destroy$)
+        //.takeUntil(this.destroy$)
         .subscribe(
         (data:any) => {
             console.log(data);
