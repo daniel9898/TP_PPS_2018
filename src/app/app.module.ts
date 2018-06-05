@@ -26,6 +26,7 @@ import { HttpModule } from '@angular/http';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 
 // //ONE SIGNAL (Push notification)
 // import { OneSignal } from '@ionic-native/onesignal';
@@ -113,7 +114,8 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
     AngularFireDatabase,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UsuarioServicioProvider,
-    AuthServicioProvider
+    AuthServicioProvider,
+    VehiculosProvider
   ]
 })
 export class AppModule {}
