@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { vehiculo, vehiculosMock } from '../../../classes/vehiculo.model';
 import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
+import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
 /**
  * Generated class for the SupervisorListaVehiculosPage page.
@@ -18,16 +19,25 @@ import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
 export class SupervisorListaVehiculosPage {
   public vehiculos: vehiculo[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculosSrv: VehiculosProvider) {
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad SupervisorListaVehiculosPage');
-    this.vehiculos = vehiculosMock;
+    // this.vehiculos = vehiculosMock;
+    this.initializeItems();
   }
 
   initializeItems(){
     this.vehiculos = vehiculosMock;
+    this.vehiculosSrv.getListaVehiculos().subscribe(next => {
+      console.log(next);
+      // this.vehiculos = next.key;
+    });
+    // .then(value =>{
+    //   this.vehiculos = value
+    //   console.log(value);
+    // });
   }
 
 
