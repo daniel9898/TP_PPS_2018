@@ -6,10 +6,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage,
-         ClienteInicioPage, ClientePerfilPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage, ChoferPerfilPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
-         SupervisorInicioPage, SupervisorPerfilPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+import { InicioPage, RegistroPage, LoginPage, PerfilPage,
+         ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+         SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 
 //FIREBASE
@@ -27,34 +27,29 @@ import { HttpModule } from '@angular/http';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 
-// //ONE SIGNAL (Push notification)
-// import { OneSignal } from '@ionic-native/onesignal';
-// import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
-
 @NgModule({
   declarations: [
     MyApp,
+    //COMUNES (4)
     InicioPage,
     RegistroPage,
     LoginPage,
-    //CLIENTE
+    PerfilPage,
+    //CLIENTE (6)
     ClienteInicioPage,
-    ClientePerfilPage,
     ClienteViajePage,
     ClienteReservaPage,
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
-    //CHOFER
+    //CHOFER (5)
     ChoferInicioPage,
-    ChoferPerfilPage,
     ChoferViajePage,
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
-    //SUPERVISOR
+    //SUPERVISOR (10)
     SupervisorInicioPage,
-    SupervisorPerfilPage,
     SupervisorSeguimientoPage,
     SupervisorEstadisticaPage,
     SupervisorEncuestaPage,
@@ -76,12 +71,13 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    //COMUNES
     InicioPage,
     RegistroPage,
     LoginPage,
+    PerfilPage,
     //CLIENTE
     ClienteInicioPage,
-    ClientePerfilPage,
     ClienteViajePage,
     ClienteReservaPage,
     ClienteHistorialPage,
@@ -89,14 +85,12 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
     ClienteEncuestaPage,
     //CHOFER
     ChoferInicioPage,
-    ChoferPerfilPage,
     ChoferViajePage,
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
     //SUPERVISOR
     SupervisorInicioPage,
-    SupervisorPerfilPage,
     SupervisorSeguimientoPage,
     SupervisorEstadisticaPage,
     SupervisorEncuestaPage,

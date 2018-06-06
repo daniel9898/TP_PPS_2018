@@ -1,0 +1,51 @@
+<ion-content padding>
+
+    <ion-grid *ngIf="!mostrarSpinner">
+      <!-- CORREO -->
+      <ion-item>
+        <ion-avatar item-end>
+          <img [src]="usuario.foto">
+        </ion-avatar>
+        <ion-label stacked>Correo</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.correo"></ion-input>
+      </ion-item>
+      <!-- NOMBRE -->
+      <ion-item>
+        <ion-label stacked>Nombre</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.nombre"></ion-input>
+      </ion-item>
+      <!-- EDAD -->
+      <ion-item>
+        <ion-label stacked>Edad</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.edad"></ion-input>
+      </ion-item>
+      <!-- DIRECCION -->
+      <ion-item>
+        <ion-label stacked>Dirección</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.direccion"></ion-input>
+      </ion-item>
+      <!-- PERFIL -->
+      <ion-item>
+        <ion-label stacked>Perfil</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.perfil"></ion-input>
+      </ion-item>
+      <div class="dinamicValues">
+        <!-- VIAJE -->
+        <ion-item>
+          <ion-label stacked>Viajando</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
+        </ion-item>
+        <!-- ESTADO -->
+        <ion-item>
+          <ion-label stacked>Activo</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
+        </ion-item>
+      </div>
+
+  </ion-grid>
+
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
+</ion-content>

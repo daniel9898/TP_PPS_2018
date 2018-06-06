@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
-import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../index-paginas';
+import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
-import{ Observable } from 'rxjs/Observable';
 //SERVICIOS
-import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 //jQUERY
 import * as $ from 'jquery';
 
@@ -25,7 +23,7 @@ export class LoginPage {
   usuario_perfil:string = "";
   usuario_foto:string = "";
   mostrarSpinner:boolean = false;
-  user: Observable<firebase.User>;
+  //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
   flag:boolean = false;
@@ -45,7 +43,7 @@ export class LoginPage {
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
-        this.user = afAuth.authState;
+        //this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
         this.userNameTxt = "";
         this.userPassTxt = null;
@@ -118,6 +116,7 @@ export class LoginPage {
                 if(user.correo == this.myLoginForm.value.userEmail){
                   this.usuario_perfil = user.perfil;
                   this.usuario_foto = user.foto;
+                  console.log("Coincidencia en el usuario!");
                 }
               }
               this.ingresar();
@@ -147,6 +146,7 @@ export class LoginPage {
         this.navCtrl.push(SupervisorInicioPage);
         break;
       }
+      this._usuarioServicio.desuscribir(); //Abandono de página login: desuscribir
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);

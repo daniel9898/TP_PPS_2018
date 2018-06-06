@@ -1,30 +1,28 @@
 /*INDEX DE PAGINAS*/
 
-/********************************COMUN (3)********************************/
-export { InicioPage } from "./inicio/inicio";
-export { LoginPage } from "./login/login";
-export { RegistroPage } from "./registro/registro";
+/********************************COMUN (4)********************************/
+export { InicioPage } from "./comunes/inicio/inicio";
+export { LoginPage } from "./comunes/login/login";
+export { RegistroPage } from "./comunes/registro/registro";
+export { PerfilPage } from "./comunes/perfil/perfil";
 
-/********************************CLIENTE (7)********************************/
+/********************************CLIENTE (6)********************************/
 export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
-export { ClientePerfilPage } from "./cliente/cliente-perfil/cliente-perfil";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
 export { ClienteReservaPage } from "./cliente/cliente-reserva/cliente-reserva";
 export { ClienteEncuestaPage } from "./cliente/cliente-encuesta/cliente-encuesta";
 export { ClienteHistorialPage } from "./cliente/cliente-historial/cliente-historial";
 export { ClienteEstadisticaPage } from "./cliente/cliente-estadistica/cliente-estadistica";
 
-/********************************CHOFER (6)********************************/
+/********************************CHOFER (5)********************************/
 export { ChoferInicioPage } from "./chofer/chofer-inicio/chofer-inicio";
-export { ChoferPerfilPage } from "./chofer/chofer-perfil/chofer-perfil";
 export { ChoferViajePage } from "./chofer/chofer-viaje/chofer-viaje";
 export { ChoferEncuestaPage } from "./chofer/chofer-encuesta/chofer-encuesta";
 export { ChoferHistorialPage } from "./chofer/chofer-historial/chofer-historial";
 export { ChoferEstadisticaPage } from "./chofer/chofer-estadistica/chofer-estadistica";
 
-/********************************SUPERVISOR (11)********************************/
+/********************************SUPERVISOR (10)********************************/
 export { SupervisorInicioPage } from "./supervisor/supervisor-inicio/supervisor-inicio";
-export { SupervisorPerfilPage } from "./supervisor/supervisor-perfil/supervisor-perfil";
 export { SupervisorEncuestaPage } from "./supervisor/supervisor-encuesta/supervisor-encuesta";
 export { SupervisorEstadisticaPage } from "./supervisor/supervisor-estadistica/supervisor-estadistica";
 export { SupervisorUsuarioPage } from "./supervisor/supervisor-usuario/supervisor-usuario";

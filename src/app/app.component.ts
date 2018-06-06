@@ -6,14 +6,13 @@ import { timer } from 'rxjs/observable/timer';
 //jQUERY
 import * as $ from 'jquery';
 //PAGES
-import { LoginPage,
-         ClienteInicioPage, ClientePerfilPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage, ChoferPerfilPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
-         SupervisorInicioPage, SupervisorPerfilPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+import { LoginPage, PerfilPage,
+         ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+         SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
-//import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
 
 @Component({
   templateUrl: 'app.html'
@@ -84,7 +83,7 @@ export class MyApp {
           this.pagesApp = [
             //PAGINAS CLIENTE (7)
             { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
-            { title: 'Perfil', component: ClientePerfilPage, visibility: this.vista_cliente },
+            { title: 'Perfil', component: PerfilPage, visibility: this.vista_cliente },
             { title: 'Viaje', component: ClienteViajePage, visibility: this.vista_cliente },
             { title: 'Reserva', component: ClienteReservaPage, visibility: this.vista_cliente },
             { title: 'Historial', component: ClienteHistorialPage, visibility: this.vista_cliente },
@@ -92,14 +91,14 @@ export class MyApp {
             { title: 'Encuesta', component: ClienteEncuestaPage, visibility: this.vista_cliente },
             //PAGINAS CHOFER (6)
             { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
-            { title: 'Perfil', component: ChoferPerfilPage, visibility: this.vista_chofer },
+            { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },
             { title: 'Viaje', component: ChoferViajePage, visibility: this.vista_chofer },
             { title: 'Historial', component: ChoferHistorialPage, visibility: this.vista_chofer },
             { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
             { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
             //PAGINAS SUPERVISOR (11)
             { title: 'Inicio', component: SupervisorInicioPage, visibility: this.vista_supervisor },
-            { title: 'Perfil', component: SupervisorPerfilPage, visibility: this.vista_supervisor },
+            { title: 'Perfil', component: PerfilPage, visibility: this.vista_supervisor },
             { title: 'Seguimiento', component: SupervisorSeguimientoPage, visibility: this.vista_supervisor },
             { title: 'Estadística', component: SupervisorEstadisticaPage, visibility: this.vista_supervisor },
             { title: 'Encuesta', component: SupervisorEncuestaPage, visibility: this.vista_supervisor },
@@ -135,6 +134,7 @@ export class MyApp {
 
   logout() {
   	this.menu.close();
+    this.menu.enable(false);
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

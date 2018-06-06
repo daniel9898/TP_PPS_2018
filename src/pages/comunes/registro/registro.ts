@@ -1,18 +1,14 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //PAGINAS
-import { LoginPage } from '../index-paginas';;
-//FIREBASE
-import { AngularFireAuth} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
+import { LoginPage } from '../../index-paginas';;
 //SERVICIOS
-import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 //jQUERY
-import * as $ from 'jquery';
+//import * as $ from 'jquery';
 
 @Component({
   selector: 'page-registro',
@@ -38,8 +34,6 @@ export class RegistroPage {
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
-              public afAuth:AngularFireAuth,
-              public afDB: AngularFireDatabase,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
@@ -74,7 +68,7 @@ export class RegistroPage {
   }
 
   completarUsuario(){
-    
+
   }
 
   volver(){
