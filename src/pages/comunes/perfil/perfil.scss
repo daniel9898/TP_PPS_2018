@@ -1,4 +1,11 @@
-page-cliente-perfil {
+page-perfil {
+
+  .dinamicValues{
+    position: absolute;
+    bottom: 10px;
+    right: 0px;
+  }
+
   .spinner {
     width: 100px;
     height: 100px;

@@ -2,13 +2,13 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
-import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../index-paginas';
+import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 //SERVICIOS
-import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 //jQUERY
 import * as $ from 'jquery';
 

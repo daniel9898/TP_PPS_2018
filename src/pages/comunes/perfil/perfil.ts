@@ -10,10 +10,10 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 
 
 @Component({
-  selector: 'page-cliente-perfil',
-  templateUrl: 'cliente-perfil.html',
+  selector: 'page-perfil',
+  templateUrl: 'perfil.html',
 })
-export class ClientePerfilPage {
+export class PerfilPage {
 
   usuario:Usuario;
   mostrarSpinner:boolean = false;

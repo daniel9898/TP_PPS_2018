@@ -29,16 +29,18 @@
         <ion-label stacked>Perfil</ion-label>
         <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.perfil"></ion-input>
       </ion-item>
-      <!-- VIAJE -->
-      <ion-item>
-        <ion-label stacked>Viajando</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.viajando"></ion-input>
-      </ion-item>
-      <!-- ESTADO -->
-      <ion-item>
-        <ion-label stacked>Estado</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.activo"></ion-input>
-      </ion-item>
+      <div class="dinamicValues">
+        <!-- VIAJE -->
+        <ion-item>
+          <ion-label stacked>Viajando</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
+        </ion-item>
+        <!-- ESTADO -->
+        <ion-item>
+          <ion-label stacked>Activo</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
+        </ion-item>
+      </div>
 
   </ion-grid>
 
