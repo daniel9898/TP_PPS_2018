@@ -28,7 +28,7 @@ export class SupervisorListaVehiculosPage {
     this.initializeItems();
   }
 
-  initializeItems(){
+  initializeItems() {
     this.vehiculos = vehiculosMock;
     this.vehiculosSrv.getListaVehiculos().subscribe(next => {
       console.log(next);
@@ -57,9 +57,9 @@ export class SupervisorListaVehiculosPage {
     }
   }
 
-  verVehiculo(value){
+  verVehiculo(value) {
     console.log(value);
-    this.navCtrl.push(SupervisorRegistroVehiculoPage,this.vehiculos[value]);
+    this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: false, vehiculo: this.vehiculos[value] });
   }
 
 }

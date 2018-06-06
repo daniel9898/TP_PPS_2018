@@ -16,13 +16,20 @@ import { vehiculo } from '../../../classes/vehiculo.model';
 })
 export class SupervisorRegistroVehiculoPage {
   vehiculo: vehiculo;
+  isEditable: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.vehiculo = new vehiculo();
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorRegistroVehiculoPage');
-    this.vehiculo = this.navParams.data;
+    this.vehiculo = this.navParams.data.vehiculo;
+    this.isEditable = this.navParams.data.isEditable
+  }
+
+  enableEdit() {
+    this.isEditable = true;
   }
 
 }
