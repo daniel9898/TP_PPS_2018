@@ -27,10 +27,6 @@ import { HttpModule } from '@angular/http';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 
-// //ONE SIGNAL (Push notification)
-// import { OneSignal } from '@ionic-native/onesignal';
-// import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
-
 @NgModule({
   declarations: [
     MyApp,
