@@ -30,7 +30,6 @@
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "jquery": "^3.3.1",
-    "onesignal-cordova-plugin": "^2.4.1",
     "rxjs": "6.2.0",
     "rxjs-compat": "6.2.0",
     "sw-toolbox": "3.6.0",
@@ -47,8 +46,7 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {},
-      "onesignal-cordova-plugin": {}
+      "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
       "android"
