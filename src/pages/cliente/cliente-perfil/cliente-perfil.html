@@ -1,18 +1,49 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>cliente-perfil</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
-  <ul>
-    <li *ngFor="let item of items | async">
-      <input type="text" #updatetext [value]="item.correo" />
-      <button (click)="updateItem(item.key, updatetext.value)">Update</button>
-      <button (click)="deleteItem(item.key)">Delete</button>
-    </li>
-  </ul>
+
+    <ion-grid *ngIf="!mostrarSpinner">
+      <!-- CORREO -->
+      <ion-item>
+        <ion-avatar item-end>
+          <img [src]="usuario.foto">
+        </ion-avatar>
+        <ion-label stacked>Correo</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.correo"></ion-input>
+      </ion-item>
+      <!-- NOMBRE -->
+      <ion-item>
+        <ion-label stacked>Nombre</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.nombre"></ion-input>
+      </ion-item>
+      <!-- EDAD -->
+      <ion-item>
+        <ion-label stacked>Edad</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.edad"></ion-input>
+      </ion-item>
+      <!-- DIRECCION -->
+      <ion-item>
+        <ion-label stacked>Dirección</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.direccion"></ion-input>
+      </ion-item>
+      <!-- PERFIL -->
+      <ion-item>
+        <ion-label stacked>Perfil</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.perfil"></ion-input>
+      </ion-item>
+      <!-- VIAJE -->
+      <ion-item>
+        <ion-label stacked>Viajando</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.viajando"></ion-input>
+      </ion-item>
+      <!-- ESTADO -->
+      <ion-item>
+        <ion-label stacked>Estado</ion-label>
+        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.activo"></ion-input>
+      </ion-item>
+
+  </ion-grid>
+
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
 </ion-content>

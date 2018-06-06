@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+
+//clase USUARIO
+import { Usuario } from '../../../classes/usuario';
+
+//SERVICIOS
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+
 
 @Component({
   selector: 'page-cliente-perfil',
@@ -10,30 +15,33 @@ import { map } from 'rxjs/operators';
 })
 export class ClientePerfilPage {
 
-  itemsRef: AngularFireList<any>;
-  items: Observable<any[]>;
+  usuario:Usuario;
+  mostrarSpinner:boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              db: AngularFireDatabase) {
+              public _auth: AuthServicioProvider,
+              public _userService: UsuarioServicioProvider) {
 
-    this.itemsRef = db.list('usuarios');
-    //this.items = db.list('/usuarios').valueChanges();
-    // Use snapshotChanges().map() to store the key
-    this.items = this.itemsRef.snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      )
-    );
-
-    this.items.subscribe(val => console.log(val));
-
-    console.log("USUARIOS: " + JSON.stringify(this.items));
+      this.mostrarSpinner = true;
 
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ClientePerfilPage');
+    //this.mostrarSpinner = true;
+    this._userService.traer_usuarios().then(()=>{
+        //console.log("USUARIOS: " + JSON.stringify(this._userService.usuariosArray));
+        for(let user of this._userService.usuariosArray){
+          if(this._auth.get_userEmail() == user.correo){
+            this.usuario = user;
+            console.log("Perfil de usuario: " + JSON.stringify(this.usuario));
+            this.mostrarSpinner = false;
+          }
+        }
+    }).catch((error)=>{
+      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+    })
+
   }
 
 }

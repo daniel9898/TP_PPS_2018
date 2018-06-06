@@ -24,23 +24,4 @@ export class Usuario{
         this.activo = true;
     }
 
-    // public static traer_todo_usuarios(){
-    // }
-    //
-    // public static traer_un_usuario(correo:string){
-    //
-    // }
-    //
-    // public static agregar_usuario(){
-    //
-    // }
-    //
-    // public static modificar_usuario(){
-    //
-    // }
-    //
-    // public static borrar_usuario(){
-    //
-    // }
-
 }
