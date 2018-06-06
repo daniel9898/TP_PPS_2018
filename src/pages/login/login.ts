@@ -6,8 +6,6 @@ import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage
 //FIREBASE
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
-import{ Observable } from 'rxjs/Observable';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
@@ -118,6 +116,7 @@ export class LoginPage {
                 if(user.correo == this.myLoginForm.value.userEmail){
                   this.usuario_perfil = user.perfil;
                   this.usuario_foto = user.foto;
+                  console.log("Coincidencia en el usuario!");
                 }
               }
               this.ingresar();
@@ -147,6 +146,7 @@ export class LoginPage {
         this.navCtrl.push(SupervisorInicioPage);
         break;
       }
+      this._usuarioServicio.desuscribir(); //Abandono de página login: desuscribir
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);

@@ -13,7 +13,6 @@ import { LoginPage,
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
-//import { PushOneSignalProvider } from '../providers/push-one-signal/push-one-signal';
 
 @Component({
   templateUrl: 'app.html'
@@ -135,6 +134,7 @@ export class MyApp {
 
   logout() {
   	this.menu.close();
+    this.menu.enable(false);
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }

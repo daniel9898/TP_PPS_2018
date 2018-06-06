@@ -25,6 +25,11 @@ export class ClientePerfilPage {
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
       )
     );
+
+    this.items.subscribe(val => console.log(val));
+
+    console.log("USUARIOS: " + JSON.stringify(this.items));
+
   }
 
   ionViewDidLoad() {
