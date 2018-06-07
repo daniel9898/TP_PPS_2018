@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
-      <button *ngIf="isEditable" ion-button clear color="primary" [disabled]="!marca.valid && !patente.valid">Guardar</button>
+      <button *ngIf="isEditable" ion-button clear color="primary" [disabled]="marca.invalid || patente.invalid">Guardar</button>
       <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
@@ -25,7 +25,7 @@
       <img src="https://loremflickr.com/320/240/car,sport?random=1">
     </ion-avatar>
     <ion-label stacked>Marca</ion-label>
-    <ion-input type="text" id="marca" name="marca" [disabled]="!isEditable" #marca="ngModel" [(ngModel)]="vehiculo.marca" required></ion-input>
+    <ion-input type="text" id="marca" name="marca" [disabled]="!isEditable" #marca="ngModel" [(ngModel)]="vehiculo.marca" [minlength]="3" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Modelo</ion-label>
@@ -33,7 +33,7 @@
   </ion-item>
   <ion-item>
     <ion-label stacked>Patente</ion-label>
-    <ion-input type="text" id="patente" name="patente" [disabled]="!isEditable" #patente="ngModel" [(ngModel)]="vehiculo.patente" required></ion-input>
+    <ion-input type="text" id="patente" name="patente" [disabled]="!isEditable" #patente="ngModel" [(ngModel)]="vehiculo.patente" [minlength]="6" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Año</ion-label>

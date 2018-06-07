@@ -62,4 +62,8 @@ export class SupervisorListaVehiculosPage {
     this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: false, vehiculo: this.vehiculos[value] });
   }
 
+  nuevoVehiculo(){
+    this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: true });
+  }
+
 }

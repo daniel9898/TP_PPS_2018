@@ -24,7 +24,9 @@ export class SupervisorRegistroVehiculoPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorRegistroVehiculoPage');
-    this.vehiculo = this.navParams.data.vehiculo;
+    if(this.navParams.data.vehiculo){
+      this.vehiculo = this.navParams.data.vehiculo;
+    }
     this.isEditable = this.navParams.data.isEditable
   }
 
