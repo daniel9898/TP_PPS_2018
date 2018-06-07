@@ -50,4 +50,8 @@ export class AuthServicioProvider {
     return this.user.uid;
   }
 
+  get_userProfile(){
+    return this.user.displayName;
+  }
+
 }

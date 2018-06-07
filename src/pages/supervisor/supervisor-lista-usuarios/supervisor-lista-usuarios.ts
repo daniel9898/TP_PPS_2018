@@ -16,6 +16,7 @@ export class SupervisorListaUsuariosPage {
 
   mostrarSpinner:boolean = false;
   usuarios:Usuario[] = [];
+  usuarioActual:string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -27,6 +28,7 @@ export class SupervisorListaUsuariosPage {
 
   ionViewDidLoad() {
     //this.mostrarSpinner = true;
+    this.usuarioActual = this._auth.get_userEmail();
     this._userService.traer_usuarios().then(()=>{
         //console.log("USUARIOS: " + JSON.stringify(this._userService.usuariosArray));
         this.usuarios = this._userService.usuariosArray;
