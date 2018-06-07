@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-//clase USUARIO
+//PAGINAS
+import { PerfilPage } from '../../index-paginas';
+//Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
-
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -53,6 +53,10 @@ export class SupervisorListaUsuariosPage {
         return (item.perfil.toLowerCase().indexOf(val.toLowerCase()) > -1) || (item.correo.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
+  }
+
+  verUsuario(user:Usuario){
+    this.navCtrl.push(PerfilPage, {'userSelected' : user});
   }
 
 }
