@@ -19,8 +19,7 @@ export class RegistroPage {
 
   mostrarSpinner:boolean = false;
   //FORMS
-  registroForm1:FormGroup;
-  registroForm2:FormGroup;
+  registroForm:FormGroup;
   //FORM inputs
   input_nombre:string;
   input_correo:string;
@@ -37,19 +36,11 @@ export class RegistroPage {
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
-    this.registroForm1 = this.fbRegistration.group({
+    this.registroForm = this.fbRegistration.group({
 
       userCorreo: ['', [Validators.required, Validators.email] ],
       userClave1: ['', [Validators.required] ],
       userClave2: ['', [Validators.required] ]
-
-    });
-
-    this.registroForm2 = this.fbRegistration.group({
-
-      userNombre: ['', [Validators.required] ],
-      userEdad: ['', [Validators.required] ],
-      userDireccion: ['', [Validators.required] ]
 
     });
 
@@ -60,15 +51,11 @@ export class RegistroPage {
   }
 
   registrarUsuario(){
-    if(this.registroForm1.invalid)
+    if(this.registroForm.invalid)
       this.mostrarErrores = true;
     else{
-      this.formAdicional = true;
+      this.volver();
     }
-  }
-
-  completarUsuario(){
-
   }
 
   volver(){
