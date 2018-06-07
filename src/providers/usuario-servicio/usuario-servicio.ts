@@ -56,6 +56,7 @@ export class UsuarioServicioProvider {
     let promesa = new Promise((resolve, reject)=>{
 
       //NUEVA MANERA
+      this.usuariosArray = [];
       this.usuariosRef = this.afDB.list('usuarios');
       this.usuarios = this.usuariosRef.snapshotChanges().pipe(
         map(changes =>
