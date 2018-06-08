@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { vehiculo } from '../../classes/vehiculo.model';
-// import { Subject } from 'rxjs';
-import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 /*
   Generated class for the VehiculosProvider provider.
@@ -14,38 +13,45 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class VehiculosProvider {
 
-  vehiculosList: Observable<vehiculo[]>;
-  // vehiculosList: Observable<vehiculo[]>;
+  vehiculosList: Observable<{ key: string; vehiculo: any; }[]>;
   //lista de vehiculos
   vehiculos: vehiculo[];
   //el observable para subscribirse
   //la referencia al path para hacer cambios
   vehiculosRef: AngularFireList<vehiculo>;
-  // destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private afDB: AngularFireDatabase) {
-    this.vehiculosRef = this.afDB.list<vehiculo>('/vehiculosLista');
-    this.vehiculosList = this.vehiculosRef.valueChanges();
+  constructor(private db: AngularFireDatabase) {
+    //referencia temporal de testing
+    this.vehiculosRef = this.db.list<vehiculo>('/vehiculosLista');
+    this.vehiculosList = this.vehiculosRef.snapshotChanges().pipe(
+      map(changes => changes.map(c => ({ key: c.payload.key, vehiculo: c.payload.val() })))
+    );
   }
 
-
-  public getListaVehiculos(){
-    // let promesa = new Promise<vehiculo[]>((resolve, reject)=>{
-
-     return this.vehiculosList;
-        // .takeUntil(this.destroy$)
-        // .subscribe(
-        // (next) => {
-        //     // this.vehiculos = next;
-        //     // console.log(next);
-        //     // resolve(next);
-        // },
-        // error => {
-        //   console.log(error);
-        // });
-
-    // });
-    // return promesa;
+  /**
+   * 
+   * @param vehiculo un vehículo 
+   */
+  addItem(vehiculo: vehiculo) {
+    this.vehiculosRef.push(vehiculo);
   }
+
+  /**
+   * 
+   * @param key Db key
+   * @param vehiculo el vehículo a actualizar 
+   */
+  updateItem(key: string, vehiculo: vehiculo) {
+    this.vehiculosRef.update(key, vehiculo);
+  }
+
+  /**
+   * 
+   * @param key Db Key
+   */
+  deleteItem(key: string) {
+    this.vehiculosRef.remove(key);
+  }
+
 
 }
