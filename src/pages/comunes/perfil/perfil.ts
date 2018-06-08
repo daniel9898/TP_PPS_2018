@@ -7,7 +7,8 @@ import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
-
+// //jQUERY
+// import * as $ from 'jquery';
 
 @Component({
   selector: 'page-perfil',
@@ -15,11 +16,11 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 })
 export class PerfilPage {
 
-  usuario:Usuario;
   mostrarSpinner:boolean;
-  vistaSupervisor:boolean = false;
-  abm_usuario:boolean = false;
-  foto_byDefault:string;
+  usuario:Usuario; //Usuario actual
+  vistaSupervisor:boolean = false; //Mostrar: viajando + activo
+  modificar:boolean = false; //Variable de control
+  foto_byDefault:string; //Foto identificatoria por perfil
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -27,10 +28,11 @@ export class PerfilPage {
               public _userService: UsuarioServicioProvider) {
 
       this.mostrarSpinner = true;
-
+      this.modificar = false;
   }
 
   ionViewDidLoad() {
+
     //CARGAR PERFIL PROPIO
     if(!this.navParams.get('userSelected')){
       this._userService.traer_usuarios().then(()=>{
@@ -45,6 +47,7 @@ export class PerfilPage {
       }).catch((error)=>{
         console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
       })
+
     //CARGAR PERFIL DE USUARIO SELECCIONADO
     }else{
       this.usuario = this.navParams.get('userSelected');
@@ -53,7 +56,7 @@ export class PerfilPage {
         this.mostrarSpinner = false;
       });
     }
-    //CARGAR PERFIL VACIO
+
   }
 
   traerFoto_byDefault(perfil:string){
@@ -82,6 +85,15 @@ export class PerfilPage {
         };
     });
     return promesa;
+  }
+
+  activar_modificar(estado:boolean){
+    if(estado){
+      this.modificar = true;
+    }
+    else{
+      this.modificar = false;
+    }
   }
 
   volver(){

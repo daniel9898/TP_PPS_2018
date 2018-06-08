@@ -4,36 +4,56 @@
 
       <ion-grid class="datosPerfil">
             <!-- CORREO -->
-            <ion-item>
+            <ion-item id="item_text">
               <ion-avatar item-end>
                 <img [src]=foto_byDefault>
               </ion-avatar>
               <ion-label stacked>Correo</ion-label>
-              <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.correo"></ion-input>
+              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.correo"></ion-input>
             </ion-item>
             <!-- NOMBRE -->
-            <ion-item>
+            <ion-item id="item_text">
               <ion-label stacked>Nombre</ion-label>
-              <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.nombre"></ion-input>
+              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
             </ion-item>
             <!-- EDAD -->
-            <ion-item>
+            <ion-item id="item_text">
               <ion-label stacked>Edad</ion-label>
-              <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.edad"></ion-input>
+              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
             </ion-item>
             <!-- DIRECCION -->
-            <ion-item>
+            <ion-item id="item_text">
               <ion-label stacked>Dirección</ion-label>
-              <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.direccion"></ion-input>
+              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
             </ion-item>
             <!-- PERFIL -->
-            <ion-item>
+            <ion-item id="item_text">
               <ion-label stacked>Perfil</ion-label>
-              <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.perfil"></ion-input>
+              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.perfil"></ion-input>
             </ion-item>
+            <!-- FOTO -->
             <ion-item>
                 <img class="fotoPerfil" [src]="usuario.foto">
             </ion-item>
+
+            <!-- MODIFICAR -->
+            <button ion-button color="secondary" icon-left block
+                    *ngIf="!modificar" (click)="activar_modificar(true)">
+              <ion-icon name="md-contact"></ion-icon>
+              Modificar
+            </button>
+
+            <!-- GUARDAR -->
+
+            <!-- CANCELAR -->
+            <button ion-button color="danger" icon-left block
+                    *ngIf="modificar" (click)="activar_modificar(false)">
+              <ion-icon name="md-contact"></ion-icon>
+              Cancelar
+            </button>
+
+
+            <!-- VISTA SUPERUSUARIO -->
             <div class="dinamicValues" *ngIf="vistaSupervisor">
               <!-- VIAJE -->
               <ion-item>
@@ -47,6 +67,8 @@
               </ion-item>
             </div>
       </ion-grid>
+
+
       <!-- VOLVER ATRAS -->
       <ion-fab *ngIf="vistaSupervisor" class="floatBack" bottom left>
         <button ion-fab mini color="primary" (click)="volver()">
