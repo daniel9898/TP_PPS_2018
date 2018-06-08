@@ -34,7 +34,7 @@ export class LoginPage {
   usuariosDePrueba:any[] = [];
   //AUDIO
   audio = new Audio();
-  
+
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
@@ -102,7 +102,7 @@ export class LoginPage {
 
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
-        console.log('Funciona!' + JSON.stringify(value));
+        //console.log('Funciona!' + JSON.stringify(value));
       })
       .catch(err => {
         console.log('Algo salió mal: ',err.message);

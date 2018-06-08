@@ -84,10 +84,25 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
-  crear_usuario(){
-    
+  //CREAR USUARIO
+  crear_usuario(userId:string, userEmail:string){
+    console.log("Datos recibidos: " + userId + " + " + userEmail);
+    let nuevo_user = {
+      id_usuario: userId,
+      correo: userEmail,
+      perfil: "cliente",
+      foto: "assets/imgs/default_cliente.png",
+      viajando: false,
+      activo: true
+    }
+
+    console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));
+    this.usuariosRef = this.afDB.list('usuarios');
+    this.usuariosRef.push(nuevo_user);
+    //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
   }
 
+  //DESUSCRIBIR
   desuscribir(){
     this.destroy$.next();
     // Now let's also unsubscribe from the subject itself:

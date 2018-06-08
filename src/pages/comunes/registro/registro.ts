@@ -32,6 +32,10 @@ export class RegistroPage {
   mostrarErrores:boolean = false;
   //AUDIO
   audio = new Audio();
+  //NUEVO USUARIO
+  userId:string;
+  userEmail:string;
+
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
@@ -58,14 +62,35 @@ export class RegistroPage {
         email: this.registroForm.value.userCorreo,
         password: this.registroForm.value.userClave2
       };
-      this._authServicio.signUpSimple(credenciales).then(()=>{
-        this.volver();
+      this._authServicio.signUpSimple(credenciales)
+      .then((data)=>{
+        console.log("Datos nuevo usuario: " + JSON.stringify(data.user) );
+        console.log("Datos: " + data.user.uid + " + " + data.user.email);
+        this.userId = data.user.uid.toString();
+        this.userEmail = data.user.email.toString();
 
-      }).catch((error)=>{
-        console.log("Error al registrar usuario: " + error);
+      })
+      .catch((error)=>{
+        console.log("Error al registrar usuario (auth): " + error);
+        var errorCode = error.code;
+        //var errorMessage = error.message;
+        switch(errorCode){
+          case "auth/email-already-in-use":
+          this.mostrarAlerta("Cuenta ya existente!");
+          break;
+          case "auth/invalid-email":
+          this.mostrarAlerta("Correo invalido!");
+          break;
+        }
         this.reproducirSonido();
-        this.mostrarAlerta();
-      });
+
+      })
+      .then(()=>{
+        this._usuarioServicio.crear_usuario(this.userId, this.userEmail);
+      })
+      .catch((error)=>{
+        console.log("Error al generar usuario en firebase!" + error);
+      }).then(()=>{ this.volver() })
   }
 
   reproducirSonido(){
@@ -74,9 +99,9 @@ export class RegistroPage {
     this.audio.play();
   }
 
-  mostrarAlerta(){
+  mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
-      message: 'Usuario y/o contraseña no validos! Vuelva a intentar',
+      message: msj,
       duration: 2000,
       position: "top"
     });
