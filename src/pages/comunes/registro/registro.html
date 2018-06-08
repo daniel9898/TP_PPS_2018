@@ -1,11 +1,5 @@
 <ion-content>
 
-  <ion-fab class="floatBack" bottom right>
-    <button ion-fab mini color="primary" (click)="volver()">
-      <ion-icon name="md-arrow-round-back"></ion-icon>
-    </button>
-  </ion-fab>
-
   <!-- FORMULARIO -->
   <ion-grid *ngIf="!mostrarSpinner">
     <!-- Imagen por default -->
@@ -25,23 +19,45 @@
               <!-- Correo -->
               <ion-item>
                   <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo" [(ngModel)]="input_correo"></ion-input>
-                  <ion-icon *ngIf="registroForm.get('userCorreo').hasError('email') && mostrarErrores ||
-                                  registroForm.get('userCorreo').hasError('required') && mostrarErrores" color="danger" name="alert" item-right>
+                  <ion-icon *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email') ||
+                                   registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
                   </ion-icon>
+              </ion-item>
+              <ion-item *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required') ||
+                               registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email')" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('email') && !registroForm.get('userCorreo').hasError('required')">Formato incorrecto</p>
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
                 <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña" [(ngModel)]="input_clave1"></ion-input>
-                <ion-icon *ngIf="registroForm.get('userClave1').hasError('required') && mostrarErrores" color="danger" name="alert" item-right></ion-icon>
+                <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
+                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <ion-item *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
+                               registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('minlength') && !registroForm.get('userClave1').hasError('required')">La clave debe ser minimo de 6 caracteres</p>
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
                 <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña" [(ngModel)]="input_clave2"></ion-input>
-                <ion-icon *ngIf="registroForm.get('userClave2').hasError('required') && mostrarErrores || input_clave1 != input_clave2 && mostrarErrores" color="danger" name="alert" item-right></ion-icon>
+                <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
+                                 registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
+                                 registroForm.get('userClave2').dirty && input_clave1 != input_clave2" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <ion-item *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
+                               registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
+                               registroForm.get('userClave2').dirty && input_clave1 != input_clave2" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('minlength') && !registroForm.get('userClave2').hasError('required')">La clave debe ser de mínimo 6 caracteres</p>
+                <p color="danger" ion-text *ngIf="input_clave1 != input_clave2 &&
+                                                  !registroForm.get('userClave2').hasError('minlength') &&
+                                                  !registroForm.get('userClave2').hasError('required')">La clave no es idéntica a la ingresada</p>
               </ion-item>
 
               <!-- SUBMIT -->
-                <button type="submit" ion-button color="register" icon-left block>
+                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid">
                   <ion-icon name="md-contact"></ion-icon>
                   Registrarse
                 </button>
@@ -52,6 +68,13 @@
       </div>
 
   </ion-grid>
+
+  <!-- VOLVER ATRAS -->
+  <ion-fab class="floatBack" bottom left>
+    <button ion-fab mini color="primary" (click)="volver()">
+      <ion-icon name="md-arrow-round-back"></ion-icon>
+    </button>
+  </ion-fab>
 
   <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">

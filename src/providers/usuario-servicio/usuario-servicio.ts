@@ -84,6 +84,10 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
+  crear_usuario(){
+    
+  }
+
   desuscribir(){
     this.destroy$.next();
     // Now let's also unsubscribe from the subject itself:

@@ -32,8 +32,9 @@ export class LoginPage {
   userNameTxt:string;
   userPassTxt:string;
   usuariosDePrueba:any[] = [];
-  //emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
+  //AUDIO
   audio = new Audio();
+  
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
@@ -101,7 +102,7 @@ export class LoginPage {
 
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
-        //console.log('Funciona!' + JSON.stringify(value));
+        console.log('Funciona!' + JSON.stringify(value));
       })
       .catch(err => {
         console.log('Algo salió mal: ',err.message);

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //PAGINAS
@@ -30,17 +30,20 @@ export class RegistroPage {
   //FORM Adicional
   formAdicional:boolean = false;
   mostrarErrores:boolean = false;
+  //AUDIO
+  audio = new Audio();
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
+              public toastCtrl: ToastController,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
     this.registroForm = this.fbRegistration.group({
 
       userCorreo: ['', [Validators.required, Validators.email] ],
-      userClave1: ['', [Validators.required] ],
-      userClave2: ['', [Validators.required] ]
+      userClave1: ['', [Validators.required, Validators.minLength(6)] ],
+      userClave2: ['', [Validators.required, Validators.minLength(6)] ]
 
     });
 
@@ -51,15 +54,37 @@ export class RegistroPage {
   }
 
   registrarUsuario(){
-    if(this.registroForm.invalid)
-      this.mostrarErrores = true;
-    else{
-      this.volver();
-    }
+      let credenciales = {
+        email: this.registroForm.value.userCorreo,
+        password: this.registroForm.value.userClave2
+      };
+      this._authServicio.signUpSimple(credenciales).then(()=>{
+        this.volver();
+
+      }).catch((error)=>{
+        console.log("Error al registrar usuario: " + error);
+        this.reproducirSonido();
+        this.mostrarAlerta();
+      });
+  }
+
+  reproducirSonido(){
+    this.audio.src = "assets/sounds/windows_95_error.mp3";
+    this.audio.load();
+    this.audio.play();
+  }
+
+  mostrarAlerta(){
+    let toast = this.toastCtrl.create({
+      message: 'Usuario y/o contraseña no validos! Vuelva a intentar',
+      duration: 2000,
+      position: "top"
+    });
+    toast.present();
   }
 
   volver(){
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

@@ -28,7 +28,7 @@ export class AuthServicioProvider {
 	}
 
   //Crear usuario
-  signUp(credentials) {
+  signUpSimple(credentials) {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
