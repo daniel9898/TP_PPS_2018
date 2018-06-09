@@ -99,7 +99,12 @@ export class PerfilPage {
 
   //BORRAR
   borrar(){
-    this._userService.baja_usuario(this.usuario.key);
+    this._userService.baja_usuario(this.usuario.key).then(()=>{
+          console.log("Cambios guardados!");
+          this.mostrarAlerta("Usuario eliminado!");
+    }).catch((error)=>{
+      console.log("Error al borrar usuario!" + error);
+    });
   }
 
   //GUARDAR

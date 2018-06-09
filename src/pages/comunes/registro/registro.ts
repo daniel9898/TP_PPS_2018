@@ -76,11 +76,15 @@ export class RegistroPage {
 
       })
       .then(()=>{
-        this._usuarioServicio.alta_usuario(this.userId, this.userEmail);
+        this._usuarioServicio.alta_usuario(this.userId, this.userEmail).then(()=>{
+            this.mostrarAlerta("Usuario creado!");
+            this.volver();
+        })
+
       })
       .catch((error)=>{
         console.log("Error al generar usuario en firebase!" + error);
-      }).then(()=>{ this.volver() })
+      });
   }
 
   reproducirSonido(){

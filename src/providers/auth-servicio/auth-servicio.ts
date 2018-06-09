@@ -27,9 +27,19 @@ export class AuthServicioProvider {
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
 	}
 
-  //Crear usuario
+  //Alta usuario
   signUpSimple(credentials) {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+  }
+
+  //Borrar usuario
+  delete_userAccount(userId:string){
+    //return this.afAuth.auth.delete_userAccount(userId);
+  }
+
+  //Modificar usuario
+  update_userAccount(){
+    
   }
 
   //Cerrar sesión

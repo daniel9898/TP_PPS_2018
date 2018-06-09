@@ -98,14 +98,23 @@ export class UsuarioServicioProvider {
     }
 
     console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));
-    this.usuariosRef = this.afDB.list('usuarios');
-    this.usuariosRef.push(nuevo_user);
+      let promesa = new Promise((resolve, reject)=>{
+        this.usuariosRef = this.afDB.list('usuarios');
+        this.usuariosRef.push(nuevo_user);
+        resolve();
+      });
+      return promesa;
     //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
   }
 
   //BAJA
   baja_usuario(userKey:string){
-
+    let promesa = new Promise((resolve, reject)=>{
+      this.usuariosRef = this.afDB.list('usuarios');
+      this.usuariosRef.remove(userKey);
+      resolve();
+    });
+    return promesa;
   }
 
   //MODIFICACIÓN

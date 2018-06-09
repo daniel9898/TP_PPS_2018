@@ -2,7 +2,7 @@
 
 export class Usuario{
 
-    key:string;
+    key?:string;
     id_usuario:string;
     correo:string;
     nombre:string;
