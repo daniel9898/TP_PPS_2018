@@ -76,7 +76,7 @@ export class RegistroPage {
 
       })
       .then(()=>{
-        this._usuarioServicio.crear_usuario(this.userId, this.userEmail);
+        this._usuarioServicio.alta_usuario(this.userId, this.userEmail);
       })
       .catch((error)=>{
         console.log("Error al generar usuario en firebase!" + error);

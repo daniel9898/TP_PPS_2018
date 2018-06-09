@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
 import { SupervisorListaUsuariosPage } from '../../index-paginas';
 //Clase USUARIO
@@ -7,8 +7,6 @@ import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
-// //jQUERY
-// import * as $ from 'jquery';
 
 @Component({
   selector: 'page-perfil',
@@ -26,6 +24,7 @@ export class PerfilPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public _auth: AuthServicioProvider,
+              public toastCtrl: ToastController,
               public _userService: UsuarioServicioProvider) {
 
       this.mostrarSpinner = true;
@@ -100,17 +99,30 @@ export class PerfilPage {
 
   //BORRAR
   borrar(){
-
+    this._userService.baja_usuario(this.usuario.key);
   }
 
   //GUARDAR
   guardar(){
+      this._userService.modificar_usuario(this.usuario).then(()=>{
+        console.log("Cambios guardados!");
+        this.mostrarAlerta("Cambios realizados con éxito!");
+      })
 
   }
 
   //CAMBIAR FOTO
   cambiar_foto(){
 
+  }
+
+  mostrarAlerta(msj:string){
+    let toast = this.toastCtrl.create({
+      message: msj,
+      duration: 2000,
+      position: "top"
+    });
+    toast.present();
   }
 
   volver(){

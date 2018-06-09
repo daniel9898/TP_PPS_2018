@@ -10,30 +10,30 @@
                 <img [src]=foto_byDefault>
               </ion-avatar>
               <ion-label stacked>Correo</ion-label>
-              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.correo"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.correo"></ion-input>
             </ion-item>
             <!-- NOMBRE -->
             <ion-item>
               <ion-label stacked>Nombre</ion-label>
-              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
             </ion-item>
             <!-- EDAD -->
             <ion-item>
               <ion-label stacked>Edad</ion-label>
-              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
             </ion-item>
             <!-- DIRECCION -->
             <ion-item>
               <ion-label stacked>Dirección</ion-label>
-              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
             </ion-item>
 
       </ion-grid>
 
       <!-- PERFIL (NO modificable)-->
-      <ion-item>
+      <ion-item class="perfilBox">
         <ion-label stacked>Perfil</ion-label>
-        <ion-input  type="text" required ngControl="title" disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
+        <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
       </ion-item>
 
       <!-- FOTO -->
@@ -45,7 +45,7 @@
       </ion-item>
 
       <!-- VISTA SUPERUSUARIO -->
-      <div class="dinamicValues" *ngIf="vistaSupervisor">
+      <div class="dinamicValues" *ngIf="vistaSupervisor || usuario.perfil == 'supervisor' || usuario.perfil == 'superusuario'">
         <!-- VIAJE -->
         <ion-item>
           <ion-label stacked>Viajando</ion-label>
@@ -66,12 +66,12 @@
       </ion-fab>
       <!-- BORRAR -->
       <ion-fab class="" bottom right>
-        <button ion-fab mini color="danger" (click)="borrar()">
+        <button ion-fab mini color="danger" (click)="borrar()" [disabled]="usuario.viajando">
           <ion-icon name="md-trash"></ion-icon>
         </button>
       </ion-fab>
       <!-- GUARDAR -->
-      <ion-fab *ngIf="cambios" class="" top right>
+      <ion-fab *ngIf="modificar" class="" top right>
         <button ion-fab mini color="secondary" (click)="guardar()">
           <ion-icon name="md-bookmark"></ion-icon>
         </button>

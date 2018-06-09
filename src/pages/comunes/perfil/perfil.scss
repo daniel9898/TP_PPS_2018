@@ -59,8 +59,9 @@ page-perfil {
       box-shadow: none;
   }
 
-  ion-item [disabled] {
-    background-color: rgba(#ffffff, 0);
+  ion-input:disabled{
+      background-color: #ffffff;
   }
+
 
 }

@@ -71,6 +71,7 @@ export class UsuarioServicioProvider {
         (data:any) => {
             //console.log(data);
             for (let i = 0; i < data.length; i++) {
+                //console.log("RECEPCION DE USUARIOS! " + JSON.stringify(data));
                 let usuario:Usuario = new Usuario(data[i]);
                 this.usuariosArray.push(usuario);
             }
@@ -84,8 +85,8 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
-  //CREAR USUARIO
-  crear_usuario(userId:string, userEmail:string){
+  //ALTA USUARIO
+  alta_usuario(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
       id_usuario: userId,
@@ -100,6 +101,21 @@ export class UsuarioServicioProvider {
     this.usuariosRef = this.afDB.list('usuarios');
     this.usuariosRef.push(nuevo_user);
     //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
+  }
+
+  //BAJA
+  baja_usuario(userKey:string){
+
+  }
+
+  //MODIFICACIÓN
+  modificar_usuario(user:Usuario){
+    let promesa = new Promise((resolve, reject)=>{
+      this.usuariosRef = this.afDB.list('usuarios');
+      this.usuariosRef.update(user.key, user);
+      resolve();
+    });
+    return promesa;
   }
 
   //DESUSCRIBIR
