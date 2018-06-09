@@ -23,21 +23,22 @@ export class PerfilPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public _auth: AuthServicioProvider,
               public toastCtrl: ToastController,
-              public _userService: UsuarioServicioProvider) {
+              public _auth: AuthServicioProvider,
+              public _usuarioServicio: UsuarioServicioProvider) {
 
       this.mostrarSpinner = true;
       this.modificar = false;
   }
 
+  //PAGINA CARGADA
   ionViewDidLoad() {
 
     //CARGAR PERFIL PROPIO
     if(!this.navParams.get('userSelected')){
-      this._userService.traer_usuarios().then(()=>{
-          //console.log("USUARIOS: " + JSON.stringify(this._userService.usuariosArray));
-          for(let user of this._userService.usuariosArray){
+      this._usuarioServicio.traer_usuarios().then(()=>{
+          //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
+          for(let user of this._usuarioServicio.usuariosArray){
             if(this._auth.get_userEmail() == user.correo){
               this.usuario = user;
               this.traerFoto_byDefault(this.usuario.perfil);
@@ -57,6 +58,11 @@ export class PerfilPage {
       });
     }
 
+  }
+
+  //DESUSCRIBIR
+  ionViewDidLeave(){
+    this._usuarioServicio.desuscribir();
   }
 
   traerFoto_byDefault(perfil:string){
@@ -99,18 +105,48 @@ export class PerfilPage {
 
   //BORRAR
   borrar(){
-    this._userService.baja_usuario(this.usuario.key).then(()=>{
-          console.log("Cambios guardados!");
-          this.mostrarAlerta("Usuario eliminado!");
-          this.navCtrl.setRoot(LoginPage);
-    }).catch((error)=>{
-      console.log("Error al borrar usuario!" + error);
-    });
+
+    //USUARIO QUE BORRA SU CUENTA
+    if(!this.vistaSupervisor){
+      this._auth.delete_userAccount()
+      .then(()=>{
+        console.log("OK: usuario eliminado de authentication");
+      })
+      .catch((error)=>{
+        console.log("Error al eliminar usuario de Authentication" + error);
+      })
+      .then(()=>{
+        this._usuarioServicio.baja_usuario(this.usuario.key)
+        .then(()=>{
+              console.log("OK: usuario eliminado de database");
+              this.mostrarAlerta("Usuario eliminado!");
+              this.navCtrl.setRoot(LoginPage);
+        })
+      })
+      .catch((error)=>{
+        console.log("Error al borrar usuario de database" + error);
+      });
+    }
+
+    //SUPER* QUE BORRA CUENTA DE TERCERO
+    if(this.vistaSupervisor){
+      this._usuarioServicio.baja_usuario(this.usuario.key)
+      .then(()=>{
+            console.log("OK: usuario eliminado de database");
+            this.mostrarAlerta("Usuario eliminado!");
+            this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+      })
+      .catch((error)=>{
+        console.log("Error al borrar usuario de database: " + error);
+      })
+    }
+
+
   }
 
   //GUARDAR
   guardar(){
-      this._userService.modificar_usuario(this.usuario).then(()=>{
+      this._usuarioServicio.modificar_usuario(this.usuario).then(()=>{
         console.log("Cambios guardados!");
         this.mostrarAlerta("Cambios realizados con éxito!");
         this.modificar = false;

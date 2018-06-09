@@ -37,6 +37,7 @@ export class UsuarioServicioProvider {
 
     let promesa = new Promise((resolve, reject)=>{
       this._http.get("assets/data/usuarios.json")
+          .takeUntil(this.destroy$)
           .subscribe( respuesta =>{
                 //console.log("Obtención de usuarios de prueba " + JSON.stringify(respuesta.json()) );
                 for(let user of respuesta.json().usuarios){
@@ -55,6 +56,7 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
+      this.destroy$ = new Subject<boolean>();
       //NUEVA MANERA
       this.usuariosArray = [];
       this.usuariosRef = this.afDB.list('usuarios');
@@ -89,6 +91,7 @@ export class UsuarioServicioProvider {
   alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
+      key: "nn",
       id_usuario: userId,
       correo: userEmail,
       perfil: "cliente",
@@ -100,8 +103,9 @@ export class UsuarioServicioProvider {
     console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));
       let promesa = new Promise((resolve, reject)=>{
         this.usuariosRef = this.afDB.list('usuarios');
-        this.usuariosRef.push(nuevo_user);
-        resolve();
+        let newKey = this.usuariosRef.push(nuevo_user).key;
+        nuevo_user.key = newKey;
+        resolve(nuevo_user);
       });
       return promesa;
     //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
@@ -109,7 +113,7 @@ export class UsuarioServicioProvider {
 
   //ALTA
   alta_usuario(user:Usuario){
-    
+
   }
 
   //BAJA
@@ -123,7 +127,7 @@ export class UsuarioServicioProvider {
   }
 
   //MODIFICACIÓN
-  modificar_usuario(user:Usuario){
+  modificar_usuario(user:any){
     let promesa = new Promise((resolve, reject)=>{
       this.usuariosRef = this.afDB.list('usuarios');
       this.usuariosRef.update(user.key, user);

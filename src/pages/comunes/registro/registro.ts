@@ -7,8 +7,6 @@ import { LoginPage } from '../../index-paginas';;
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
-//jQUERY
-//import * as $ from 'jquery';
 
 @Component({
   selector: 'page-registro',
@@ -43,8 +41,14 @@ export class RegistroPage {
 
   }
 
+  //PAGINA CARGADA
   ionViewDidLoad() {
     console.log('Página registro cargada!');
+  }
+
+  //DESUSCRIBIR
+  ionViewDidLeave(){
+    this._usuarioServicio.desuscribir();
   }
 
   registrarUsuario(){
@@ -52,13 +56,26 @@ export class RegistroPage {
         email: this.registroForm.value.userCorreo,
         password: this.registroForm.value.userClave2
       };
+      //REGISTRAR EN AUTHENTICATION
       this._authServicio.signUpSimple(credenciales)
       .then((data)=>{
         console.log("Datos nuevo usuario: " + JSON.stringify(data.user) );
         console.log("Datos: " + data.user.uid + " + " + data.user.email);
         this.userId = data.user.uid.toString();
         this.userEmail = data.user.email.toString();
-
+      //REGISTRAR EN DATABASE
+        this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail)
+        .then((newUser)=>{
+            console.log("Valor retornado en alta: " + JSON.stringify(newUser));
+            this._usuarioServicio.modificar_usuario(newUser) //Actualizar firebase key recibida
+            .then(()=>{
+              this.mostrarAlerta("Usuario creado!");
+              this.volver();
+            });
+        })
+        .catch((error)=>{
+          console.log("Error al generar usuario en firebase!" + error);
+        });
       })
       .catch((error)=>{
         console.log("Error al registrar usuario (auth): " + error);
@@ -73,18 +90,7 @@ export class RegistroPage {
           break;
         }
         this.reproducirSonido();
-
       })
-      .then(()=>{
-        this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail).then(()=>{
-            this.mostrarAlerta("Usuario creado!");
-            this.volver();
-        })
-
-      })
-      .catch((error)=>{
-        console.log("Error al generar usuario en firebase!" + error);
-      });
   }
 
   reproducirSonido(){

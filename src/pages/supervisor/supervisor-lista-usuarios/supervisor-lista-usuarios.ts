@@ -21,25 +21,31 @@ export class SupervisorListaUsuariosPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public _auth: AuthServicioProvider,
-              public _userService: UsuarioServicioProvider) {
+              public _usuarioServicio: UsuarioServicioProvider) {
 
         this.mostrarSpinner = true;
   }
 
+  //PAGINA CARGADA
   ionViewDidLoad() {
     //this.mostrarSpinner = true;
     this.usuarioActual = this._auth.get_userEmail();
-    this._userService.traer_usuarios().then(()=>{
-        //console.log("USUARIOS: " + JSON.stringify(this._userService.usuariosArray));
-        this.usuarios = this._userService.usuariosArray;
+    this._usuarioServicio.traer_usuarios().then(()=>{
+        //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
+        this.usuarios = this._usuarioServicio.usuariosArray;
         this.mostrarSpinner = false;
     }).catch((error)=>{
       console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
     })
   }
 
+  //DESUSCRIBIR
+  ionViewDidLeave(){
+    this._usuarioServicio.desuscribir();
+  }
+
   initializeItems(){
-    this.usuarios = this._userService.usuariosArray;
+    this.usuarios = this._usuarioServicio.usuariosArray;
   }
 
   getItems(ev: any) {

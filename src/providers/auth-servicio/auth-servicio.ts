@@ -11,7 +11,7 @@ export class AuthServicioProvider {
 
   constructor(public afAuth:AngularFireAuth) {
     console.log('Hello AuthServicioProvider Provider');
-      afAuth.authState.subscribe(user => {
+      afAuth.authState.subscribe(user => { // !!!
   			this.user = user;
   		});
   }

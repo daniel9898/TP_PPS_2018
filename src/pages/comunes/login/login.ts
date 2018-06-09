@@ -55,7 +55,11 @@ export class LoginPage {
 
   }
 
-  //METODOS
+  //DESUSCRIBIR
+  ionViewDidLeave(){
+    this._usuarioServicio.desuscribir();
+  }
+
   perdioFoco(input:number){
     switch(input)
     {
@@ -98,27 +102,48 @@ export class LoginPage {
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
         //console.log('Funciona!' + JSON.stringify(value));
+        this._usuarioServicio.traer_usuarios()
+          .then(()=>{
+              //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
+              this.flag = false;
+              for(let user of this._usuarioServicio.usuariosArray){
+                if(user.correo == this.myLoginForm.value.userEmail){
+                  //VALIDAR ESTADO DEL USUARIO
+                  switch(user.activo){
+                      case true:
+                        this.usuario_perfil = user.perfil;
+                        this.usuario_foto = user.foto;
+                        console.log("Coincidencia en el usuario!");
+                        this.flag = true;
+                        break;
+                      case false:
+                        this.mostrarAlerta("Cuenta inhabilitada!");
+                        this.navCtrl.setRoot(LoginPage);
+                        break;
+                  }
+                }
+              }
+
+              //VALIDACION FINAL (Caso de eliminación por supervisor)
+              if(this.flag){
+                this.ingresar();
+              }else{
+                this._authServicio.delete_userAccount();
+                this.reproducirSonido();
+                this.mostrarAlerta("La cuenta no existe!");
+                this.navCtrl.setRoot(LoginPage);
+              }
+
+          })
+          .catch((error)=>{
+            console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+          })
       })
       .catch(err => {
         console.log('Algo salió mal: ',err.message);
         this.reproducirSonido();
         this.mostrarSpinner = false;
         this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
-      })
-      .then(()=>{ //Una vez validado el usuario asignar perfil
-          this._usuarioServicio.traer_usuarios().then(()=>{
-              //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-              for(let user of this._usuarioServicio.usuariosArray){
-                if(user.correo == this.myLoginForm.value.userEmail){
-                  this.usuario_perfil = user.perfil;
-                  this.usuario_foto = user.foto;
-                  console.log("Coincidencia en el usuario!");
-                }
-              }
-              this.ingresar();
-          }).catch((error)=>{
-            console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-          })
       });
   }
 
@@ -129,17 +154,16 @@ export class LoginPage {
       this.mostrarSpinner = false;
       switch(this._authServicio.get_userProfile()){
         case "cliente":
-        this.navCtrl.push(ClienteInicioPage);
+        this.navCtrl.setRoot(ClienteInicioPage);
         break;
         case "chofer":
-        this.navCtrl.push(ChoferInicioPage);
+        this.navCtrl.setRoot(ChoferInicioPage);
         break;
         case "supervisor":
         case "superusuario":
-        this.navCtrl.push(SupervisorInicioPage);
+        this.navCtrl.setRoot(SupervisorInicioPage);
         break;
       }
-      this._usuarioServicio.desuscribir(); //Abandono de página login: desuscribir
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);

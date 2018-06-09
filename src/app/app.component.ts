@@ -43,8 +43,7 @@ export class MyApp {
   inicializarApp(){
 
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
+
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       timer(3000).subscribe(()=> {
@@ -56,8 +55,9 @@ export class MyApp {
     this.auth.afAuth.authState
     .subscribe(
       user => {
-        this.menu.enable(true);
+
         if (user) {
+          this.menu.enable(true);
           switch(user.displayName){
             case "cliente":
             this.vista_cliente = true;
@@ -111,11 +111,15 @@ export class MyApp {
           ];
 
         } else {
+          //Variables para control de vistas
+          this.pagesApp = [];
           this.menu.enable(false);
           this.rootPage = LoginPage;
         }
       },
       () => {
+        //Variables para control de vistas
+        this.pagesApp = [];
         this.menu.enable(false);
         this.rootPage = LoginPage;
       }
