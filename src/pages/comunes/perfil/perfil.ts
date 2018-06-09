@@ -61,9 +61,9 @@ export class PerfilPage {
   }
 
   //DESUSCRIBIR
-  ionViewDidLeave(){
-    this._usuarioServicio.desuscribir();
-  }
+  // ionViewDidLeave(){
+  //   this._usuarioServicio.desuscribir();
+  // }
 
   traerFoto_byDefault(perfil:string){
 
@@ -173,7 +173,7 @@ export class PerfilPage {
   }
 
   volver(){
-    this.navCtrl.push(SupervisorListaUsuariosPage);
+    this.navCtrl.setRoot(SupervisorListaUsuariosPage);
   }
 
 }

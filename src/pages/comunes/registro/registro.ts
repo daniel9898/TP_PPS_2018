@@ -49,9 +49,9 @@ export class RegistroPage {
   }
 
   //DESUSCRIBIR
-  ionViewDidLeave(){
-    this._usuarioServicio.desuscribir();
-  }
+  // ionViewDidLeave(){
+  //   this._usuarioServicio.desuscribir();
+  // }
 
   registrarUsuario(){
       let credenciales = {

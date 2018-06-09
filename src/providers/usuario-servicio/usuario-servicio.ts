@@ -30,6 +30,7 @@ export class UsuarioServicioProvider {
                 private _http:Http ) {
 
     console.log('Provider USUARIOS iniciado...');
+    this.initialize();
   }
 
   //INICIALIZAR
@@ -68,13 +69,6 @@ export class UsuarioServicioProvider {
 
       this.destroy$ = new Subject<boolean>();
       this.usuariosArray = [];
-        //NUEVA MANERA
-      this.usuariosRef = this.afDB.list('usuarios');
-      this.usuarios = this.usuariosRef.snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      );
 
       //SUSCRIBIR OBSERVABLE "Usuarios"
       this.usuarios
@@ -99,7 +93,7 @@ export class UsuarioServicioProvider {
 
   traer_un_usuario(uid:string){
     let promesa = new Promise((resolve, reject)=>{
-        
+
     });
     return promesa;
   }

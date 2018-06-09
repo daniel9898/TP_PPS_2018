@@ -57,10 +57,10 @@ export class LoginPage {
 
   }
 
-  //DESUSCRIBIR
-  ionViewDidLeave(){
-    this._usuarioServicio.desuscribir();
-  }
+  // //DESUSCRIBIR
+  // ionViewDidLeave(){
+  //   this._usuarioServicio.desuscribir();
+  // }
 
   perdioFoco(input:number){
     switch(input)

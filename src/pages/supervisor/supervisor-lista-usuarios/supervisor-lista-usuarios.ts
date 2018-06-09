@@ -30,7 +30,7 @@ export class SupervisorListaUsuariosPage {
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    //this.mostrarSpinner = true;
+    this.mostrarSpinner = true;
     this.usuarioActual = this._auth.get_userEmail();
     this._usuarioServicio.traer_usuarios().then(()=>{
         //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
@@ -41,9 +41,9 @@ export class SupervisorListaUsuariosPage {
   }
 
   //DESUSCRIBIR
-  ionViewDidLeave(){
-    this._usuarioServicio.desuscribir();
-  }
+  // ionViewDidLeave(){
+  //   this._usuarioServicio.desuscribir();
+  // }
 
   initializeItems(){
     this.usuarios = this._usuarioServicio.usuariosArray;
@@ -65,12 +65,14 @@ export class SupervisorListaUsuariosPage {
   }
 
   borrar(key:string){
+    this.mostrarSpinner = true;
     this._usuarioServicio.baja_usuario(key)
     .then(()=>{
           console.log("OK: usuario eliminado de database");
           this.mostrarAlerta("Usuario eliminado!");
           this.usuarios = [];
           this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+          this.mostrarSpinner = false;
     })
     .catch((error)=>{
       //this.mostrarAlerta("Error al realizar acción");
