@@ -87,4 +87,8 @@
     <plugin name="onesignal-cordova-plugin" spec="^2.4.1" />
     <engine name="android" spec="~7.0.0" />
     <allow-navigation href="http://192.168.0.17:8100" />
+    <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
+    </plugin>
 </widget>

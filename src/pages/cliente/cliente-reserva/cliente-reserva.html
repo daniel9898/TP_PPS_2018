@@ -1,12 +1,23 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>cliente-reserva</ion-title>
+    <ion-title>Reservar Viaje</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+	<ion-item>
+      <ion-label>Fecha y Hora De Salida</ion-label>
+         <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Dirección De Destino</ion-label>
+        <ion-textarea [(ngModel)]="todo.destino" name="destino"></ion-textarea>
+      </ion-item>
+    <button ion-button block>Visualizar Distancia</button>
+    <button ion-button block>Confirmar Reserva</button>
 
 </ion-content>
