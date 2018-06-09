@@ -23,7 +23,7 @@ export class LoginPage {
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
-  flag:boolean = false;
+  usuarioEnDB:boolean;
   focus1:boolean = false;
   focus2:boolean = false;
   userNameTxt:string;
@@ -31,6 +31,8 @@ export class LoginPage {
   usuariosDePrueba:any[] = [];
   //AUDIO
   audio = new Audio();
+  error_sound:string = "assets/sounds/error_sound.mp3";
+  success_sound:string = "assets/sounds/success_sound.mp3";
 
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
@@ -51,7 +53,7 @@ export class LoginPage {
 
   //INICIO
   ionViewDidEnter(){
-    console.log("Página cargada!");
+    //console.log("Página cargada!");
 
   }
 
@@ -101,47 +103,49 @@ export class LoginPage {
 
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
-        //console.log('Funciona!' + JSON.stringify(value));
+        console.log('Email utilizado: ' + value.user.email);
+        this.usuarioEnDB = false;
         this._usuarioServicio.traer_usuarios()
           .then(()=>{
               //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-              this.flag = false;
               for(let user of this._usuarioServicio.usuariosArray){
                 if(user.correo == this.myLoginForm.value.userEmail){
                   //VALIDAR ESTADO DEL USUARIO
-                  switch(user.activo){
-                      case true:
+                  console.log("Usuario activo? : " + user.activo);
+                  if(user.activo == true){
                         this.usuario_perfil = user.perfil;
                         this.usuario_foto = user.foto;
                         console.log("Coincidencia en el usuario!");
-                        this.flag = true;
+                        this.usuarioEnDB = true;
                         break;
-                      case false:
+                  }
+                  else{
+                        console.log("El usuario fue inhabilitado");
                         this.mostrarAlerta("Cuenta inhabilitada!");
                         this.navCtrl.setRoot(LoginPage);
-                        break;
                   }
                 }
               }
-
-              //VALIDACION FINAL (Caso de eliminación por supervisor)
-              if(this.flag){
-                this.ingresar();
-              }else{
-                this._authServicio.delete_userAccount();
-                this.reproducirSonido();
-                this.mostrarAlerta("La cuenta no existe!");
-                this.navCtrl.setRoot(LoginPage);
-              }
-
           })
           .catch((error)=>{
             console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-          })
+          }).then(()=>{
+            //VALIDACION FINAL (Caso de eliminación por supervisor)
+            if(this.usuarioEnDB){
+              this.ingresar();
+
+            }else{
+              console.log("El usuario fue eliminado!");
+              this._authServicio.delete_userAccount();
+              this.reproducirSonido(this.error_sound);
+              this.mostrarAlerta("La cuenta no existe!");
+              this.navCtrl.setRoot(LoginPage);
+            }
+          });
       })
       .catch(err => {
         console.log('Algo salió mal: ',err.message);
-        this.reproducirSonido();
+        this.reproducirSonido(this.error_sound);
         this.mostrarSpinner = false;
         this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
       });
@@ -164,10 +168,11 @@ export class LoginPage {
         this.navCtrl.setRoot(SupervisorInicioPage);
         break;
       }
+      //this.reproducirSonido(this.success_sound);
     })
     .catch(err => {
       console.log('Algo salió mal: ',err.message);
-      this.reproducirSonido();
+      this.reproducirSonido(this.error_sound);
     });
   }
 
@@ -195,8 +200,8 @@ export class LoginPage {
     toast.present();
   }
 
-  reproducirSonido(){
-    this.audio.src = "assets/sounds/windows_95_error.mp3";
+  reproducirSonido(sound:string){
+    this.audio.src = sound;
     this.audio.load();
     this.audio.play();
   }

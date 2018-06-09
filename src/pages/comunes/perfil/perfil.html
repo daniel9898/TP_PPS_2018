@@ -66,7 +66,13 @@
       </ion-fab>
       <!-- BORRAR -->
       <ion-fab class="" bottom right>
-        <button ion-fab mini color="danger" (click)="borrar()" [disabled]="usuario.viajando">
+        <button ion-fab mini color="danger" (click)="borrar()"
+                [disabled]="usuario.viajando ||
+                    usuario.correo == 'cliente@kbremiseria.com' ||
+                    usuario.correo == 'chofer@kbremiseria.com' ||
+                    usuario.correo == 'supervisor@kbremiseria.com' ||
+                    usuario.correo == 'superuser@kbremiseria.com'">
+                    
           <ion-icon name="md-trash"></ion-icon>
         </button>
       </ion-fab>

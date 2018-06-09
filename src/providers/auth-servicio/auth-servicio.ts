@@ -10,7 +10,7 @@ export class AuthServicioProvider {
   private user: firebase.User;
 
   constructor(public afAuth:AngularFireAuth) {
-    console.log('Hello AuthServicioProvider Provider');
+    console.log('AuthServicioProvider Provider iniciado...');
       afAuth.authState.subscribe(user => { // !!!
   			this.user = user;
   		});

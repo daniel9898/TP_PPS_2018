@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
 import { PerfilPage } from '../../index-paginas';
 //Clase USUARIO
@@ -17,9 +17,11 @@ export class SupervisorListaUsuariosPage {
   mostrarSpinner:boolean = false;
   usuarios:Usuario[] = [];
   usuarioActual:string;
+  usuarioDePrueba:boolean;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public toastCtrl: ToastController,
               public _auth: AuthServicioProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
@@ -33,10 +35,9 @@ export class SupervisorListaUsuariosPage {
     this._usuarioServicio.traer_usuarios().then(()=>{
         //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
         this.usuarios = this._usuarioServicio.usuariosArray;
-        this.mostrarSpinner = false;
     }).catch((error)=>{
       console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-    })
+    }).then(()=>{ this.mostrarSpinner = false; })
   }
 
   //DESUSCRIBIR
@@ -63,8 +64,31 @@ export class SupervisorListaUsuariosPage {
     }
   }
 
+  borrar(key:string){
+    this._usuarioServicio.baja_usuario(key)
+    .then(()=>{
+          console.log("OK: usuario eliminado de database");
+          this.mostrarAlerta("Usuario eliminado!");
+          this.usuarios = [];
+          this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    })
+    .catch((error)=>{
+      //this.mostrarAlerta("Error al realizar acción");
+      console.log("Error al borrar usuario de database: " + error);
+    })
+  }
+
   verUsuario(user:Usuario){
     this.navCtrl.push(PerfilPage, {'userSelected' : user});
+  }
+
+  mostrarAlerta(msj:string){
+    let toast = this.toastCtrl.create({
+      message: msj,
+      duration: 2000,
+      position: "top"
+    });
+    toast.present();
   }
 
 }

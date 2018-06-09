@@ -32,6 +32,16 @@ export class UsuarioServicioProvider {
     console.log('Provider USUARIOS iniciado...');
   }
 
+  //INICIALIZAR
+  initialize(){
+    this.usuariosRef = this.afDB.list('usuarios');
+    this.usuarios = this.usuariosRef.snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    );
+  }
+
   //TRAER USUARIOS DE PRUEBA
   obtener_usuarios_prueba (){
 
@@ -57,8 +67,8 @@ export class UsuarioServicioProvider {
     let promesa = new Promise((resolve, reject)=>{
 
       this.destroy$ = new Subject<boolean>();
-      //NUEVA MANERA
       this.usuariosArray = [];
+        //NUEVA MANERA
       this.usuariosRef = this.afDB.list('usuarios');
       this.usuarios = this.usuariosRef.snapshotChanges().pipe(
         map(changes =>
@@ -83,6 +93,13 @@ export class UsuarioServicioProvider {
           console.log("ERROR! mensaje: " + JSON.stringify(err));
         });
 
+    });
+    return promesa;
+  }
+
+  traer_un_usuario(uid:string){
+    let promesa = new Promise((resolve, reject)=>{
+        
     });
     return promesa;
   }

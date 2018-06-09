@@ -146,10 +146,14 @@ export class PerfilPage {
 
   //GUARDAR
   guardar(){
-      this._usuarioServicio.modificar_usuario(this.usuario).then(()=>{
+      this._usuarioServicio.modificar_usuario(this.usuario)
+      .then(()=>{
         console.log("Cambios guardados!");
         this.mostrarAlerta("Cambios realizados con éxito!");
         this.modificar = false;
+      })
+      .catch((error)=>{
+        console.log("Error al guardar cambios de usuario: " + error);
       })
 
   }

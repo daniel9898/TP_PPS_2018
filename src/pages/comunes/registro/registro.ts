@@ -20,6 +20,8 @@ export class RegistroPage {
   registroForm:FormGroup;
   //AUDIO
   audio = new Audio();
+  error_sound:string = "assets/sounds/error_sound.mp3";
+  success_sound:string = "assets/sounds/success_sound.mp3";
   //NUEVO USUARIO
   userId:string;
   userEmail:string;
@@ -70,6 +72,7 @@ export class RegistroPage {
             this._usuarioServicio.modificar_usuario(newUser) //Actualizar firebase key recibida
             .then(()=>{
               this.mostrarAlerta("Usuario creado!");
+              this.reproducirSonido(this.success_sound);
               this.volver();
             });
         })
@@ -84,17 +87,18 @@ export class RegistroPage {
         switch(errorCode){
           case "auth/email-already-in-use":
           this.mostrarAlerta("Cuenta ya existente!");
+          this.registroForm.reset();
           break;
           case "auth/invalid-email":
           this.mostrarAlerta("Correo invalido!");
           break;
         }
-        this.reproducirSonido();
+        this.reproducirSonido(this.error_sound);
       })
   }
 
-  reproducirSonido(){
-    this.audio.src = "assets/sounds/windows_95_error.mp3";
+  reproducirSonido(sound:string){
+    this.audio.src = sound;
     this.audio.load();
     this.audio.play();
   }
