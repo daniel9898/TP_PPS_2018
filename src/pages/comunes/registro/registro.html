@@ -10,7 +10,7 @@
     </ion-row>
 
     <!-- MANDATORIO -->
-    <div class="formulario1" *ngIf="!formAdicional">
+    <div class="formulario1">
         <form [formGroup]="registroForm" (ngSubmit)="registrarUsuario()" novalidate class="top-1">
           <ion-row>
             <ion-col>
@@ -18,7 +18,7 @@
 
               <!-- Correo -->
               <ion-item>
-                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo" [(ngModel)]="input_correo"></ion-input>
+                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo"></ion-input>
                   <ion-icon *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email') ||
                                    registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
                   </ion-icon>
@@ -30,7 +30,7 @@
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
-                <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña" [(ngModel)]="input_clave1"></ion-input>
+                <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
                                  registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right></ion-icon>
               </ion-item>
@@ -41,7 +41,7 @@
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
-                <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña" [(ngModel)]="input_clave2"></ion-input>
+                <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                  registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
                                  registroForm.get('userClave2').dirty && input_clave1 != input_clave2" color="danger" name="alert" item-right></ion-icon>

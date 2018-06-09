@@ -19,7 +19,8 @@ export class PerfilPage {
   mostrarSpinner:boolean;
   usuario:Usuario; //Usuario actual
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
-  modificar:boolean = false; //Variable de control
+  modificar:boolean = false; //Variable de control (activa mod. de datos text).
+  cambios:boolean = false; //Variable de control (activa subir cambios).
   foto_byDefault:string; //Foto identificatoria por perfil
 
   constructor(public navCtrl: NavController,
@@ -87,13 +88,29 @@ export class PerfilPage {
     return promesa;
   }
 
-  activar_modificar(estado:boolean){
-    if(estado){
+  //MODIFICAR
+  activar_modificar(){
+    if(!this.modificar){
       this.modificar = true;
     }
     else{
       this.modificar = false;
     }
+  }
+
+  //BORRAR
+  borrar(){
+
+  }
+
+  //GUARDAR
+  guardar(){
+
+  }
+
+  //CAMBIAR FOTO
+  cambiar_foto(){
+
   }
 
   volver(){

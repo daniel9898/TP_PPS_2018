@@ -17,7 +17,7 @@
 <ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let usuario of usuarios; index as i;">
-      <ion-item (click)="verUsuario(usuario)" *ngIf="usuario.correo != usuarioActual">
+      <ion-item (click)="verUsuario(usuario)" *ngIf="usuario.correo != usuarioActual && usuario.perfil != 'superusuario'">
           <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
           {{usuario.correo }} || {{usuario.perfil }}
           <ion-icon name="ios-arrow-forward" item-end></ion-icon>

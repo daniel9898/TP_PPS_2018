@@ -1,10 +1,11 @@
+
 <ion-content padding>
 
     <div *ngIf="!mostrarSpinner">
 
       <ion-grid class="datosPerfil">
             <!-- CORREO -->
-            <ion-item id="item_text">
+            <ion-item>
               <ion-avatar item-end>
                 <img [src]=foto_byDefault>
               </ion-avatar>
@@ -12,62 +13,69 @@
               <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.correo"></ion-input>
             </ion-item>
             <!-- NOMBRE -->
-            <ion-item id="item_text">
+            <ion-item>
               <ion-label stacked>Nombre</ion-label>
               <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
             </ion-item>
             <!-- EDAD -->
-            <ion-item id="item_text">
+            <ion-item>
               <ion-label stacked>Edad</ion-label>
               <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
             </ion-item>
             <!-- DIRECCION -->
-            <ion-item id="item_text">
+            <ion-item>
               <ion-label stacked>Dirección</ion-label>
               <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
             </ion-item>
-            <!-- PERFIL -->
-            <ion-item id="item_text">
-              <ion-label stacked>Perfil</ion-label>
-              <ion-input  type="text" required ngControl="title" [disabled]="!modificar" [(ngModel)]="usuario.perfil"></ion-input>
-            </ion-item>
-            <!-- FOTO -->
-            <ion-item>
-                <img class="fotoPerfil" [src]="usuario.foto">
-            </ion-item>
 
-            <!-- MODIFICAR -->
-            <button ion-button color="secondary" icon-left block
-                    *ngIf="!modificar" (click)="activar_modificar(true)">
-              <ion-icon name="md-contact"></ion-icon>
-              Modificar
-            </button>
-
-            <!-- GUARDAR -->
-
-            <!-- CANCELAR -->
-            <button ion-button color="danger" icon-left block
-                    *ngIf="modificar" (click)="activar_modificar(false)">
-              <ion-icon name="md-contact"></ion-icon>
-              Cancelar
-            </button>
-
-
-            <!-- VISTA SUPERUSUARIO -->
-            <div class="dinamicValues" *ngIf="vistaSupervisor">
-              <!-- VIAJE -->
-              <ion-item>
-                <ion-label stacked>Viajando</ion-label>
-                <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
-              </ion-item>
-              <!-- ESTADO -->
-              <ion-item>
-                <ion-label stacked>Activo</ion-label>
-                <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
-              </ion-item>
-            </div>
       </ion-grid>
 
+      <!-- PERFIL (NO modificable)-->
+      <ion-item>
+        <ion-label stacked>Perfil</ion-label>
+        <ion-input  type="text" required ngControl="title" disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
+      </ion-item>
+
+      <!-- FOTO -->
+      <ion-item>
+        <button class="boton_camara" ion-fab mini color="secondary" (click)="cambiar_foto()">
+          <ion-icon name="md-camera"></ion-icon>
+        </button>
+        <img class="fotoPerfil" [src]="usuario.foto">
+      </ion-item>
+
+      <!-- VISTA SUPERUSUARIO -->
+      <div class="dinamicValues" *ngIf="vistaSupervisor">
+        <!-- VIAJE -->
+        <ion-item>
+          <ion-label stacked>Viajando</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
+        </ion-item>
+        <!-- ESTADO -->
+        <ion-item>
+          <ion-label stacked>Activo</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
+        </ion-item>
+      </div>
+
+      <!-- MODIFICAR -->
+      <ion-fab class="" bottom center>
+        <button ion-fab mini color="yellow" (click)="activar_modificar()">
+          <ion-icon name="ios-cloud-upload"></ion-icon>
+        </button>
+      </ion-fab>
+      <!-- BORRAR -->
+      <ion-fab class="" bottom right>
+        <button ion-fab mini color="danger" (click)="borrar()">
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+      </ion-fab>
+      <!-- GUARDAR -->
+      <ion-fab *ngIf="cambios" class="" top right>
+        <button ion-fab mini color="secondary" (click)="guardar()">
+          <ion-icon name="md-bookmark"></ion-icon>
+        </button>
+      </ion-fab>
 
       <!-- VOLVER ATRAS -->
       <ion-fab *ngIf="vistaSupervisor" class="floatBack" bottom left>
