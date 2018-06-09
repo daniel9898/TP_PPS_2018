@@ -3,7 +3,6 @@ import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase';
 //clase USUARIO
 import { Usuario } from '../../classes/usuario';
 //Importar map: operador para transformar la información recibida de afDB.list
