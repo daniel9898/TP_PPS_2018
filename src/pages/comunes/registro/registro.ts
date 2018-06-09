@@ -76,7 +76,7 @@ export class RegistroPage {
 
       })
       .then(()=>{
-        this._usuarioServicio.alta_usuario(this.userId, this.userEmail).then(()=>{
+        this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail).then(()=>{
             this.mostrarAlerta("Usuario creado!");
             this.volver();
         })

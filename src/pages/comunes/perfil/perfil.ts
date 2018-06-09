@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
-import { SupervisorListaUsuariosPage } from '../../index-paginas';
+import { SupervisorListaUsuariosPage, LoginPage } from '../../index-paginas';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
@@ -102,6 +102,7 @@ export class PerfilPage {
     this._userService.baja_usuario(this.usuario.key).then(()=>{
           console.log("Cambios guardados!");
           this.mostrarAlerta("Usuario eliminado!");
+          this.navCtrl.setRoot(LoginPage);
     }).catch((error)=>{
       console.log("Error al borrar usuario!" + error);
     });
@@ -112,6 +113,7 @@ export class PerfilPage {
       this._userService.modificar_usuario(this.usuario).then(()=>{
         console.log("Cambios guardados!");
         this.mostrarAlerta("Cambios realizados con éxito!");
+        this.modificar = false;
       })
 
   }

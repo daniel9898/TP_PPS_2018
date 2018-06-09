@@ -3,9 +3,6 @@ import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
-//FIREBASE
-import { AngularFireAuth} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -39,13 +36,11 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
-              public afAuth:AngularFireAuth,
-              public afDB: AngularFireDatabase,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
         //this.user = afAuth.authState;
-        console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
+        console.log("¿Sesión activa?: " + this._authServicio.authenticated);
         this.userNameTxt = "";
         this.userPassTxt = null;
         this.myLoginForm = this.fbLogin.group({
@@ -108,7 +103,7 @@ export class LoginPage {
         console.log('Algo salió mal: ',err.message);
         this.reproducirSonido();
         this.mostrarSpinner = false;
-        this.mostrarAlerta();
+        this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
       })
       .then(()=>{ //Una vez validado el usuario asignar perfil
           this._usuarioServicio.traer_usuarios().then(()=>{
@@ -128,14 +123,11 @@ export class LoginPage {
   }
 
   ingresar(){
-    this.userActive = this._authServicio.get_userData();
-    this.userActive.updateProfile({
-      displayName: this.usuario_perfil,
-      photoURL: this.usuario_foto
-    }).then(value => {
+    this._authServicio.update_userAccount(this.usuario_perfil, this.usuario_foto)
+    .then(value => {
       // Update successful.
       this.mostrarSpinner = false;
-      switch(this.usuario_perfil){
+      switch(this._authServicio.get_userProfile()){
         case "cliente":
         this.navCtrl.push(ClienteInicioPage);
         break;
@@ -170,9 +162,9 @@ export class LoginPage {
     });
   }
 
-  mostrarAlerta(){
+  mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
-      message: 'Usuario y/o contraseña incorrectos!',
+      message: msj,
       duration: 2000,
       position: "top"
     });

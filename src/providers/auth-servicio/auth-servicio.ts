@@ -33,13 +33,16 @@ export class AuthServicioProvider {
   }
 
   //Borrar usuario
-  delete_userAccount(userId:string){
-    //return this.afAuth.auth.delete_userAccount(userId);
+  delete_userAccount(){
+    return this.user.delete();
   }
 
   //Modificar usuario
-  update_userAccount(){
-    
+  update_userAccount(profile:string, foto:string){
+    return this.user.updateProfile({
+            displayName: profile,
+            photoURL: foto
+           });
   }
 
   //Cerrar sesión

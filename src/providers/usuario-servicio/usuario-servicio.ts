@@ -85,8 +85,8 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
-  //ALTA USUARIO
-  alta_usuario(userId:string, userEmail:string){
+  //ALTA USUARIO REGISTRO
+  alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
       id_usuario: userId,
@@ -105,6 +105,11 @@ export class UsuarioServicioProvider {
       });
       return promesa;
     //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
+  }
+
+  //ALTA
+  alta_usuario(user:Usuario){
+    
   }
 
   //BAJA
