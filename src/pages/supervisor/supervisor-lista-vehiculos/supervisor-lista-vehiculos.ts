@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { vehiculo, vehiculosMock } from '../../../classes/vehiculo.model';
+import { vehiculosMock } from '../../../classes/vehiculo.model';
 import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
@@ -17,7 +17,7 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
   templateUrl: 'supervisor-lista-vehiculos.html',
 })
 export class SupervisorListaVehiculosPage {
-  public vehiculos: vehiculo[];
+  public vehiculos: any[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculosSrv: VehiculosProvider) {
   }
@@ -59,7 +59,7 @@ export class SupervisorListaVehiculosPage {
 
   verVehiculo(value) {
     console.log(value);
-    this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: false, vehiculo: this.vehiculos[value] });
+    this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: false, vehiculo: this.vehiculos[value].vehiculo });
   }
 
   nuevoVehiculo(){
