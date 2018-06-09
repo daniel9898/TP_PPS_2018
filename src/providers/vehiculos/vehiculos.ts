@@ -28,6 +28,10 @@ export class VehiculosProvider {
     );
   }
 
+  public getListaVehiculos(){
+     return this.vehiculosList;
+  }
+
   /**
    * 
    * @param vehiculo un vehículo 
