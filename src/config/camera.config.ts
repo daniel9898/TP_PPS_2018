@@ -1,9 +1,9 @@
-import { CameraOptions } from "@ionic-native/camera";
+import { CameraOptions, DestinationType, EncodingType, MediaType } from "@ionic-native/camera";
 
 export const cameraConfig: CameraOptions = {
     quality: 35,
-    destinationType: this.camera.DestinationType.DATA_URL,
-    encodingType: this.camera.EncodingType.JPEG,
-    mediaType: this.camera.MediaType.PICTURE,
+    destinationType: DestinationType.DATA_URL,
+    encodingType: EncodingType.JPEG,
+    mediaType: MediaType.PICTURE,
     correctOrientation: true
 }
