@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { vehiculosMock } from '../../../classes/vehiculo.model';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+// import { vehiculosMock } from '../../../classes/vehiculo.model';
 import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
@@ -19,7 +19,11 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 export class SupervisorListaVehiculosPage {
   public vehiculos: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculosSrv: VehiculosProvider) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private vehiculosSrv: VehiculosProvider,
+    public alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
@@ -63,7 +67,25 @@ export class SupervisorListaVehiculosPage {
   }
 
   eliminarVehiculo(i){
-    this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
+    const confirm = this.alertCtrl.create({
+      title: '¿Está seguro?',
+      message: 'Esta por eliminar un vehículo',
+      buttons: [
+        {
+          text: 'No',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Si',
+          handler: () => {
+            this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }
