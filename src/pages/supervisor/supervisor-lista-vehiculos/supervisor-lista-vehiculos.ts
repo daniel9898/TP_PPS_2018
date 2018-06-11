@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-// import { vehiculosMock } from '../../../classes/vehiculo.model';
 import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
@@ -17,21 +16,32 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
   templateUrl: 'supervisor-lista-vehiculos.html',
 })
 export class SupervisorListaVehiculosPage {
+  /**
+   * colección de vehículos
+   */
   public vehiculos: any[];
 
+  /**
+   * 
+   * @param navCtrl controller de navegación
+   * @param navParams controller de parametros entre paginas
+   * @param vehiculosSrv servicio de vehículo
+   * @param alertCtrl controller de ventana de alerta
+   */
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navCtrl: NavController,
+    public navParams: NavParams,
     private vehiculosSrv: VehiculosProvider,
     public alertCtrl: AlertController) {
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad SupervisorListaVehiculosPage');
-    // this.vehiculos = vehiculosMock;
     this.initializeItems();
   }
 
+  /**
+   * Inicializa los vehículos
+   */
   initializeItems() {
     // this.vehiculos = vehiculosMock;
     this.vehiculosSrv.getListaVehiculos().subscribe(next => {
@@ -41,7 +51,10 @@ export class SupervisorListaVehiculosPage {
   }
 
 
-
+  /**
+   * Metodo para el filtrado por busqueda
+   * @param ev Evento de la barra de busqueda
+   */
   getItems(ev: any) {
     // Reset items back to all of the items
     this.initializeItems();
@@ -57,22 +70,33 @@ export class SupervisorListaVehiculosPage {
     }
   }
 
+  /**
+   * Va a la pantalla de vehículo para ver y editar el vehículo
+   * @param value indice de la colección
+   */
   verVehiculo(value) {
     console.log(value);
     this.navCtrl.push(
-      SupervisorRegistroVehiculoPage, 
-      { 
-        isEditable: false, 
-        vehiculo: this.vehiculos[value].vehiculo, 
+      SupervisorRegistroVehiculoPage,
+      {
+        isEditable: false,
+        vehiculo: this.vehiculos[value].vehiculo,
         key: this.vehiculos[value].key
       });
   }
 
-  nuevoVehiculo(){
+  /**
+   * Va a la pantalla de vehículo para generar un nuevo vehículo
+   */
+  nuevoVehiculo() {
     this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: true });
   }
 
-  eliminarVehiculo(i){
+  /**
+   * Elimina muestra una alerta y elimina el vehículo
+   * @param i indice de la colección
+   */
+  eliminarVehiculo(i) {
     const confirm = this.alertCtrl.create({
       title: '¿Está seguro?',
       message: 'Esta por eliminar un vehículo',
