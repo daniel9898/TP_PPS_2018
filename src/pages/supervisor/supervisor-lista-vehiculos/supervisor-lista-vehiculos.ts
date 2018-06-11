@@ -29,15 +29,11 @@ export class SupervisorListaVehiculosPage {
   }
 
   initializeItems() {
-    this.vehiculos = vehiculosMock;
+    // this.vehiculos = vehiculosMock;
     this.vehiculosSrv.getListaVehiculos().subscribe(next => {
       console.log(next);
-      // this.vehiculos = next.key;
+      this.vehiculos = next;
     });
-    // .then(value =>{
-    //   this.vehiculos = value
-    //   console.log(value);
-    // });
   }
 
 
@@ -52,7 +48,7 @@ export class SupervisorListaVehiculosPage {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.vehiculos = this.vehiculos.filter((item) => {
-        return (item.marca.toLowerCase().indexOf(val.toLowerCase()) > -1) || (item.modelo.toLowerCase().indexOf(val.toLowerCase()) > -1);
+        return (item.vehiculo.marca.toLowerCase().indexOf(val.toLowerCase()) > -1) || (item.vehiculo.modelo.toLowerCase().indexOf(val.toLowerCase()) > -1);
       })
     }
   }

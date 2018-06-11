@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { vehiculo } from '../../../classes/vehiculo.model';
+import { PhotoTakerPage } from '../photo-taker/photo-taker';
+import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
 /**
  * Generated class for the SupervisorRegistroVehiculoPage page.
@@ -15,23 +17,39 @@ import { vehiculo } from '../../../classes/vehiculo.model';
   templateUrl: 'supervisor-registro-vehiculo.html',
 })
 export class SupervisorRegistroVehiculoPage {
+  key: string = '';
   vehiculo: vehiculo;
   isEditable: boolean = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculoSrv: VehiculosProvider) {
     this.vehiculo = new vehiculo();
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorRegistroVehiculoPage');
-    if(this.navParams.data.vehiculo){
+    if (this.navParams.data.vehiculo) {
       this.vehiculo = this.navParams.data.vehiculo;
+      this.key = this.navParams.data.key;
     }
     this.isEditable = this.navParams.data.isEditable
+  }
+
+  sacarFotos() {
+    this.navCtrl.push(PhotoTakerPage)
   }
 
   enableEdit() {
     this.isEditable = true;
   }
+
+  guardar() {
+    if (this.key == '') {
+      this.vehiculoSrv.addItem(this.vehiculo);
+    } else if (this.key !== '') {
+      this.vehiculoSrv.updateItem(this.key,this.vehiculo);
+    }
+    this.navCtrl.pop();
+  }
+
 
 }

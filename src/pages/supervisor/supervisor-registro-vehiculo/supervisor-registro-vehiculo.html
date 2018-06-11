@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
-      <button *ngIf="isEditable" ion-button clear color="primary" [disabled]="marca.invalid || patente.invalid">Guardar</button>
+      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || patente.invalid">Guardar</button>
       <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
