@@ -58,6 +58,7 @@ export class MyApp {
 
         if (user) {
           this.menu.enable(true);
+          console.log("USUARIO EN APP: " + JSON.stringify(user));
           switch(user.displayName){
             case "cliente":
             this.vista_cliente = true;

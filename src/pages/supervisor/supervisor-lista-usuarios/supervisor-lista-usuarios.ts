@@ -30,23 +30,18 @@ export class SupervisorListaUsuariosPage {
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    this.mostrarSpinner = true;
     this.usuarioActual = this._auth.get_userEmail();
-    this._usuarioServicio.traer_usuarios().then(()=>{
-        //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-        this.usuarios = this._usuarioServicio.usuariosArray;
-    }).catch((error)=>{
-      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-    }).then(()=>{ this.mostrarSpinner = false; })
+    this.initializeItems();
   }
 
-  //DESUSCRIBIR
-  // ionViewDidLeave(){
-  //   this._usuarioServicio.desuscribir();
-  // }
-
   initializeItems(){
-    this.usuarios = this._usuarioServicio.usuariosArray;
+    this.mostrarSpinner = true;
+    this._usuarioServicio.traer_usuarios().then((usuariosRecibidos:any)=>{
+        //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
+        this.usuarios = usuariosRecibidos;
+    }).catch((error)=>{
+      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+    }).then(()=>{ this.mostrarSpinner = false; });
   }
 
   getItems(ev: any) {
@@ -70,9 +65,7 @@ export class SupervisorListaUsuariosPage {
     .then(()=>{
           console.log("OK: usuario eliminado de database");
           this.mostrarAlerta("Usuario eliminado!");
-          this.usuarios = [];
-          this.navCtrl.setRoot(SupervisorListaUsuariosPage);
-          this.mostrarSpinner = false;
+          this.initializeItems();
     })
     .catch((error)=>{
       //this.mostrarAlerta("Error al realizar acción");

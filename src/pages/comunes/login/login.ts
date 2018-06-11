@@ -56,11 +56,6 @@ export class LoginPage {
 
   }
 
-  // //DESUSCRIBIR
-  // ionViewDidLeave(){
-  //   this._usuarioServicio.desuscribir();
-  // }
-
   perdioFoco(input:number){
     switch(input)
     {
@@ -149,8 +144,9 @@ export class LoginPage {
 
   ingresar(){
     this._authServicio.update_userAccount(this.usuario_perfil, this.usuario_foto)
-    .then(value => {
+    .then((value) => {
       // Update successful.
+      console.log("AUTH VALUE LOGIN: " + JSON.stringify(value));
       this.mostrarSpinner = false;
       switch(this._authServicio.get_userProfile()){
         case "cliente":

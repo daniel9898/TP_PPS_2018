@@ -48,11 +48,6 @@ export class RegistroPage {
     console.log('Página registro cargada!');
   }
 
-  //DESUSCRIBIR
-  // ionViewDidLeave(){
-  //   this._usuarioServicio.desuscribir();
-  // }
-
   registrarUsuario(){
       let credenciales = {
         email: this.registroForm.value.userCorreo,
@@ -73,6 +68,7 @@ export class RegistroPage {
             .then(()=>{
               this.mostrarAlerta("Usuario creado!");
               this.reproducirSonido(this.success_sound);
+              this._authServicio.signOut();
               this.volver();
             });
         })

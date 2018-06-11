@@ -36,17 +36,15 @@ export class PerfilPage {
 
     //CARGAR PERFIL PROPIO
     if(!this.navParams.get('userSelected')){
-      this._usuarioServicio.traer_usuarios().then(()=>{
-          //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-          for(let user of this._usuarioServicio.usuariosArray){
-            if(this._auth.get_userEmail() == user.correo){
-              this.usuario = user;
-              this.traerFoto_byDefault(this.usuario.perfil);
-              this.mostrarSpinner = false;
-            }
-          }
-      }).catch((error)=>{
-        console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+      this._usuarioServicio.traer_un_usuario(this._auth.get_userUID())
+      .then((user:any)=>{
+          //console.log("USUARIO: " + JSON.stringify(user));
+          this.usuario = user;
+          this.traerFoto_byDefault(this.usuario.perfil);
+          this.mostrarSpinner = false;
+      })
+      .catch((error)=>{
+        console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
       })
 
     //CARGAR PERFIL DE USUARIO SELECCIONADO
@@ -59,11 +57,6 @@ export class PerfilPage {
     }
 
   }
-
-  //DESUSCRIBIR
-  // ionViewDidLeave(){
-  //   this._usuarioServicio.desuscribir();
-  // }
 
   traerFoto_byDefault(perfil:string){
 

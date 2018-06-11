@@ -54,7 +54,7 @@
         <!-- ESTADO -->
         <ion-item>
           <ion-label stacked>Activo</ion-label>
-          <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar"></ion-checkbox>
         </ion-item>
       </div>
 
@@ -72,7 +72,7 @@
                     usuario.correo == 'chofer@kbremiseria.com' ||
                     usuario.correo == 'supervisor@kbremiseria.com' ||
                     usuario.correo == 'superuser@kbremiseria.com'">
-                    
+
           <ion-icon name="md-trash"></ion-icon>
         </button>
       </ion-fab>

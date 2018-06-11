@@ -9,14 +9,14 @@ import { Usuario } from '../../classes/usuario';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 //import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/operator/takeUntil';
+//import 'rxjs/add/operator/takeUntil';
 
 
 @Injectable()
 export class UsuarioServicioProvider {
 
   //USUARIOS
-  usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
+  //usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
   usuariosTest:any[] = [];
   //destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
@@ -65,16 +65,16 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
-      //REINICIAR array "Usuarios"
-      this.usuariosArray = [];
+      //RETORNO
+      let usuarios:Usuario[] = [];
 
       //TRAER DATOS
       this.usuarios.forEach((value)=>{
         for(let user of value){
           let usuario:Usuario = new Usuario(user);
-          this.usuariosArray.push(usuario);
+          usuarios.push(usuario);
         }
-        resolve();
+        resolve(usuarios);
       })
     });
     return promesa;
@@ -83,7 +83,11 @@ export class UsuarioServicioProvider {
   //TRAER UN USUARIO
   traer_un_usuario(uid:string){
     let promesa = new Promise((resolve, reject)=>{
+      
+      //RETORNO
       let usuario:Usuario;
+
+      //TRAER USUARIO
       this.usuarios.forEach((value)=>{
         for(let user of value){
           if(user.id_usuario == uid){
