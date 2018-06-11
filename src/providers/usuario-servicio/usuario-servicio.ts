@@ -67,7 +67,7 @@ export class UsuarioServicioProvider {
 
       //RETORNO
       let usuarios:Usuario[] = [];
-
+      console.log("METODO: Traer usuarios");
       //TRAER DATOS
       this.usuarios.forEach((value)=>{
         for(let user of value){
@@ -83,15 +83,15 @@ export class UsuarioServicioProvider {
   //TRAER UN USUARIO
   traer_un_usuario(uid:string){
     let promesa = new Promise((resolve, reject)=>{
-      
+
       //RETORNO
       let usuario:Usuario;
-
+      console.log("METODO: Traer un usuario");
       //TRAER USUARIO
       this.usuarios.forEach((value)=>{
         for(let user of value){
           if(user.id_usuario == uid){
-            console.log("Usuario encontrado: " + user.id_usuario);
+            //console.log("Usuario encontrado: " + user.id_usuario);
             usuario = new Usuario(user);
           }
         }

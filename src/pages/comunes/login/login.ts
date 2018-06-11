@@ -143,10 +143,7 @@ export class LoginPage {
   }
 
   ingresar(){
-    this._authServicio.update_userAccount(this.usuario_perfil, this.usuario_foto)
-    .then((value) => {
-      // Update successful.
-      console.log("AUTH VALUE LOGIN: " + JSON.stringify(value));
+
       this.mostrarSpinner = false;
       switch(this._authServicio.get_userProfile()){
         case "cliente":
@@ -161,11 +158,6 @@ export class LoginPage {
         break;
       }
       //this.reproducirSonido(this.success_sound);
-    })
-    .catch(err => {
-      console.log('Algo salió mal: ',err.message);
-      this.reproducirSonido(this.error_sound);
-    });
   }
 
   ingresoDePrueba(event, fab:FabContainer, userProfile:string){

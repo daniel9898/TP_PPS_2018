@@ -25,7 +25,8 @@ export class RegistroPage {
   //NUEVO USUARIO
   userId:string;
   userEmail:string;
-
+  userProfile:string = "cliente";
+  userFoto:string = "assets/imgs/default_cliente.png";
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
@@ -63,13 +64,19 @@ export class RegistroPage {
       //REGISTRAR EN DATABASE
         this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail)
         .then((newUser)=>{
-            console.log("Valor retornado en alta: " + JSON.stringify(newUser));
+            //console.log("Valor retornado en alta: " + JSON.stringify(newUser));
             this._usuarioServicio.modificar_usuario(newUser) //Actualizar firebase key recibida
             .then(()=>{
-              this.mostrarAlerta("Usuario creado!");
-              this.reproducirSonido(this.success_sound);
-              this._authServicio.signOut();
-              this.volver();
+                this._authServicio.update_userAccount(this.userProfile, this.userFoto)
+                .then(()=>{
+                  this.mostrarAlerta("Usuario creado!");
+                  this.reproducirSonido(this.success_sound);
+                  this._authServicio.signOut().then(()=>{ this.volver(); });
+                })
+                .catch((error)=>{
+                  console.log("Error al actualizar auth info!" + error);
+                });
+
             });
         })
         .catch((error)=>{
