@@ -62,4 +62,8 @@ export class SupervisorListaVehiculosPage {
     this.navCtrl.push(SupervisorRegistroVehiculoPage, { isEditable: true });
   }
 
+  eliminarVehiculo(i){
+    this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
+  }
+
 }
