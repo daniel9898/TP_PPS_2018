@@ -37,7 +37,8 @@
   </ion-item>
   <ion-item>
     <ion-label stacked>Año</ion-label>
-    <ion-input type="text" [disabled]="!isEditable"></ion-input>
+    <!-- <ion-input type="text" ></ion-input> -->
+    <ion-datetime displayFormat="YYYY" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Activo</ion-label>
