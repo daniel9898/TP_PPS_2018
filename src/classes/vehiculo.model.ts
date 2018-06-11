@@ -4,7 +4,7 @@ export class vehiculo {
   public patente: string;
   // public displayName: string;
   public fotos: Array<string>;
-  public año: number;
+  public ano: number;
   public ocupado: boolean;
   public activo: boolean;
 }
