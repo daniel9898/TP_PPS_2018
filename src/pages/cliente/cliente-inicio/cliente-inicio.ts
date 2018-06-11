@@ -17,7 +17,7 @@ export class ClienteInicioPage {
               public _authServicio:AuthServicioProvider) {
 
         this.usuarioSesion = this._authServicio.get_userData();
-        console.log("Usuario actual: " + JSON.stringify(this.usuarioSesion));
+        //console.log("Usuario actual: " + JSON.stringify(this.usuarioSesion));
   }
 
   ionViewDidLoad() {

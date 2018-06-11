@@ -3,13 +3,12 @@ import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-// import * as firebase from 'firebase';
 //clase USUARIO
 import { Usuario } from '../../classes/usuario';
 //Importar map: operador para transformar la información recibida de afDB.list
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Subject } from 'rxjs/Subject';
+//import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
 
@@ -19,7 +18,7 @@ export class UsuarioServicioProvider {
   //USUARIOS
   usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
   usuariosTest:any[] = [];
-  destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
+  //destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
   //LISTA USUARIOS
   usuariosRef: AngularFireList<any>;
@@ -48,7 +47,6 @@ export class UsuarioServicioProvider {
 
     let promesa = new Promise((resolve, reject)=>{
       this._http.get("assets/data/usuarios.json")
-          .takeUntil(this.destroy$)
           .subscribe( respuesta =>{
                 //console.log("Obtención de usuarios de prueba " + JSON.stringify(respuesta.json()) );
                 for(let user of respuesta.json().usuarios){
@@ -67,33 +65,34 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
-      this.destroy$ = new Subject<boolean>();
+      //REINICIAR array "Usuarios"
       this.usuariosArray = [];
 
-      //SUSCRIBIR OBSERVABLE "Usuarios"
-      this.usuarios
-        .takeUntil(this.destroy$)
-        .subscribe(
-        (data:any) => {
-            //console.log(data);
-            for (let i = 0; i < data.length; i++) {
-                //console.log("RECEPCION DE USUARIOS! " + JSON.stringify(data));
-                let usuario:Usuario = new Usuario(data[i]);
-                this.usuariosArray.push(usuario);
-            }
-            resolve();
-        },
-        err => {
-          console.log("ERROR! mensaje: " + JSON.stringify(err));
-        });
-
+      //TRAER DATOS
+      this.usuarios.forEach((value)=>{
+        for(let user of value){
+          let usuario:Usuario = new Usuario(user);
+          this.usuariosArray.push(usuario);
+        }
+        resolve();
+      })
     });
     return promesa;
   }
 
+  //TRAER UN USUARIO
   traer_un_usuario(uid:string){
     let promesa = new Promise((resolve, reject)=>{
-
+      let usuario:Usuario;
+      this.usuarios.forEach((value)=>{
+        for(let user of value){
+          if(user.id_usuario == uid){
+            console.log("Usuario encontrado: " + user.id_usuario);
+            usuario = new Usuario(user);
+          }
+        }
+        resolve(usuario);
+      })
     });
     return promesa;
   }
@@ -148,11 +147,11 @@ export class UsuarioServicioProvider {
   }
 
   //DESUSCRIBIR
-  desuscribir(){
-    this.destroy$.next();
-    // Now let's also unsubscribe from the subject itself:
-    this.destroy$.complete();
-    console.log("Observables de provider usuarios desuscriptos");
-  }
+  // desuscribir(){
+  //   this.destroy$.next();
+  //   // Now let's also unsubscribe from the subject itself:
+  //   this.destroy$.complete();
+  //   console.log("Observables de provider usuarios desuscriptos");
+  // }
 
 }

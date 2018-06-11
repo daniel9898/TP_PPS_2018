@@ -23,7 +23,6 @@ export class LoginPage {
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
-  usuarioEnDB:boolean;
   focus1:boolean = false;
   focus2:boolean = false;
   userNameTxt:string;
@@ -101,24 +100,25 @@ export class LoginPage {
       password: this.myLoginForm.value.userPassword
     };
 
+    //LOGUEARSE
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
         console.log('Email utilizado: ' + value.user.email);
-        this.usuarioEnDB = false;
-        this._usuarioServicio.traer_usuarios()
-          .then(()=>{
-              //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-              for(let user of this._usuarioServicio.usuariosArray){
+        this._usuarioServicio.traer_un_usuario(value.user.uid)
+          .then((user:any)=>{
+              console.log("USUARIO: " + JSON.stringify(user));
+              //VALIDAR SI EL USUARIO EXISTE EN DB
+              if(user != null){
                 if(user.correo == this.myLoginForm.value.userEmail){
-                  //VALIDAR ESTADO DEL USUARIO
                   console.log("Usuario activo? : " + user.activo);
-                  if(user.activo == true){
+                  //USUARIO EXISTE: y está activo
+                  if(user.activo){
                         this.usuario_perfil = user.perfil;
                         this.usuario_foto = user.foto;
                         console.log("Coincidencia en el usuario!");
-                        this.usuarioEnDB = true;
-                        break;
+                        this.ingresar();
                   }
+                  //USUARIO EXISTE: y NO está activo
                   else{
                         console.log("El usuario fue inhabilitado");
                         this.mostrarAlerta("Cuenta inhabilitada!");
@@ -126,25 +126,21 @@ export class LoginPage {
                   }
                 }
               }
+              //USUARIO NO EXISTE
+              if(user == null){
+                console.log("El usuario fue eliminado!");
+                this._authServicio.delete_userAccount();
+                this.reproducirSonido(this.error_sound);
+                this.mostrarAlerta("La cuenta no existe!");
+                this.navCtrl.setRoot(LoginPage);
+              }
           })
           .catch((error)=>{
-            console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-          }).then(()=>{
-            //VALIDACION FINAL (Caso de eliminación por supervisor)
-            if(this.usuarioEnDB){
-              this.ingresar();
-
-            }else{
-              console.log("El usuario fue eliminado!");
-              this._authServicio.delete_userAccount();
-              this.reproducirSonido(this.error_sound);
-              this.mostrarAlerta("La cuenta no existe!");
-              this.navCtrl.setRoot(LoginPage);
-            }
+            console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
           });
       })
       .catch(err => {
-        console.log('Algo salió mal: ',err.message);
+        console.log('Error: al realizar signIn ',err.message);
         this.reproducirSonido(this.error_sound);
         this.mostrarSpinner = false;
         this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
