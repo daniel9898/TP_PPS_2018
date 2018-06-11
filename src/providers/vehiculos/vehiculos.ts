@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { vehiculo } from '../../classes/vehiculo.model';
-import { map } from 'rxjs/operators';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs';
-
+import { map } from 'rxjs/operators';
 /*
   Generated class for the VehiculosProvider provider.
 
@@ -13,19 +12,20 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class VehiculosProvider {
 
-  vehiculosList: Observable<{ key: string; vehiculo: any; }[]>;
+  vehiculosList: Observable<any[]>;
   //lista de vehiculos
   vehiculos: vehiculo[];
   //el observable para subscribirse
   //la referencia al path para hacer cambios
-  vehiculosRef: AngularFireList<vehiculo>;
+  vehiculosRef: AngularFireList<any>;
 
   constructor(private db: AngularFireDatabase) {
     //referencia temporal de testing
-    this.vehiculosRef = this.db.list<vehiculo>('/vehiculosLista');
-    this.vehiculosList = this.vehiculosRef.snapshotChanges().pipe(
-      map(changes => changes.map(c => ({ key: c.payload.key, vehiculo: c.payload.val() })))
-    );
+    this.vehiculosRef = this.db.list('vehiculosLista');
+    this.vehiculosList = this.vehiculosRef.snapshotChanges()
+    .pipe(
+    map(val => val.map( c =>  ({ key: c.key, vehiculo: c.payload.val() }))
+    ));
   }
 
   public getListaVehiculos(){
