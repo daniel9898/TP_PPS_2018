@@ -46,7 +46,7 @@ export class VehiculosProvider {
    * @param vehiculo el vehículo a actualizar 
    */
   updateItem(key: string, vehiculo: vehiculo) {
-    this.vehiculosRef.update(key, vehiculo);
+    this.vehiculosRef.update(key, vehiculo).catch(error => console.log(error));
   }
 
   /**
