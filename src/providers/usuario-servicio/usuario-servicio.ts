@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
 import { AngularFireAuth} from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-// import * as firebase from 'firebase';
+import { AngularFireDatabase } from 'angularfire2/database';
 //clase USUARIO
 import { Usuario } from '../../classes/usuario';
 //Importar map: operador para transformar la información recibida de afDB.list
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import 'rxjs/add/operator/map';
+//import{ Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
@@ -16,14 +15,10 @@ import 'rxjs/add/operator/takeUntil';
 @Injectable()
 export class UsuarioServicioProvider {
 
-  //USUARIOS
   usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
   usuariosTest:any[] = [];
+  usuario:Usuario;
   destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
-
-  //LISTA USUARIOS
-  usuariosRef: AngularFireList<any>;
-  usuarios: Observable<any[]>;
 
   constructor(  public afDB: AngularFireDatabase,
                 public afAuth:AngularFireAuth,
@@ -55,22 +50,15 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
-      //NUEVA MANERA
-      this.usuariosRef = this.afDB.list('usuarios');
-      this.usuarios = this.usuariosRef.snapshotChanges().pipe(
-        map(changes =>
-          changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-        )
-      );
-
-      //SUSCRIBIR OBSERVABLE "Usuarios"
-      this.usuarios
-        .takeUntil(this.destroy$)
+      this.afDB.list('/usuarios')
+        .valueChanges()
+        // .takeUntil(this.destroy$)
         .subscribe(
         (data:any) => {
-            //console.log(data);
+            console.log(data);
             for (let i = 0; i < data.length; i++) {
-                let usuario:Usuario = new Usuario(data[i]);
+                //let usuario = new Usuario();
+                let usuario = new Usuario(data[i]);
                 this.usuariosArray.push(usuario);
             }
             resolve();
