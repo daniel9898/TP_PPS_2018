@@ -27,6 +27,9 @@ import { HttpModule } from '@angular/http';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 
+//CAMERA
+import { Camera } from '@ionic-native/camera';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -107,7 +110,8 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
     AngularFireDatabase,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UsuarioServicioProvider,
-    AuthServicioProvider
+    AuthServicioProvider,
+    Camera
   ]
 })
 export class AppModule {}

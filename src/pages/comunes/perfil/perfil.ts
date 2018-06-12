@@ -7,6 +7,9 @@ import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+//CAMARA
+import { Camera } from '@ionic-native/camera';
+import { cameraConfig } from '../../../config/camera.config';
 
 @Component({
   selector: 'page-perfil',
@@ -15,16 +18,24 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 export class PerfilPage {
 
   mostrarSpinner:boolean;
-  usuario:Usuario; //Usuario actual
+
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
   modificar:boolean = false; //Variable de control (activa mod. de datos text).
-  cambios:boolean = false; //Variable de control (activa subir cambios).
+  //cambios:boolean = false; //Variable de control (activa subir cambios).
+
+  //DATOS DEL USUARIO
+  usuario:Usuario; //Usuario actual
+
+  //FOTO
   foto_byDefault:string; //Foto identificatoria por perfil
+  foto_nueva:string; //Foto tomada con la cámara
+  foto_subir:string; //Foto a subir al storage
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
               public _auth: AuthServicioProvider,
+              private camera: Camera,
               public _usuarioServicio: UsuarioServicioProvider) {
 
       this.mostrarSpinner = true;
@@ -33,8 +44,12 @@ export class PerfilPage {
 
   //PAGINA CARGADA
   ionViewDidLoad() {
+    this.traer_usuario();
+  }
 
+  traer_usuario(){
     //CARGAR PERFIL PROPIO
+    this.mostrarSpinner = true;
     if(!this.navParams.get('userSelected')){
       this._usuarioServicio.traer_un_usuario(this._auth.get_userUID())
       .then((user:any)=>{
@@ -55,7 +70,6 @@ export class PerfilPage {
         this.mostrarSpinner = false;
       });
     }
-
   }
 
   traerFoto_byDefault(perfil:string){
@@ -93,6 +107,7 @@ export class PerfilPage {
     }
     else{
       this.modificar = false;
+      this.traer_usuario();
     }
   }
 
@@ -153,7 +168,14 @@ export class PerfilPage {
 
   //CAMBIAR FOTO
   cambiar_foto(){
-
+    //this.usuario.foto = "assets/imgs/default_chofer.png"; // Prueba
+    this.camera.getPicture(cameraConfig).then((imageData) => {
+      this.foto_nueva = 'data:image/jpeg;base64,' + imageData;
+      this.usuario.foto = this.foto_nueva;
+      this.foto_nueva = imageData;
+    }, (err) => {
+      console.log(err);
+    });
   }
 
   mostrarAlerta(msj:string){
