@@ -10,8 +10,8 @@ export class AuthServicioProvider {
   private user: firebase.User;
 
   constructor(public afAuth:AngularFireAuth) {
-    console.log('Hello AuthServicioProvider Provider');
-      afAuth.authState.subscribe(user => {
+    console.log('AuthServicioProvider Provider iniciado...');
+      afAuth.authState.subscribe(user => { // !!!
   			this.user = user;
   		});
   }
@@ -27,9 +27,22 @@ export class AuthServicioProvider {
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
 	}
 
-  //Crear usuario
-  signUp(credentials) {
+  //Alta usuario
+  signUpSimple(credentials) {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+  }
+
+  //Borrar usuario
+  delete_userAccount(){
+    return this.user.delete();
+  }
+
+  //Modificar usuario
+  update_userAccount(profile:string, foto:string){
+    return this.user.updateProfile({
+            displayName: profile,
+            photoURL: foto
+           });
   }
 
   //Cerrar sesión
@@ -48,6 +61,10 @@ export class AuthServicioProvider {
 
   get_userUID(){
     return this.user.uid;
+  }
+
+  get_userProfile(){
+    return this.user.displayName;
   }
 
 }

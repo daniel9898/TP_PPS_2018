@@ -29,7 +29,7 @@
             <ion-item>
                 <ion-input formControlName="userEmail" id="userNameInput" type="text" placeholder="Usuario" [(ngModel)]="userNameTxt" (ionFocus)='tieneFoco(1)' (ionBlur)='perdioFoco(1)'></ion-input>
             </ion-item>
-            <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty && !focus1">
+            <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty && !focus1" class="alerta_form">
               <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required') && !focus1">Campo requerido</p>
               <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email') && !myLoginForm.get('userEmail').hasError('required') && !focus1">Formato de email incorrecto</p>
             </ion-item>
@@ -37,7 +37,7 @@
             <ion-item>
               <ion-input formControlName="userPassword" id="userPassInput" type="password" placeholder="Contraseña" [(ngModel)]="userPassTxt" (ionFocus)='tieneFoco(2)' (ionBlur)='perdioFoco(2)'></ion-input>
             </ion-item>
-            <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty && !focus2">
+            <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty && !focus2" class="alerta_form">
               <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required') && !focus2">Campo requerido</p>
             </ion-item>
             <!-- SUBMIT -->

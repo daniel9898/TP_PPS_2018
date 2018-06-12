@@ -3,9 +3,6 @@ import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
-//FIREBASE
-import { AngularFireAuth} from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -26,25 +23,25 @@ export class LoginPage {
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
-  flag:boolean = false;
   focus1:boolean = false;
   focus2:boolean = false;
   userNameTxt:string;
   userPassTxt:string;
   usuariosDePrueba:any[] = [];
-  //emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
+  //AUDIO
   audio = new Audio();
+  error_sound:string = "assets/sounds/error_sound.mp3";
+  success_sound:string = "assets/sounds/success_sound.mp3";
+
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
-              public afAuth:AngularFireAuth,
-              public afDB: AngularFireDatabase,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
 
         //this.user = afAuth.authState;
-        console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
+        console.log("¿Sesión activa?: " + this._authServicio.authenticated);
         this.userNameTxt = "";
         this.userPassTxt = null;
         this.myLoginForm = this.fbLogin.group({
@@ -55,11 +52,10 @@ export class LoginPage {
 
   //INICIO
   ionViewDidEnter(){
-    console.log("Página cargada!");
+    //console.log("Página cargada!");
 
   }
 
-  //METODOS
   perdioFoco(input:number){
     switch(input)
     {
@@ -99,59 +95,69 @@ export class LoginPage {
       password: this.myLoginForm.value.userPassword
     };
 
+    //LOGUEARSE
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
-        //console.log('Funciona!' + JSON.stringify(value));
-      })
-      .catch(err => {
-        console.log('Algo salió mal: ',err.message);
-        this.reproducirSonido();
-        this.mostrarSpinner = false;
-        this.mostrarAlerta();
-      })
-      .then(()=>{ //Una vez validado el usuario asignar perfil
-          this._usuarioServicio.traer_usuarios().then(()=>{
-              //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
-              for(let user of this._usuarioServicio.usuariosArray){
+        console.log('Email utilizado: ' + value.user.email);
+        this._usuarioServicio.traer_un_usuario(value.user.uid)
+          .then((user:any)=>{
+              console.log("USUARIO: " + JSON.stringify(user));
+              //VALIDAR SI EL USUARIO EXISTE EN DB
+              if(user != null){
                 if(user.correo == this.myLoginForm.value.userEmail){
-                  this.usuario_perfil = user.perfil;
-                  this.usuario_foto = user.foto;
-                  console.log("Coincidencia en el usuario!");
+                  console.log("Usuario activo? : " + user.activo);
+                  //USUARIO EXISTE: y está activo
+                  if(user.activo){
+                        this.usuario_perfil = user.perfil;
+                        this.usuario_foto = user.foto;
+                        console.log("Coincidencia en el usuario!");
+                        this.ingresar();
+                  }
+                  //USUARIO EXISTE: y NO está activo
+                  else{
+                        console.log("El usuario fue inhabilitado");
+                        this.mostrarAlerta("Cuenta inhabilitada!");
+                        this.navCtrl.setRoot(LoginPage);
+                  }
                 }
               }
-              this.ingresar();
-          }).catch((error)=>{
-            console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
+              //USUARIO NO EXISTE
+              if(user == null){
+                console.log("El usuario fue eliminado!");
+                this._authServicio.delete_userAccount();
+                this.reproducirSonido(this.error_sound);
+                this.mostrarAlerta("La cuenta no existe!");
+                this.navCtrl.setRoot(LoginPage);
+              }
           })
+          .catch((error)=>{
+            console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
+          });
+      })
+      .catch(err => {
+        console.log('Error: al realizar signIn ',err.message);
+        this.reproducirSonido(this.error_sound);
+        this.mostrarSpinner = false;
+        this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
       });
   }
 
   ingresar(){
-    this.userActive = this._authServicio.get_userData();
-    this.userActive.updateProfile({
-      displayName: this.usuario_perfil,
-      photoURL: this.usuario_foto
-    }).then(value => {
-      // Update successful.
+
       this.mostrarSpinner = false;
-      switch(this.usuario_perfil){
+      switch(this._authServicio.get_userProfile()){
         case "cliente":
-        this.navCtrl.push(ClienteInicioPage);
+        this.navCtrl.setRoot(ClienteInicioPage);
         break;
         case "chofer":
-        this.navCtrl.push(ChoferInicioPage);
+        this.navCtrl.setRoot(ChoferInicioPage);
         break;
         case "supervisor":
         case "superusuario":
-        this.navCtrl.push(SupervisorInicioPage);
+        this.navCtrl.setRoot(SupervisorInicioPage);
         break;
       }
-      this._usuarioServicio.desuscribir(); //Abandono de página login: desuscribir
-    })
-    .catch(err => {
-      console.log('Algo salió mal: ',err.message);
-      this.reproducirSonido();
-    });
+      //this.reproducirSonido(this.success_sound);
   }
 
   ingresoDePrueba(event, fab:FabContainer, userProfile:string){
@@ -169,17 +175,17 @@ export class LoginPage {
     });
   }
 
-  mostrarAlerta(){
+  mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
-      message: 'Usuario y/o contraseña incorrectos!',
+      message: msj,
       duration: 2000,
       position: "top"
     });
     toast.present();
   }
 
-  reproducirSonido(){
-    this.audio.src = "assets/sounds/windows_95_error.mp3";
+  reproducirSonido(sound:string){
+    this.audio.src = sound;
     this.audio.load();
     this.audio.play();
   }

@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-
-//clase USUARIO
+import { NavController, NavParams, ToastController } from 'ionic-angular';
+//PAGINAS
+import { SupervisorListaUsuariosPage, LoginPage } from '../../index-paginas';
+//Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
-
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
-
+//CAMARA
+import { Camera } from '@ionic-native/camera';
+import { cameraConfig } from '../../../config/camera.config';
 
 @Component({
   selector: 'page-perfil',
@@ -15,33 +17,178 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 })
 export class PerfilPage {
 
-  usuario:Usuario;
-  mostrarSpinner:boolean = false;
+  mostrarSpinner:boolean;
+
+  vistaSupervisor:boolean = false; //Mostrar: viajando + activo
+  modificar:boolean = false; //Variable de control (activa mod. de datos text).
+  //cambios:boolean = false; //Variable de control (activa subir cambios).
+
+  //DATOS DEL USUARIO
+  usuario:Usuario; //Usuario actual
+
+  //FOTO
+  foto_byDefault:string; //Foto identificatoria por perfil
+  foto_nueva:string; //Foto tomada con la cámara
+  foto_subir:string; //Foto a subir al storage
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public toastCtrl: ToastController,
               public _auth: AuthServicioProvider,
-              public _userService: UsuarioServicioProvider) {
+              private camera: Camera,
+              public _usuarioServicio: UsuarioServicioProvider) {
 
       this.mostrarSpinner = true;
+      this.modificar = false;
+  }
+
+  //PAGINA CARGADA
+  ionViewDidLoad() {
+    this.traer_usuario();
+  }
+
+  traer_usuario(){
+    //CARGAR PERFIL PROPIO
+    this.mostrarSpinner = true;
+    if(!this.navParams.get('userSelected')){
+      this._usuarioServicio.traer_un_usuario(this._auth.get_userUID())
+      .then((user:any)=>{
+          //console.log("USUARIO: " + JSON.stringify(user));
+          this.usuario = user;
+          this.traerFoto_byDefault(this.usuario.perfil);
+          this.mostrarSpinner = false;
+      })
+      .catch((error)=>{
+        console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
+      })
+
+    //CARGAR PERFIL DE USUARIO SELECCIONADO
+    }else{
+      this.usuario = this.navParams.get('userSelected');
+      this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
+        this.vistaSupervisor = true;
+        this.mostrarSpinner = false;
+      });
+    }
+  }
+
+  traerFoto_byDefault(perfil:string){
+
+    let promesa = new Promise((resolve, reject)=>{
+
+        switch(perfil){
+          case "cliente":
+          this.foto_byDefault = "assets/imgs/default_cliente.png";
+          break;
+          case "chofer":
+          this.foto_byDefault = "assets/imgs/default_chofer.png";
+          break;
+          case "supervisor":
+          this.foto_byDefault = "assets/imgs/default_supervisor.png";
+          break;
+          case "superusuario":
+          this.foto_byDefault = "assets/imgs/default_superusuario.png";
+          break;
+        }
+        console.log("Foto por defecto: " + this.foto_byDefault);
+        resolve();
+
+        err => {
+          console.log("ERROR! al traer foto por defecto: " + err);
+        };
+    });
+    return promesa;
+  }
+
+  //MODIFICAR
+  activar_modificar(){
+    if(!this.modificar){
+      this.modificar = true;
+    }
+    else{
+      this.modificar = false;
+      this.traer_usuario();
+    }
+  }
+
+  //BORRAR
+  borrar(){
+
+    //USUARIO QUE BORRA SU CUENTA
+    if(!this.vistaSupervisor){
+      this._auth.delete_userAccount()
+      .then(()=>{
+        console.log("OK: usuario eliminado de authentication");
+      })
+      .catch((error)=>{
+        console.log("Error al eliminar usuario de Authentication" + error);
+      })
+      .then(()=>{
+        this._usuarioServicio.baja_usuario(this.usuario.key)
+        .then(()=>{
+              console.log("OK: usuario eliminado de database");
+              this.mostrarAlerta("Usuario eliminado!");
+              this.navCtrl.setRoot(LoginPage);
+        })
+      })
+      .catch((error)=>{
+        console.log("Error al borrar usuario de database" + error);
+      });
+    }
+
+    //SUPER* QUE BORRA CUENTA DE TERCERO
+    if(this.vistaSupervisor){
+      this._usuarioServicio.baja_usuario(this.usuario.key)
+      .then(()=>{
+            console.log("OK: usuario eliminado de database");
+            this.mostrarAlerta("Usuario eliminado!");
+            this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+      })
+      .catch((error)=>{
+        console.log("Error al borrar usuario de database: " + error);
+      })
+    }
+
 
   }
 
-  ionViewDidLoad() {
-    //this.mostrarSpinner = true;
-    this._userService.traer_usuarios().then(()=>{
-        //console.log("USUARIOS: " + JSON.stringify(this._userService.usuariosArray));
-        for(let user of this._userService.usuariosArray){
-          if(this._auth.get_userEmail() == user.correo){
-            this.usuario = user;
-            console.log("Perfil de usuario: " + JSON.stringify(this.usuario));
-            this.mostrarSpinner = false;
-          }
-        }
-    }).catch((error)=>{
-      console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
-    })
+  //GUARDAR
+  guardar(){
+      this._usuarioServicio.modificar_usuario(this.usuario)
+      .then(()=>{
+        console.log("Cambios guardados!");
+        this.mostrarAlerta("Cambios realizados con éxito!");
+        this.modificar = false;
+      })
+      .catch((error)=>{
+        console.log("Error al guardar cambios de usuario: " + error);
+      })
 
+  }
+
+  //CAMBIAR FOTO
+  cambiar_foto(){
+    //this.usuario.foto = "assets/imgs/default_chofer.png"; // Prueba
+    this.camera.getPicture(cameraConfig).then((imageData) => {
+      this.foto_nueva = 'data:image/jpeg;base64,' + imageData;
+      this.usuario.foto = this.foto_nueva;
+      this.foto_nueva = imageData;
+    }, (err) => {
+      console.log(err);
+    });
+  }
+
+  mostrarAlerta(msj:string){
+    let toast = this.toastCtrl.create({
+      message: msj,
+      duration: 2000,
+      position: "top"
+    });
+    toast.present();
+  }
+
+  volver(){
+    this.navCtrl.setRoot(SupervisorListaUsuariosPage);
   }
 
 }

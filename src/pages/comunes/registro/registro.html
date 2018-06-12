@@ -1,11 +1,5 @@
 <ion-content>
 
-  <ion-fab class="floatBack" bottom right>
-    <button ion-fab mini color="primary" (click)="volver()">
-      <ion-icon name="md-arrow-round-back"></ion-icon>
-    </button>
-  </ion-fab>
-
   <!-- FORMULARIO -->
   <ion-grid *ngIf="!mostrarSpinner">
     <!-- Imagen por default -->
@@ -14,33 +8,56 @@
         <img id="imgDefault" src="assets/imgs/default_cliente.png" alt="registro imagen">
       </ion-col>
     </ion-row>
+
     <!-- MANDATORIO -->
-    <div class="formulario1" *ngIf="!formAdicional">
-        <form [formGroup]="registroForm1" (ngSubmit)="registrarUsuario()" novalidate class="top-1">
+    <div class="formulario1">
+        <form [formGroup]="registroForm" (ngSubmit)="registrarUsuario()" novalidate class="top-1">
           <ion-row>
             <ion-col>
 
 
               <!-- Correo -->
               <ion-item>
-                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo" [(ngModel)]="input_correo"></ion-input>
-                  <ion-icon *ngIf="registroForm1.get('userCorreo').hasError('email') && mostrarErrores ||
-                                  registroForm1.get('userCorreo').hasError('required') && mostrarErrores" color="danger" name="alert" item-right>
+                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo"></ion-input>
+                  <ion-icon *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email') ||
+                                   registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
                   </ion-icon>
               </ion-item>
-              <!-- Contraseña -->
-              <ion-item>
-                <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña" [(ngModel)]="input_clave1"></ion-input>
-                <ion-icon *ngIf="registroForm1.get('userClave1').hasError('required') && mostrarErrores" color="danger" name="alert" item-right></ion-icon>
+              <ion-item *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required') ||
+                               registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email')" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('email') && !registroForm.get('userCorreo').hasError('required')">Formato incorrecto</p>
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
-                <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña" [(ngModel)]="input_clave2"></ion-input>
-                <ion-icon *ngIf="registroForm1.get('userClave2').hasError('required') && mostrarErrores || input_clave1 != input_clave2 && mostrarErrores" color="danger" name="alert" item-right></ion-icon>
+                <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña"></ion-input>
+                <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
+                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <ion-item *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
+                               registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('minlength') && !registroForm.get('userClave1').hasError('required')">La clave debe ser minimo de 6 caracteres</p>
+              </ion-item>
+              <!-- Contraseña -->
+              <ion-item>
+                <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña"></ion-input>
+                <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
+                                 registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
+                                 registroForm.get('userClave2').dirty && input_clave1 != input_clave2" color="danger" name="alert" item-right></ion-icon>
+              </ion-item>
+              <ion-item *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
+                               registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
+                               registroForm.get('userClave2').dirty && input_clave1 != input_clave2" class="alerta_form">
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('required')">Campo requerido</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('minlength') && !registroForm.get('userClave2').hasError('required')">La clave debe ser de mínimo 6 caracteres</p>
+                <p color="danger" ion-text *ngIf="input_clave1 != input_clave2 &&
+                                                  !registroForm.get('userClave2').hasError('minlength') &&
+                                                  !registroForm.get('userClave2').hasError('required')">La clave no es idéntica a la ingresada</p>
               </ion-item>
 
               <!-- SUBMIT -->
-                <button type="submit" ion-button color="register" icon-left block>
+                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid">
                   <ion-icon name="md-contact"></ion-icon>
                   Registrarse
                 </button>
@@ -49,49 +66,15 @@
           </ion-row>
         </form>
       </div>
-      <!-- OPCIONALES -->
-      <div class="formulario2" *ngIf="formAdicional">
-        <form [formGroup]="registroForm2" (ngSubmit)="completarUsuario()" novalidate class="top-1">
-          <ion-row>
-            <ion-col>
-
-              <!-- Nombre -->
-              <ion-item>
-                  <ion-input formControlName="userNombre" id="inputNombre" type="text" placeholder="Nombre" [(ngModel)]="input_nombre"></ion-input>
-                  <ion-icon *ngIf="registroForm2.get('userNombre').hasError('required') && mostrarErrores" color="danger" name="alert" item-right></ion-icon>
-              </ion-item>
-              <!-- Edad -->
-              <ion-item>
-                  <ion-input formControlName="userEdad" id="inputEdad" type="number" placeholder="Edad" [(ngModel)]="input_edad" maxlength="4"></ion-input>
-                  <ion-icon *ngIf="registroForm2.get('userEdad').hasError('required') && mostrarErrores" color="danger" name="alert" item-right>
-                  </ion-icon>
-              </ion-item>
-              <!-- Dirección (?) -->
-              <ion-item>
-                  <ion-input formControlName="userDireccion" id="inputEdad" type="text" placeholder="Dirección" [(ngModel)]="input_direccion"></ion-input>
-                  <ion-icon *ngIf="registroForm2.get('userDireccion').hasError('required') && mostrarErrores" color="danger" name="alert" item-right>
-                  </ion-icon>
-              </ion-item>
-
-              <!-- Perfil (por defecto: cliente)-->
-              <!-- Foto -->
-
-              <!-- SUBMIT -->
-                <button type="submit" ion-button color="register" icon-left block>
-                  <ion-icon name="md-contact"></ion-icon>
-                  Agregar
-                </button>
-                <button ion-button color="primary" icon-left block (click)="volver()">
-                  <ion-icon name="md-contact"></ion-icon>
-                  Omitir
-                </button>
-
-            </ion-col>
-          </ion-row>
-        </form>
-      </div>
 
   </ion-grid>
+
+  <!-- VOLVER ATRAS -->
+  <ion-fab class="floatBack" bottom left>
+    <button ion-fab mini color="primary" (click)="volver()">
+      <ion-icon name="md-arrow-round-back"></ion-icon>
+    </button>
+  </ion-fab>
 
   <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">

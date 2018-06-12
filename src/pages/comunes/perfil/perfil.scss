@@ -1,9 +1,25 @@
 page-perfil {
 
+  // .item_modificando{
+  //   background-color: #f7f9e1;
+  // }
+
   .dinamicValues{
     position: absolute;
-    bottom: 10px;
+    bottom: 25%;
     right: 0px;
+  }
+
+  .fotoPerfil{
+    width: 150px;
+    height: 150px;
+  }
+
+  .boton_camara{
+    position: fixed;
+    margin-top: 0;
+    background-color: #8bd144;
+    border-radius: 50%;
   }
 
   .spinner {
@@ -35,4 +51,17 @@ page-perfil {
       opacity: 0;
     }
   }
+
+  ion-item.item-md.item-input.input-has-focus .item-inner,
+  ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+  ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+      border-bottom-color: #ffffff;
+      box-shadow: none;
+  }
+
+  ion-input:disabled{
+      background-color: #ffffff;
+  }
+
+
 }

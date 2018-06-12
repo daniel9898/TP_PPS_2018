@@ -2,6 +2,7 @@
 
 export class Usuario{
 
+    key?:string;
     id_usuario:string;
     correo:string;
     nombre:string;
@@ -14,11 +15,12 @@ export class Usuario{
 
     constructor(user_data:Usuario){
         //REGISTRO
+        this.key = user_data.key;
         this.id_usuario = user_data.id_usuario;
         this.correo = user_data.correo;
         this.perfil = user_data.perfil;
-        this.viajando = false;
-        this.activo = true;
+        this.viajando = user_data.viajando;
+        this.activo = user_data.activo;
         //PERFIL
         this.nombre = user_data.nombre;
         this.edad = user_data.edad;

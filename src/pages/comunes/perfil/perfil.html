@@ -1,35 +1,52 @@
+
 <ion-content padding>
 
-    <ion-grid *ngIf="!mostrarSpinner">
-      <!-- CORREO -->
-      <ion-item>
-        <ion-avatar item-end>
-          <img [src]="usuario.foto">
-        </ion-avatar>
-        <ion-label stacked>Correo</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.correo"></ion-input>
-      </ion-item>
-      <!-- NOMBRE -->
-      <ion-item>
-        <ion-label stacked>Nombre</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.nombre"></ion-input>
-      </ion-item>
-      <!-- EDAD -->
-      <ion-item>
-        <ion-label stacked>Edad</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.edad"></ion-input>
-      </ion-item>
-      <!-- DIRECCION -->
-      <ion-item>
-        <ion-label stacked>Dirección</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.direccion"></ion-input>
-      </ion-item>
-      <!-- PERFIL -->
-      <ion-item>
+    <div *ngIf="!mostrarSpinner">
+
+      <ion-grid class="datosPerfil">
+            <!-- CORREO -->
+            <ion-item>
+              <ion-avatar item-end>
+                <img [src]=foto_byDefault>
+              </ion-avatar>
+              <ion-label stacked>Correo</ion-label>
+              <ion-input type="text" required disabled="true" [(ngModel)]="usuario.correo"></ion-input>
+            </ion-item>
+            <!-- NOMBRE -->
+            <ion-item>
+              <ion-label stacked>Nombre</ion-label>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
+            </ion-item>
+            <!-- EDAD -->
+            <ion-item>
+              <ion-label stacked>Edad</ion-label>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
+            </ion-item>
+            <!-- DIRECCION -->
+            <ion-item>
+              <ion-label stacked>Dirección</ion-label>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
+            </ion-item>
+
+      </ion-grid>
+
+      <!-- PERFIL (NO modificable)-->
+      <ion-item class="perfilBox">
         <ion-label stacked>Perfil</ion-label>
-        <ion-input  type="text" required ngControl="title" readonly="true" [(ngModel)]="usuario.perfil"></ion-input>
+        <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
       </ion-item>
-      <div class="dinamicValues">
+
+      <!-- FOTO -->
+      <ion-item>
+        <button class="boton_camara" ion-fab mini color="secondary"
+                (click)="cambiar_foto()" [disabled]="!modificar">
+          <ion-icon name="md-camera"></ion-icon>
+        </button>
+        <img class="fotoPerfil" [src]="usuario.foto">
+      </ion-item>
+
+      <!-- VISTA SUPERUSUARIO -->
+      <div class="dinamicValues" *ngIf="vistaSupervisor || usuario.perfil == 'supervisor' || usuario.perfil == 'superusuario'">
         <!-- VIAJE -->
         <ion-item>
           <ion-label stacked>Viajando</ion-label>
@@ -38,12 +55,45 @@
         <!-- ESTADO -->
         <ion-item>
           <ion-label stacked>Activo</ion-label>
-          <ion-checkbox [(ngModel)]="usuario.activo" disabled="true"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar"></ion-checkbox>
         </ion-item>
       </div>
 
-  </ion-grid>
+      <!-- MODIFICAR -->
+      <ion-fab class="" bottom center>
+        <button ion-fab mini color="yellow" (click)="activar_modificar()">
+          <ion-icon name="ios-cloud-upload"></ion-icon>
+        </button>
+      </ion-fab>
+      <!-- BORRAR -->
+      <ion-fab class="" bottom right>
+        <button ion-fab mini color="danger" (click)="borrar()"
+                [disabled]="usuario.viajando ||
+                    usuario.correo == 'cliente@kbremiseria.com' ||
+                    usuario.correo == 'chofer@kbremiseria.com' ||
+                    usuario.correo == 'supervisor@kbremiseria.com' ||
+                    usuario.correo == 'superuser@kbremiseria.com'">
 
+          <ion-icon name="md-trash"></ion-icon>
+        </button>
+      </ion-fab>
+      <!-- GUARDAR -->
+      <ion-fab *ngIf="modificar" class="" top right>
+        <button ion-fab mini color="secondary" (click)="guardar()">
+          <ion-icon name="md-bookmark"></ion-icon>
+        </button>
+      </ion-fab>
+
+      <!-- VOLVER ATRAS -->
+      <ion-fab *ngIf="vistaSupervisor" class="floatBack" bottom left>
+        <button ion-fab mini color="primary" (click)="volver()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
+        </button>
+      </ion-fab>
+
+  </div>
+
+  <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">
     <img src="assets/imgs/spinner_black.png" alt="spinner">
   </div>
