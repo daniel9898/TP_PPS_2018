@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
-import { SupervisorListaUsuariosPage, LoginPage } from '../../index-paginas';
+import { SupervisorListaUsuariosPage, LoginPage, MapaPage } from '../../index-paginas';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
@@ -88,6 +88,10 @@ export class PerfilPage {
         };
     });
     return promesa;
+  }
+
+  abrirMapa(){
+    this.navCtrl.setRoot(MapaPage);
   }
 
   //MODIFICAR

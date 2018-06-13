@@ -5,7 +5,7 @@ export { InicioPage } from "./comunes/inicio/inicio";
 export { LoginPage } from "./comunes/login/login";
 export { RegistroPage } from "./comunes/registro/registro";
 export { PerfilPage } from "./comunes/perfil/perfil";
-
+export { MapaPage } from "./comunes/mapa/mapa";
 /********************************CLIENTE (6)********************************/
 export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";

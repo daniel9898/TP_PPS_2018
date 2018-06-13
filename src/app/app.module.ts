@@ -14,6 +14,9 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 //CONFIGURACION FIREBASE
 import { environment } from '../environments/environment';
 
+//GOOGLE MAPS
+import { GoogleMaps } from "@ionic-native/google-maps";
+
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
@@ -21,7 +24,7 @@ import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage, PerfilPage, //-----------------------------------------------------------------------------COMUNES
+import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
@@ -37,6 +40,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -79,6 +83,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -113,7 +118,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     Camera,
     UsuarioServicioProvider,
     AuthServicioProvider,
-    VehiculosProvider
+    VehiculosProvider,
+    GoogleMaps
   ]
 })
 export class AppModule {}

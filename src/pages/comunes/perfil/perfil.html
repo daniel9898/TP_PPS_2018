@@ -25,7 +25,8 @@
             <!-- DIRECCION -->
             <ion-item>
               <ion-label stacked>Dirección</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"
+                         (ionFocus)="abrirMapa()"></ion-input>
             </ion-item>
 
       </ion-grid>
