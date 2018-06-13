@@ -7,5 +7,8 @@ export const environment = {
     projectId: "kb-remiseria33",
     storageBucket: "kb-remiseria33.appspot.com",
     messagingSenderId: "192475207026"
+  },
+  googleMaps:{
+    apiKey: 'AIzaSyChyZ87vIo4bamrWJtWfI5I69Ib1snmWlA'
   }
 };

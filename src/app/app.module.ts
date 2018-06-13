@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { GoogleMaps } from "@ionic-native/google-maps";
+import { AgmCoreModule } from '@agm/core';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -74,7 +75,11 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    HttpModule
+    HttpModule,
+    AgmCoreModule.forRoot({
+      	   apiKey: environment.googleMaps.apiKey
+    	})
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [

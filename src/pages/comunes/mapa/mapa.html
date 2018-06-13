@@ -1,9 +1,12 @@
 <ion-content padding>
-  <h3>Ionic GoogleMaps Starter</h3>
-
-  <div id="map_canvas">
-    <button ion-button (click)="onButtonClick($event)">Start demo</button>
-  </div>
-
-
+  <ion-item>
+    <ion-label stacked>Dirección</ion-label>
+    <ion-input type="text" [(ngModel)]="direccion"></ion-input>
+  </ion-item>
+  <agm-map [latitude]="lat" [longitude]="lng">
+  		<agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+  </agm-map>
+  <button ion-button (click)="cambiarDireccion()">
+  <ion-icon name="md-swap"></ion-icon>
+  </button>
 </ion-content>
