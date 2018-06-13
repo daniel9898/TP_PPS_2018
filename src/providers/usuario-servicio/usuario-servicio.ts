@@ -149,6 +149,7 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
+  //CARGAR IMAGEN EN STORAGE
   cargar_imagen_storage(uid:string, foto:string){
 
     let promesa = new Promise((resolve, reject)=>{

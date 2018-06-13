@@ -21,17 +21,18 @@ import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage,
+import { InicioPage, RegistroPage, LoginPage, PerfilPage, //-----------------------------------------------------------------------------COMUNES
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 
 
 @NgModule({
   declarations: [
     MyApp,
+    //COMUNES
     InicioPage,
     RegistroPage,
     LoginPage,

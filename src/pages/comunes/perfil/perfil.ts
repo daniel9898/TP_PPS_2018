@@ -79,20 +79,7 @@ export class PerfilPage {
 
     let promesa = new Promise((resolve, reject)=>{
 
-        switch(perfil){
-          case "cliente":
-          this.foto_byDefault = "assets/imgs/default_cliente.png";
-          break;
-          case "chofer":
-          this.foto_byDefault = "assets/imgs/default_chofer.png";
-          break;
-          case "supervisor":
-          this.foto_byDefault = "assets/imgs/default_supervisor.png";
-          break;
-          case "superusuario":
-          this.foto_byDefault = "assets/imgs/default_superusuario.png";
-          break;
-        }
+        this.foto_byDefault = "assets/imgs/default_"+perfil+".png";
         console.log("Foto por defecto: " + this.foto_byDefault);
         resolve();
 
@@ -185,7 +172,8 @@ export class PerfilPage {
       .catch((error)=>{
         this.mostrarSpinner = false;
         console.log("Error: al subir archivo al storage - " + error);
-      }).then(()=>{ this.modificar_usuario(); })
+      })
+      .then(()=>{ this.modificar_usuario(); })
     }
 
   }
