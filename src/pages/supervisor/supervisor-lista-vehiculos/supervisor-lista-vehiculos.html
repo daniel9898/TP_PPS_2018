@@ -22,21 +22,21 @@
 
 <ion-content>
   <ion-list>
-    <ion-item-sliding *ngFor="let vehiculo of vehiculos; index as i;">
+    <ion-item-sliding *ngFor="let item of vehiculos; index as i;">
       <ion-item (click)="verVehiculo(i)">
-          <ion-icon *ngIf="vehiculo.ocupado" name="radio-button-on" color="danger" item-start></ion-icon>
-          {{vehiculo.marca}} {{vehiculo.modelo }} 
-          <ion-icon *ngIf="vehiculo.ocupado" name="ios-arrow-forward" item-end></ion-icon>
+          <ion-icon *ngIf="item.vehiculo.ocupado" name="radio-button-on" color="danger" item-start></ion-icon>
+          {{item.vehiculo.marca}} {{item.vehiculo.modelo }} 
+          <ion-icon *ngIf="item.vehiculo.ocupado" name="ios-arrow-forward" item-end></ion-icon>
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="danger" [disabled]="vehiculo.ocupado">
+        <button ion-button color="danger" [disabled]="item.vehiculo.ocupado" (click)="eliminarVehiculo(i)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
   <ion-fab right bottom>
-      <button ion-fab color="secondary">
+      <button ion-fab color="secondary" (click)="nuevoVehiculo()">
           <ion-icon name="add"></ion-icon>
       </button>
   </ion-fab>

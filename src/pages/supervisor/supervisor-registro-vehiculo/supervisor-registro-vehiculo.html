@@ -9,7 +9,8 @@
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
-      <button ion-button clear>Guardar</button>
+      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || patente.invalid">Guardar</button>
+      <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
       </button>
@@ -20,44 +21,45 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-avatar item-end>
-      <img src="https://loremflickr.com/320/240/car,sport?random=1">
-    </ion-avatar>
+    <!-- <ion-avatar item-end>
+      <img [src]="fotos[0]" *ngIf="fotos.lenght > 0">
+    </ion-avatar> -->
     <ion-label stacked>Marca</ion-label>
-    <ion-input type="text" required ngControl="title" readonly="true" [(ngModel)]="vehiculo.marca"></ion-input>
+    <ion-input type="text" id="marca" name="marca" [disabled]="!isEditable" #marca="ngModel" [(ngModel)]="vehiculo.marca" [minlength]="3" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Modelo</ion-label>
-    <ion-input type="text" required ngControl="title" readonly="true" [(ngModel)]="vehiculo.modelo"></ion-input>
+    <ion-input type="text" [disabled]="!isEditable" [(ngModel)]="vehiculo.modelo"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Patente</ion-label>
-    <ion-input type="text" required ngControl="title" readonly="true" [(ngModel)]="vehiculo.patente"></ion-input>
+    <ion-input type="text" id="patente" name="patente" [disabled]="!isEditable" #patente="ngModel" [(ngModel)]="vehiculo.patente" [minlength]="6" required></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Año</ion-label>
-    <ion-input type="text" required ngControl="title" readonly="true"></ion-input>
+    <!-- <ion-input type="text" ></ion-input> -->
+    <ion-datetime displayFormat="YYYY" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Activo</ion-label>
-    <ion-toggle [(ngModel)]="vehiculo.activo"></ion-toggle>
+    <ion-toggle [(ngModel)]="vehiculo.activo" [disabled]="!isEditable"></ion-toggle>
   </ion-item>
   <ion-item>
-    <button ion-button clear large full>
+    <button ion-button clear large full [disabled]="!isEditable" (click)="sacarFotos()">
       <ion-icon name="camera" color="danger"></ion-icon>
     </button>
   </ion-item>
   <ion-item>
     <ion-slides pager direction="vertical">
-      <ion-slide>
-        <img src="https://loremflickr.com/320/240/car,sport?random=1" alt="">
+      <ion-slide *ngFor="let foto of vehiculo.fotos">
+        <img [src]="foto" *ngIf="foto" alt="">
       </ion-slide>
-      <ion-slide>
+      <!-- <ion-slide>
         <img src="https://loremflickr.com/320/240/car,sport?random=2" alt="">
       </ion-slide>
       <ion-slide>
         <img src="https://loremflickr.com/320/240/car,sport?random=3" alt="">
-      </ion-slide>
+      </ion-slide> -->
     </ion-slides>
   </ion-item>
 
