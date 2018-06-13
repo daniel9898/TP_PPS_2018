@@ -39,7 +39,7 @@
       <!-- FOTO -->
       <ion-item>
         <button class="boton_camara" ion-fab mini color="secondary"
-                (click)="cambiar_foto()" [disabled]="!modificar">
+                (click)="cambiar_foto()" *ngIf="modificar">
           <ion-icon name="md-camera"></ion-icon>
         </button>
         <img class="fotoPerfil" [src]="usuario.foto">

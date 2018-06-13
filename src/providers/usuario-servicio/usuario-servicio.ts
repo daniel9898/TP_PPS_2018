@@ -3,13 +3,12 @@ import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
 import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import * as firebase from 'firebase';
 //clase USUARIO
 import { Usuario } from '../../classes/usuario';
 //Importar map: operador para transformar la información recibida de afDB.list
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-//import { Subject } from 'rxjs/Subject';
-//import 'rxjs/add/operator/takeUntil';
 
 
 @Injectable()
@@ -146,6 +145,40 @@ export class UsuarioServicioProvider {
       this.usuariosRef = this.afDB.list('usuarios');
       this.usuariosRef.update(user.key, user);
       resolve();
+    });
+    return promesa;
+  }
+
+  cargar_imagen_storage(uid:string, foto:string){
+
+    let promesa = new Promise((resolve, reject)=>{
+
+      let imgKey:string = new Date().valueOf().toString(); // 1231243245
+      let nombreFile = imgKey + "_" + uid;
+      let storeRef = firebase.storage().ref();
+      let uploadTask: firebase.storage.UploadTask =
+        storeRef.child(`usuarios/${ nombreFile }`)
+                .putString( foto, 'base64', { contentType:'image/jpeg'});
+
+        //EJECUCION DE TAREA DE CARGA
+        uploadTask.on( firebase.storage.TaskEvent.STATE_CHANGED, //Tarda c/subida
+            ()=>{},//Saber el % de cuantos Mbs fueron subidos
+            ( error )=>{
+              //Manejo de error
+              console.info("ERROR EN LA CARGA", JSON.stringify(error));
+              resolve(false);
+            },
+            ()=>{
+              //Carga exitosa, TODO bien
+              console.log("Archivo subido");
+              uploadTask.snapshot.ref.getDownloadURL()
+              .then((url)=>{
+                console.log("URL GENERADA EN SERVICIO: " + url);
+                resolve(url);
+              });
+
+            }
+        )
     });
     return promesa;
   }

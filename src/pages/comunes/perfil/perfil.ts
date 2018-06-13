@@ -28,7 +28,8 @@ export class PerfilPage {
 
   //FOTO
   foto_byDefault:string; //Foto identificatoria por perfil
-  foto_nueva:string; //Foto tomada con la cámara
+  foto_original:string;
+  foto_preview:string; //Foto tomada con la cámara
   foto_subir:string; //Foto a subir al storage
 
   constructor(public navCtrl: NavController,
@@ -55,10 +56,12 @@ export class PerfilPage {
       .then((user:any)=>{
           //console.log("USUARIO: " + JSON.stringify(user));
           this.usuario = user;
+          this.foto_original = this.usuario.foto;
           this.traerFoto_byDefault(this.usuario.perfil);
           this.mostrarSpinner = false;
       })
       .catch((error)=>{
+        this.mostrarSpinner = false;
         console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
       })
 
@@ -152,32 +155,59 @@ export class PerfilPage {
 
   }
 
-  //GUARDAR
-  guardar(){
-      this._usuarioServicio.modificar_usuario(this.usuario)
-      .then(()=>{
-        console.log("Cambios guardados!");
-        this.mostrarAlerta("Cambios realizados con éxito!");
-        this.modificar = false;
-      })
-      .catch((error)=>{
-        console.log("Error al guardar cambios de usuario: " + error);
-      })
-
-  }
-
   //CAMBIAR FOTO
   cambiar_foto(){
     //this.usuario.foto = "assets/imgs/default_chofer.png"; // Prueba
     this.camera.getPicture(cameraConfig).then((imageData) => {
-      this.foto_nueva = 'data:image/jpeg;base64,' + imageData;
-      this.usuario.foto = this.foto_nueva;
-      this.foto_nueva = imageData;
+      this.foto_preview = 'data:image/jpeg;base64,' + imageData;
+      this.usuario.foto = this.foto_preview;
+      this.foto_subir = imageData;
     }, (err) => {
       console.log(err);
     });
   }
 
+  //ACCIÓN GUARDAR
+  guardar(){
+    //SI EL USUARIO NO MODIFICO SU FOTO
+    if(this.foto_original == this.usuario.foto){
+        this.modificar_usuario();
+    }
+    //SI EL USUARIO TIENE NUEVA FOTO
+    else{
+      this.mostrarSpinner = true;
+      this._usuarioServicio.cargar_imagen_storage(this.usuario.id_usuario, this.foto_subir)
+      .then((url:any) => {
+          console.log("URL de foto: " + url);
+          this.usuario.foto = url.toString();
+          this.mostrarSpinner = false;
+      })
+      .catch((error)=>{
+        this.mostrarSpinner = false;
+        console.log("Error: al subir archivo al storage - " + error);
+      }).then(()=>{ this.modificar_usuario(); })
+    }
+
+  }
+
+  //MODIFICAR USUARIO EN DB
+  modificar_usuario(){
+    this.mostrarSpinner = true;
+    this._usuarioServicio.modificar_usuario(this.usuario)
+    .then(()=>{
+      console.log("Cambios guardados!");
+      this.mostrarSpinner = false;
+      this.mostrarAlerta("Cambios realizados con éxito!");
+      this.modificar = false;
+      this.traer_usuario();
+    })
+    .catch((error)=>{
+      this.mostrarSpinner = false;
+      console.log("Error al guardar cambios de usuario: " + error);
+    })
+  }
+
+  //ALERTA
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
       message: msj,
