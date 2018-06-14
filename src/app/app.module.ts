@@ -27,6 +27,9 @@ import { InicioPage, RegistroPage, LoginPage,
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { StorageProvider } from '../providers/storage/storage';
+import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
+import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
 
 
 @NgModule({
@@ -112,7 +115,10 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     Camera,
     UsuarioServicioProvider,
     AuthServicioProvider,
-    VehiculosProvider
+    VehiculosProvider,
+    StorageProvider,
+    VehiculoImagenProvider,
+    UsuarioImagenProvider
   ]
 })
 export class AppModule {}
