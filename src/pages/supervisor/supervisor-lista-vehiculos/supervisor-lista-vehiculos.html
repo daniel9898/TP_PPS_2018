@@ -26,7 +26,7 @@
       <ion-item (click)="verVehiculo(i)">
           <ion-icon *ngIf="item.vehiculo.ocupado" name="radio-button-on" color="danger" item-start></ion-icon>
           {{item.vehiculo.marca}} {{item.vehiculo.modelo }} 
-          <ion-icon *ngIf="item.vehiculo.ocupado" name="ios-arrow-forward" item-end></ion-icon>
+          <ion-icon name="ios-arrow-forward" item-end></ion-icon>
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="danger" [disabled]="item.vehiculo.ocupado" (click)="eliminarVehiculo(i)">
