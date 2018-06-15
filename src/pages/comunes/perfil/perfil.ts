@@ -32,6 +32,9 @@ export class PerfilPage {
   foto_preview:string; //Foto tomada con la cámara
   foto_subir:string; //Foto a subir al storage
 
+  //CALLBACK function
+  myCallbackFunction:Function;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
@@ -41,16 +44,18 @@ export class PerfilPage {
 
       this.mostrarSpinner = true;
       this.modificar = false;
+      //CALLBACK para traer direccion de mapa
+      this.myCallbackFunction = (_params)=> {
+         return new Promise((resolve, reject) => {
+                 this.usuario.direccion = _params;
+                 resolve();
+             });
+      }
   }
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    if(this.navParams.get('direccion')){
-      this.usuario.direccion = this.navParams.get('direccion');
-    }
-    else{
-      this.traer_usuario();
-    }
+    this.traer_usuario();
   }
 
   traer_usuario(){
@@ -93,10 +98,6 @@ export class PerfilPage {
         };
     });
     return promesa;
-  }
-
-  verMapa(){
-    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion});
   }
 
   //MODIFICAR
@@ -212,6 +213,10 @@ export class PerfilPage {
       position: "top"
     });
     toast.present();
+  }
+
+  verMapa(){
+    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion, 'callBack':this.myCallbackFunction});
   }
 
   volver(){

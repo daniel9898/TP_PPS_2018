@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, FabContainer } from 'ionic-angular';
-//PAGINAS
-import { PerfilPage } from '../../index-paginas';
 //SERVICIO GEOCODING
 import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 
@@ -14,6 +12,7 @@ export class MapaPage {
   lat:number;
   lng:number;
   direccion:string;
+  callback:Function;
 
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
@@ -23,6 +22,8 @@ export class MapaPage {
       if(this.navParams.get('direccion')){
         this.direccion = this.navParams.get('direccion');
         console.log("Direccion recibida: " + this.direccion);
+        //CALLBACK
+        this.callback = this.navParams.get("callBack");
       }
   }
 
@@ -72,7 +73,9 @@ export class MapaPage {
   }
 
   actualizarDireccion(){
-    this.navCtrl.push(PerfilPage, {'direccion':this.direccion});
+    this.callback(this.direccion).then(()=>{
+      this.navCtrl.pop();
+   });
   }
 
   volver(){
