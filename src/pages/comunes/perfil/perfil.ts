@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, FabContainer } from 'ionic-angular';
 //PAGINAS
 import { SupervisorListaUsuariosPage, LoginPage, MapaPage } from '../../index-paginas';
 //Clase USUARIO
@@ -44,18 +44,19 @@ export class PerfilPage {
 
       this.mostrarSpinner = true;
       this.modificar = false;
-      //CALLBACK para traer direccion de mapa
-      this.myCallbackFunction = (_params)=> {
-         return new Promise((resolve, reject) => {
-                 this.usuario.direccion = _params;
-                 resolve();
-             });
-      }
   }
 
   //PAGINA CARGADA
   ionViewDidLoad() {
     this.traer_usuario();
+    //CALLBACK para traer direccion de mapa
+    this.myCallbackFunction = (_params)=> {
+      console.log("callback asignado");
+       return new Promise((resolve, reject) => {
+               this.usuario.direccion = _params;
+               resolve();
+           });
+    }
   }
 
   traer_usuario(){
@@ -98,6 +99,19 @@ export class PerfilPage {
         };
     });
     return promesa;
+  }
+
+  //MENU OPCIONES
+  accionMenu(event, fab:FabContainer, opcion:string){
+    fab.close();
+    switch(opcion){
+      case "modificar":
+      this.activar_modificar();
+      break;
+      case "borrar":
+      this.borrar();
+      break;
+    }
   }
 
   //MODIFICAR
@@ -216,7 +230,7 @@ export class PerfilPage {
   }
 
   verMapa(){
-    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion, 'callBack':this.myCallbackFunction});
+    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion, 'callback':this.myCallbackFunction});
   }
 
   volver(){

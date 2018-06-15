@@ -23,12 +23,11 @@ export class MapaPage {
         this.direccion = this.navParams.get('direccion');
         console.log("Direccion recibida: " + this.direccion);
         //CALLBACK
-        this.callback = this.navParams.get("callBack");
+        this.callback = this.navParams.get("callback");
       }
   }
 
   ionViewDidLoad() {
-    //this.loadMap();
     this.lat =   -34.6623077
 	  this.lng =  -58.364729799999964
   }
