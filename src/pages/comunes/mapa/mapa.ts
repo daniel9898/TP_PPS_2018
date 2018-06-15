@@ -28,8 +28,8 @@ export class MapaPage {
   }
 
   ionViewDidLoad() {
-    this.lat =   -34.6623077
-	  this.lng =  -58.364729799999964
+    if(this.direccion)
+      this.marcarDireccion();
   }
 
   accionMenu(event, fab:FabContainer, opcion:string){

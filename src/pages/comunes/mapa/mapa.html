@@ -1,31 +1,31 @@
 <ion-content padding>
 
-  <!-- OPCIONES -->
-  <ion-fab top center id="botonPruebas" #fab>
-    <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
-    <ion-fab-list side="left">
-      <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'close')"><ion-icon name="md-close-circle"></ion-icon></button>
-    </ion-fab-list>
-    <ion-fab-list side="right">
-      <button ion-fab mini color="secondary" (click)="accionMenu($event,fab,'update')"><ion-icon name="md-swap"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
+    <!-- OPCIONES -->
+    <ion-fab top center #fab>
+      <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
+      <ion-fab-list side="left">
+        <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'close')"><ion-icon name="md-close-circle"></ion-icon></button>
+      </ion-fab-list>
+      <ion-fab-list side="right">
+        <button ion-fab mini color="secondary" (click)="accionMenu($event,fab,'update')"><ion-icon name="md-swap"></ion-icon></button>
+      </ion-fab-list>
+    </ion-fab>
 
-  <!-- INPUT DIRECCION -->
-    <div class="input">
-        <ion-item>
-            <ion-label stacked>Dirección</ion-label>
-            <ion-input type="text" [(ngModel)]="direccion"></ion-input>
-            <button ion-button class="buttonSearch" item-right (click)="marcarDireccion()" color="dark"><ion-icon name="md-search"></ion-icon></button>
-        </ion-item>
+    <!-- INPUT DIRECCION -->
+      <div class="input">
+          <ion-item>
+              <ion-label stacked>Dirección</ion-label>
+              <ion-input type="text" [(ngModel)]="direccion"></ion-input>
+              <button ion-button class="buttonSearch" item-right (click)="marcarDireccion()" color="dark"><ion-icon name="md-search"></ion-icon></button>
+          </ion-item>
 
-    </div>
-    <!-- MAPA -->
-    <agm-map [latitude]="lat" [longitude]="lng" [zoom]="16" (mapClick)="marcarUbicacion($event)">
-    		<agm-marker
-          [latitude]="lat"
-          [longitude]="lng">
-        </agm-marker>
-    </agm-map>
+      </div>
+      <!-- MAPA -->
+      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="16" (mapClick)="marcarUbicacion($event)">
+      		<agm-marker
+            [latitude]="lat"
+            [longitude]="lng">
+          </agm-marker>
+      </agm-map>
 
 </ion-content>

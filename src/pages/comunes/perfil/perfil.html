@@ -34,23 +34,23 @@
                 <img [src]=foto_byDefault>
               </ion-avatar>
               <ion-label stacked>Correo</ion-label>
-              <ion-input type="text" required disabled="true" [(ngModel)]="usuario.correo"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.correo" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- NOMBRE -->
             <ion-item>
               <ion-label stacked>Nombre</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.nombre"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.nombre" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- EDAD -->
             <ion-item>
               <ion-label stacked>Edad</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.edad"></ion-input>
+              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.edad" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- DIRECCION -->
             <ion-item>
               <ion-label stacked>Dirección</ion-label>
               <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"
-                         (ionFocus)="verMapa()"></ion-input>
+                         (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
 
       </ion-grid>
@@ -86,7 +86,7 @@
 
       <!-- GUARDAR -->
       <ion-fab *ngIf="modificar" class="" bottom right>
-        <button ion-fab mini color="secondary" (click)="guardar()">
+        <button ion-fab mini color="secondary" (click)="guardar()" [disabled]="!cambios">
           <ion-icon name="ios-folder-open"></ion-icon>
         </button>
       </ion-fab>

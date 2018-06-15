@@ -21,14 +21,14 @@ export class PerfilPage {
 
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
   modificar:boolean = false; //Variable de control (activa mod. de datos text).
-  //cambios:boolean = false; //Variable de control (activa subir cambios).
+  cambios:boolean = false; //Variable de control (activa subir cambios).
 
   //DATOS DEL USUARIO
   usuario:Usuario; //Usuario actual
+  copy_user:Usuario;//Usuario original (para validar cambios)
 
   //FOTO
   foto_byDefault:string; //Foto identificatoria por perfil
-  foto_original:string;
   foto_preview:string; //Foto tomada con la cámara
   foto_subir:string; //Foto a subir al storage
 
@@ -67,7 +67,7 @@ export class PerfilPage {
       .then((user:any)=>{
           //console.log("USUARIO: " + JSON.stringify(user));
           this.usuario = user;
-          this.foto_original = this.usuario.foto;
+          this.copy_user = new Usuario(this.usuario);
           this.traerFoto_byDefault(this.usuario.perfil);
           this.mostrarSpinner = false;
       })
@@ -79,6 +79,7 @@ export class PerfilPage {
     //CARGAR PERFIL DE USUARIO SELECCIONADO
     }else{
       this.usuario = this.navParams.get('userSelected');
+      this.copy_user = new Usuario(this.usuario);
       this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
         this.vistaSupervisor = true;
         this.mostrarSpinner = false;
@@ -180,43 +181,108 @@ export class PerfilPage {
 
   //ACCIÓN GUARDAR
   guardar(){
-    //SI EL USUARIO NO MODIFICO SU FOTO
-    if(this.foto_original == this.usuario.foto){
-        this.modificar_usuario();
-    }
+
     //SI EL USUARIO TIENE NUEVA FOTO
+    this.guardar_nuevaFoto().then(()=>{
+     //SI EL USUARIO TIENE NUEVO CORREO
+      this.guardar_nuevoCorreo().then(()=>{
+      //SI EL USUARIO SOLO MODIFICO DATOS
+        this.guardar_datos();
+      })
+    })
+  }
+
+  //MODIFICAR USUARIO EN STORAGE + AUTH
+  guardar_nuevaFoto(){
+
+      let promesa = new Promise((resolve, reject)=>{
+
+        if(this.usuario.foto != this.copy_user.foto){
+          this.mostrarSpinner = true;
+          this._usuarioServicio.cargar_imagen_storage(this.usuario.id_usuario, this.foto_subir)
+          .then((url:any) => {
+              console.log("URL de foto: " + url);
+              this.usuario.foto = url.toString();
+              this.mostrarSpinner = false;
+          })
+          .catch((error)=>{
+            this.mostrarSpinner = false;
+            console.log("Error: al subir archivo al storage - " + error);
+          })
+          .then(()=>{
+            this._auth.update_userAccount(this.usuario.perfil, this.usuario.foto)
+            .then(()=>{
+              console.log("Foto actualizada storage + auth");
+              resolve();
+            })
+            .catch((error)=>{
+              console.log("Error: al actualizar profile en authentication - " + error);
+            })
+          })
+        }
+        else
+          resolve();
+
+      });
+      return promesa;
+  }
+
+  //MODIFICAR USUARIO EN AUTH
+  guardar_nuevoCorreo(){
+      let promesa = new Promise((resolve, reject)=>{
+        if(this.usuario.correo != this.copy_user.correo){
+          this.mostrarSpinner = true;
+          this._auth.update_userEmail(this.usuario.correo)
+          .then(()=>{
+            resolve();
+            console.log("Correo actualizado");
+          })
+          .catch((error)=>{
+            console.log("Error: al actualizar mail en auth " + error);
+          })
+        }
+        else
+          resolve();
+
+      });
+      return promesa;
+  }
+
+  //FUNCTION ATRIBUTO: Valida si hay cambios
+  get hay_diferencias():boolean{
+    if(this.usuario.correo    != this.copy_user.correo    ||
+       this.usuario.nombre    != this.copy_user.nombre    ||
+       this.usuario.edad      != this.copy_user.edad      ||
+       this.usuario.direccion != this.copy_user.direccion ||
+       this.usuario.foto      != this.copy_user.foto){
+         this.cambios = true;
+         return true;
+    }
     else{
-      this.mostrarSpinner = true;
-      this._usuarioServicio.cargar_imagen_storage(this.usuario.id_usuario, this.foto_subir)
-      .then((url:any) => {
-          console.log("URL de foto: " + url);
-          this.usuario.foto = url.toString();
-          this.mostrarSpinner = false;
-      })
-      .catch((error)=>{
-        this.mostrarSpinner = false;
-        console.log("Error: al subir archivo al storage - " + error);
-      })
-      .then(()=>{ this.modificar_usuario(); })
+      this.cambios = false;
+      return false;
     }
 
   }
 
   //MODIFICAR USUARIO EN DB
-  modificar_usuario(){
-    this.mostrarSpinner = true;
-    this._usuarioServicio.modificar_usuario(this.usuario)
-    .then(()=>{
-      console.log("Cambios guardados!");
-      this.mostrarSpinner = false;
-      this.mostrarAlerta("Cambios realizados con éxito!");
-      this.modificar = false;
-      this.traer_usuario();
-    })
-    .catch((error)=>{
-      this.mostrarSpinner = false;
-      console.log("Error al guardar cambios de usuario: " + error);
-    })
+  guardar_datos(){
+    if(this.hay_diferencias){
+
+      this.mostrarSpinner = true;
+      this._usuarioServicio.modificar_usuario(this.usuario)
+      .then(()=>{
+        console.log("Cambios guardados!");
+        this.mostrarSpinner = false;
+        this.mostrarAlerta("Cambios realizados con éxito!");
+        this.modificar = false;
+        this.traer_usuario();
+      })
+      .catch((error)=>{
+        this.mostrarSpinner = false;
+        console.log("Error al guardar cambios de usuario: " + error);
+      })
+    }
   }
 
   //ALERTA
