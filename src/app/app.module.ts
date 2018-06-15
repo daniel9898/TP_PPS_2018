@@ -31,6 +31,7 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { GeocodingProvider } from '../providers/geocoding/geocoding';
 
 
 @NgModule({
@@ -124,7 +125,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     UsuarioServicioProvider,
     AuthServicioProvider,
     VehiculosProvider,
-    GoogleMaps
+    GoogleMaps,
+    GeocodingProvider
   ]
 })
 export class AppModule {}

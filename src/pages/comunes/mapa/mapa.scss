@@ -1,11 +1,11 @@
 page-mapa {
 
-  #map_canvas {
-    height: 90%;
+  .input{
+    margin-top: 10px;
   }
 
   agm-map {
-  	  height: 100%; //Ocuparía toda la pantalla.
+  	  height: 90%; //Ocuparía toda la pantalla.
   }
 
 

@@ -90,8 +90,8 @@ export class PerfilPage {
     return promesa;
   }
 
-  abrirMapa(){
-    this.navCtrl.setRoot(MapaPage);
+  verMapa(){
+    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion});
   }
 
   //MODIFICAR

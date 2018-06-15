@@ -10,5 +10,8 @@ export const environment = {
   },
   googleMaps:{
     apiKey: 'AIzaSyChyZ87vIo4bamrWJtWfI5I69Ib1snmWlA'
+  },
+  geocoding:{
+    apiKey: 'AIzaSyBler0kWXTrnFDMtfcapTesNBgRLZt6EPw'
   }
 };
