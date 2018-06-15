@@ -45,7 +45,12 @@ export class PerfilPage {
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    this.traer_usuario();
+    if(this.navParams.get('direccion')){
+      this.usuario.direccion = this.navParams.get('direccion');
+    }
+    else{
+      this.traer_usuario();
+    }
   }
 
   traer_usuario(){

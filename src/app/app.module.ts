@@ -11,7 +11,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-//CONFIGURACION FIREBASE
+//CONFIGURACION ENVIRONMENT
 import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
@@ -22,6 +22,7 @@ import { AgmCoreModule } from '@agm/core';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { GeocodingProvider } from '../providers/geocoding/geocoding';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -31,7 +32,7 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
-import { GeocodingProvider } from '../providers/geocoding/geocoding';
+
 
 
 @NgModule({
