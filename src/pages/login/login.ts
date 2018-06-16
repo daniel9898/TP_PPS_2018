@@ -31,8 +31,8 @@ export class LoginPage {
   flag:boolean = false;
   focus1:boolean = false;
   focus2:boolean = false;
-  userNameTxt:string;
-  userPassTxt:string;
+  userNameTxt:string; 
+  userPassTxt:string; 
   usuariosDePrueba:any[] = [];
   //emailFormat:string = '^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i';
   audio = new Audio();
@@ -44,11 +44,12 @@ export class LoginPage {
               public afDB: AngularFireDatabase,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider) {
+        
 
         this.user = afAuth.authState;
         console.log("Sesion activa?: " + this.afAuth.auth.currentUser);
-        this.userNameTxt = "";
-        this.userPassTxt = null;
+        this.userNameTxt = ""; 
+        this.userPassTxt = null; 
         this.myLoginForm = this.fbLogin.group({
           userEmail: ['', [Validators.required, Validators.email]],
           userPassword: ['', [Validators.required]],
@@ -95,6 +96,7 @@ export class LoginPage {
   }
 
   validarUsuario(){
+
     this.mostrarSpinner = true;
     let credenciales = {
       email: this.myLoginForm.value.userEmail,
