@@ -23,7 +23,7 @@
     <ion-col col-6 col-md-4 col-xl-3 *ngFor="let photo of photos; let id = index">
       <ion-card class="block animated zoomIn" >
         <ion-icon name="trash" class="deleteIcon" (click)="deletePhoto(id)"></ion-icon>
-        <img [src]="photo.image64Data" *ngIf="photo.image64Data" imageViewer/>
+        <img [src]="photo"  imageViewer/>
       </ion-card>
     </ion-col>
   </ion-row>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
+import { VehiculoImagenProvider } from '../../../providers/vehiculo-imagen/vehiculo-imagen';
 // import { ImageModel } from '../../models/imageModel';
 // import { User } from '@firebase/auth-types';
 // import { ImageDbProvider } from '../../providers/firebase/firebase';
@@ -22,23 +23,29 @@ export class PhotoTakerPage implements OnInit {
 
   vehiculo: any;
   public base64Image: string;
+  public photos: string[];
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private camera: Camera,
     private alertCtrl: AlertController,
+    private vehiculoImagenSrv: VehiculoImagenProvider
   ) {
-     this.vehiculo = this.navParams.data;
+    this.vehiculo = this.navParams.data;
+    this.photos = [];
   }
 
   ngOnInit(): void {
     this.camera.getPicture(cameraConfig).then((imageData) => {
-      this.base64Image = "data:image/jpeg;base64," + imageData;
+      this.photos.push("data:image/jpeg;base64," + imageData);
+      // this.vehiculoImagenSrv.subirImagenVehiculo('test', imageData)
+      //   .then(result => this.photos.push(result))
+      //   .catch(error => alert(error));
       // let image = new ImageModel();
       // image.displayName = this.user.displayName;
       // image.image64Data = this.base64Image;
-      // this.photos.push(image);
+
       // this.photos.reverse();
     }, (err) => {
       console.log(err);
@@ -51,11 +58,7 @@ export class PhotoTakerPage implements OnInit {
 
   takePhoto() {
     this.camera.getPicture(cameraConfig).then((imageData) => {
-      // this.base64Image = "data:image/jpeg;base64," + imageData;
-      // let image = new ImageModel();
-
-      // this.photos.push(image);
-      // this.photos.reverse();
+      this.photos.push("data:image/jpeg;base64," + imageData);
     }, (err) => {
       console.log(err);
     });
@@ -76,7 +79,7 @@ export class PhotoTakerPage implements OnInit {
           text: 'Si',
           handler: () => {
             console.log('Agree clicked');
-            // this.photos.splice(index, 1);
+            this.photos.splice(index, 1);
           }
         }
       ]
