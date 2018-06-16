@@ -17,8 +17,10 @@ import { cameraConfig } from '../../../config/camera.config';
 })
 export class PerfilPage {
 
+  //CONTROL DE SPINNER
   mostrarSpinner:boolean;
 
+  //VARIABLES DE CONTROL
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
   modificar:boolean = false; //Variable de control (activa mod. de datos text).
   cambios:boolean = false; //Variable de control (activa subir cambios).
@@ -32,7 +34,7 @@ export class PerfilPage {
   foto_preview:string; //Foto tomada con la cámara
   foto_subir:string; //Foto a subir al storage
 
-  //CALLBACK function
+  //CALLBACK function (para retornar dirección desde MapaPage)
   myCallbackFunction:Function;
 
   constructor(public navCtrl: NavController,
@@ -182,6 +184,7 @@ export class PerfilPage {
   //ACCIÓN GUARDAR
   guardar(){
 
+    this.mostrarSpinner = true;
     //SI EL USUARIO TIENE NUEVA FOTO
     this.guardar_nuevaFoto().then(()=>{
      //SI EL USUARIO TIENE NUEVO CORREO
@@ -198,12 +201,11 @@ export class PerfilPage {
       let promesa = new Promise((resolve, reject)=>{
 
         if(this.usuario.foto != this.copy_user.foto){
-          this.mostrarSpinner = true;
+
           this._usuarioServicio.cargar_imagen_storage(this.usuario.id_usuario, this.foto_subir)
           .then((url:any) => {
               console.log("URL de foto: " + url);
               this.usuario.foto = url.toString();
-              this.mostrarSpinner = false;
           })
           .catch((error)=>{
             this.mostrarSpinner = false;
@@ -216,6 +218,7 @@ export class PerfilPage {
               resolve();
             })
             .catch((error)=>{
+              this.mostrarSpinner = false;
               console.log("Error: al actualizar profile en authentication - " + error);
             })
           })
@@ -231,13 +234,13 @@ export class PerfilPage {
   guardar_nuevoCorreo(){
       let promesa = new Promise((resolve, reject)=>{
         if(this.usuario.correo != this.copy_user.correo){
-          this.mostrarSpinner = true;
           this._auth.update_userEmail(this.usuario.correo)
           .then(()=>{
             resolve();
             console.log("Correo actualizado");
           })
           .catch((error)=>{
+            this.mostrarSpinner = false;
             console.log("Error: al actualizar mail en auth " + error);
           })
         }
@@ -246,6 +249,25 @@ export class PerfilPage {
 
       });
       return promesa;
+  }
+
+  //MODIFICAR USUARIO EN DB
+  guardar_datos(){
+    if(this.hay_diferencias){
+
+      this._usuarioServicio.modificar_usuario(this.usuario)
+      .then(()=>{
+        console.log("Cambios guardados!");
+        this.mostrarSpinner = false;
+        this.mostrarAlerta("Cambios realizados con éxito!");
+        this.modificar = false;
+        this.traer_usuario();
+      })
+      .catch((error)=>{
+        this.mostrarSpinner = false;
+        console.log("Error al guardar cambios de usuario: " + error);
+      })
+    }
   }
 
   //FUNCTION ATRIBUTO: Valida si hay cambios
@@ -265,26 +287,6 @@ export class PerfilPage {
 
   }
 
-  //MODIFICAR USUARIO EN DB
-  guardar_datos(){
-    if(this.hay_diferencias){
-
-      this.mostrarSpinner = true;
-      this._usuarioServicio.modificar_usuario(this.usuario)
-      .then(()=>{
-        console.log("Cambios guardados!");
-        this.mostrarSpinner = false;
-        this.mostrarAlerta("Cambios realizados con éxito!");
-        this.modificar = false;
-        this.traer_usuario();
-      })
-      .catch((error)=>{
-        this.mostrarSpinner = false;
-        console.log("Error al guardar cambios de usuario: " + error);
-      })
-    }
-  }
-
   //ALERTA
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
@@ -295,10 +297,12 @@ export class PerfilPage {
     toast.present();
   }
 
+  //MOSTRAR MAPA
   verMapa(){
     this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion, 'callback':this.myCallbackFunction});
   }
 
+  //VOLVER ATRAS
   volver(){
     this.navCtrl.setRoot(SupervisorListaUsuariosPage);
   }

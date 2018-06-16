@@ -104,12 +104,12 @@ export class UsuarioServicioProvider {
   alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
-      key: "nn",
+      key: "N/N",
       id_usuario: userId,
       correo: userEmail,
-      nombre: "n/n",
-      edad: "n/n",
-      direccion: "n/n",
+      nombre: "N/N",
+      edad: "N/N",
+      direccion: "N/N",
       perfil: "cliente",
       foto: "assets/imgs/default_cliente.png",
       viajando: false,
@@ -129,7 +129,12 @@ export class UsuarioServicioProvider {
 
   //ALTA
   alta_usuario(user:Usuario){
-
+      let promesa = new Promise((resolve, reject)=>{
+        this.usuariosRef = this.afDB.list('usuarios');
+        let newKey = this.usuariosRef.push(user).key;
+        resolve(newKey);
+      });
+      return promesa;
   }
 
   //BAJA
