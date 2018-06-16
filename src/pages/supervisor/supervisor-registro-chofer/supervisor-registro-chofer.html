@@ -1,18 +1,50 @@
-<!--
-  Generated template for the SupervisorRegistroChoferPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>supervisor-registro-chofer</ion-title>
+    <ion-title>Alta de Choferes</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
+  	<form [formGroup]="rForm" (ngSubmit)="signUp()">
 
+		<ion-item>
+		    <ion-label>Nombre</ion-label>
+			<input type="text" formControlName="nombre" placeholder="Nombre">
+		</ion-item>
+	
+		<ion-item>
+			<ion-label>Apellido</ion-label>
+			<input type="text" formControlName="apellido" placeholder="Apellido"> 
+		</ion-item>
+	
+		<ion-item>
+			<ion-label>Edad</ion-label>
+			<input type="number" formControlName="edad" placeholder="Edad">
+		</ion-item>
+	
+		<ion-item>
+			<ion-label>Direccion</ion-label>
+			<input type="Password" formControlName="direccion" placeholder="Direccion">
+		</ion-item>
+
+	    <ion-item>
+			<ion-label>Correo Electronico</ion-label>
+			<input type="Password" formControlName="email" placeholder="Correo Electronico">
+		</ion-item>
+
+        <button ion-button block icon-end (click)="opciones()"> Pulsar 
+          <ion-icon name="camera"></ion-icon>
+        </button>
+		<ion-item *ngIf="image != null">
+	      <ion-card>    
+	        <ion-card-content>           
+	            <img [src]="image"/>
+	        </ion-card-content>
+	      </ion-card>    
+        </ion-item>
+
+	    <button type="submit" class="btn btn-danger btn-block" [disabled]="!rForm.valid">Crear Cuenta</button>
+    </form>
 </ion-content>
