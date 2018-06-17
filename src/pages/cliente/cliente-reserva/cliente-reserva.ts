@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from '@angular/core';
+import { IonicPage } from 'ionic-angular';
 
 
 @IonicPage()
@@ -8,11 +8,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'cliente-reserva.html',
 })
 export class ClienteReservaPage {
-  
 
 
-  constructor() {}
 
- 
+  constructor() { }
+
+
 
 }
