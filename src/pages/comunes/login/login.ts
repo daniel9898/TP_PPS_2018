@@ -115,9 +115,9 @@ export class LoginPage {
                   }
                   //USUARIO EXISTE: y NO está activo
                   else{
-                        console.log("El usuario fue inhabilitado");
-                        this.mostrarAlerta("Cuenta inhabilitada!");
-                        this.navCtrl.setRoot(LoginPage);
+                        console.log("El usuario no está activo!");
+                        this.mostrarAlerta("Cuenta desactiva");
+                        this._authServicio.signOut();
                   }
                 }
               }
@@ -126,7 +126,7 @@ export class LoginPage {
                 console.log("El usuario fue eliminado!");
                 this._authServicio.delete_userAccount();
                 this.reproducirSonido(this.error_sound);
-                this.mostrarAlerta("La cuenta no existe!");
+                this.mostrarAlerta("Cuenta inexistente");
                 this.navCtrl.setRoot(LoginPage);
               }
           })
@@ -138,7 +138,7 @@ export class LoginPage {
         console.log('Error: al realizar signIn ',err.message);
         this.reproducirSonido(this.error_sound);
         this.mostrarSpinner = false;
-        this.mostrarAlerta('Usuario y/o contraseña incorrectos!');
+        this.mostrarAlerta('Usuario y/o contraseña incorrectos');
       });
   }
 

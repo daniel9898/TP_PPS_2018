@@ -28,12 +28,12 @@
     <ion-list-header *ngIf="auth.get_userEmail()">Usuario: {{auth.get_userEmail()}}</ion-list-header>
       <ion-item (click)="logout()" *ngIf="auth.authenticated">
       <ion-icon name="md-log-out" item-left></ion-icon>
-        Log out
+        Salir
       </ion-item>
 
       <ion-item (click)="login()" *ngIf="!auth.authenticated">
         <ion-icon name="md-log-in" item-left></ion-icon>
-        Log in
+        Ingresar
       </ion-item>
   </ion-content>
 

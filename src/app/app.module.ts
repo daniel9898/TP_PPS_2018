@@ -30,7 +30,7 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 
 
@@ -66,7 +66,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     PhotoTakerPage
   ],
@@ -113,7 +113,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     PhotoTakerPage
   ],

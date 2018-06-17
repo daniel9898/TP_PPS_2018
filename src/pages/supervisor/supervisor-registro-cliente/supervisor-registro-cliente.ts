@@ -9,10 +9,10 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 
 @Component({
-  selector: 'page-supervisor-registro-usuario',
-  templateUrl: 'supervisor-registro-usuario.html',
+  selector: 'page-supervisor-registro-cliente',
+  templateUrl: 'supervisor-registro-cliente.html',
 })
-export class SupervisorRegistroUsuarioPage {
+export class SupervisorRegistroClientePage {
 
   //CONTROL DE SPINNER
   mostrarSpinner:boolean;
@@ -38,6 +38,8 @@ export class SupervisorRegistroUsuarioPage {
   foto_preview:string; //Foto tomada con la cámara
   foto_subir:string; //Foto a subir al storage
 
+  //FROM LISTA
+  from_lista:boolean;
   //CALLBACK function (para retornar dirección desde MapaPage)
   myCallbackFunction:Function;
 
@@ -47,6 +49,9 @@ export class SupervisorRegistroUsuarioPage {
               public _auth: AuthServicioProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
+              if(this.navParams.get("fromLista"))
+                this.from_lista = this.navParams.get("fromLista");
+                
               this.usuario_correo="N/N";
               this.usuario_nombre="N/N";
               this.usuario_edad="N/N";

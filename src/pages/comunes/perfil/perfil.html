@@ -80,7 +80,7 @@
         <!-- ESTADO -->
         <ion-item>
           <ion-label stacked>Activo</ion-label>
-          <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar" (ionChange)="hay_diferencias"></ion-checkbox>
         </ion-item>
       </div>
 

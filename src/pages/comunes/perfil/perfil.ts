@@ -276,7 +276,8 @@ export class PerfilPage {
        this.usuario.nombre    != this.copy_user.nombre    ||
        this.usuario.edad      != this.copy_user.edad      ||
        this.usuario.direccion != this.copy_user.direccion ||
-       this.usuario.foto      != this.copy_user.foto){
+       this.usuario.foto      != this.copy_user.foto      ||
+       this.usuario.activo    != this.copy_user.activo){
          this.cambios = true;
          return true;
     }
