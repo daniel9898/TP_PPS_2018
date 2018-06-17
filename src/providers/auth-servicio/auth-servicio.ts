@@ -32,17 +32,27 @@ export class AuthServicioProvider {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
+  //ENVIAR MAIL DE VERIFICACIÓN
+  sendEmailVerification(){
+    return this.user.sendEmailVerification();
+  }
+
   //Borrar usuario
   delete_userAccount(){
     return this.user.delete();
   }
 
-  //Modificar usuario
+  //Modificar usuario (foto - perfil)
   update_userAccount(profile:string, foto:string){
     return this.user.updateProfile({
             displayName: profile,
             photoURL: foto
            });
+  }
+
+  //Modificar usuario (correo)
+  update_userEmail(email:string){
+    return this.user.updateEmail(email);
   }
 
   //Cerrar sesión

@@ -27,13 +27,13 @@
     <!-- BOTONES LOG -->
     <ion-list-header *ngIf="auth.get_userEmail()">Usuario: {{auth.get_userEmail()}}</ion-list-header>
       <ion-item (click)="logout()" *ngIf="auth.authenticated">
-      <ion-icon name="log-out" item-left></ion-icon>
-        Log out
+      <ion-icon name="md-log-out" item-left></ion-icon>
+        Salir
       </ion-item>
 
       <ion-item (click)="login()" *ngIf="!auth.authenticated">
-        <ion-icon name="log-in" item-left></ion-icon>
-        Log in
+        <ion-icon name="md-log-in" item-left></ion-icon>
+        Ingresar
       </ion-item>
   </ion-content>
 

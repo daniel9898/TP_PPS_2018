@@ -11,34 +11,38 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-//CONFIGURACION FIREBASE
+//CONFIGURACION ENVIRONMENT
 import { environment } from '../environments/environment';
+
+//GOOGLE MAPS
+import { AgmCoreModule } from '@agm/core';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { GeocodingProvider } from '../providers/geocoding/geocoding';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage,
+import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
-import { StorageProvider } from '../providers/storage/storage';
-import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
-import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
+
 
 
 @NgModule({
   declarations: [
     MyApp,
+    //COMUNES
     InicioPage,
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -61,7 +65,7 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     PhotoTakerPage
   ],
@@ -72,7 +76,11 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    HttpModule
+    HttpModule,
+    AgmCoreModule.forRoot({
+      	   apiKey: environment.googleMaps.apiKey
+    	})
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -81,6 +89,7 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -103,7 +112,7 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     PhotoTakerPage
   ],
@@ -116,9 +125,7 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
     UsuarioServicioProvider,
     AuthServicioProvider,
     VehiculosProvider,
-    StorageProvider,
-    VehiculoImagenProvider,
-    UsuarioImagenProvider
+    GeocodingProvider
   ]
 })
 export class AppModule {}

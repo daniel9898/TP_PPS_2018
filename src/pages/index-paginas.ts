@@ -5,7 +5,7 @@ export { InicioPage } from "./comunes/inicio/inicio";
 export { LoginPage } from "./comunes/login/login";
 export { RegistroPage } from "./comunes/registro/registro";
 export { PerfilPage } from "./comunes/perfil/perfil";
-
+export { MapaPage } from "./comunes/mapa/mapa";
 /********************************CLIENTE (6)********************************/
 export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
@@ -29,7 +29,7 @@ export { SupervisorUsuarioPage } from "./supervisor/supervisor-usuario/superviso
 export { SupervisorVehiculoPage } from "./supervisor/supervisor-vehiculo/supervisor-vehiculo";
 export { SupervisorListaUsuariosPage } from "./supervisor/supervisor-lista-usuarios/supervisor-lista-usuarios";
 export { SupervisorListaVehiculosPage } from "./supervisor/supervisor-lista-vehiculos/supervisor-lista-vehiculos";
-export { SupervisorRegistroUsuarioPage } from "./supervisor/supervisor-registro-usuario/supervisor-registro-usuario";
+export { SupervisorRegistroClientePage } from "./supervisor/supervisor-registro-cliente/supervisor-registro-cliente";
 export { SupervisorRegistroVehiculoPage } from "./supervisor/supervisor-registro-vehiculo/supervisor-registro-vehiculo";
 export { SupervisorSeguimientoPage } from "./supervisor/supervisor-seguimiento/supervisor-seguimiento";
 export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";

@@ -1,0 +1,87 @@
+<ion-content padding>
+
+    <div *ngIf="!mostrarSpinner">
+
+      <!-- INFORMACION A COMPLETAR -->
+      <ion-grid class="datosPerfil">
+            <!-- CORREO -->
+            <ion-item>
+              <ion-avatar item-end>
+                <img [src]=usuario_foto alt="...">
+              </ion-avatar>
+              <ion-label stacked>Correo</ion-label>
+              <ion-input type="text" required [(ngModel)]="usuario_correo"></ion-input>
+            </ion-item>
+            <!-- NOMBRE -->
+            <ion-item>
+              <ion-label stacked>Nombre</ion-label>
+              <ion-input type="text" [(ngModel)]="usuario_nombre"></ion-input>
+            </ion-item>
+            <!-- EDAD -->
+            <ion-item>
+              <ion-label stacked>Edad</ion-label>
+              <ion-input type="text" [(ngModel)]="usuario_edad"></ion-input>
+            </ion-item>
+            <!-- DIRECCION -->
+            <ion-item>
+              <ion-label stacked>Dirección</ion-label>
+              <ion-input type="text" [(ngModel)]="usuario_direccion"
+                         (ionFocus)="verMapa()"></ion-input>
+            </ion-item>
+            <!-- PERFIL -->
+            <ion-item class="perfilBox">
+              <ion-label>Perfil</ion-label>
+              <ion-select [(ngModel)]="usuario_perfil" okText="Aceptar" cancelText="Cancelar" (ionChange)="perfilSeleccionado($event)">
+                <ion-option value="cliente">Cliente</ion-option>
+                <ion-option value="chofer">Chofer</ion-option>
+                <ion-option value="supervisor">Supervisor</ion-option>
+              </ion-select>
+            </ion-item>
+            <!-- <ion-item class="perfilBox">
+              <ion-label stacked>Perfil</ion-label>
+              <ion-input  type="text" required [(ngModel)]="usuario_perfil"></ion-input>
+            </ion-item> -->
+
+      </ion-grid>
+
+      <!-- FOTO -->
+      <ion-item>
+        <img class="fotoPerfil" [src]="usuario_foto" alt="...">
+      </ion-item>
+
+      <!-- VISTA SUPERUSUARIO -->
+      <div class="dinamicValues">
+        <!-- VIAJE -->
+        <ion-item>
+          <ion-label stacked>Viajando</ion-label>
+          <ion-checkbox [(ngModel)]="usuario_viajando" disabled="true"></ion-checkbox>
+        </ion-item>
+        <!-- ESTADO -->
+        <ion-item>
+          <ion-label stacked>Activo</ion-label>
+          <ion-checkbox [(ngModel)]="usuario_activo"></ion-checkbox>
+        </ion-item>
+      </div>
+
+      <!-- GUARDAR -->
+      <ion-fab class="" bottom right>
+        <button ion-fab mini color="secondary" (click)="guardar()">
+          <ion-icon name="ios-folder-open"></ion-icon>
+        </button>
+      </ion-fab>
+
+      <!-- VOLVER ATRAS -->
+      <ion-fab class="floatBack" top left *ngIf="from_lista">
+        <button ion-fab mini color="primary" (click)="volver()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
+        </button>
+      </ion-fab>
+
+  </div>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
+</ion-content>

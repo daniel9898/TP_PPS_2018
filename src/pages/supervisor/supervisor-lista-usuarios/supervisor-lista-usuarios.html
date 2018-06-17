@@ -1,14 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-
     <ion-searchbar (ionInput)="getItems($event)" placeholder="buscar" autocomplete="true" animated="true"></ion-searchbar>
-    <ion-buttons right>
-
-        <button ion-button icon-only>
-          <ion-icon name="more"></ion-icon>
-        </button>
-      </ion-buttons>
   </ion-navbar>
 
 </ion-header>
@@ -35,8 +28,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+
   <ion-fab right bottom>
-      <button ion-fab color="secondary">
+      <button ion-fab color="secondary" (click)="agregarUsuario()">
           <ion-icon name="add"></ion-icon>
       </button>
   </ion-fab>
