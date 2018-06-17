@@ -72,7 +72,6 @@ export class SupervisorRegistroChoferPage {
         let credenciales = { email: this.rForm.value.correo, password: this.rForm.value.clave};
      	  let authOk = await this.chofer.altaAuth(credenciales);
 
-
         let chofer =  this.rForm.value;
 
         this.image != null ?  chofer.foto = await this.usrFoto.subirImagenUsuario(authOk.user.uid,this.image) :

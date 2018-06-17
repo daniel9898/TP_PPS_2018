@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UsuarioServicioProvider } from '../usuario-servicio/usuario-servicio';
-import { Usuario } from '../../classes/usuario';
 import { AuthServicioProvider } from '../auth-servicio/auth-servicio';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database'; 
 
