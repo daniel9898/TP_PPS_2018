@@ -15,7 +15,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
-import { GoogleMaps } from "@ionic-native/google-maps";
 import { AgmCoreModule } from '@agm/core';
 
 //SERVICIOS
@@ -126,7 +125,6 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     UsuarioServicioProvider,
     AuthServicioProvider,
     VehiculosProvider,
-    GoogleMaps,
     GeocodingProvider
   ]
 })
