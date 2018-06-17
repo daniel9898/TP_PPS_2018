@@ -7,8 +7,15 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-item style="padding-top:10%">
+	    <button ion-button clear large full (click)="tomarImagen()">
+	      <ion-icon name="camera" color="danger"></ion-icon>
+	    </button>
 	
-  	<form [formGroup]="rForm" class="datosPerfil" (ngSubmit)="guardar()">
+	    <img src="{{viewImage}}" height="100" width="100">
+
+     </ion-item>
+  	<form [formGroup]="rForm" (ngSubmit)="guardar()">
 		<ion-item>
 		    <ion-label>Nombre</ion-label>
 			<ion-input type="text" formControlName="nombre"></ion-input>
@@ -31,7 +38,7 @@
 
 	    <ion-item>
 			<ion-label>Correo Electronico</ion-label>
-			<ion-input type="email" formControlName="email"></ion-input>
+			<ion-input type="email" formControlName="correo"></ion-input>
 		</ion-item>
 
 	    <ion-item>
@@ -43,14 +50,7 @@
 			<ion-label>Confirme Contraseña</ion-label>
 			<ion-input type="Password" formControlName="clave2"></ion-input>
 		</ion-item>
-
-
-		<ion-item>
-		    <button ion-button clear large full (click)="tomarImagen()">
-		      <ion-icon name="camera" color="danger"></ion-icon>
-		    </button>
-        </ion-item>
-        
+   
         <!-- VOLVER ATRAS -->
 	    <ion-fab class="floatBack" top left>
 	        <button ion-fab mini color="primary" (click)="volver()">

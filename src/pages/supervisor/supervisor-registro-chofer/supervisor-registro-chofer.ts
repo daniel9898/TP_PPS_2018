@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController  } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //PAGINAS
 import { SupervisorInicioPage } from '../../index-paginas';
 import { ChoferProvider } from '../../../providers/chofer/chofer';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario-imagen';
+import { Camera } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { cameraConfig } from '../../../config/camera.config'; 
 
@@ -18,16 +19,20 @@ export class SupervisorRegistroChoferPage {
 
   rForm: FormGroup;
   pattern : string = "/^[0-9]+$/";
-  //user : Usuario;
+  loading : any;
   userProfile:string = "chofer";
-  image:string = "assets/imgs/default_chofer.png";
- 
+  viewImage  : string ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevjT5_rnSGE76WpJQLuyBb99skuZmJ3DqLGwkT8UUQopXugUrQQ';
+  image : string;
+
   constructor(public navCtrl: NavController, 
   	          public navParams: NavParams, 
   	          private fb: FormBuilder,
               private chofer: ChoferProvider,
               public camera: Camera,
-  	          public _DomSanitizationService: DomSanitizer) {
+              public usrFoto: UsuarioImagenProvider,
+              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
+              public loadingCtrl: LoadingController) {
 
   	this.setFormValidator();
   }
@@ -48,7 +53,7 @@ export class SupervisorRegistroChoferPage {
       'edad' : ['', Validators.pattern(this.pattern)],
       'direccion' : ['', Validators.compose([Validators.minLength(4), Validators.maxLength(15)])],
       'perfil' : ['chofer'],
-      'email' : ['test@test.com',Validators.compose([Validators.required,Validators.email])],
+      'correo' : ['test@test.com',Validators.compose([Validators.required,Validators.email])],
       'foto' : [''],
       'viajando' : [false],
       'clave1' : ['123456'],
@@ -62,38 +67,74 @@ export class SupervisorRegistroChoferPage {
   }
 
   async guardar(){
-     console.log(this.rForm.value);
-     try{
-        let credenciales = { email: this.rForm.value.email, password: this.rForm.value.clave2 };
-     	let authOk = await this.chofer.altaAuth(credenciales);
-     	console.log('authOk ',authOk);
-     	//ANTES DE IR ALA DB GUARDAR LA FOTO
+    console.log(this.rForm.value);
+    try{
+
+        let credenciales = { email: this.rForm.value.correo, password: this.rForm.value.clave2};
+     	  let authOk = await this.chofer.altaAuth(credenciales);
 
 
+        let chofer =  this.rForm.value;
 
-
-     	let userOk = await this.chofer.altaDb(authOk.user.uid,authOk.user.email);
-     	console.log('registroOk ',userOk);
-     	let keyOk = await this.chofer.actualizarKey(userOk);
-     	console.log('keyOk ',keyOk);
+        this.image != null ?  chofer.foto = await this.usrFoto.subirImagenUsuario(authOk.user.uid,this.image) :
+                              chofer.foto = this.image;
+   
+        delete chofer.clave1;
+        delete chofer.clave2;
+        
+     	  let keyUser = await this.chofer.altaDb(chofer);
+     	  console.log('keyUser ',keyUser);
+        chofer.key = keyUser;
+     	  let keyOk = await this.chofer.actualizarChofer(chofer);
+     	  console.log('keyOk ',keyOk);
       
-     }catch(e){
+    }catch(e){
         console.log('error ',e.message);
-     }
+        this.showAlert(e.message);
+    }
      
   }
   
 
   async tomarImagen(){
     try{
-	    let base64Image = 'data:image/jpeg;base64,';
-	    let imageData = await this.camera.getPicture(cameraConfig); 
-	    this.image = base64Image + imageData;
-	    //this.enviarImagen(tipo);
+  	    this.image = await this.camera.getPicture(cameraConfig);
+        this.viewImage = 'data:image/jpeg;base64,'+this.image;
     }catch(e){
         console.log(e.message);
-        //this.utilities.showAlert("Atencion!",e.message);
+        this.showAlert(e.message);
     }
+  }
+
+  showAlert(message:string) {
+    let alert = this.alertCtrl.create({
+      title: 'Informe : ',
+      subTitle: message,
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  showToast(){
+    let toast = this.toastCtrl.create({
+      message: 'Chofer Agregado exitosamente !',
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
+
+  showLoading(dismissOnPageChange?:boolean) {
+    this.loading = this.loadingCtrl.create({
+      content: 'espere por favor...',
+      dismissOnPageChange: dismissOnPageChange != null ? dismissOnPageChange : false
+    });
+
+    this.loading.present();
+  }
+
+  killLoading(){
+    this.loading.dismiss();
   }
 
 }

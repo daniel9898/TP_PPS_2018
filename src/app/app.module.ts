@@ -25,7 +25,7 @@ import { InicioPage, RegistroPage, LoginPage,
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage, SupervisorRegistroChoferPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 import { StorageProvider } from '../providers/storage/storage';
 import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
@@ -65,6 +65,7 @@ import { ChoferProvider } from '../providers/chofer/chofer';
     SupervisorRegistroUsuarioPage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   imports: [
@@ -108,6 +109,7 @@ import { ChoferProvider } from '../providers/chofer/chofer';
     SupervisorRegistroUsuarioPage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   providers: [
