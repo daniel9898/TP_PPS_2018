@@ -10,7 +10,8 @@ import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage,
+         SupervisorRegistroClientePage, SupervisorRegistroChoferPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 
@@ -108,6 +109,7 @@ export class MyApp {
             { title: 'Lista usuarios', component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
             { title: 'Lista vehiculos', component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
             { title: 'Registro Cliente', component: SupervisorRegistroClientePage, visibility: this.vista_supervisor },
+            { title: 'Registro Chofer', component: SupervisorRegistroChoferPage, visibility: this.vista_supervisor },
             { title: 'Registro Vehiculos', component: SupervisorRegistroVehiculoPage, visibility: this.vista_supervisor }
           ];
 

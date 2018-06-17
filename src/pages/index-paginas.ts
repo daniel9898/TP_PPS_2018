@@ -28,9 +28,9 @@ export { SupervisorEstadisticaPage } from "./supervisor/supervisor-estadistica/s
 export { SupervisorUsuarioPage } from "./supervisor/supervisor-usuario/supervisor-usuario";
 export { SupervisorVehiculoPage } from "./supervisor/supervisor-vehiculo/supervisor-vehiculo";
 export { SupervisorListaUsuariosPage } from "./supervisor/supervisor-lista-usuarios/supervisor-lista-usuarios";
+export { SupervisorListaChoferesPage } from "./supervisor/supervisor-lista-choferes/supervisor-lista-choferes";
 export { SupervisorListaVehiculosPage } from "./supervisor/supervisor-lista-vehiculos/supervisor-lista-vehiculos";
 export { SupervisorRegistroClientePage } from "./supervisor/supervisor-registro-cliente/supervisor-registro-cliente";
+export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";
 export { SupervisorRegistroVehiculoPage } from "./supervisor/supervisor-registro-vehiculo/supervisor-registro-vehiculo";
 export { SupervisorSeguimientoPage } from "./supervisor/supervisor-seguimiento/supervisor-seguimiento";
-export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";
-export { SupervisorListaChoferesPage } from "./supervisor/supervisor-lista-choferes/supervisor-lista-choferes";
