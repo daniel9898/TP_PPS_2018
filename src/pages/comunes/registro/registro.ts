@@ -57,30 +57,41 @@ export class RegistroPage {
       //REGISTRAR EN AUTHENTICATION
       this._authServicio.signUpSimple(credenciales)
       .then((data)=>{
-        console.log("Datos nuevo usuario: " + JSON.stringify(data.user) );
         console.log("Datos: " + data.user.uid + " + " + data.user.email);
         this.userId = data.user.uid.toString();
         this.userEmail = data.user.email.toString();
+
       //REGISTRAR EN DATABASE
         this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail)
         .then((newUser)=>{
-            //console.log("Valor retornado en alta: " + JSON.stringify(newUser));
-            this._usuarioServicio.modificar_usuario(newUser) //Actualizar firebase key recibida
+            //ACTUALIZAR KEY EN USUARIO
+            this._usuarioServicio.modificar_usuario(newUser)
             .then(()=>{
+                //ACTUALIZAR PROFILE
                 this._authServicio.update_userAccount(this.userProfile, this.userFoto)
                 .then(()=>{
-                  this.mostrarAlerta("Usuario creado!");
-                  this.reproducirSonido(this.success_sound);
-                  this._authServicio.signOut().then(()=>{ this.volver(); });
+                  //ENVIAR MAIL PARA VERIFICAR CUENTA
+                  this._authServicio.sendEmailVerification().then(()=>{
+                    this.reproducirSonido(this.success_sound);
+                    this.mostrarAlerta("Usuario creado");
+                    //DESLOGUEARSE
+                    this._authServicio.signOut().then(()=>{ this.volver(); });
+                  })
+                  .catch((error)=>{
+                    console.log("Error al enviar mail: " + error);
+                  })
+
                 })
                 .catch((error)=>{
-                  console.log("Error al actualizar auth info!" + error);
+                  console.log("Error al actualizar auth info: " + error);
                 });
-
-            });
+            })
+            .catch((error)=>{
+              console.log("Error al actualizar auth profile: " + error);
+            })
         })
         .catch((error)=>{
-          console.log("Error al generar usuario en firebase!" + error);
+          console.log("Error al generar usuario en firebase: " + error);
         });
       })
       .catch((error)=>{
@@ -89,11 +100,11 @@ export class RegistroPage {
         //var errorMessage = error.message;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta ya existente!");
+          this.mostrarAlerta("Cuenta ya existente");
           this.registroForm.reset();
           break;
           case "auth/invalid-email":
-          this.mostrarAlerta("Correo invalido!");
+          this.mostrarAlerta("Correo invalido");
           break;
         }
         this.reproducirSonido(this.error_sound);

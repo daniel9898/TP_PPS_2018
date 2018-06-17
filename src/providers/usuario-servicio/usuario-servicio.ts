@@ -100,6 +100,27 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
+  //TRAER UN USUARIO POR CORREO
+  traer_un_usuario_correo(correo:string){
+      let promesa = new Promise((resolve, reject)=>{
+
+        //RETORNO
+        let usuario:Usuario;
+        console.log("METODO: Traer un usuario");
+        //TRAER USUARIO
+        this.usuarios.forEach((value)=>{
+          for(let user of value){
+            if(user.correo == correo){
+              //console.log("Usuario encontrado: " + user.id_usuario);
+              usuario = new Usuario(user);
+            }
+          }
+          resolve(usuario);
+        })
+      });
+      return promesa;
+  }
+
   //ALTA USUARIO REGISTRO
   alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
@@ -113,7 +134,7 @@ export class UsuarioServicioProvider {
       perfil: "cliente",
       foto: "assets/imgs/default_cliente.png",
       viajando: false,
-      activo: true
+      activo: false
     }
 
     console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));

@@ -3,6 +3,8 @@ import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
 import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
+//clase USUARIO
+import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -16,10 +18,10 @@ import * as $ from 'jquery';
 })
 export class LoginPage {
 
-  //ATRIBUTOS
-  usuario_perfil:string = "";
-  usuario_foto:string = "";
   mostrarSpinner:boolean = false;
+  //ATRIBUTOS
+  usuario:Usuario = null;
+  mail_verificado:boolean;
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
@@ -56,6 +58,23 @@ export class LoginPage {
 
   }
 
+  //DATOS DE PRUEBA
+  ingresoDePrueba(event, fab:FabContainer, userProfile:string){
+    fab.close();
+
+    this._usuarioServicio.obtener_usuarios_prueba().then((respuesta)=>{
+        console.log("DATO recibido: " + respuesta);
+        for(let user of this._usuarioServicio.usuariosTest){
+            if(user.perfil == userProfile){
+              this.userNameTxt = user.correo;
+              this.userPassTxt = user.clave;
+            }
+        }
+        $('#autoLogo').attr("src",'assets/imgs/auto_encendido.png');
+    });
+  }
+
+  //FINES DE ESTILO
   perdioFoco(input:number){
     switch(input)
     {
@@ -88,64 +107,99 @@ export class LoginPage {
     }
   }
 
+  //VALIDACION ESTADO DEL USUARIO
   validarUsuario(){
     this.mostrarSpinner = true;
+
+    //CREDENCIALES
     let credenciales = {
       email: this.myLoginForm.value.userEmail,
       password: this.myLoginForm.value.userPassword
     };
-
     //LOGUEARSE
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
         console.log('Email utilizado: ' + value.user.email);
-        this._usuarioServicio.traer_un_usuario(value.user.uid)
-          .then((user:any)=>{
-              console.log("USUARIO: " + JSON.stringify(user));
-              //VALIDAR SI EL USUARIO EXISTE EN DB
-              if(user != null){
-                if(user.correo == this.myLoginForm.value.userEmail){
-                  console.log("Usuario activo? : " + user.activo);
-                  //USUARIO EXISTE: y está activo
-                  if(user.activo){
-                        this.usuario_perfil = user.perfil;
-                        this.usuario_foto = user.foto;
-                        console.log("Coincidencia en el usuario!");
-                        this.ingresar();
-                  }
-                  //USUARIO EXISTE: y NO está activo
-                  else{
-                        console.log("El usuario no está activo!");
-                        this.mostrarAlerta("Cuenta desactiva");
-                        this._authServicio.signOut();
-                  }
-                }
-              }
-              //USUARIO NO EXISTE
-              if(user == null){
-                console.log("El usuario fue eliminado!");
-                this._authServicio.delete_userAccount();
-                this.reproducirSonido(this.error_sound);
-                this.mostrarAlerta("Cuenta inexistente");
-                this.navCtrl.setRoot(LoginPage);
-              }
-          })
-          .catch((error)=>{
-            console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
-          });
+        this.mail_verificado = value.user.emailVerified;
+        //TRAER USUARIO
+        this._usuarioServicio.traer_un_usuario_correo(credenciales.email)
+        .then((user:any)=>{
+          if(user){
+              console.log("Usuario traído: " + JSON.stringify(user));
+              this.usuario = user;
+          }
+
+          if(!this.usuario)
+            this.usuario_inexistente();
+          else{
+            if(!this.mail_verificado && !this.usuario.activo)
+              this.usuario_inhabilitado();
+
+            if(this.mail_verificado && !this.usuario.activo)
+              this.usuario_mailVerificado();
+
+            if(!this.mail_verificado && this.usuario.activo ||
+                this.mail_verificado && this.usuario.activo)
+              this.usuario_activo();
+          }
+
+        })
+        .catch((error)=>{
+          this.mostrarSpinner = false;
+          console.log("Error al traer usuario: " + error);
+        })
+
       })
       .catch(err => {
         console.log('Error: al realizar signIn ',err.message);
-        this.reproducirSonido(this.error_sound);
         this.mostrarSpinner = false;
+        this.reproducirSonido(this.error_sound);
         this.mostrarAlerta('Usuario y/o contraseña incorrectos');
       });
   }
 
+  //ACCIONES SEGUN ESTADO DEL USUARIO
+  usuario_activo(){
+    console.log("Coincidencia en el usuario!");
+    this.mostrarSpinner = false;
+    this.ingresar();
+  }
+
+  usuario_inhabilitado(){
+    console.log("El usuario no está activo");
+    this._authServicio.signOut()
+      .then(()=>{
+        this.mostrarSpinner = false;
+        this.reproducirSonido(this.error_sound);
+        this.mostrarAlerta("Cuenta desactiva");
+      })
+  }
+
+  usuario_inexistente(){ //Usuario borrado por supervisor (falta eliminar auth)
+    console.log("El usuario fue eliminado!");
+    // this._authServicio.delete_userAccount();
+    // this.reproducirSonido(this.error_sound);
+    // this.mostrarAlerta("Cuenta inexistente");
+    this.navCtrl.setRoot(LoginPage);
+  }
+
+  usuario_mailVerificado(){
+    this.usuario.activo = true;
+    this._usuarioServicio.modificar_usuario(this.usuario)
+      .then(()=>{
+        console.log("El usuario con mail verificado ha sido activado");
+        this.usuario_activo();
+      })
+      .catch((error)=>{
+        console.log("Error al activar usuario con mail verificado: " + error);
+      });
+  }
+
+  //INGRESAR A LA APLICACIÓN
   ingresar(){
 
       this.mostrarSpinner = false;
-      switch(this._authServicio.get_userProfile()){
+      switch(this.usuario.perfil){
         case "cliente":
         this.navCtrl.setRoot(ClienteInicioPage);
         break;
@@ -160,20 +214,6 @@ export class LoginPage {
       //this.reproducirSonido(this.success_sound);
   }
 
-  ingresoDePrueba(event, fab:FabContainer, userProfile:string){
-    fab.close();
-
-    this._usuarioServicio.obtener_usuarios_prueba().then((respuesta)=>{
-        console.log("DATO recibido: " + respuesta);
-        for(let user of this._usuarioServicio.usuariosTest){
-            if(user.perfil == userProfile){
-              this.userNameTxt = user.correo;
-              this.userPassTxt = user.clave;
-            }
-        }
-        $('#autoLogo').attr("src",'assets/imgs/auto_encendido.png');
-    });
-  }
 
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({

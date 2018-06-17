@@ -46,6 +46,15 @@ export class PerfilPage {
 
       this.mostrarSpinner = true;
       this.modificar = false;
+
+      //PRUEBA // BORRAR
+      this._auth.sendEmailVerification()
+      .then((value)=>{
+        console.log("Valor al enviar mail! " + JSON.stringify(value));
+      })
+      .catch((error)=>{
+        console.log("Error al enviar mail: " + error);
+      })
   }
 
   //PAGINA CARGADA
