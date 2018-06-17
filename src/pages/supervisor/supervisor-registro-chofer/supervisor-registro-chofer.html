@@ -7,44 +7,57 @@
 </ion-header>
 
 <ion-content padding>
-  	<form [formGroup]="rForm" (ngSubmit)="signUp()">
-
+	
+  	<form [formGroup]="rForm" class="datosPerfil" (ngSubmit)="guardar()">
 		<ion-item>
 		    <ion-label>Nombre</ion-label>
-			<input type="text" formControlName="nombre" placeholder="Nombre">
+			<ion-input type="text" formControlName="nombre"></ion-input>
 		</ion-item>
 	
 		<ion-item>
 			<ion-label>Apellido</ion-label>
-			<input type="text" formControlName="apellido" placeholder="Apellido"> 
+			<ion-input type="text" formControlName="apellido"></ion-input> 
 		</ion-item>
 	
 		<ion-item>
 			<ion-label>Edad</ion-label>
-			<input type="number" formControlName="edad" placeholder="Edad">
+			<ion-input type="number" formControlName="edad"></ion-input>
 		</ion-item>
 	
 		<ion-item>
 			<ion-label>Direccion</ion-label>
-			<input type="Password" formControlName="direccion" placeholder="Direccion">
+			<ion-input type="text" formControlName="direccion"></ion-input>
 		</ion-item>
 
 	    <ion-item>
 			<ion-label>Correo Electronico</ion-label>
-			<input type="Password" formControlName="email" placeholder="Correo Electronico">
+			<ion-input type="email" formControlName="email"></ion-input>
 		</ion-item>
 
-        <button ion-button block icon-end (click)="opciones()"> Pulsar 
-          <ion-icon name="camera"></ion-icon>
-        </button>
-		<ion-item *ngIf="image != null">
-	      <ion-card>    
-	        <ion-card-content>           
-	            <img [src]="image"/>
-	        </ion-card-content>
-	      </ion-card>    
-        </ion-item>
+	    <ion-item>
+			<ion-label>Contraseña</ion-label>
+			<ion-input type="Password" formControlName="clave1"></ion-input>
+		</ion-item>
+        
+        <ion-item>
+			<ion-label>Confirme Contraseña</ion-label>
+			<ion-input type="Password" formControlName="clave2"></ion-input>
+		</ion-item>
 
-	    <button type="submit" class="btn btn-danger btn-block" [disabled]="!rForm.valid">Crear Cuenta</button>
+
+		<ion-item>
+		    <button ion-button clear large full (click)="tomarImagen()">
+		      <ion-icon name="camera" color="danger"></ion-icon>
+		    </button>
+        </ion-item>
+        
+        <!-- VOLVER ATRAS -->
+	    <ion-fab class="floatBack" top left>
+	        <button ion-fab mini color="primary" (click)="volver()">
+	          <ion-icon name="md-arrow-round-back"></ion-icon>
+	        </button>
+	    </ion-fab> 
+  
+	  <button ion-button block icon-end type="submit" [disabled]="!rForm.valid">Guardar</button>
     </form>
 </ion-content>
