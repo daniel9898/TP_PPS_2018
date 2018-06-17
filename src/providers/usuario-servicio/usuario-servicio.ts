@@ -144,6 +144,7 @@ export class UsuarioServicioProvider {
   modificar_usuario(user:any){
     let promesa = new Promise((resolve, reject)=>{
       this.usuariosRef = this.afDB.list('usuarios');
+      console.log('user a act : ',user);
       this.usuariosRef.update(user.key, user);
       resolve();
     });

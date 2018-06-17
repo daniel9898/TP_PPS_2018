@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController  } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //PAGINAS
-import { SupervisorInicioPage } from '../../index-paginas';
+import { SupervisorInicioPage,SupervisorListaChoferesPage } from '../../index-paginas';
 import { ChoferProvider } from '../../../providers/chofer/chofer';
 import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario-imagen';
 import { Camera } from '@ionic-native/camera';
-import { DomSanitizer } from '@angular/platform-browser';
 import { cameraConfig } from '../../../config/camera.config'; 
-
 
 @IonicPage()
 @Component({
@@ -48,16 +46,16 @@ export class SupervisorRegistroChoferPage {
   
   setFormValidator(){
     this.rForm = this.fb.group({
-      'nombre' : ['test',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'apellido' : ['test1', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
+      'nombre' : ['test',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'apellido' : ['test1', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
       'edad' : ['', Validators.pattern(this.pattern)],
       'direccion' : ['', Validators.compose([Validators.minLength(4), Validators.maxLength(15)])],
       'perfil' : ['chofer'],
       'correo' : ['test@test.com',Validators.compose([Validators.required,Validators.email])],
       'foto' : [''],
       'viajando' : [false],
-      'clave1' : ['123456'],
-      'clave2' : ['123456'],
+      'clave' : ['123456'],
+      'activo' : [true]
     });
   }
 
@@ -68,27 +66,32 @@ export class SupervisorRegistroChoferPage {
 
   async guardar(){
     console.log(this.rForm.value);
+    this.showLoading();
     try{
 
-        let credenciales = { email: this.rForm.value.correo, password: this.rForm.value.clave2};
+        let credenciales = { email: this.rForm.value.correo, password: this.rForm.value.clave};
      	  let authOk = await this.chofer.altaAuth(credenciales);
 
 
         let chofer =  this.rForm.value;
 
         this.image != null ?  chofer.foto = await this.usrFoto.subirImagenUsuario(authOk.user.uid,this.image) :
-                              chofer.foto = this.image;
+                              chofer.foto = this.viewImage;
    
-        delete chofer.clave1;
-        delete chofer.clave2;
-        
+        delete chofer.clave;
+       
      	  let keyUser = await this.chofer.altaDb(chofer);
      	  console.log('keyUser ',keyUser);
         chofer.key = keyUser;
+        chofer.id_usuario = keyUser;
      	  let keyOk = await this.chofer.actualizarChofer(chofer);
      	  console.log('keyOk ',keyOk);
+        this.killLoading();
+        this.showToast();
+        this.navCtrl.setRoot(SupervisorListaChoferesPage);
       
     }catch(e){
+        this.killLoading();
         console.log('error ',e.message);
         this.showAlert(e.message);
     }

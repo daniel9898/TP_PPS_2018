@@ -3,7 +3,7 @@
     <name>KB Remiseria</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="kb_developer@gmail.com" href="http://ionicframework.com/">EAC</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.17:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
