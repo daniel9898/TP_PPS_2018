@@ -17,7 +17,11 @@ export class VehiculoImagenProvider extends StorageProvider {
    */
   constructor(private storage: AngularFireStorage) {
     super();
-    this.ref = storage.ref('vehiculos');
+    this.inicializarReferencia();
+  }
+
+  inicializarReferencia(){
+    this.ref = this.storage.ref('vehiculos');
   }
 
   /**

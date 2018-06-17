@@ -39,9 +39,9 @@ export class PhotoTakerPage implements OnInit {
   ngOnInit(): void {
     this.camera.getPicture(cameraConfig).then((imageData) => {
       this.photos.push("data:image/jpeg;base64," + imageData);
-      // this.vehiculoImagenSrv.subirImagenVehiculo('test', imageData)
-      //   .then(result => this.photos.push(result))
-      //   .catch(error => alert(error));
+      this.vehiculoImagenSrv.subirImagenVehiculo('test', imageData)
+        .then(result => this.photos.push(result))
+        .catch(error => alert(error));
       // let image = new ImageModel();
       // image.displayName = this.user.displayName;
       // image.image64Data = this.base64Image;

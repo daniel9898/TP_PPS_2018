@@ -13,9 +13,12 @@ export class UsuarioImagenProvider extends StorageProvider {
 
   constructor(private storage: AngularFireStorage) {
     super();
-    this.ref = storage.ref('usuarios');
+    this.inicializarReferencia();
   }
 
+  inicializarReferencia(){
+    this.ref = this.storage.ref('usuarios');
+  }
 
     /**
    * Subir imagenes 
