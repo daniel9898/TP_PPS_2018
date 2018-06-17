@@ -29,9 +29,12 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
-
+import { StorageProvider } from '../providers/storage/storage';
+import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
+import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
+import { ChoferProvider } from '../providers/chofer/chofer';
 
 
 @NgModule({
@@ -67,6 +70,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorListaVehiculosPage,
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
+    SupervisorRegistroChoferPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   imports: [
@@ -114,6 +119,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorListaVehiculosPage,
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
+    SupervisorRegistroChoferPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   providers: [
@@ -125,7 +132,11 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     UsuarioServicioProvider,
     AuthServicioProvider,
     VehiculosProvider,
-    GeocodingProvider
+    GeocodingProvider,
+    StorageProvider,
+    VehiculoImagenProvider,
+    UsuarioImagenProvider,
+    ChoferProvider
   ]
 })
 export class AppModule {}

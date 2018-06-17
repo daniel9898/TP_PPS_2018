@@ -33,3 +33,4 @@ export { SupervisorRegistroClientePage } from "./supervisor/supervisor-registro-
 export { SupervisorRegistroVehiculoPage } from "./supervisor/supervisor-registro-vehiculo/supervisor-registro-vehiculo";
 export { SupervisorSeguimientoPage } from "./supervisor/supervisor-seguimiento/supervisor-seguimiento";
 export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";
+export { SupervisorListaChoferesPage } from "./supervisor/supervisor-lista-choferes/supervisor-lista-choferes";

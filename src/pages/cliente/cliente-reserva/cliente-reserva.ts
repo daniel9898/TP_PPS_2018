@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage} from 'ionic-angular';
 
 
 @IonicPage()
@@ -8,11 +8,11 @@ import { IonicPage } from 'ionic-angular';
   templateUrl: 'cliente-reserva.html',
 })
 export class ClienteReservaPage {
+  
 
 
+  constructor() {}
 
-  constructor() { }
-
-
+ 
 
 }
