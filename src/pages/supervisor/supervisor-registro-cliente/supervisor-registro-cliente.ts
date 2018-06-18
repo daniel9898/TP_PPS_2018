@@ -6,7 +6,7 @@ import { Usuario } from '../../../classes/usuario';
 import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { AuthExternoProvider } from '../../../providers/auth-externo/auth-externo';
+import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -37,7 +37,7 @@ export class SupervisorRegistroClientePage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public _auth: AuthExternoProvider,
+              public _auth: AuthAdministradorProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
               //Habilita botón atrás (hacia la lista usuarios)
@@ -53,7 +53,7 @@ export class SupervisorRegistroClientePage {
                 edad: "N/N",
                 direccion: "N/N",
                 perfil: "cliente",
-                foto: "assets/imgs/default_cliente.png",
+                foto: "https://firebasestorage.googleapis.com/v0/b/kb-remiseria33.appspot.com/o/perfiles%2Fcliente_XDKTOBwO3xNoRiXNDe8fv0lHHi13.png?alt=media&token=7ada1c16-a659-4392-bb1b-47a3a15b36b3",
                 viajando: false,
                 activo: false
               }
@@ -74,50 +74,10 @@ export class SupervisorRegistroClientePage {
   //GUARDAR
   guardar(){
 
-    let credenciales = {
-      email: this.usuario.correo,
-      password: "asdasd"
-    }
-
-    //1- ALTA EN AUTH
-    this._auth.signUpSimple(credenciales)
-      .then((data)=>{
-        this.usuario.id_usuario = data.user.uid.toString();
-    //2- ALTA EN DB
-        this._usuarioServicio.alta_usuario(this.usuario)
-          .then((key:any)=>{
-            let newKey = key;
-            console.log("Nueva key: " + newKey);
-            this.usuario.key = newKey;
-    //3- MODIFICACION DB (se agrega key)
-            this._usuarioServicio.modificar_usuario(this.usuario)
-              .then(()=>{
-    //4- CERRAR SESION DE NUEVO USUARIO
-                  //this.mostrarAlerta("Usuario creado");
-                  this._auth.signOut()
-                    .then(()=>{ this.mostrarAlerta("Usuario creado"); })
-              })
-              .catch((error)=>{
-                console.log("Error al modificar usuario: " + error);
-              });
-          })
-          .catch((error)=>{
-            console.log("Error al crear usuario en base de datos: " + error);
-          });
-      })
-      .catch((error)=>{
-        console.log("Error al registrar usuario (auth): " + error);
-        var errorCode = error.code;
-        //var errorMessage = error.message;
-        switch(errorCode){
-          case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta ya existente");
-          break;
-          case "auth/invalid-email":
-          this.mostrarAlerta("Correo invalido");
-          break;
-        }
-      })
+    // let credenciales = {
+    //   email: this.usuario.correo,
+    //   password: "asdasd"
+    // }
 
   }
 

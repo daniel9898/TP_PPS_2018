@@ -19,13 +19,14 @@ import { AgmCoreModule } from '@agm/core';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
+import { ChoferProvider } from '../providers/chofer/chofer';
 import { GeocodingProvider } from '../providers/geocoding/geocoding';
 import { StorageProvider } from '../providers/storage/storage';
-import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
-import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
-import { ChoferProvider } from '../providers/chofer/chofer';
+import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -35,8 +36,6 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
-import { AuthExternoProvider } from '../providers/auth-externo/auth-externo';
-
 
 
 @NgModule({
@@ -139,7 +138,7 @@ import { AuthExternoProvider } from '../providers/auth-externo/auth-externo';
     VehiculoImagenProvider,
     UsuarioImagenProvider,
     ChoferProvider,
-    AuthExternoProvider
+    AuthAdministradorProvider
   ]
 })
 export class AppModule {}
