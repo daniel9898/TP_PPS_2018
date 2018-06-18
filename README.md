@@ -50,6 +50,7 @@
 * Branch: [daniel.pereira](https://github.com/lucasbonanni/TP_PPS_2018/tree/daniel.pereira)
 
 
+#Enunciados
 
 ### Objetivos:
 > El objetivo es lograr una aplicación utilizando el hardware del dispositivo para gestión de información,
