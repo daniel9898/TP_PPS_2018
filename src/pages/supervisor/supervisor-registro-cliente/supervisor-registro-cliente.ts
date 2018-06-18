@@ -6,7 +6,7 @@ import { Usuario } from '../../../classes/usuario';
 import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -37,7 +37,7 @@ export class SupervisorRegistroClientePage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public _auth: AuthAdministradorProvider,
+              public _auth: AuthServicioProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
               //Habilita botón atrás (hacia la lista usuarios)
@@ -74,10 +74,55 @@ export class SupervisorRegistroClientePage {
   //GUARDAR
   guardar(){
 
-    // let credenciales = {
-    //   email: this.usuario.correo,
-    //   password: "asdasd"
-    // }
+    let credenciales = {
+      email: this.usuario.correo,
+      password: "asdasd"
+    }
+    this.mostrarSpinner = true;
+    // 1 - REGISTRO EN AUTH
+    this._auth.signUpSimple(credenciales)
+      .then((data)=>{
+          this.usuario.id_usuario = data.user.uid.toString();
+          console.log("Nuevo uid: " + this.usuario.id_usuario);
+   // 2- ACTUALIZAR PROFILE AUTH
+          this._auth.update_externalUserAccount(this.usuario.perfil, this.usuario.foto)
+          .then(()=>{
+            this._auth.signOut();
+  // 3 - REGISTRO EN DB
+              this._usuarioServicio.alta_usuario(this.usuario)
+                .then((newKey:any)=>{
+                  this.usuario.key = newKey;
+  // 4 - ACTUALIZACION KEY EN DB
+                  this._usuarioServicio.modificar_usuario(this.usuario)
+                    .then(()=>{
+                        this.mostrarSpinner = false;
+                        this.mostrarAlerta("Usuario creado");
+                    })
+                    .catch((error)=>{
+                      console.log("Error al actualizar key usuario en DB: " + error);
+                    })
+                })
+                .catch((error)=>{
+                  console.log("Error al crear usuario en DB: " + error);
+                })
+          })
+          .catch((error)=>{
+            console.log("Error al actualizar profile auth: " + error);
+          });
+      })
+      .catch((error)=>{
+        console.log("Error al crear usuario en AUTH: " + error);
+        var errorCode = error.code;
+        this.mostrarSpinner = false;
+        switch(errorCode){
+          case "auth/email-already-in-use":
+          this.mostrarAlerta("Cuenta ya existente");
+          break;
+          case "auth/invalid-email":
+          this.mostrarAlerta("Correo invalido");
+          break;
+        }
+      })
 
   }
 

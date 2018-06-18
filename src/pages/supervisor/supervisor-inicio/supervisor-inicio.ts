@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-//FIREBASE
-import * as firebase from 'firebase/app';
+//SERVICIOS
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 
 @IonicPage()
 @Component({
@@ -10,13 +10,16 @@ import * as firebase from 'firebase/app';
 })
 export class SupervisorInicioPage {
 
-  usuarioSesion:any;
+  user_perfil:any;
+  user_photo:any;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              public _auth: AuthServicioProvider) {
 
-      this.usuarioSesion = firebase.auth().currentUser;
-      console.log("Usuario actual: " + JSON.stringify(this.usuarioSesion));
+      this.user_perfil = this._auth.get_userProfile();
+      this.user_photo = this._auth.get_userPhoto();
+      console.log("Usuario actual: " + this.user_perfil);
   }
 
   ionViewDidLoad() {
