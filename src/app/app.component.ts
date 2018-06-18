@@ -24,7 +24,7 @@ export class MyApp {
   rootPage:any = LoginPage;
   mostrarSplash:boolean = true;
   pagesApp: Array<{title: string, component: any, visibility: boolean}>;
-  usuarioSesion:any;
+  usuarioSesion:boolean;
 
   //Variables para control de vistas
   vista_cliente:boolean = false;
@@ -53,10 +53,9 @@ export class MyApp {
 
     });
 
-    this.auth.afAuth.authState
+    this.auth.afAuth.user
     .subscribe(
       user => {
-
         if (user) {
           this.menu.enable(true);
           console.log("USUARIO EN APP: " + JSON.stringify(user));
@@ -127,16 +126,10 @@ export class MyApp {
         this.rootPage = LoginPage;
       }
     );
-
   }
 
   openPage(page) {
     this.nav.setRoot(page.component);
-  }
-
-  login() {
-  	this.auth.signOut();
-  	this.nav.setRoot(LoginPage);
   }
 
   logout() {

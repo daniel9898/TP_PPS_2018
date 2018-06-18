@@ -132,6 +132,7 @@ export class PerfilPage {
   borrar(){
 
     //USUARIO QUE BORRA SU CUENTA
+    this.mostrarSpinner = true;
     if(!this.vistaSupervisor){
       this._auth.delete_userAccount()
       .then(()=>{
@@ -144,6 +145,7 @@ export class PerfilPage {
         this._usuarioServicio.baja_usuario(this.usuario.key)
         .then(()=>{
               console.log("OK: usuario eliminado de database");
+              this.mostrarSpinner = false;
               this.mostrarAlerta("Usuario eliminado!");
               this.navCtrl.setRoot(LoginPage);
         })
