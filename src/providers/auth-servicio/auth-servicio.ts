@@ -2,19 +2,24 @@ import { Injectable } from '@angular/core';
 //FIREBASE
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-//import AuthProvider = firebase.auth.AuthProvider;
+// import { Subject } from 'rxjs/Subject';
+// import 'rxjs/add/operator/takeUntil';
+
 
 @Injectable()
 export class AuthServicioProvider {
 
   private user: firebase.User;
+  //public destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
   constructor(public afAuth:AngularFireAuth) {
-    console.log('AuthServicioProvider Provider iniciado...');
+    console.log('Auth servicio iniciado...');
       //Para mantener sesión y menú según perfil
-      afAuth.authState.subscribe(user => { // !!!
+      afAuth.authState
+      .subscribe(user => { // !!!
   			this.user = user;
   		});
+
   }
 
   //Validar login
@@ -30,6 +35,7 @@ export class AuthServicioProvider {
 
   //Alta usuario
   signUpSimple(credentials) {
+    //this.desuscribir(); //De lo contrario: se pierden los datos del usuario de la sesión actual (pro/contras)
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
@@ -43,9 +49,18 @@ export class AuthServicioProvider {
     return this.user.delete();
   }
 
-  //Modificar usuario (foto - perfil)
+  //Modificar usuario PROPIO en auth (foto - perfil)
   update_userAccount(profile:string, foto:string){
     return this.user.updateProfile({
+            displayName: profile,
+            photoURL: foto
+           });
+  }
+
+  //Modificar usuario AJENO en auth (foto - perfil)
+  update_externalUserAccount(profile:string, foto:string){
+    let user = firebase.auth().currentUser;
+    return user.updateProfile({
             displayName: profile,
             photoURL: foto
            });
@@ -57,7 +72,7 @@ export class AuthServicioProvider {
   }
 
   //Cerrar sesión
-  signOut(): Promise<void> {
+  signOut(){
     return this.afAuth.auth.signOut();
   }
 
@@ -77,5 +92,16 @@ export class AuthServicioProvider {
   get_userProfile(){
     return this.user.displayName;
   }
+
+  get_userPhoto(){
+    return this.user.photoURL;
+  }
+
+  // desuscribir(){
+  //   this.destroy$.next(true);
+  //   // Now let's also unsubscribe from the subject itself:
+  //   this.destroy$.unsubscribe();
+  //   console.log("Desuscripción en Auth servicio");
+  // }
 
 }
