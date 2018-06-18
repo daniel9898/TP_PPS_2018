@@ -11,6 +11,7 @@ export class AuthServicioProvider {
 
   constructor(public afAuth:AngularFireAuth) {
     console.log('AuthServicioProvider Provider iniciado...');
+      //Para mantener sesión y menú según perfil
       afAuth.authState.subscribe(user => { // !!!
   			this.user = user;
   		});
@@ -21,7 +22,7 @@ export class AuthServicioProvider {
     return this.user !== null;
   }
 
-  //Iniciar sesión
+  //Iniciar sesión (email + password)
   signInWithEmail(credentials) {
 		console.log('Sign in with email');
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);

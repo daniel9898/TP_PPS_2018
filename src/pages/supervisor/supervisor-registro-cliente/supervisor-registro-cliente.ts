@@ -6,7 +6,7 @@ import { Usuario } from '../../../classes/usuario';
 import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { AuthExternoProvider } from '../../../providers/auth-externo/auth-externo';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -22,16 +22,7 @@ export class SupervisorRegistroClientePage {
 
   //DATOS DEL USUARIO
   usuario:Usuario; //Usuario a crear
-
-  //ATRIBUTOS
-  usuario_correo:string;
-  usuario_nombre:string;
-  usuario_edad:string;
-  usuario_direccion:string;
-  usuario_perfil:string;
-  usuario_foto:string;
-  usuario_viajando:boolean;
-  usuario_activo:boolean;
+  user_default:any;
 
   //FOTO
   foto_byDefault:string; //Foto identificatoria por perfil
@@ -46,20 +37,27 @@ export class SupervisorRegistroClientePage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public _auth: AuthServicioProvider,
+              public _auth: AuthExternoProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
+              //Habilita botón atrás (hacia la lista usuarios)
               if(this.navParams.get("fromLista"))
                 this.from_lista = this.navParams.get("fromLista");
-                
-              this.usuario_correo="N/N";
-              this.usuario_nombre="N/N";
-              this.usuario_edad="N/N";
-              this.usuario_direccion="N/N";
-              this.usuario_perfil="N/N";
-              this.usuario_foto="assets/imgs/default_profile.png";
-              this.usuario_viajando=false;
-              this.usuario_activo=false;
+
+              //Datos por defecto
+              this.user_default = {
+                key: "N/N",
+                id_usuario: "N/N",
+                correo: "N/N",
+                nombre: "N/N",
+                edad: "N/N",
+                direccion: "N/N",
+                perfil: "cliente",
+                foto: "assets/imgs/default_cliente.png",
+                viajando: false,
+                activo: false
+              }
+              this.usuario = new Usuario(this.user_default);
 
   }
 
@@ -67,50 +65,79 @@ export class SupervisorRegistroClientePage {
     this.myCallbackFunction = (_params)=> {
       console.log("callback asignado");
        return new Promise((resolve, reject) => {
-               this.usuario_direccion = _params;
+               this.usuario.direccion = _params;
                resolve();
            });
     }
   }
 
-  //FOTO POR DEFECTO
-  traerFoto_byDefault(perfil:string){
-
-    let promesa = new Promise((resolve, reject)=>{
-
-        this.usuario_foto = "assets/imgs/default_"+perfil+".png";
-        console.log("Foto por defecto: " + this.usuario_foto);
-        resolve();
-
-        err => {
-          console.log("ERROR! al traer foto por defecto: " + err);
-        };
-    });
-    return promesa;
-  }
-
-  //EVENTO SELECT
-  perfilSeleccionado(event){
-    console.log("Perfil seleccionado: " + this.usuario_perfil);
-    this.mostrarSpinner = true;
-    this.traerFoto_byDefault(this.usuario_perfil).then(()=>{
-      this.mostrarSpinner = false;
-    })
-  }
-
   //GUARDAR
   guardar(){
 
+    let credenciales = {
+      email: this.usuario.correo,
+      password: "asdasd"
+    }
+
+    //1- ALTA EN AUTH
+    this._auth.signUpSimple(credenciales)
+      .then((data)=>{
+        this.usuario.id_usuario = data.user.uid.toString();
+    //2- ALTA EN DB
+        this._usuarioServicio.alta_usuario(this.usuario)
+          .then((key:any)=>{
+            let newKey = key;
+            console.log("Nueva key: " + newKey);
+            this.usuario.key = newKey;
+    //3- MODIFICACION DB (se agrega key)
+            this._usuarioServicio.modificar_usuario(this.usuario)
+              .then(()=>{
+    //4- CERRAR SESION DE NUEVO USUARIO
+                  //this.mostrarAlerta("Usuario creado");
+                  this._auth.signOut()
+                    .then(()=>{ this.mostrarAlerta("Usuario creado"); })
+              })
+              .catch((error)=>{
+                console.log("Error al modificar usuario: " + error);
+              });
+          })
+          .catch((error)=>{
+            console.log("Error al crear usuario en base de datos: " + error);
+          });
+      })
+      .catch((error)=>{
+        console.log("Error al registrar usuario (auth): " + error);
+        var errorCode = error.code;
+        //var errorMessage = error.message;
+        switch(errorCode){
+          case "auth/email-already-in-use":
+          this.mostrarAlerta("Cuenta ya existente");
+          break;
+          case "auth/invalid-email":
+          this.mostrarAlerta("Correo invalido");
+          break;
+        }
+      })
+
   }
 
-  //ALTA CORREO EN AUTH
-  alta_auth(){
-
+  //FUNCTION ATRIBUTO: Valida si hay cambios
+  get hay_diferencias():boolean{
+    if(this.usuario.correo    != this.user_default.correo    ||
+       this.usuario.nombre    != this.user_default.nombre    ||
+       this.usuario.edad      != this.user_default.edad      ||
+       this.usuario.direccion != this.user_default.direccion ||
+       this.usuario.foto      != this.user_default.foto      ||
+       this.usuario.activo    != this.user_default.activo){
+         this.cambios = true;
+         return true;
+    }
+    else{
+      this.cambios = false;
+      return false;
+    }
   }
-  //ALTA USUARIO EN DB
-  alta_db(){
 
-  }
   //ALERTA
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
@@ -123,7 +150,7 @@ export class SupervisorRegistroClientePage {
 
   //MOSTRAR MAPA
   verMapa(){
-    this.navCtrl.push(MapaPage, {'direccion' : this.usuario_direccion, 'callback':this.myCallbackFunction});
+    this.navCtrl.push(MapaPage, {'direccion' : this.usuario.direccion, 'callback':this.myCallbackFunction});
   }
 
   //VOLVER ATRAS

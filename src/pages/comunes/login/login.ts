@@ -22,6 +22,7 @@ export class LoginPage {
   //ATRIBUTOS
   usuario:Usuario = null;
   mail_verificado:boolean;
+  update_profile:boolean;
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
@@ -126,22 +127,29 @@ export class LoginPage {
         .then((user:any)=>{
           if(user){
               console.log("Usuario traído: " + JSON.stringify(user));
-              this.usuario = user;
+              this.usuario = new Usuario(user);
           }
+          //REFRESCAR PROFILE AUTH
+          this._authServicio.update_userAccount(this.usuario.perfil, this.usuario.foto)
+            .then(()=>{
+              if(!this.usuario)
+                this.usuario_inexistente();
+              else{
+                if(!this.mail_verificado && !this.usuario.activo)
+                  this.usuario_inhabilitado();
 
-          if(!this.usuario)
-            this.usuario_inexistente();
-          else{
-            if(!this.mail_verificado && !this.usuario.activo)
-              this.usuario_inhabilitado();
+                if(this.mail_verificado && !this.usuario.activo)
+                  this.usuario_mailVerificado();
 
-            if(this.mail_verificado && !this.usuario.activo)
-              this.usuario_mailVerificado();
+                if(!this.mail_verificado && this.usuario.activo ||
+                    this.mail_verificado && this.usuario.activo)
+                  this.usuario_activo();
+              }
+            })
+            .catch((error)=>{
+              console.log("Error al actualizar profile auth: " + error);
+            })
 
-            if(!this.mail_verificado && this.usuario.activo ||
-                this.mail_verificado && this.usuario.activo)
-              this.usuario_activo();
-          }
 
         })
         .catch((error)=>{
@@ -193,6 +201,10 @@ export class LoginPage {
       .catch((error)=>{
         console.log("Error al activar usuario con mail verificado: " + error);
       });
+  }
+
+  actualizar_profile(){
+    this._authServicio.update_userAccount(this.usuario.perfil, this.usuario.foto);
   }
 
   //INGRESAR A LA APLICACIÓN
