@@ -21,11 +21,23 @@
 
       </div>
       <!-- MAPA -->
-      <agm-map [latitude]="lat" [longitude]="lng" [zoom]="16" (mapClick)="marcarUbicacion($event)">
+      <agm-map [latitude]="lat"
+               [longitude]="lng"
+               [zoom]="16"
+               [disableDefaultUI]="true"
+               [streetViewControl]="false"
+               (mapClick)="marcarUbicacion($event)">
       		<agm-marker
             [latitude]="lat"
             [longitude]="lng">
           </agm-marker>
       </agm-map>
+
+      <!-- MARCAR UBICACION DISPOSITIVO -->
+      <ion-fab right bottom>
+          <button ion-fab color="primary" (click)="localizarDispositivo()">
+              <ion-icon class="iconGeoLocate" name="ios-locate-outline"></ion-icon>
+          </button>
+      </ion-fab>
 
 </ion-content>
