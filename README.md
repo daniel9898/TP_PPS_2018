@@ -6,7 +6,7 @@
 
 
 #### Lucas Bonanni
-* Módulos (objetivos) a desarrollar: [L - reservas agendadas](###*I*-Supervisor)
+* Módulos (objetivos) a desarrollar: [L - reservas agendadas](#l---hacer-reservas-agendadas-)
 * Fecha de inicio: 16/06/2018
 * Fecha de fin: 22/06/2018
 * Branch: [lucas.bonanni](https://github.com/lucasbonanni/TP_PPS_2018/tree/lucas.bonanni)
