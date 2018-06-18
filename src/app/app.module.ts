@@ -16,6 +16,8 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { AgmCoreModule } from '@agm/core';
+//GEOLOCATION
+import { Geolocation } from '@ionic-native/geolocation';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -24,6 +26,7 @@ import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
 import { ChoferProvider } from '../providers/chofer/chofer';
 import { GeocodingProvider } from '../providers/geocoding/geocoding';
+import { GeolocationProvider } from '../providers/geolocation/geolocation';
 import { StorageProvider } from '../providers/storage/storage';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
@@ -138,7 +141,9 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     VehiculoImagenProvider,
     UsuarioImagenProvider,
     ChoferProvider,
-    AuthAdministradorProvider
+    AuthAdministradorProvider,
+    Geolocation,
+    GeolocationProvider
   ]
 })
 export class AppModule {}
