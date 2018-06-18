@@ -54,9 +54,8 @@ export class LoginPage {
   }
 
   //INICIO
-  ionViewDidEnter(){
-    //console.log("Página cargada!");
-
+  ionViewDidLoad(){
+    console.log("Página cargada!");
   }
 
   //DATOS DE PRUEBA
@@ -117,40 +116,37 @@ export class LoginPage {
       email: this.myLoginForm.value.userEmail,
       password: this.myLoginForm.value.userPassword
     };
-    //LOGUEARSE
+
+    // 1) INTENTAR LOGUEARSE
     this._authServicio.signInWithEmail(credenciales)
       .then(value => {
         console.log('Email utilizado: ' + value.user.email);
         this.mail_verificado = value.user.emailVerified;
-        //TRAER USUARIO
+
+    // 2) TRAER USUARIO
         this._usuarioServicio.traer_un_usuario_correo(credenciales.email)
         .then((user:any)=>{
+
+   // USUARIO EXISTE
           if(user){
               console.log("Usuario traído: " + JSON.stringify(user));
               this.usuario = new Usuario(user);
+   // 3) VALIDAR INGRESO
+
+        //USUARIO EXISTE PERO ESTA INHABILITADO (inactivo y sin mail verificado)
+              if(!this.mail_verificado && !this.usuario.activo)
+                this.usuario_inhabilitado();
+       //USUARIO CON MAIL VERIFICADO (inactivo pero con mail verificado)
+              if(this.mail_verificado && !this.usuario.activo)
+                this.usuario_mailVerificado();
+      //USUARIO ACTIVO
+              if(this.usuario.activo)
+                this.usuario_activo();
           }
-          //REFRESCAR PROFILE AUTH
-          this._authServicio.update_userAccount(this.usuario.perfil, this.usuario.foto)
-            .then(()=>{
-              if(!this.usuario)
-                this.usuario_inexistente();
-              else{
-                if(!this.mail_verificado && !this.usuario.activo)
-                  this.usuario_inhabilitado();
-
-                if(this.mail_verificado && !this.usuario.activo)
-                  this.usuario_mailVerificado();
-
-                if(!this.mail_verificado && this.usuario.activo ||
-                    this.mail_verificado && this.usuario.activo)
-                  this.usuario_activo();
-              }
-            })
-            .catch((error)=>{
-              console.log("Error al actualizar profile auth: " + error);
-            })
-
-
+     //  USUARIO NO EXISTE
+          else{
+            this.usuario_inexistente();
+          }
         })
         .catch((error)=>{
           this.mostrarSpinner = false;
@@ -185,9 +181,9 @@ export class LoginPage {
 
   usuario_inexistente(){ //Usuario borrado por supervisor (falta eliminar auth)
     console.log("El usuario fue eliminado!");
-    // this._authServicio.delete_userAccount();
-    // this.reproducirSonido(this.error_sound);
-    // this.mostrarAlerta("Cuenta inexistente");
+    this._authServicio.delete_userAccount();
+    this.reproducirSonido(this.error_sound);
+    this.mostrarAlerta("Cuenta inexistente");
     this.navCtrl.setRoot(LoginPage);
   }
 
@@ -201,10 +197,6 @@ export class LoginPage {
       .catch((error)=>{
         console.log("Error al activar usuario con mail verificado: " + error);
       });
-  }
-
-  actualizar_profile(){
-    this._authServicio.update_userAccount(this.usuario.perfil, this.usuario.foto);
   }
 
   //INGRESAR A LA APLICACIÓN
