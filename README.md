@@ -13,13 +13,13 @@
 
 
 #### Ezequiel Caballero
-* Módulos (objetivos) a desarrollar: [j - Pedir viaje cliente](###*J*-Pedir-vehículo)
+* Módulos (objetivos) a desarrollar: [j - Pedir viaje cliente](#j---pedir-vehículo)
 * Fecha de inicio: 16/06/2018
 * Fecha de fin: 22/06/2018
 * Branch: [ezequiel.caballero](https://github.com/lucasbonanni/TP_PPS_2018/tree/ezequiel.caballero)
 
 #### Daniel Pereira
-* Módulos (objetivos) a desarrollar: [K - Tomar viaje](###*K*-Tomar-Viaje)
+* Módulos (objetivos) a desarrollar: [K - Tomar viaje](k---tomar-viaje)
 * Fecha de inicio: 16/06/2018
 * Fecha de fin: 22/06/2018
 * Branch: [daniel.pereira](https://github.com/lucasbonanni/TP_PPS_2018/tree/daniel.pereira)
