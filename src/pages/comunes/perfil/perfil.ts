@@ -52,10 +52,10 @@ export class PerfilPage {
   ionViewDidLoad() {
     this.traer_usuario();
     //CALLBACK para traer direccion de mapa
-    this.myCallbackFunction = (_params)=> {
+    this.myCallbackFunction = (datos)=> {
       console.log("callback asignado");
        return new Promise((resolve, reject) => {
-               this.usuario.direccion = _params;
+               this.usuario.direccion = datos.direccion;
                resolve();
            });
     }
