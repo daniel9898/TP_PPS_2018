@@ -10,14 +10,13 @@ import { Marker } from '../../../interfaces/marker';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 
 @Component({
   selector: 'page-cliente-viaje',
   templateUrl: 'cliente-viaje.html',
 })
 export class ClienteViajePage {
-
-
 
   //validaciones
   mostrarSpinner:boolean = false;
@@ -37,15 +36,14 @@ export class ClienteViajePage {
   precio:number = 18; // por KM
   precio_minimo:number = 60;
 
-  //CALLBACK function (para retornar dirección desde MapaPage)
+  //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private _auth:AuthServicioProvider,
-              private _userService:UsuarioServicioProvider) {
-
-                //get api uses
+              private _userService:UsuarioServicioProvider,
+              private _authService:AuthServicioProvider,
+              private _viajeService:ViajeServicio) {
 
       this.mostrarSpinner = true;
   }
@@ -64,6 +62,7 @@ export class ClienteViajePage {
             // ORIGEN
             if(this.punto == 1){
                 this.viaje.origen = datos.direccion;
+                this.viaje.origen_coord = [datos.lat, datos.lng];
                 this.origen_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
@@ -75,6 +74,7 @@ export class ClienteViajePage {
             // DESTINO
             if(this.punto == 2){
                 this.viaje.destino = datos.direccion;
+                this.viaje.destino_coord = [datos.lat, datos.lng];
                 this.destino_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
@@ -85,15 +85,18 @@ export class ClienteViajePage {
             }
             // CALCULAR DISTANCIA Y MOSTRAR MAPA
             if(this.viaje.origen != "N/N" && this.viaje.destino != "N/N"){
+              //Refrescar marcadores
               this.markers = [this.origen_marker, this.destino_marker];
+              //Tomar distancia
               this.viaje.distancia = Math.round(this.calcular_distancia(this.origen_marker.lat, this.origen_marker.lng, this.destino_marker.lat, this.origen_marker.lng, 'K') * 100) / 100;
+              //Definir precio
               if(this.viaje.distancia * this.precio < this.precio_minimo)
                 this.viaje.precio = this.precio_minimo;
               else
                 this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
+              //Mostrar mapa
               this.mostrarMapa = true;
             }
-
                 resolve();
            });
     }
@@ -102,7 +105,7 @@ export class ClienteViajePage {
   //TRAER UN USUARIO
   traer_usuario(){
     this.mostrarSpinner = true;
-    return this._userService.traer_un_usuario(this._auth.get_userUID())
+    return this._userService.traer_un_usuario(this._authService.get_userUID())
             .then((user:any)=>{
               console.log("Usuario: " + JSON.stringify(user));
               this.usuario = user;
@@ -121,7 +124,7 @@ export class ClienteViajePage {
     this.generar_fecha();
 
     this.viaje_default = {
-      key: "N/N",
+      id_viaje: "N/N",
       id_cliente: this.usuario.id_usuario,
       id_chofer:"N/N",
       id_vehiculo:"N/N",
@@ -177,6 +180,24 @@ export class ClienteViajePage {
   	if (unit=="K") { dist = dist * 1.609344 }
   	if (unit=="N") { dist = dist * 0.8684 }
   	return dist
+  }
+
+  pedir_viaje(){
+    //console.log("Datos de nuevo viaje: " + JSON.stringify(this.viaje));
+    this._viajeService.alta_viaje(this.viaje)
+      .then((key:any)=>{
+        this.viaje.id_viaje = key;
+        this._viajeService.modificar_viaje(this.viaje)
+          .then(()=>{
+            console.log("Datos del nuevo viaje: " + JSON.stringify(this.viaje));
+          })
+          .catch((error)=>{
+            console.log("Error al actualizar viaje: " + error);
+          })
+      })
+      .catch((error)=>{
+        console.log("Error al dar de alta viaje: " + error);
+      })
   }
 
 }

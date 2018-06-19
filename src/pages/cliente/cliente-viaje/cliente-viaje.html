@@ -33,7 +33,7 @@
 
       <!-- DISTANCIA / PRECIO -->
       <div *ngIf="viaje.distancia != 0 && viaje.precio != 0">
-        <p text-center>
+        <p class="text_precio" text-center>
           <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
           {{viaje.distancia}}KM = ${{viaje.precio}}
         </p>
@@ -71,6 +71,13 @@
            </agm-polyline>
 
   </agm-map>
+
+  <!-- PEDIR VIAJE -->
+  <ion-fab *ngIf="mostrarMapa" right bottom>
+      <button ion-fab color="green" (click)="pedir_viaje()">
+          <ion-icon class="iconTravel" name="md-car"></ion-icon>
+      </button>
+  </ion-fab>
 
   <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">
