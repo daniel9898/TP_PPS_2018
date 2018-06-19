@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
-import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 //clase USUARIO
@@ -24,7 +23,6 @@ export class UsuarioServicioProvider {
   usuarios: Observable<any[]>;
 
   constructor(  public afDB: AngularFireDatabase,
-                public afAuth:AngularFireAuth,
                 private _http:Http ) {
 
     console.log('Provider USUARIOS iniciado...');
@@ -213,13 +211,5 @@ export class UsuarioServicioProvider {
     });
     return promesa;
   }
-
-  //DESUSCRIBIR
-  // desuscribir(){
-  //   this.destroy$.next();
-  //   // Now let's also unsubscribe from the subject itself:
-  //   this.destroy$.complete();
-  //   console.log("Observables de provider usuarios desuscriptos");
-  // }
 
 }
