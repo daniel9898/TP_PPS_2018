@@ -102,7 +102,12 @@ export class MapaPage {
   }
 
   actualizarDireccion(){
-    this.callback(this.direccion).then(()=>{
+    let datos = {
+      direccion: this.direccion,
+      lat: this.lat,
+      lng: this.lng
+    }
+    this.callback(datos).then(()=>{
       this.navCtrl.pop();
    });
   }
