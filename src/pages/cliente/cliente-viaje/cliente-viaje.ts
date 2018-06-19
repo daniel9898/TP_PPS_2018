@@ -11,12 +11,13 @@ import { Marker } from '../../../interfaces/marker';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 
-
 @Component({
   selector: 'page-cliente-viaje',
   templateUrl: 'cliente-viaje.html',
 })
 export class ClienteViajePage {
+
+
 
   //validaciones
   mostrarSpinner:boolean = false;
@@ -31,9 +32,10 @@ export class ClienteViajePage {
   hora:string;
   //mapa
   markers:Marker[] = [];
-  origen_markers:Marker;
-  destino_markers:Marker;
-
+  origen_marker:Marker;
+  destino_marker:Marker;
+  precio:number = 18; // por KM
+  precio_minimo:number = 60;
 
   //CALLBACK function (para retornar dirección desde MapaPage)
   myCallbackFunction:Function;
@@ -42,6 +44,8 @@ export class ClienteViajePage {
               public navParams: NavParams,
               private _auth:AuthServicioProvider,
               private _userService:UsuarioServicioProvider) {
+
+                //get api uses
 
       this.mostrarSpinner = true;
   }
@@ -60,7 +64,7 @@ export class ClienteViajePage {
             // ORIGEN
             if(this.punto == 1){
                 this.viaje.origen = datos.direccion;
-                this.origen_markers = ({
+                this.origen_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
                   label: "Origen",
@@ -71,7 +75,7 @@ export class ClienteViajePage {
             // DESTINO
             if(this.punto == 2){
                 this.viaje.destino = datos.direccion;
-                this.destino_markers = ({
+                this.destino_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
                   label: "Destino",
@@ -79,9 +83,14 @@ export class ClienteViajePage {
                   draggable: false
                 });
             }
-            // MOSTRAR MAPA
+            // CALCULAR DISTANCIA Y MOSTRAR MAPA
             if(this.viaje.origen != "N/N" && this.viaje.destino != "N/N"){
-              this.markers = [this.origen_markers, this.destino_markers];
+              this.markers = [this.origen_marker, this.destino_marker];
+              this.viaje.distancia = Math.round(this.calcular_distancia(this.origen_marker.lat, this.origen_marker.lng, this.destino_marker.lat, this.origen_marker.lng, 'K') * 100) / 100;
+              if(this.viaje.distancia * this.precio < this.precio_minimo)
+                this.viaje.precio = this.precio_minimo;
+              else
+                this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
               this.mostrarMapa = true;
             }
 
@@ -105,8 +114,9 @@ export class ClienteViajePage {
             })
   }
 
+  //ARMAR VIAJE BASE
   generar_viaje_default(){
-    //Datos por defecto
+
     this.mostrarSpinner = true;
     this.generar_fecha();
 
@@ -122,8 +132,8 @@ export class ClienteViajePage {
       origen_coord:[1,1],
       destino:"N/N",
       destino_coord:[1,1],
-      distancia: 1,
-      precio: 1,
+      distancia: 0,
+      precio: 0,
       estado:"pendiente"
     }
     this.viaje = new Viaje(this.viaje_default);
@@ -131,6 +141,7 @@ export class ClienteViajePage {
     this.mostrarSpinner = false;
   }
 
+  //GENERAR FECHA
   generar_fecha(){
     let currentDate = new Date();
     //console.log("FECHA completa: " + currentDate);
@@ -151,6 +162,21 @@ export class ClienteViajePage {
       mostrar_direccion = this.viaje.destino;
 
     this.navCtrl.push(MapaPage, {'direccion' : mostrar_direccion, 'callback':this.myCallbackFunction});
+  }
+
+  //METODO PARA CALCULAR DISTANCIA ENTRE DOS PUNTOS
+  calcular_distancia(lat1, lon1, lat2, lon2, unit){
+    let radlat1 = Math.PI * lat1/180
+  	let radlat2 = Math.PI * lat2/180
+  	let theta = lon1-lon2
+  	let radtheta = Math.PI * theta/180
+  	let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  	dist = Math.acos(dist)
+  	dist = dist * 180/Math.PI
+  	dist = dist * 60 * 1.1515
+  	if (unit=="K") { dist = dist * 1.609344 }
+  	if (unit=="N") { dist = dist * 0.8684 }
+  	return dist
   }
 
 }

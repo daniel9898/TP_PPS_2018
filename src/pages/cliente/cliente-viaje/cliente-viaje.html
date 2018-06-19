@@ -60,6 +60,15 @@
              [markerDraggable]="m.draggable"
              (dragEnd)="markerMovido(m, $event)">
            </agm-marker>
+           <agm-polyline
+           [visible]="true"
+           [strokeWeight]="3">
+              <agm-polyline-point
+                *ngFor="let m of markers; let i = index"
+                [latitude]="m.lat"
+                [longitude]="m.lng">
+              </agm-polyline-point>
+           </agm-polyline>
 
   </agm-map>
 
