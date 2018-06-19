@@ -18,20 +18,50 @@
       <!-- DIRECCION ORIGEN-->
       <ion-item>
         <ion-label stacked>Origen</ion-label>
-        <ion-input type="text" required [(ngModel)]="origen"
+        <ion-icon name="ios-flag-outline" color="primary" item-start></ion-icon>
+        <ion-input type="text" required [(ngModel)]="viaje.origen"
                   (ionFocus)="verMapa(1)"></ion-input>
       </ion-item>
 
       <!-- DIRECCION DESTINO-->
       <ion-item>
         <ion-label stacked>Destino</ion-label>
-        <ion-input type="text" required [(ngModel)]="destino"
+        <ion-icon name="md-flag" color="primary" item-start></ion-icon>
+        <ion-input type="text" required [(ngModel)]="viaje.destino"
                   (ionFocus)="verMapa(2)"></ion-input>
       </ion-item>
+
+      <!-- DISTANCIA / PRECIO -->
+      <div *ngIf="viaje.distancia != 0 && viaje.precio != 0">
+        <p text-center>
+          <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
+          {{viaje.distancia}}KM = ${{viaje.precio}}
+        </p>
+      </div>
 
     </ion-grid>
 
   </div>
+
+  <!-- MAPA -->
+  <agm-map *ngIf="mostrarMapa"
+           [latitude]="markers[0].lat"
+           [longitude]="markers[0].lng"
+           [zoom]="12"
+           [disableDefaultUI]="true"
+           [streetViewControl]="false"
+           (mapClick)="marcarUbicacion($event)">
+
+           <agm-marker
+             *ngFor="let m of markers; let i = index"
+             [latitude]="m.lat"
+             [longitude]="m.lng"
+             [iconUrl]="m.icon"
+             [markerDraggable]="m.draggable"
+             (dragEnd)="markerMovido(m, $event)">
+           </agm-marker>
+
+  </agm-map>
 
   <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">
