@@ -2,7 +2,7 @@
 
 export class Viaje{
 
-    key?:string;//----------se define por firebase key
+    id_viaje?:string;//------es la key de firebase
     id_cliente:string;
     id_chofer?:string; //---se define al tomar viaje chofer
     id_vehiculo?:string; //-se define al tomar viaje chofer
@@ -21,7 +21,7 @@ export class Viaje{
 
     constructor(viaje_data:any){
       //AL PEDIR VIAJE
-      this.key = viaje_data.key;
+      this.id_viaje = viaje_data.id_viaje;
       this.id_cliente = viaje_data.id_cliente;
       this.fecha = viaje_data.fecha;
       this.cod_fecha = viaje_data.cod_fecha;
