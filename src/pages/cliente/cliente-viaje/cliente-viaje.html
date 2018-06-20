@@ -1,14 +1,10 @@
 
-<ion-header>
-
-  <ion-navbar transparent>
-
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
 
   <div *ngIf="!mostrarSpinner">
 
@@ -16,7 +12,7 @@
     <ion-grid class="datosViaje">
 
       <!-- DIRECCION ORIGEN-->
-      <ion-item>
+      <ion-item class="input_direccion">
         <ion-label stacked>Origen</ion-label>
         <ion-icon name="ios-flag-outline" color="primary" item-start></ion-icon>
         <ion-input type="text" required [(ngModel)]="viaje.origen"
@@ -24,12 +20,15 @@
       </ion-item>
 
       <!-- DIRECCION DESTINO-->
-      <ion-item>
+      <ion-item class="input_direccion">
         <ion-label stacked>Destino</ion-label>
         <ion-icon name="md-flag" color="primary" item-start></ion-icon>
         <ion-input type="text" required [(ngModel)]="viaje.destino"
                   (ionFocus)="verMapa(2)"></ion-input>
       </ion-item>
+
+      <!-- HORARIO DE SALIDA -->
+
 
       <!-- DISTANCIA / PRECIO -->
       <div *ngIf="viaje.distancia != 0 && viaje.precio != 0">
@@ -44,44 +43,47 @@
   </div>
 
   <!-- MAPA -->
-  <agm-map *ngIf="mostrarMapa"
-           [latitude]="markers[0].lat"
-           [longitude]="markers[0].lng"
-           [zoom]="12"
-           [disableDefaultUI]="true"
-           [streetViewControl]="false"
-           (mapClick)="marcarUbicacion($event)">
+   <div *ngIf="!mostrarSpinner" xFlex="100" class="map-full-card-content">
+      <agm-map *ngIf="mostrarMapa"
+               [latitude]="markers[0].lat"
+               [longitude]="markers[0].lng"
+               [zoom]="12"
+               [disableDefaultUI]="true"
+               [streetViewControl]="false">
 
-           <agm-marker
-             *ngFor="let m of markers; let i = index"
-             [latitude]="m.lat"
-             [longitude]="m.lng"
-             [iconUrl]="m.icon"
-             [markerDraggable]="m.draggable"
-             (dragEnd)="markerMovido(m, $event)">
-           </agm-marker>
-           <agm-polyline
-           [visible]="true"
-           [strokeWeight]="3">
-              <agm-polyline-point
-                *ngFor="let m of markers; let i = index"
-                [latitude]="m.lat"
-                [longitude]="m.lng">
-              </agm-polyline-point>
-           </agm-polyline>
+               <agm-marker
+                 *ngFor="let m of markers; let i = index"
+                 [latitude]="m.lat"
+                 [longitude]="m.lng"
+                 [iconUrl]="m.icon"
+                 [markerDraggable]="m.draggable"
+                 (dragEnd)="markerMovido(m, $event)">
+               </agm-marker>
+               <agm-polyline
+               [visible]="true"
+               [strokeWeight]="3">
+                  <agm-polyline-point
+                    *ngFor="let m of markers; let i = index"
+                    [latitude]="m.lat"
+                    [longitude]="m.lng">
+                  </agm-polyline-point>
+               </agm-polyline>
 
-  </agm-map>
+      </agm-map>
+    </div>
 
   <!-- PEDIR VIAJE -->
-  <ion-fab *ngIf="mostrarMapa" right bottom>
+  <ion-fab *ngIf="boton_pedir" right bottom>
       <button ion-fab color="green" (click)="pedir_viaje()">
           <ion-icon class="iconTravel" name="md-car"></ion-icon>
       </button>
   </ion-fab>
 
-  <!-- SPINNER -->
-  <div *ngIf="mostrarSpinner" class="spinner">
-    <img src="assets/imgs/spinner_black.png" alt="spinner">
-  </div>
+  <!-- CANCELAR PEDIDO -->
+  <ion-fab *ngIf="!boton_pedir && mostrarMapa" right bottom>
+      <button ion-fab color="danger" (click)="cancelar_viaje()">
+          <ion-icon class="iconTravel" name="md-car"></ion-icon>
+      </button>
+  </ion-fab>
 
 </ion-content>

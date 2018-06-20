@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, NavParams } from 'ionic-angular';
 //PAGINAS
 import { MapaPage } from '../../index-paginas';
 //clase USUARIO
@@ -21,6 +21,7 @@ export class ClienteViajePage {
   //validaciones
   mostrarSpinner:boolean = false;
   mostrarMapa:boolean = false;
+  boton_pedir:boolean;
   punto:number; // 1-Origen / 2-Destino
   //clases
   usuario:Usuario;
@@ -40,6 +41,7 @@ export class ClienteViajePage {
   myCallbackFunction:Function;
 
   constructor(public navCtrl: NavController,
+              public toastCtrl: ToastController,
               public navParams: NavParams,
               private _userService:UsuarioServicioProvider,
               private _authService:AuthServicioProvider,
@@ -96,6 +98,7 @@ export class ClienteViajePage {
                 this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
               //Mostrar mapa
               this.mostrarMapa = true;
+              this.boton_pedir = true;
             }
                 resolve();
            });
@@ -182,22 +185,70 @@ export class ClienteViajePage {
   	return dist
   }
 
+  //INICIAR PEDIDO DE VIAJE***************************************************//
   pedir_viaje(){
-    //console.log("Datos de nuevo viaje: " + JSON.stringify(this.viaje));
+
+    this.boton_pedir = false;
+    this.mostrarSpinner = true;
+    // 1) ALTA VIAJE
     this._viajeService.alta_viaje(this.viaje)
       .then((key:any)=>{
         this.viaje.id_viaje = key;
+    // 2) ACTUALIZO VIAJE (key)
         this._viajeService.modificar_viaje(this.viaje)
           .then(()=>{
-            console.log("Datos del nuevo viaje: " + JSON.stringify(this.viaje));
+            this.mostrarAlerta("Viaje en proceso");
+   // 3) VIAJE PENDIENTE: -espero proximo estado-
+            this._viajeService.esperar_estado(this.viaje.id_viaje, "tomado")
+              .then((data:any)=>{
+   // 4) VIAJE TOMADO: -espero proximo estado-
+                this.mostrarAlerta("Viaje tomado");
+                console.log("Chofer cargado: " + data.id_chofer);
+   // 5) VIAJE EN CURSO: -espero proximo estado-
+                this._viajeService.esperar_estado(this.viaje.id_viaje, "en curso")
+                  .then((data:any)=>{
+                    this.mostrarAlerta("Viaje en curso");
+                    console.log("Chofer cargado: " + data.id_chofer);
+  // 6) VIAJE TERMINADO: -espero-
+                      this._viajeService.esperar_estado(this.viaje.id_viaje, "cumplido")
+                        .then((data:any)=>{
+                          this.mostrarAlerta("Viaje terminado");
+                          console.log("Chofer cargado: " + data.id_chofer);
+                        })
+                        .catch((error)=>{console.log("Error al esperar viaje -> terminado: " + error)})
+                  })
+                  .catch((error)=>{console.log("Error al esperar viaje -> en curso: " + error)})
+              })
+              .catch((error)=>{console.log("Error al esperar viaje -> tomado: " + error)})
           })
-          .catch((error)=>{
-            console.log("Error al actualizar viaje: " + error);
-          })
+          .catch((error)=>{console.log("Error al actualizar viaje: " + error);})
+      })
+      .catch((error)=>{console.log("Error al dar de alta viaje: " + error);})
+  }
+
+  //DETENER PEDIDO DE VIAJE
+  cancelar_viaje(){
+
+    this._viajeService.baja_viaje(this.viaje.id_viaje)
+      .then(()=>{
+        this.generar_viaje_default();
+        this.mostrarMapa = false;
+        this.mostrarSpinner = false;
+        this.mostrarAlerta("Viaje cancelado");
       })
       .catch((error)=>{
-        console.log("Error al dar de alta viaje: " + error);
+        console.log("Error al eliminar viaje: " + error);
       })
+  }
+
+  //MENSAJES AL USUARIO
+  mostrarAlerta(msj:string){
+    let toast = this.toastCtrl.create({
+      message: msj,
+      duration: 3000,
+      position: "top"
+    });
+    toast.present();
   }
 
 }
