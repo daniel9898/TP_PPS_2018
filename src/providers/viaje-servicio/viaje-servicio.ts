@@ -72,12 +72,42 @@ export class ViajeServicio {
         return promesa;
     }
 
+    //BAJA
+    baja_viaje(userKey:string){
+      let promesa = new Promise((resolve, reject)=>{
+        this.viajesRef = this.afDB.list('viajes');
+        this.viajesRef.remove(userKey);
+        resolve();
+      });
+      return promesa;
+    }
+
     //MODIFICACIÓN
     modificar_viaje(viaje:any){
       let promesa = new Promise((resolve, reject)=>{
         this.viajesRef = this.afDB.list('viajes');
         this.viajesRef.update(viaje.id_viaje, viaje);
         resolve();
+      });
+      return promesa;
+    }
+
+    //VALIDAR CAMBIO DE ESTADOS
+    esperar_estado(key:string, estado:string){
+
+      let promesa = new Promise((resolve, reject)=>{
+
+        this.afDB.list('/viajes',
+          ref=> ref.orderByKey()
+                   .equalTo( key )//Interrupción de la lectura al alcanzar key.
+        ).valueChanges()
+         .subscribe((viaje:any)=>{
+           viaje.forEach((item) => {
+             console.log(item.estado);
+             if(item.estado == estado) resolve(item);
+           })
+         })
+
       });
       return promesa;
     }

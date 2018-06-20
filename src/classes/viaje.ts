@@ -16,7 +16,7 @@ export class Viaje{
     distancia:number;
     precio:number;
     estado:string;
-    // POSIBLES ESTADOS: cancelado / cumplido / pendiente / en curso
+    // POSIBLES ESTADOS: cancelado / cumplido / pendiente / tomado / en curso
 
 
     constructor(viaje_data:any){
