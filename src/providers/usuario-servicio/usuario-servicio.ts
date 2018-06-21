@@ -13,10 +13,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UsuarioServicioProvider {
 
-  //USUARIOS
-  //usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
   usuariosTest:any[] = [];
-  //destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
   //LISTA USUARIOS
   usuariosRef: AngularFireList<any>;
@@ -143,7 +140,6 @@ export class UsuarioServicioProvider {
         resolve(nuevo_user);
       });
       return promesa;
-    //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
   }
 
   //ALTA

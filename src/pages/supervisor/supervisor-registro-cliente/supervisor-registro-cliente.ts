@@ -79,15 +79,14 @@ export class SupervisorRegistroClientePage {
       password: "asdasd"
     }
     this.mostrarSpinner = true;
-    // 1 - REGISTRO EN AUTH
-    this._auth.signUpSimple(credenciales)
-      .then((data)=>{
+    // 1 - REGISTRO EN AUTH (método para supervisor)
+    this._auth.signUpExterno(credenciales)
+      .then((data:any)=>{
           this.usuario.id_usuario = data.user.uid.toString();
           console.log("Nuevo uid: " + this.usuario.id_usuario);
    // 2- ACTUALIZAR PROFILE AUTH
-          this._auth.update_externalUserAccount(this.usuario.perfil, this.usuario.foto)
+          this._auth.update_externalUserAccount(data.user, this.usuario.perfil, this.usuario.foto)
           .then(()=>{
-            this._auth.signOut();
   // 3 - REGISTRO EN DB
               this._usuarioServicio.alta_usuario(this.usuario)
                 .then((newKey:any)=>{

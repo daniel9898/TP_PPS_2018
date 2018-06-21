@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 //FIREBASE
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-// import { Subject } from 'rxjs/Subject';
-// import 'rxjs/add/operator/takeUntil';
+//CONFIGURACION ENVIRONMENT
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
 export class AuthServicioProvider {
 
+  //Usuario actual
   private user: firebase.User;
-  //public destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
+  //Para supervisor
+  //private secondaryApp = firebase.initializeApp(environment.firebase, "Secondary");
 
   constructor(public afAuth:AngularFireAuth) {
     console.log('Auth servicio iniciado...');
@@ -19,7 +21,6 @@ export class AuthServicioProvider {
       .subscribe(user => { // !!!
   			this.user = user;
   		});
-
   }
 
   //Validar login
@@ -35,11 +36,16 @@ export class AuthServicioProvider {
 
   //Alta usuario
   signUpSimple(credentials) {
-    //this.desuscribir(); //De lo contrario: se pierden los datos del usuario de la sesión actual (pro/contras)
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  //ENVIAR MAIL DE VERIFICACIÓN
+  //Alta usuario (por el supervisor)
+  signUpExterno(credentials) {
+    let secondaryApp = firebase.initializeApp(environment.firebase, "Secondary");
+    return secondaryApp.auth().createUserWithEmailAndPassword(credentials.email, credentials.password);
+  }
+
+  //Enviar mail de verificación
   sendEmailVerification(){
     return this.user.sendEmailVerification();
   }
@@ -58,8 +64,7 @@ export class AuthServicioProvider {
   }
 
   //Modificar usuario AJENO en auth (foto - perfil)
-  update_externalUserAccount(profile:string, foto:string){
-    let user = firebase.auth().currentUser;
+  update_externalUserAccount(user, profile:string, foto:string){
     return user.updateProfile({
             displayName: profile,
             photoURL: foto
@@ -96,12 +101,5 @@ export class AuthServicioProvider {
   get_userPhoto(){
     return this.user.photoURL;
   }
-
-  // desuscribir(){
-  //   this.destroy$.next(true);
-  //   // Now let's also unsubscribe from the subject itself:
-  //   this.destroy$.unsubscribe();
-  //   console.log("Desuscripción en Auth servicio");
-  // }
 
 }
