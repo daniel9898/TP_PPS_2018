@@ -2,17 +2,12 @@ import { Injectable } from '@angular/core';
 //FIREBASE
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-//CONFIGURACION ENVIRONMENT
-import { environment } from '../../environments/environment';
-
 
 @Injectable()
 export class AuthServicioProvider {
 
   //Usuario actual
   private user: firebase.User;
-  //Para supervisor
-  //private secondaryApp = firebase.initializeApp(environment.firebase, "Secondary");
 
   constructor(public afAuth:AngularFireAuth) {
     console.log('Auth servicio iniciado...');
@@ -39,12 +34,6 @@ export class AuthServicioProvider {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  //Alta usuario (por el supervisor)
-  signUpExterno(credentials) {
-    let secondaryApp = firebase.initializeApp(environment.firebase, "Secondary");
-    return secondaryApp.auth().createUserWithEmailAndPassword(credentials.email, credentials.password);
-  }
-
   //Enviar mail de verificación
   sendEmailVerification(){
     return this.user.sendEmailVerification();
@@ -63,14 +52,6 @@ export class AuthServicioProvider {
            });
   }
 
-  //Modificar usuario AJENO en auth (foto - perfil)
-  update_externalUserAccount(user, profile:string, foto:string){
-    return user.updateProfile({
-            displayName: profile,
-            photoURL: foto
-           });
-  }
-
   //Modificar usuario (correo)
   update_userEmail(email:string){
     return this.user.updateEmail(email);
@@ -81,7 +62,8 @@ export class AuthServicioProvider {
     return this.afAuth.auth.signOut();
   }
 
-  //Traer datos del usuario (de firebase)
+  //Traer datos del usuario (de firebase)**************************************
+
   get_userData(){
     return this.afAuth.auth.currentUser;
   }
