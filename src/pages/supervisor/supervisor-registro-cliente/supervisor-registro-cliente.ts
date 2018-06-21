@@ -6,7 +6,7 @@ import { Usuario } from '../../../classes/usuario';
 import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -37,7 +37,7 @@ export class SupervisorRegistroClientePage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
-              public _auth: AuthServicioProvider,
+              public _auth: AuthAdministradorProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
               //Habilita botón atrás (hacia la lista usuarios)
@@ -62,10 +62,10 @@ export class SupervisorRegistroClientePage {
   }
 
   ionViewDidLoad() {
-    this.myCallbackFunction = (_params)=> {
+    this.myCallbackFunction = (dato)=> {
       console.log("callback asignado");
        return new Promise((resolve, reject) => {
-               this.usuario.direccion = _params;
+               this.usuario.direccion = dato.direccion;
                resolve();
            });
     }
@@ -79,43 +79,44 @@ export class SupervisorRegistroClientePage {
       password: "asdasd"
     }
     this.mostrarSpinner = true;
-    // 1 - REGISTRO EN AUTH (método para supervisor)
-    this._auth.signUpExterno(credenciales)
+   // 1 - REGISTRO EN AUTH
+      this._auth.signUpExterno(credenciales)
       .then((data:any)=>{
           this.usuario.id_usuario = data.user.uid.toString();
           console.log("Nuevo uid: " + this.usuario.id_usuario);
-   // 2- ACTUALIZAR PROFILE AUTH
+   // 2 - ACTUALIZAR PROFILE AUTH
           this._auth.update_externalUserAccount(data.user, this.usuario.perfil, this.usuario.foto)
           .then(()=>{
-  // 3 - REGISTRO EN DB
-              this._usuarioServicio.alta_usuario(this.usuario)
-                .then((newKey:any)=>{
-                  this.usuario.key = newKey;
-  // 4 - ACTUALIZACION KEY EN DB
-                  this._usuarioServicio.modificar_usuario(this.usuario)
-                    .then(()=>{
-                        this.mostrarSpinner = false;
-                        this.mostrarAlerta("Usuario creado");
-                    })
-                    .catch((error)=>{
-                      console.log("Error al actualizar key usuario en DB: " + error);
-                    })
-                })
-                .catch((error)=>{
-                  console.log("Error al crear usuario en DB: " + error);
-                })
+          //ENVIAR MAIL DE VERIFICACIÓN (si el usuario se creo inactivo)
+            if(!this.usuario.activo)
+              this._auth.send_ExternalEmailVerification();
+   // 3 - DESLOGUEARSE DE AUTH
+            this._auth.signOutExternal()
+              .then(()=>{
+   // 4 - REGISTRO EN DB
+             this._usuarioServicio.alta_usuario(this.usuario)
+               .then((newKey:any)=>{
+                 this.usuario.key = newKey;
+   // 5 - ACTUALIZACION KEY EN DB
+                 this._usuarioServicio.modificar_usuario(this.usuario)
+                   .then(()=>{
+                       this.mostrarSpinner = false;
+                       this.mostrarAlerta("Usuario creado");
+                   })
+                   .catch((error)=>{ console.log("Error al actualizar key usuario en DB: " + error); })
+                 })
+                 .catch((error)=>{ console.log("Error al crear usuario en DB: " + error); })
+              })
+              .catch((error)=>{ console.log("Error al desloguearse: " + error); })
           })
-          .catch((error)=>{
-            console.log("Error al actualizar profile auth: " + error);
-          });
+          .catch((error)=>{ console.log("Error al actualizar profile auth: " + error); });
       })
-      .catch((error)=>{
-        console.log("Error al crear usuario en AUTH: " + error);
+      .catch((error)=>{ console.log("Error al crear usuario en AUTH: " + error);
         var errorCode = error.code;
         this.mostrarSpinner = false;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta ya existente");
+          this.mostrarAlerta("Cuenta no disponible");
           break;
           case "auth/invalid-email":
           this.mostrarAlerta("Correo invalido");
@@ -146,7 +147,7 @@ export class SupervisorRegistroClientePage {
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
       message: msj,
-      duration: 2000,
+      duration: 3000,
       position: "top"
     });
     toast.present();
