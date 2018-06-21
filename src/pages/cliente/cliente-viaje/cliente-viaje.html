@@ -5,6 +5,12 @@
   <div *ngIf="mostrarSpinner" class="spinner">
     <img src="assets/imgs/spinner_black.png" alt="spinner">
   </div>
+  <!-- VER DATOS DEL CHOFER -->
+  <ion-fab *ngIf="boton_qr" right top>
+      <button ion-fab color="yellow" (click)="lectura_QR()">
+          <ion-icon class="iconTravel" name="md-qr-scanner"></ion-icon>
+      </button>
+  </ion-fab>
 
   <div *ngIf="!mostrarSpinner">
 
@@ -73,14 +79,14 @@
     </div>
 
   <!-- PEDIR VIAJE -->
-  <ion-fab *ngIf="boton_pedir" right bottom>
+  <ion-fab *ngIf="boton_pedir && mostrarMapa" right bottom>
       <button ion-fab color="green" (click)="pedir_viaje()">
           <ion-icon class="iconTravel" name="md-car"></ion-icon>
       </button>
   </ion-fab>
 
   <!-- CANCELAR PEDIDO -->
-  <ion-fab *ngIf="!boton_pedir && mostrarMapa" right bottom>
+  <ion-fab *ngIf="boton_cancelar && mostrarMapa" right bottom>
       <button ion-fab color="danger" (click)="cancelar_viaje()">
           <ion-icon class="iconTravel" name="md-car"></ion-icon>
       </button>

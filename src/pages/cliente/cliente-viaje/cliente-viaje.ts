@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, NavParams } from 'ionic-angular';
 //PAGINAS
-import { MapaPage } from '../../index-paginas';
+import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
 //clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
@@ -22,6 +22,8 @@ export class ClienteViajePage {
   mostrarSpinner:boolean = false;
   mostrarMapa:boolean = false;
   boton_pedir:boolean;
+  boton_cancelar:boolean;
+  boton_qr:boolean;
   punto:number; // 1-Origen / 2-Destino
   //clases
   usuario:Usuario;
@@ -189,30 +191,37 @@ export class ClienteViajePage {
   pedir_viaje(){
 
     this.boton_pedir = false;
+    this.boton_cancelar = true;
     this.mostrarSpinner = true;
-    // 1) ALTA VIAJE
+    // ALTA VIAJE
     this._viajeService.alta_viaje(this.viaje)
       .then((key:any)=>{
         this.viaje.id_viaje = key;
-    // 2) ACTUALIZO VIAJE (key)
+    // ACTUALIZO VIAJE (key)
         this._viajeService.modificar_viaje(this.viaje)
           .then(()=>{
+   // 1) VIAJE PENDIENTE: -espero proximo estado: tomado-
             this.mostrarAlerta("Viaje en proceso");
-   // 3) VIAJE PENDIENTE: -espero proximo estado-
             this._viajeService.esperar_estado(this.viaje.id_viaje, "tomado")
               .then((data:any)=>{
-   // 4) VIAJE TOMADO: -espero proximo estado-
+   // 2) VIAJE TOMADO: -espero proximo estado: en curso-
                 this.mostrarAlerta("Viaje tomado");
+                //Activar boton QR para ver datos del chofer
+                this.boton_qr = true;
+                this.viaje.id_chofer = data.id_chofer;
                 console.log("Chofer cargado: " + data.id_chofer);
-   // 5) VIAJE EN CURSO: -espero proximo estado-
                 this._viajeService.esperar_estado(this.viaje.id_viaje, "en curso")
                   .then((data:any)=>{
+   // 3) VIAJE EN CURSO: -espero proximo estado: cumpido-
                     this.mostrarAlerta("Viaje en curso");
+                    this.boton_cancelar = false;
                     console.log("Chofer cargado: " + data.id_chofer);
-  // 6) VIAJE TERMINADO: -espero-
                       this._viajeService.esperar_estado(this.viaje.id_viaje, "cumplido")
                         .then((data:any)=>{
-                          this.mostrarAlerta("Viaje terminado");
+   // 4) VIAJE CUMPLIDO: -fin del viaje: ver encuesta-
+                          this.mostrarAlerta("Viaje finalizado");
+                          this.navCtrl.push(ClienteEncuestaPage);
+                          //Activar boton QR para completar encuesta
                           console.log("Chofer cargado: " + data.id_chofer);
                         })
                         .catch((error)=>{console.log("Error al esperar viaje -> terminado: " + error)})
@@ -232,6 +241,7 @@ export class ClienteViajePage {
     this._viajeService.baja_viaje(this.viaje.id_viaje)
       .then(()=>{
         this.generar_viaje_default();
+        this.boton_qr = false;
         this.mostrarMapa = false;
         this.mostrarSpinner = false;
         this.mostrarAlerta("Viaje cancelado");
@@ -249,6 +259,18 @@ export class ClienteViajePage {
       position: "top"
     });
     toast.present();
+  }
+
+  //DIRECCIONAR
+  lectura_QR(){
+    //Datos del chofer
+      this._userService.traer_un_usuario(this.viaje.id_chofer)
+        .then((user:any)=>{
+          this.navCtrl.push(PerfilPage, {'userSelected' : user, 'profile' : "cliente" });
+        })
+        .catch((error)=>{ console.log("Error al traer usuario: " + error); });
+
+    //Encuesta
   }
 
 }

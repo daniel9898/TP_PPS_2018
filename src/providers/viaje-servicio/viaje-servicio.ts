@@ -103,7 +103,7 @@ export class ViajeServicio {
         ).valueChanges()
          .subscribe((viaje:any)=>{
            viaje.forEach((item) => {
-             console.log(item.estado);
+             console.log("Estado del viaje: " + item.estado);
              if(item.estado == estado) resolve(item);
            })
          })
