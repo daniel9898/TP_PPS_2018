@@ -21,12 +21,14 @@ export class PerfilPage {
   mostrarSpinner:boolean;
 
   //VARIABLES DE CONTROL
+  vistaExterna:string; //Perfil del usuario que esta viendo perfil de OTRO usuario
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
+  vistaCliente:boolean = false;//Mostrar: solo datos (accede un cliente que está en viaje para ver los datos del chofer)
   modificar:boolean = false; //Variable de control (activa mod. de datos text).
   cambios:boolean = false; //Variable de control (activa subir cambios).
 
   //DATOS DEL USUARIO
-  usuario:Usuario; //Usuario actual
+  usuario:Usuario; //Usuario en vista
   copy_user:Usuario;//Usuario original (para validar cambios)
 
   //FOTO
@@ -81,9 +83,15 @@ export class PerfilPage {
     //CARGAR PERFIL DE USUARIO SELECCIONADO
     }else{
       this.usuario = this.navParams.get('userSelected');
+      this.vistaExterna = this.navParams.get('profile');
       this.copy_user = new Usuario(this.usuario);
       this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
-        this.vistaSupervisor = true;
+        //VALIDAR botones que se verán en perfil
+        if(this.vistaExterna == "supervisor")
+          this.vistaSupervisor = true;
+        if(this.vistaExterna == "cliente")
+          this.vistaCliente = true;
+
         this.mostrarSpinner = false;
       });
     }
@@ -306,7 +314,8 @@ export class PerfilPage {
 
   //VOLVER ATRAS
   volver(){
-    this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    //this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    this.navCtrl.pop();
   }
 
 }

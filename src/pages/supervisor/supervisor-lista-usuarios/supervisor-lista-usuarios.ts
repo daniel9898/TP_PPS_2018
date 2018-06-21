@@ -79,7 +79,7 @@ export class SupervisorListaUsuariosPage {
   }
 
   verUsuario(user:Usuario){
-    this.navCtrl.push(PerfilPage, {'userSelected' : user});
+    this.navCtrl.push(PerfilPage, {'userSelected' : user, 'profile' : "supervisor" });
   }
 
   agregarUsuario(){
