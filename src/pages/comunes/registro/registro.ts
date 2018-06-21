@@ -6,12 +6,11 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 import { LoginPage } from '../../index-paginas';;
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 
 @Component({
   selector: 'page-registro',
   templateUrl: 'registro.html',
-  providers: [UsuarioServicioProvider, AuthServicioProvider]
 })
 export class RegistroPage {
 
@@ -32,7 +31,7 @@ export class RegistroPage {
               public fbRegistration:FormBuilder,
               public toastCtrl: ToastController,
               public _usuarioServicio:UsuarioServicioProvider,
-              public _authServicio:AuthServicioProvider) {
+              public _authServicio:AuthAdministradorProvider) {
 
     this.registroForm = this.fbRegistration.group({
 
@@ -50,63 +49,59 @@ export class RegistroPage {
   }
 
   registrarUsuario(){
+    this.mostrarSpinner = true;
       let credenciales = {
         email: this.registroForm.value.userCorreo,
         password: this.registroForm.value.userClave2
       };
-      //REGISTRAR EN AUTHENTICATION
-      this._authServicio.signUpSimple(credenciales)
+
+    // 1 - REGISTRAR EN AUTHENTICATION
+      this._authServicio.signUpExterno(credenciales)
       .then((data)=>{
-        console.log("Datos: " + data.user.uid + " + " + data.user.email);
         this.userId = data.user.uid.toString();
         this.userEmail = data.user.email.toString();
-
-      //REGISTRAR EN DATABASE
-        this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail)
-        .then((newUser)=>{
-            //ACTUALIZAR KEY EN USUARIO
-            this._usuarioServicio.modificar_usuario(newUser)
+    // 2 - ACTUALIZAR PROFILE AUTH
+        this._authServicio.update_externalUserAccount(data.user, this.userProfile, this.userFoto)
+        .then(()=>{
+    // 3 - ENVIAR MAIL DE VERIFICACION
+          this._authServicio.send_ExternalEmailVerification()
+          .then(()=>{
+    // 4 - DESLOGUEARSE DE AUTH
+            this._authServicio.signOutExternal()
             .then(()=>{
-                //ACTUALIZAR PROFILE
-                this._authServicio.update_userAccount(this.userProfile, this.userFoto)
+    // 5 - REGISTRAR USER EN DATABASE
+              this._usuarioServicio.alta_usuario_registro(this.userId, this.userEmail)
+              .then((newUser)=>{
+    // 6 - ACTUALIZAR USER EN DATABASE
+                this._usuarioServicio.modificar_usuario(newUser)
                 .then(()=>{
-                  //ENVIAR MAIL PARA VERIFICAR CUENTA
-                  this._authServicio.sendEmailVerification().then(()=>{
-                    this.reproducirSonido(this.success_sound);
-                    this.mostrarAlerta("Usuario creado");
-                    //DESLOGUEARSE
-                    this._authServicio.signOut().then(()=>{ this.volver(); });
-                  })
-                  .catch((error)=>{
-                    console.log("Error al enviar mail: " + error);
-                  })
-
+                  this.mostrarSpinner = false;
+                  this.mostrarAlerta("Cuenta creada");
+                  this.volver();
                 })
-                .catch((error)=>{
-                  console.log("Error al actualizar auth info: " + error);
-                });
+                .catch((error)=>{ console.log("Error al actualizar usuario en firebase: " + error); });
+              })
+              .catch((error)=>{ console.log("Error al generar usuario en firebase: " + error); });
             })
-            .catch((error)=>{
-              console.log("Error al actualizar auth profile: " + error);
-            })
+            .catch((error)=>{ console.log("Error al desloguearse: " + error); });
+          })
+          .catch((error)=>{ console.log("Error al enviar mail: " + error); })
         })
-        .catch((error)=>{
-          console.log("Error al generar usuario en firebase: " + error);
-        });
+        .catch((error)=>{ console.log("Error al actualizar auth info: " + error); });
       })
-      .catch((error)=>{
-        console.log("Error al registrar usuario (auth): " + error);
-        var errorCode = error.code;
+      .catch((error)=>{ console.log("Error al registrar usuario (auth): " + error);
+        let errorCode = error.code;
         //var errorMessage = error.message;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta ya existente");
+          this.mostrarAlerta("Cuenta no disponible");
           this.registroForm.reset();
           break;
           case "auth/invalid-email":
           this.mostrarAlerta("Correo invalido");
           break;
         }
+        this.mostrarSpinner = false;
         this.reproducirSonido(this.error_sound);
       })
   }
@@ -120,7 +115,7 @@ export class RegistroPage {
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
       message: msj,
-      duration: 2000,
+      duration: 3000,
       position: "top"
     });
     toast.present();
