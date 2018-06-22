@@ -8,7 +8,25 @@
 </ion-header>
 
 <ion-content padding>
- <button ion-button block icon-end (click)="comenzar()" [disabled]="asignado">Comenzar Acitividad
+ <button ion-button block icon-end (click)="comenzarActividad()" [disabled]="asignado">
+ 	Comenzar Actividad
    <ion-icon ios="ios-car" md="md-car"></ion-icon>
  </button>
+
+	<ion-card *ngIf="asignado">
+	  <ion-card-title>Vehiculo Asignado : </ion-card-title>
+	  <img src="http://www.freepngimg.com/download/car/4-2-car-png-hd.png"/>
+	  <ion-card-content>
+	    <ion-card-title>
+	     Patente : {{ vehiculoAsignado.vehiculo.patente }}
+	     </ion-card-title>
+	    <p>
+	     Marca : {{ vehiculoAsignado.vehiculo.marca }}
+	    </p>
+	    <p>
+	     Modelo : {{ vehiculoAsignado.vehiculo.modelo }}
+	    </p>
+	  </ion-card-content>
+	</ion-card>
+
 </ion-content>
