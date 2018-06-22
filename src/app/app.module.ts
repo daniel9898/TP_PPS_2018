@@ -31,6 +31,7 @@ import { StorageProvider } from '../providers/storage/storage';
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
 import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
+import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -40,7 +41,6 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
-
 
 
 @NgModule({
@@ -146,7 +146,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AuthAdministradorProvider,
     Geolocation,
     GeolocationProvider,
-    ViajeServicio
+    ViajeServicio,
+    ClienteEncuestaServicio
   ]
 })
 export class AppModule {}
