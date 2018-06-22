@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 //FIREBASE
 import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 
 @IonicPage()
 @Component({
@@ -13,13 +14,20 @@ export class ChoferInicioPage {
 
   usuarioSesion:any;
   asignado: boolean = false;
+  vehiculos: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public utils: UtilidadesProvider) {
+              public utils: UtilidadesProvider,
+              public vehiculosProv :VehiculosProvider) {
 
         this.usuarioSesion = firebase.auth().currentUser;
         console.log("Usuario actual: " + JSON.stringify(this.usuarioSesion));
+
+        this.vehiculosProv.getListaVehiculos().subscribe(
+          lista => this.vehiculos = lista,
+          error => console.log(error)
+        )
   }
 
     /*
@@ -32,6 +40,8 @@ export class ChoferInicioPage {
   */
 
   comenzar(){
+
+    console.log('vehiculos',this.vehiculos);
 
   }
 

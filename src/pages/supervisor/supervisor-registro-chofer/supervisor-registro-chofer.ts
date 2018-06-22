@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController  } from 'ionic-angular';
+import { IonicPage, NavController  } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //PAGINAS
 import { SupervisorInicioPage,SupervisorListaChoferesPage } from '../../index-paginas';
@@ -17,14 +17,13 @@ import { cameraConfig } from '../../../config/camera.config';
 export class SupervisorRegistroChoferPage {
 
   rForm: FormGroup;
-  pattern : string = "/^[0-9]+$/";
+  pattern = /^[0-9]+$/;
   loading : any;
   userProfile:string = "chofer";
   viewImage  : string ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevjT5_rnSGE76WpJQLuyBb99skuZmJ3DqLGwkT8UUQopXugUrQQ';
   image : string;
 
   constructor(public navCtrl: NavController, 
-  	          public navParams: NavParams, 
   	          private fb: FormBuilder,
               private chofer: ChoferProvider,
               public camera: Camera,
