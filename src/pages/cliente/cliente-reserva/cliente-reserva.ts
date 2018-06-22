@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 
 @IonicPage()
 @Component({
@@ -20,11 +22,14 @@ export class ClienteReservaPage {
   public direccionOrigin: string = '';
   myOriginCallbackFunction: Function;
   myDestCallbackFunction: Function;
+  usuario: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    dateTimeSrv: DateTimeProvider) {
+    dateTimeSrv: DateTimeProvider,
+    public auth: AuthServicioProvider,
+    public usuarioServicio: UsuarioServicioProvider) {
     this.hora = new Date();
     this.hora = new Date(this.hora.toLocaleTimeString());
     this.monthNames = dateTimeSrv.getMonthNames();
@@ -48,6 +53,23 @@ export class ClienteReservaPage {
         resolve();
       });
     }
+  }
+
+  ionViewCanEnter(){
+    this.loadUser();
+  }
+
+  loadUser() {
+    this.usuarioServicio.traer_un_usuario(this.auth.get_userUID())
+      .then((user: any) => {
+        //console.log("USUARIO: " + JSON.stringify(user));
+        this.usuario = user;
+        console.log(user);
+      })
+      .catch((error) => {
+        // this.mostrarSpinner = false;
+        console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
+      })
   }
 
 
