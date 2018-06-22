@@ -23,7 +23,9 @@ export class MapaPage {
         this.direccion = this.navParams.get('direccion');
         console.log("Direccion recibida: " + this.direccion);
         //CALLBACK
-        this.callback = this.navParams.get("callback");
+      }
+      if (this.navParams.get("callback")) {
+        this.callback = this.navParams.get("callback");  
       }
   }
 
