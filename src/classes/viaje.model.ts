@@ -1,16 +1,20 @@
 import { DateTime } from "ionic-angular/umd";
 
-export class viaje {
-    id_cliente: string;
-    id_chofer: string;
-    id_vehiculo: string;
-    fecha: DateTime;
-    cod_fecha: string;
-    origen: string;
-    destino: string;
-    distancia: number;
-    precio: number;
-    estado: string;
-    destino_coord: number[];
-    origen_coord: number[];
+export class Viaje {
+    public id_cliente: string;
+    public id_chofer: string;
+    public id_vehiculo: string;
+    public fecha: string;
+    public cod_fecha: string;
+    public origen: string;
+    public destino: string;
+    public distancia: number;
+    public precio: number;
+    public estado: string;
+    public destino_coord: number[];
+    public origen_coord: number[];
+}
+
+export class Reserva extends Viaje {
+    public hora : Date;
 }
