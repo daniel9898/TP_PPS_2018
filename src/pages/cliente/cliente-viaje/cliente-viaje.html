@@ -20,7 +20,10 @@
       <!-- DIRECCION ORIGEN-->
       <ion-item class="input_direccion">
         <ion-label stacked>Origen</ion-label>
-        <ion-icon name="ios-flag-outline" color="primary" item-start></ion-icon>
+        <ion-avatar item-start>
+          <img src="assets/imgs/marker1.png">
+        </ion-avatar>
+        <!-- <ion-icon name="ios-flag-outline" color="primary" item-start></ion-icon> -->
         <ion-input type="text" required [(ngModel)]="viaje.origen"
                   (ionFocus)="verMapa(1)"></ion-input>
       </ion-item>
@@ -28,7 +31,10 @@
       <!-- DIRECCION DESTINO-->
       <ion-item class="input_direccion">
         <ion-label stacked>Destino</ion-label>
-        <ion-icon name="md-flag" color="primary" item-start></ion-icon>
+        <ion-avatar item-start>
+          <img src="assets/imgs/marker2.png">
+        </ion-avatar>
+        <!-- <ion-icon name="md-flag" color="primary" item-start></ion-icon> -->
         <ion-input type="text" required [(ngModel)]="viaje.destino"
                   (ionFocus)="verMapa(2)"></ion-input>
       </ion-item>

@@ -272,7 +272,7 @@ export class PerfilPage {
       .then(()=>{
         console.log("Cambios guardados!");
         this.mostrarSpinner = false;
-        this.mostrarAlerta("Cambios realizados con éxito!");
+        this.mostrarAlerta("Cambios realizados con éxito");
         this.modificar = false;
         this.traer_usuario();
       })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 //*********************FIREBASE import*********************//
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-//clase USUARIO
+//clase VIAJE
 import { Viaje } from '../../classes/viaje';
 //Importar map: operador para transformar la información recibida de afDB.list
 import { map } from 'rxjs/operators';
@@ -73,10 +73,10 @@ export class ViajeServicio {
     }
 
     //BAJA
-    baja_viaje(userKey:string){
+    baja_viaje(viajeKey:string){
       let promesa = new Promise((resolve, reject)=>{
         this.viajesRef = this.afDB.list('viajes');
-        this.viajesRef.remove(userKey);
+        this.viajesRef.remove(viajeKey);
         resolve();
       });
       return promesa;
