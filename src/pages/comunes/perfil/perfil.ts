@@ -182,12 +182,15 @@ export class PerfilPage {
   //CAMBIAR FOTO
   cambiar_foto(){
     //this.usuario.foto = "assets/imgs/default_chofer.png"; // Prueba
-    this.camera.getPicture(cameraConfig).then((imageData) => {
+    this.camera.getPicture(cameraConfig)
+    .then((imageData) => {
       this.foto_preview = 'data:image/jpeg;base64,' + imageData;
       this.usuario.foto = this.foto_preview;
       this.foto_subir = imageData;
+      if(this.hay_diferencias)
+        console.log("Foto cambiada...esperando para guardar");
     }, (err) => {
-      console.log(err);
+      console.log("Error al tomar imagen: " + err);
     });
   }
 
