@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SupervisorInicioPage,SupervisorListaChoferesPage } from '../../index-paginas';
 import { ChoferProvider } from '../../../providers/chofer/chofer';
 import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario-imagen';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config'; 
 
@@ -28,45 +29,33 @@ export class SupervisorRegistroChoferPage {
               private chofer: ChoferProvider,
               public camera: Camera,
               public usrFoto: UsuarioImagenProvider,
-              private alertCtrl: AlertController,
-              private toastCtrl: ToastController,
-              public loadingCtrl: LoadingController) {
+              public utils: UtilidadesProvider) {
 
   	this.setFormValidator();
   }
 
-  /*
-	logeo
-	boton - inicio actividad
-	asignacion de vehiculo
-	encuesta con el qr
-	lista de espera
-
-  */
-  
   setFormValidator(){
     this.rForm = this.fb.group({
-      'nombre' : ['test',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'apellido' : ['test1', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'edad' : ['', Validators.pattern(this.pattern)],
-      'direccion' : ['', Validators.compose([Validators.minLength(4), Validators.maxLength(15)])],
+      'nombre' : [null,  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'apellido' : [null, Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'edad' : [null, Validators.pattern(this.pattern)],
+      'direccion' : [null, Validators.compose([Validators.minLength(4), Validators.maxLength(15)])],
       'perfil' : ['chofer'],
-      'correo' : ['test@test.com',Validators.compose([Validators.required,Validators.email])],
-      'foto' : [''],
+      'correo' : [null,Validators.compose([Validators.required,Validators.email])],
       'viajando' : [false],
-      'clave' : ['123456'],
-      'activo' : [true]
+      'clave' : [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
+      'activo' : [true],
+      'foto': [null]
     });
   }
 
-  //VOLVER ATRAS
   volver(){
     this.navCtrl.setRoot(SupervisorInicioPage);
   }
 
   async guardar(){
     console.log(this.rForm.value);
-    this.showLoading();
+    this.utils.showLoading(true);
     try{
 
         let credenciales = { email: this.rForm.value.correo, password: this.rForm.value.clave};
@@ -80,19 +69,18 @@ export class SupervisorRegistroChoferPage {
         delete chofer.clave;
        
      	  let keyUser = await this.chofer.altaDb(chofer);
-     	  console.log('keyUser ',keyUser);
         chofer.key = keyUser;
-        chofer.id_usuario = keyUser;
-     	  let keyOk = await this.chofer.actualizarChofer(chofer);
-     	  console.log('keyOk ',keyOk);
-        this.killLoading();
-        this.showToast();
+
+        chofer.id_usuario = authOk.user.uid;
+     	  await this.chofer.actualizarChofer(chofer);
+     	  
+        this.utils.showToast('REGISTRO EXITOSO !');
         this.navCtrl.setRoot(SupervisorListaChoferesPage);
       
     }catch(e){
-        this.killLoading();
+        this.utils.dismissLoading();
         console.log('error ',e.message);
-        this.showAlert(e.message);
+        this.utils.showAlert('Atención ! ',e.message);
     }
      
   }
@@ -104,39 +92,8 @@ export class SupervisorRegistroChoferPage {
         this.viewImage = 'data:image/jpeg;base64,'+this.image;
     }catch(e){
         console.log(e.message);
-        this.showAlert(e.message);
+        this.utils.showAlert('Atención ! ',e.message);
     }
-  }
-
-  showAlert(message:string) {
-    let alert = this.alertCtrl.create({
-      title: 'Informe : ',
-      subTitle: message,
-      buttons: ['Dismiss']
-    });
-    alert.present();
-  }
-
-  showToast(){
-    let toast = this.toastCtrl.create({
-      message: 'Chofer Agregado exitosamente !',
-      duration: 3000,
-      position: 'top'
-    });
-    toast.present();
-  }
-
-  showLoading(dismissOnPageChange?:boolean) {
-    this.loading = this.loadingCtrl.create({
-      content: 'espere por favor...',
-      dismissOnPageChange: dismissOnPageChange != null ? dismissOnPageChange : false
-    });
-
-    this.loading.present();
-  }
-
-  killLoading(){
-    this.loading.dismiss();
   }
 
 }

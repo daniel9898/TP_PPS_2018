@@ -1,8 +1,14 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Usuario : {{usuarioSesion.displayName}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
 <ion-content padding>
-  <ion-row>
-    <ion-col>
-      <h1>{{usuarioSesion.displayName}}</h1>
-      <img id="perfil" [src]=usuarioSesion.photoURL alt="login imagen">
-    </ion-col>
-  </ion-row>
+ <button ion-button block icon-end (click)="comenzar()" [disabled]="asignado">Comenzar Acitividad
+   <ion-icon ios="ios-car" md="md-car"></ion-icon>
+ </button>
 </ion-content>

@@ -35,6 +35,7 @@ import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//-----------
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 
 
 
@@ -137,7 +138,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     StorageProvider,
     VehiculoImagenProvider,
     UsuarioImagenProvider,
-    ChoferProvider
+    ChoferProvider,
+    UtilidadesProvider
   ]
 })
 export class AppModule {}
