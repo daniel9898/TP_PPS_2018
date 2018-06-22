@@ -4,6 +4,9 @@ import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
+import { Usuario } from '../../../classes/usuario';
+import { viaje } from '../../../classes/viaje.model';
 
 @IonicPage()
 @Component({
@@ -11,6 +14,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
   templateUrl: 'cliente-reserva.html',
 })
 export class ClienteReservaPage {
+
 
   public fecha: Date;
   public hora: Date;
@@ -22,20 +26,25 @@ export class ClienteReservaPage {
   public direccionOrigin: string = '';
   myOriginCallbackFunction: Function;
   myDestCallbackFunction: Function;
-  usuario: any;
+  usuario: Usuario;
+  viajeReserva: viaje;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     dateTimeSrv: DateTimeProvider,
-    public auth: AuthServicioProvider,
-    public usuarioServicio: UsuarioServicioProvider) {
+    private auth: AuthServicioProvider,
+    private usuarioServicio: UsuarioServicioProvider,
+    private geo: GeocodingProvider) {
     this.hora = new Date();
     this.hora = new Date(this.hora.toLocaleTimeString());
     this.monthNames = dateTimeSrv.getMonthNames();
     this.daysNames = dateTimeSrv.getWeekDays();
     this.daysShortNames = dateTimeSrv.getWeekDaysShort();
     this.monthShortNames = dateTimeSrv.getMonthNamesShort();
+    this.viajeReserva = new viaje();
+    this.viajeReserva.origen_coord = [];
+    this.viajeReserva.destino_coord = [];
   }
 
   ionViewDidLoad() {
@@ -43,6 +52,9 @@ export class ClienteReservaPage {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
         this.direccionOrigin = _params;
+        this.geo.obtenerCoordenadas(_params).then(coord => {
+          this.setTripOriginCoord(coord, this.viajeReserva);
+        });
         resolve();
       });
     }
@@ -50,15 +62,21 @@ export class ClienteReservaPage {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
         this.direccionDest = _params;
+        this.geo.obtenerCoordenadas(_params).then(coord => {
+          this.setTripDestCoord(coord, this.viajeReserva);
+        });
         resolve();
       });
     }
   }
 
-  ionViewCanEnter(){
+  ionViewCanEnter() {
     this.loadUser();
   }
 
+  /**
+   * Metodo que carga el usuario
+   */
   loadUser() {
     this.usuarioServicio.traer_un_usuario(this.auth.get_userUID())
       .then((user: any) => {
@@ -72,6 +90,38 @@ export class ClienteReservaPage {
       })
   }
 
+  /**
+   * Actualizar las coordenadas del viaje
+   * @param coords coordenadas obtenidas
+   * @param coordToUpdate coordenadas que se van a actualizar
+   */
+  setTripCoord(coords: number[], coordToUpdate: number[]) {
+    coordToUpdate = coords;
+    console.log(this.viajeReserva, coordToUpdate);
+  }
+
+  /**
+   * Establecer coordenadas origen
+   * @param coordenadas coordenadas a establecer
+   * @param reserva instancia de la reserva
+   */
+  setTripOriginCoord(coordenadas: number[], reserva: viaje) {
+    reserva.origen_coord = coordenadas;
+    this.viajeReserva = reserva;
+    console.log(coordenadas, this.viajeReserva, reserva);
+  }
+
+
+  /**
+   * Establecer coordenadas destino
+   * @param coordenadas coordenadas a establecer
+   * @param reserva instancia de la reserva
+   */
+  setTripDestCoord(coordenadas: number[], reserva: viaje) {
+    reserva.destino_coord = coordenadas;
+    this.viajeReserva = reserva;
+    console.log(coordenadas, this.viajeReserva, reserva);
+  }
 
   public setDir(dir) {
     this.direccionOrigin = dir;
