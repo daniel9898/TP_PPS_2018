@@ -11,4 +11,6 @@ export class viaje {
     distancia: number;
     precio: number;
     estado: string;
+    destino_coord: number[];
+    origen_coord: number[];
 }
