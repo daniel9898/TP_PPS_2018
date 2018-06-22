@@ -10,7 +10,7 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Dirección origen</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-input type="text" [(ngModel)]="direccionOrigin" [value]="direccionOrigin"  (ionFocus)="setOriginDir()" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Fecha</ion-label>
@@ -22,7 +22,7 @@
   </ion-item>
   <ion-item>
     <ion-label>Dirección destino</ion-label>
-    <ion-input type="text" (ionFocus)="verMapa()"></ion-input>
+    <ion-input type="text" (ionFocus)="setDestDir()" [(ngModel)]="direccionDest"></ion-input>
   </ion-item>
   <ion-item >
 
