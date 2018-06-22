@@ -25,7 +25,7 @@ export class MapaPage {
       }
       //Se setea el callback siempre ya que el if anterior 
       //no siempre sirve como verificacion
-      if (this.navParams.get("callback")) {
+      if (this.navParams.get("callback") !== null) {
         this.callback = this.navParams.get("callback");  
       }
   }
