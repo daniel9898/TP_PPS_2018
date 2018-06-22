@@ -26,14 +26,17 @@ import { StorageProvider } from '../providers/storage/storage';
 import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
 import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
 import { ChoferProvider } from '../providers/chofer/chofer';
+import { DateTimeProvider } from '../providers/date-time/date-time';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
-         ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
-         SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
+import {
+  InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
+  ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+  SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
+} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 
 
@@ -84,9 +87,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireStorageModule,
     HttpModule,
     AgmCoreModule.forRoot({
-      	   apiKey: environment.googleMaps.apiKey
-    	})
-
+      apiKey: environment.googleMaps.apiKey
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -128,7 +130,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     StatusBar,
     SplashScreen,
     AngularFireDatabase,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     Camera,
     UsuarioServicioProvider,
     AuthServicioProvider,
@@ -137,7 +139,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     StorageProvider,
     VehiculoImagenProvider,
     UsuarioImagenProvider,
-    ChoferProvider
+    ChoferProvider,
+    DateTimeProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }
