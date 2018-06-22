@@ -10,21 +10,22 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Dirección origen</ion-label>
-    <ion-input type="text" [(ngModel)]="direccionOrigin" [value]="direccionOrigin"  (ionFocus)="setOriginDir()" ></ion-input>
+    <ion-input type="text" [(ngModel)]="viajeReserva.origen" (ionFocus)="setOriginDir()" ></ion-input>
   </ion-item>
   <ion-item>
     <ion-label>Fecha</ion-label>
-    <ion-datetime [monthNames]="monthNames" [monthShortNames]="monthShortNames" [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD de MMMM" pickerFormat="MMMM-DD" [(ngModel)]="fecha"></ion-datetime>
+    <ion-datetime [(ngModel)]="viajeReserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD de MMMM" pickerFormat="MMMM-DD"></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Hora</ion-label>
-    <ion-datetime displayFormat="HH:mm" pickerFormat="HH:mm" [(ngModel)]="hora"></ion-datetime>
+    <ion-datetime [(ngModel)]="viajeReserva.hora" displayFormat="HH:mm" pickerFormat="HH:mm" ></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Dirección destino</ion-label>
-    <ion-input type="text" (ionFocus)="setDestDir()" [(ngModel)]="direccionDest"></ion-input>
+    <ion-input type="text" [(ngModel)]="viajeReserva.destino" (ionFocus)="setDestDir()" ></ion-input>
   </ion-item>
+  <ion-item-divider color="light"></ion-item-divider>
   <ion-item >
-
+    <button ion-button full (click)="guardarReserva()">Guardar</button>
   </ion-item>
 </ion-content>
