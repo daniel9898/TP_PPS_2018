@@ -39,3 +39,22 @@ export class Viaje{
     }
 
 }
+
+//TEXTO
+
+export const Viaje_texto = {
+
+  label:{
+    origen: "Origen",
+    destino: "Destino",
+    distancia: "Distancia",
+    precio: "Precio"
+  },
+  msj_final:{
+    titulo: "FIN DEL RECORRIDO",
+    subtitulo: "¡Gracias por elegirnos!",
+    texto_1: "Encuesta disponible:",
+    texto_2: "utilice su lector QR para acceder"
+  }
+
+}

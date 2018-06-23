@@ -4,7 +4,7 @@ import { NavController, ToastController, NavParams, Platform } from 'ionic-angul
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
 //clase USUARIO
 import { Usuario } from '../../../classes/usuario';
-import { Viaje } from '../../../classes/viaje';
+import { Viaje, Viaje_texto } from '../../../classes/viaje';
 //Interface MARKER
 import { Marker } from '../../../interfaces/marker';
 //SERVICIOS
@@ -40,6 +40,8 @@ export class ClienteViajePage {
   destino_marker:Marker;
   precio:number = 18; // por KM
   precio_minimo:number = 60;
+  //texto
+  texto:any = Viaje_texto;
 
   //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;

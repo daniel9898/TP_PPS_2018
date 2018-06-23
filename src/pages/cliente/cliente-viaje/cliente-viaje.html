@@ -7,9 +7,12 @@
   </div>
   <!-- MENSAJE FINAL -->
   <div class="msj_box" *ngIf="!mostrarSpinner && mostrarMsj">
-    <ion-label class="msj_final">
-      <strong>FIN DEL RECORRIDO</strong>
-      <br>¡Gracias por elegirnos!
+    <ion-label class="msj_final_1">
+      <strong>{{texto.msj_final.titulo}}</strong>
+      <br>{{texto.msj_final.subtitulo}}
+    </ion-label>
+    <ion-label class="msj_final_2">
+      <br><br><strong>{{texto.msj_final.texto_1}}</strong> {{texto.msj_final.texto_2}}
     </ion-label>
     <img src="assets/imgs/fin_recorrido.png">
   </div>
@@ -27,7 +30,7 @@
 
       <!-- DIRECCION ORIGEN-->
       <ion-item class="input_direccion">
-        <ion-label stacked>Origen</ion-label>
+        <ion-label stacked>{{texto.label.origen}}</ion-label>
         <ion-avatar item-start>
           <img src="assets/imgs/marker1.png">
         </ion-avatar>
@@ -38,7 +41,7 @@
 
       <!-- DIRECCION DESTINO-->
       <ion-item class="input_direccion">
-        <ion-label stacked>Destino</ion-label>
+        <ion-label stacked>{{texto.label.destino}}</ion-label>
         <ion-avatar item-start>
           <img src="assets/imgs/marker2.png">
         </ion-avatar>
@@ -62,7 +65,7 @@
 
   </div>
   <!-- MENSAJE INICIO -->
-  <div class="msj_box" *ngIf="!mostrarMapa">
+  <div class="msj_box" *ngIf="!mostrarSpinner && !mostrarMapa">
     <img src="assets/imgs/inicio_recorrido.png">
   </div>
 
