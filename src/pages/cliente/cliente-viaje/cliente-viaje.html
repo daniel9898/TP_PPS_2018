@@ -61,6 +61,10 @@
     </ion-grid>
 
   </div>
+  <!-- MENSAJE INICIO -->
+  <div class="msj_box" *ngIf="!mostrarMapa">
+    <img src="assets/imgs/inicio_recorrido.png">
+  </div>
 
   <!-- MAPA -->
    <div *ngIf="!mostrarSpinner" xFlex="100" class="map-full-card-content">
