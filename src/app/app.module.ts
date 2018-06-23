@@ -38,6 +38,7 @@ import {
   SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
 } from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { ReservasProvider } from '../providers/reservas/reservas';
 
 
 
@@ -140,7 +141,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     VehiculoImagenProvider,
     UsuarioImagenProvider,
     ChoferProvider,
-    DateTimeProvider
+    DateTimeProvider,
+    ReservasProvider
   ]
 })
 export class AppModule { }
