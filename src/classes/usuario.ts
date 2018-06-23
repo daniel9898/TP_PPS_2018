@@ -13,7 +13,7 @@ export class Usuario{
     viajando:boolean;
     activo:boolean;
 
-    constructor(user_data:Usuario){
+    constructor(user_data:any){
         //REGISTRO
         this.key = user_data.key;
         this.id_usuario = user_data.id_usuario;

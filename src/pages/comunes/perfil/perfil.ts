@@ -21,12 +21,14 @@ export class PerfilPage {
   mostrarSpinner:boolean;
 
   //VARIABLES DE CONTROL
+  vistaExterna:string; //Perfil del usuario que esta viendo perfil de OTRO usuario
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
+  vistaCliente:boolean = false;//Mostrar: solo datos (accede un cliente que está en viaje para ver los datos del chofer)
   modificar:boolean = false; //Variable de control (activa mod. de datos text).
   cambios:boolean = false; //Variable de control (activa subir cambios).
 
   //DATOS DEL USUARIO
-  usuario:Usuario; //Usuario actual
+  usuario:Usuario; //Usuario en vista
   copy_user:Usuario;//Usuario original (para validar cambios)
 
   //FOTO
@@ -46,25 +48,16 @@ export class PerfilPage {
 
       this.mostrarSpinner = true;
       this.modificar = false;
-
-      //PRUEBA // BORRAR
-      this._auth.sendEmailVerification()
-      .then((value)=>{
-        console.log("Valor al enviar mail! " + JSON.stringify(value));
-      })
-      .catch((error)=>{
-        console.log("Error al enviar mail: " + error);
-      })
   }
 
   //PAGINA CARGADA
   ionViewDidLoad() {
     this.traer_usuario();
     //CALLBACK para traer direccion de mapa
-    this.myCallbackFunction = (_params)=> {
+    this.myCallbackFunction = (datos)=> {
       console.log("callback asignado");
        return new Promise((resolve, reject) => {
-               this.usuario.direccion = _params;
+               this.usuario.direccion = datos.direccion;
                resolve();
            });
     }
@@ -90,9 +83,15 @@ export class PerfilPage {
     //CARGAR PERFIL DE USUARIO SELECCIONADO
     }else{
       this.usuario = this.navParams.get('userSelected');
+      this.vistaExterna = this.navParams.get('profile');
       this.copy_user = new Usuario(this.usuario);
       this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
-        this.vistaSupervisor = true;
+        //VALIDAR botones que se verán en perfil
+        if(this.vistaExterna == "supervisor")
+          this.vistaSupervisor = true;
+        if(this.vistaExterna == "cliente")
+          this.vistaCliente = true;
+
         this.mostrarSpinner = false;
       });
     }
@@ -141,6 +140,7 @@ export class PerfilPage {
   borrar(){
 
     //USUARIO QUE BORRA SU CUENTA
+    this.mostrarSpinner = true;
     if(!this.vistaSupervisor){
       this._auth.delete_userAccount()
       .then(()=>{
@@ -153,6 +153,7 @@ export class PerfilPage {
         this._usuarioServicio.baja_usuario(this.usuario.key)
         .then(()=>{
               console.log("OK: usuario eliminado de database");
+              this.mostrarSpinner = false;
               this.mostrarAlerta("Usuario eliminado!");
               this.navCtrl.setRoot(LoginPage);
         })
@@ -181,12 +182,15 @@ export class PerfilPage {
   //CAMBIAR FOTO
   cambiar_foto(){
     //this.usuario.foto = "assets/imgs/default_chofer.png"; // Prueba
-    this.camera.getPicture(cameraConfig).then((imageData) => {
+    this.camera.getPicture(cameraConfig)
+    .then((imageData) => {
       this.foto_preview = 'data:image/jpeg;base64,' + imageData;
       this.usuario.foto = this.foto_preview;
       this.foto_subir = imageData;
+      if(this.hay_diferencias)
+        console.log("Foto cambiada...esperando para guardar");
     }, (err) => {
-      console.log(err);
+      console.log("Error al tomar imagen: " + err);
     });
   }
 
@@ -268,7 +272,7 @@ export class PerfilPage {
       .then(()=>{
         console.log("Cambios guardados!");
         this.mostrarSpinner = false;
-        this.mostrarAlerta("Cambios realizados con éxito!");
+        this.mostrarAlerta("Cambios realizados con éxito");
         this.modificar = false;
         this.traer_usuario();
       })
@@ -294,7 +298,6 @@ export class PerfilPage {
       this.cambios = false;
       return false;
     }
-
   }
 
   //ALERTA
@@ -314,7 +317,8 @@ export class PerfilPage {
 
   //VOLVER ATRAS
   volver(){
-    this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    //this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    this.navCtrl.pop();
   }
 
 }

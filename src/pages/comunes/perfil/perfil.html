@@ -4,7 +4,7 @@
     <div *ngIf="!mostrarSpinner">
 
       <!-- MENU OPCIONES -->
-      <ion-fab top right #fab>
+      <ion-fab *ngIf="!vistaCliente" top right #fab>
         <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
         <ion-fab-list side="left">
           <button *ngIf="!modificar" ion-fab mini color="yellow" (click)="accionMenu($event,fab,'modificar')">
@@ -62,7 +62,7 @@
       </ion-item>
 
       <!-- FOTO -->
-      <ion-item>
+      <ion-item class="fotoBox">
         <button class="boton_camara" ion-fab mini color="secondary"
                 (click)="cambiar_foto()" *ngIf="modificar && !vistaSupervisor">
           <ion-icon name="md-camera"></ion-icon>
@@ -92,7 +92,7 @@
       </ion-fab>
 
       <!-- VOLVER ATRAS -->
-      <ion-fab *ngIf="vistaSupervisor" class="floatBack" top left>
+      <ion-fab *ngIf="vistaSupervisor || vistaCliente " class="floatBack" top left>
         <button ion-fab mini color="primary" (click)="volver()">
           <ion-icon name="md-arrow-round-back"></ion-icon>
         </button>

@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 //FIREBASE
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-//import AuthProvider = firebase.auth.AuthProvider;
 
 @Injectable()
 export class AuthServicioProvider {
 
+  //Usuario actual
   private user: firebase.User;
 
   constructor(public afAuth:AngularFireAuth) {
-    console.log('AuthServicioProvider Provider iniciado...');
-      afAuth.authState.subscribe(user => { // !!!
+    console.log('Auth servicio iniciado...');
+      //Para mantener sesión y menú según perfil
+      afAuth.authState
+      .subscribe(user => { // !!!
   			this.user = user;
   		});
   }
@@ -21,7 +23,7 @@ export class AuthServicioProvider {
     return this.user !== null;
   }
 
-  //Iniciar sesión
+  //Iniciar sesión (email + password)
   signInWithEmail(credentials) {
 		console.log('Sign in with email');
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
@@ -32,7 +34,7 @@ export class AuthServicioProvider {
 	  return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
 
-  //ENVIAR MAIL DE VERIFICACIÓN
+  //Enviar mail de verificación
   sendEmailVerification(){
     return this.user.sendEmailVerification();
   }
@@ -42,7 +44,7 @@ export class AuthServicioProvider {
     return this.user.delete();
   }
 
-  //Modificar usuario (foto - perfil)
+  //Modificar usuario PROPIO en auth (foto - perfil)
   update_userAccount(profile:string, foto:string){
     return this.user.updateProfile({
             displayName: profile,
@@ -56,11 +58,12 @@ export class AuthServicioProvider {
   }
 
   //Cerrar sesión
-  signOut(): Promise<void> {
+  signOut(){
     return this.afAuth.auth.signOut();
   }
 
-  //Traer datos del usuario (de firebase)
+  //Traer datos del usuario (de firebase)**************************************
+
   get_userData(){
     return this.afAuth.auth.currentUser;
   }
@@ -75,6 +78,10 @@ export class AuthServicioProvider {
 
   get_userProfile(){
     return this.user.displayName;
+  }
+
+  get_userPhoto(){
+    return this.user.photoURL;
   }
 
 }

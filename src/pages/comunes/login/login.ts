@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
-import { ClienteInicioPage, ChoferInicioPage, SupervisorInicioPage, RegistroPage } from '../../index-paginas';
+import { RegistroPage } from '../../index-paginas';
 //clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 //jQUERY
 import * as $ from 'jquery';
 
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
-  providers: [UsuarioServicioProvider, AuthServicioProvider]
 })
 export class LoginPage {
 
@@ -22,6 +22,8 @@ export class LoginPage {
   //ATRIBUTOS
   usuario:Usuario = null;
   mail_verificado:boolean;
+  update_profile:boolean;
+  credenciales:any;
   //user: Observable<firebase.User>;
   userActive:any;
   myLoginForm:FormGroup;
@@ -40,7 +42,8 @@ export class LoginPage {
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
               public _usuarioServicio:UsuarioServicioProvider,
-              public _authServicio:AuthServicioProvider) {
+              public _authServicio:AuthServicioProvider,
+              public _authAdmin:AuthAdministradorProvider) {
 
         //this.user = afAuth.authState;
         console.log("¿Sesión activa?: " + this._authServicio.authenticated);
@@ -53,9 +56,8 @@ export class LoginPage {
   }
 
   //INICIO
-  ionViewDidEnter(){
-    //console.log("Página cargada!");
-
+  ionViewDidLoad(){
+    console.log("Página cargada!");
   }
 
   //DATOS DE PRUEBA
@@ -112,37 +114,41 @@ export class LoginPage {
     this.mostrarSpinner = true;
 
     //CREDENCIALES
-    let credenciales = {
+    this.credenciales = {
       email: this.myLoginForm.value.userEmail,
       password: this.myLoginForm.value.userPassword
     };
-    //LOGUEARSE
-    this._authServicio.signInWithEmail(credenciales)
-      .then(value => {
-        console.log('Email utilizado: ' + value.user.email);
-        this.mail_verificado = value.user.emailVerified;
-        //TRAER USUARIO
-        this._usuarioServicio.traer_un_usuario_correo(credenciales.email)
+
+  // 1) INTENTAR LOGUEARSE
+    this._authAdmin.signInExterno(this.credenciales)
+      .then(data => {
+        console.log('Email utilizado: ' + data.user.email);
+        this.mail_verificado = data.user.emailVerified;
+
+   // 2) TRAER USUARIO
+        this._usuarioServicio.traer_un_usuario(data.user.uid)
         .then((user:any)=>{
+
+    //2-A USUARIO EXISTE
           if(user){
               console.log("Usuario traído: " + JSON.stringify(user));
-              this.usuario = user;
-          }
+              this.usuario = new Usuario(user);
+   // 3) VALIDAR INGRESO
 
-          if(!this.usuario)
-            this.usuario_inexistente();
+     //A- USUARIO EXISTE PERO ESTA INHABILITADO (inactivo y sin mail verificado)
+              if(!this.mail_verificado && !this.usuario.activo)
+                this.usuario_inhabilitado();
+     //B- USUARIO CON MAIL VERIFICADO (inactivo pero con mail verificado)
+              if(this.mail_verificado && !this.usuario.activo)
+                this.usuario_mailVerificado();
+     //C- USUARIO ACTIVO
+              if(this.usuario.activo)
+                this.usuario_activo();
+          }
+     //2-B USUARIO NO EXISTE
           else{
-            if(!this.mail_verificado && !this.usuario.activo)
-              this.usuario_inhabilitado();
-
-            if(this.mail_verificado && !this.usuario.activo)
-              this.usuario_mailVerificado();
-
-            if(!this.mail_verificado && this.usuario.activo ||
-                this.mail_verificado && this.usuario.activo)
-              this.usuario_activo();
+            this.usuario_inexistente();
           }
-
         })
         .catch((error)=>{
           this.mostrarSpinner = false;
@@ -150,24 +156,34 @@ export class LoginPage {
         })
 
       })
-      .catch(err => {
-        console.log('Error: al realizar signIn ',err.message);
-        this.mostrarSpinner = false;
-        this.reproducirSonido(this.error_sound);
-        this.mostrarAlerta('Usuario y/o contraseña incorrectos');
+      .catch(error => { console.log('Error: al realizar signIn ',error.message);
+      let errorCode = error.code;
+      switch(errorCode){
+        case "auth/invalid-email":
+        case "auth/wrong-password":
+        this.mostrarAlerta("Usuario y/o contraseña incorrecta");
+        break;
+        case "auth/user-not-found":
+        this.mostrarAlerta("Cuenta inexistente");
+        break;
+      }
+      this.mostrarSpinner = false;
+      this.reproducirSonido(this.error_sound);
       });
   }
 
   //ACCIONES SEGUN ESTADO DEL USUARIO
   usuario_activo(){
     console.log("Coincidencia en el usuario!");
-    this.mostrarSpinner = false;
-    this.ingresar();
+    this._authServicio.signInWithEmail(this.credenciales)
+      .then(()=>{ this.mostrarSpinner = false; })
+    // this.mostrarSpinner = false;
+    // this.ingresar();
   }
 
   usuario_inhabilitado(){
     console.log("El usuario no está activo");
-    this._authServicio.signOut()
+    this._authAdmin.signOutExternal()
       .then(()=>{
         this.mostrarSpinner = false;
         this.reproducirSonido(this.error_sound);
@@ -177,9 +193,9 @@ export class LoginPage {
 
   usuario_inexistente(){ //Usuario borrado por supervisor (falta eliminar auth)
     console.log("El usuario fue eliminado!");
-    // this._authServicio.delete_userAccount();
-    // this.reproducirSonido(this.error_sound);
-    // this.mostrarAlerta("Cuenta inexistente");
+    this._authAdmin.delete_externalUserAccount();
+    this.reproducirSonido(this.error_sound);
+    this.mostrarAlerta("Cuenta inexistente");
     this.navCtrl.setRoot(LoginPage);
   }
 
@@ -195,30 +211,10 @@ export class LoginPage {
       });
   }
 
-  //INGRESAR A LA APLICACIÓN
-  ingresar(){
-
-      this.mostrarSpinner = false;
-      switch(this.usuario.perfil){
-        case "cliente":
-        this.navCtrl.setRoot(ClienteInicioPage);
-        break;
-        case "chofer":
-        this.navCtrl.setRoot(ChoferInicioPage);
-        break;
-        case "supervisor":
-        case "superusuario":
-        this.navCtrl.setRoot(SupervisorInicioPage);
-        break;
-      }
-      //this.reproducirSonido(this.success_sound);
-  }
-
-
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
       message: msj,
-      duration: 2000,
+      duration: 3000,
       position: "top"
     });
     toast.present();

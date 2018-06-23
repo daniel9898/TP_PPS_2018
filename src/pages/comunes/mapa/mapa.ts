@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ModalController, FabContainer } from 'ionic-angular';
-//SERVICIO GEOCODING
+//SERVICIOS GEOCODING + GEOLOCATE
 import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
+import { GeolocationProvider } from '../../../providers/geolocation/geolocation';
 
 @Component({
   selector: 'page-mapa',
@@ -17,7 +18,8 @@ export class MapaPage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public modalCtrl: ModalController,
-              private _geoCoding:GeocodingProvider) {
+              private _geoCoding:GeocodingProvider,
+              private _geoLocate:GeolocationProvider) {
 
       if(this.navParams.get('direccion')){
         this.direccion = this.navParams.get('direccion');
@@ -75,8 +77,37 @@ export class MapaPage {
       })
   }
 
+  localizarDispositivo(){
+    //OBTENER Y MARCAR UBICACION
+    this._geoLocate.obtenerPosicion()
+      .then((data)=>{
+        console.log("Geolocalización: " + JSON.stringify(data));
+        this.lat = data.coords.latitude;
+        this.lng = data.coords.longitude;
+      })
+      .catch((error)=>{
+        console.log("Error al ubicar posición del usuario: " + error);
+      })
+    //TRADUCIR EN DIRECCION
+      .then(()=>{
+        this._geoCoding.obtenerDireccion(this.lat, this.lng)
+          .then((data:any)=>{
+            this.direccion = data.toString();
+            console.log("Dirección: " + this.direccion);
+          })
+          .catch((error)=>{
+            console.log("ERROR: al convertir coordenadas -> dirección: " + error);
+          })
+      })
+  }
+
   actualizarDireccion(){
-    this.callback(this.direccion).then(()=>{
+    let datos = {
+      direccion: this.direccion,
+      lat: this.lat,
+      lng: this.lng
+    }
+    this.callback(datos).then(()=>{
       this.navCtrl.pop();
    });
   }

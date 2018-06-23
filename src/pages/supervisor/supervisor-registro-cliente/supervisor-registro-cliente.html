@@ -7,46 +7,38 @@
             <!-- CORREO -->
             <ion-item>
               <ion-avatar item-end>
-                <img [src]=usuario_foto alt="...">
+                <img [src]=usuario.foto alt="...">
               </ion-avatar>
               <ion-label stacked>Correo</ion-label>
-              <ion-input type="text" required [(ngModel)]="usuario_correo"></ion-input>
+              <ion-input type="text" required [(ngModel)]="usuario.correo" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- NOMBRE -->
             <ion-item>
               <ion-label stacked>Nombre</ion-label>
-              <ion-input type="text" [(ngModel)]="usuario_nombre"></ion-input>
+              <ion-input type="text" [(ngModel)]="usuario.nombre" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- EDAD -->
             <ion-item>
               <ion-label stacked>Edad</ion-label>
-              <ion-input type="text" [(ngModel)]="usuario_edad"></ion-input>
+              <ion-input type="text" [(ngModel)]="usuario.edad" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- DIRECCION -->
             <ion-item>
               <ion-label stacked>Dirección</ion-label>
-              <ion-input type="text" [(ngModel)]="usuario_direccion"
-                         (ionFocus)="verMapa()"></ion-input>
+              <ion-input type="text" [(ngModel)]="usuario.direccion"
+                         (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
             <!-- PERFIL -->
             <ion-item class="perfilBox">
               <ion-label>Perfil</ion-label>
-              <ion-select [(ngModel)]="usuario_perfil" okText="Aceptar" cancelText="Cancelar" (ionChange)="perfilSeleccionado($event)">
-                <ion-option value="cliente">Cliente</ion-option>
-                <ion-option value="chofer">Chofer</ion-option>
-                <ion-option value="supervisor">Supervisor</ion-option>
-              </ion-select>
+              <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil" (ionChange)="hay_diferencias"></ion-input>
             </ion-item>
-            <!-- <ion-item class="perfilBox">
-              <ion-label stacked>Perfil</ion-label>
-              <ion-input  type="text" required [(ngModel)]="usuario_perfil"></ion-input>
-            </ion-item> -->
 
       </ion-grid>
 
       <!-- FOTO -->
       <ion-item>
-        <img class="fotoPerfil" [src]="usuario_foto" alt="...">
+        <img class="fotoPerfil" [src]="usuario.foto" alt="...">
       </ion-item>
 
       <!-- VISTA SUPERUSUARIO -->
@@ -54,18 +46,18 @@
         <!-- VIAJE -->
         <ion-item>
           <ion-label stacked>Viajando</ion-label>
-          <ion-checkbox [(ngModel)]="usuario_viajando" disabled="true"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
         </ion-item>
         <!-- ESTADO -->
         <ion-item>
           <ion-label stacked>Activo</ion-label>
-          <ion-checkbox [(ngModel)]="usuario_activo"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.activo" (ionChange)="hay_diferencias"></ion-checkbox>
         </ion-item>
       </div>
 
       <!-- GUARDAR -->
       <ion-fab class="" bottom right>
-        <button ion-fab mini color="secondary" (click)="guardar()">
+        <button ion-fab mini color="secondary" (click)="guardar()" [disabled]="!cambios">
           <ion-icon name="ios-folder-open"></ion-icon>
         </button>
       </ion-fab>

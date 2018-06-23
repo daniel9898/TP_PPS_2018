@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 //*********************FIREBASE import*********************//
-import { AngularFireAuth} from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 //clase USUARIO
@@ -14,17 +13,13 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UsuarioServicioProvider {
 
-  //USUARIOS
-  //usuariosArray:Usuario[] = []; //Array que aloja a los usuarios leídos de la BD
   usuariosTest:any[] = [];
-  //destroy$: Subject<boolean> = new Subject<boolean>();//referencia para realizar unsubscribe
 
   //LISTA USUARIOS
   usuariosRef: AngularFireList<any>;
   usuarios: Observable<any[]>;
 
   constructor(  public afDB: AngularFireDatabase,
-                public afAuth:AngularFireAuth,
                 private _http:Http ) {
 
     console.log('Provider USUARIOS iniciado...');
@@ -145,7 +140,6 @@ export class UsuarioServicioProvider {
         resolve(nuevo_user);
       });
       return promesa;
-    //return this.afDB.object(`usuarios/${ userId }`).update(newUser); // --- subida especificando custom key
   }
 
   //ALTA
@@ -177,6 +171,15 @@ export class UsuarioServicioProvider {
       resolve();
     });
     return promesa;
+  }
+
+  //ASIGNAR VEHICULO A USUARIO (Chofer)
+  async asignarVehiculo(uid : string , keyVehiculo : string){
+
+    let user = await this.traer_un_usuario(uid);
+    console.log(user);
+    user['id_vehiculo'] = keyVehiculo;
+    return this.modificar_usuario(user);
   }
 
   //CARGAR IMAGEN EN STORAGE
@@ -213,13 +216,5 @@ export class UsuarioServicioProvider {
     });
     return promesa;
   }
-
-  //DESUSCRIBIR
-  // desuscribir(){
-  //   this.destroy$.next();
-  //   // Now let's also unsubscribe from the subject itself:
-  //   this.destroy$.complete();
-  //   console.log("Observables de provider usuarios desuscriptos");
-  // }
 
 }
