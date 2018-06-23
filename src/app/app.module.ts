@@ -18,6 +18,8 @@ import { environment } from '../environments/environment';
 import { AgmCoreModule } from '@agm/core';
 //GEOLOCATION
 import { Geolocation } from '@ionic-native/geolocation';
+//QR plugin
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -32,6 +34,7 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
 import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -147,7 +150,9 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     Geolocation,
     GeolocationProvider,
     ViajeServicio,
-    ClienteEncuestaServicio
+    ClienteEncuestaServicio,
+    BarcodeScanner,
+    QrServicioProvider
   ]
 })
 export class AppModule {}
