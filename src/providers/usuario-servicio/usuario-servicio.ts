@@ -173,6 +173,15 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
+  //ASIGNAR VEHICULO A USUARIO (Chofer)
+  async asignarVehiculo(uid : string , keyVehiculo : string){
+
+    let user = await this.traer_un_usuario(uid);
+    console.log(user);
+    user['id_vehiculo'] = keyVehiculo;
+    return this.modificar_usuario(user);
+  }
+
   //CARGAR IMAGEN EN STORAGE
   cargar_imagen_storage(uid:string, foto:string){
 
