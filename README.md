@@ -6,22 +6,22 @@
 
 
 #### Lucas Bonanni
-* Módulos (objetivos) a desarrollar: [L - reservas agendadas](#l---hacer-reservas-agendadas-)
+* Módulos (objetivos) a desarrollar: [L - reservas agendadas](#l---hacer-reservas-agendadas-), [ E - QR para vehiculos cliente](#e---qr-del-vehículo-para-clientes)
 * Fecha de inicio: 16/06/2018
-* Fecha de fin: 22/06/2018
+* Fecha de fin: 23/06/2018
 * Branch: [lucas.bonanni](https://github.com/lucasbonanni/TP_PPS_2018/tree/lucas.bonanni)
 
 
 #### Ezequiel Caballero
 * Módulos (objetivos) a desarrollar: [j - Pedir viaje cliente](#j---pedir-vehículo)
 * Fecha de inicio: 16/06/2018
-* Fecha de fin: 22/06/2018
+* Fecha de fin: 23/06/2018
 * Branch: [ezequiel.caballero](https://github.com/lucasbonanni/TP_PPS_2018/tree/ezequiel.caballero)
 
 #### Daniel Pereira
 * Módulos (objetivos) a desarrollar: [K - Tomar viaje](k---tomar-viaje)
 * Fecha de inicio: 16/06/2018
-* Fecha de fin: 22/06/2018
+* Fecha de fin: 23/06/2018
 * Branch: [daniel.pereira](https://github.com/lucasbonanni/TP_PPS_2018/tree/daniel.pereira)
 
 
