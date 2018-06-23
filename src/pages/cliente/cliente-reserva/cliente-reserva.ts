@@ -7,6 +7,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 import { Usuario } from '../../../classes/usuario';
 import { Reserva } from '../../../classes/viaje.model';
+import { ReservasProvider } from '../../../providers/reservas/reservas';
 
 @IonicPage()
 @Component({
@@ -30,7 +31,8 @@ export class ClienteReservaPage {
     dateTimeSrv: DateTimeProvider,
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
-    private geo: GeocodingProvider) {
+    private geo: GeocodingProvider,
+    private reservasSrv : ReservasProvider) {
     this.monthNames = dateTimeSrv.getMonthNames();
     this.daysNames = dateTimeSrv.getWeekDays();
     this.daysShortNames = dateTimeSrv.getWeekDaysShort();
@@ -47,11 +49,15 @@ export class ClienteReservaPage {
     this.viajeReserva.destino_coord = [];
   }
 
+  /**
+   * ion View Did Load
+   */
   ionViewDidLoad() {
     this.myOriginCallbackFunction = (_params) => {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
         this.viajeReserva.origen = _params;
+        //cambiar el tipo de coordinadas en el merge
         this.geo.obtenerCoordenadas(_params).then(coord => {
           this.setTripOriginCoord(coord, this.viajeReserva);
         });
@@ -69,7 +75,9 @@ export class ClienteReservaPage {
       });
     }
   }
-
+  /**
+   * ion view can enter
+   */
   ionViewCanEnter() {
     this.loadUser();
   }
@@ -123,6 +131,11 @@ export class ClienteReservaPage {
     console.log(coordenadas, this.viajeReserva, reserva);
   }
 
+  /**
+   * Metodo para establecer la dirección 
+   * sin tener problemas con el scope.
+   * @param dir dirección
+   */
   public setDir(dir) {
     this.viajeReserva.origen = dir;
   }
@@ -144,16 +157,18 @@ export class ClienteReservaPage {
    * guardar reserva
    */
   guardarReserva(){
+    console.log(this.viajeReserva);
     //se convierte la fecha del imput en tipo fecha
     const fecha = new Date(this.viajeReserva.fecha);
+    const hora = new Date(this.viajeReserva.hora);
     //se unen fecha y hora
     const fechaTipoDate = new Date(
       fecha.getFullYear(),
       fecha.getMonth(),
       fecha.getDay(),
-      this.viajeReserva.hora.getHours(),
-      this.viajeReserva.hora.getMinutes(),
-      this.viajeReserva.hora.getSeconds());
+      hora.getHours(),
+      hora.getMinutes(),
+      hora.getSeconds());
     //se setean los datos para guardar
     this.viajeReserva.fecha = fechaTipoDate.toLocaleString();
     this.viajeReserva.cod_fecha = fechaTipoDate.valueOf().toString();

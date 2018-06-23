@@ -1,3 +1,5 @@
+
+//usar la clase viaje del archivo viaje.ts de la otra rama
 export class Viaje {
     public id_cliente: string;
     public id_chofer: string;
@@ -14,5 +16,7 @@ export class Viaje {
 }
 
 export class Reserva extends Viaje {
-    public hora : Date;
+
+    //cambia a un string
+    public hora : string;
 }
