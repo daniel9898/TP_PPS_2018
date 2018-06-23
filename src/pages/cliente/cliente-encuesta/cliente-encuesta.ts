@@ -47,8 +47,7 @@ export class ClienteEncuestaPage {
     this.mostrarSpinner = true;
     this.encuesta_byDefault = {
       id_encuesta: "keyEncuesta",
-      id_viaje: "keyViaje",
-      // id_viaje: this.navParams.get('id_viaje'),
+      id_viaje: this.navParams.get('id_viaje'),
       fecha:"N/N",
       cod_fecha: "N/N",
       hora:"N/N",
