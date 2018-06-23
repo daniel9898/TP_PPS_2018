@@ -30,8 +30,4 @@ export class ChoferProvider {
   	return this._usuarioServicio.modificar_usuario(newUser); 
   }
 
-  /*actualizarPerfil(userProfile:string,userFoto:string){
-  	return this._authServicio.update_userAccount(userProfile,userFoto);
-  }*/
-
 }
