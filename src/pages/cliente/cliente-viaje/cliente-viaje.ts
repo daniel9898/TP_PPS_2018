@@ -22,6 +22,7 @@ export class ClienteViajePage {
   //validaciones
   mostrarSpinner:boolean = false;
   mostrarMapa:boolean = false;
+  mostrarMsj:boolean = false;
   boton_pedir:boolean;
   boton_cancelar:boolean;
   boton_qr:boolean;
@@ -227,6 +228,8 @@ export class ClienteViajePage {
    // 4) VIAJE CUMPLIDO: -fin del viaje: ver encuesta-
                           this.mostrarAlerta("Viaje finalizado");
                           this.viaje.estado = data.estado;
+                          this.mostrarSpinner = false;
+                          this.mostrarMsj = true;
                           console.log("Chofer cargado: " + data.id_chofer);
                         })
                         .catch((error)=>{console.log("Error al esperar viaje -> terminado: " + error)})
