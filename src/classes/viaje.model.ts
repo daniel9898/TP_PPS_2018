@@ -1,5 +1,3 @@
-import { DateTime } from "ionic-angular/umd";
-
 export class Viaje {
     public id_cliente: string;
     public id_chofer: string;
