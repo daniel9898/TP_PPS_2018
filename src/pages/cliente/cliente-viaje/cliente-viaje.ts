@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, NavParams } from 'ionic-angular';
+import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
 //clase USUARIO
@@ -11,6 +11,7 @@ import { Marker } from '../../../interfaces/marker';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
+import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
 
 @Component({
   selector: 'page-cliente-viaje',
@@ -47,7 +48,9 @@ export class ClienteViajePage {
               public navParams: NavParams,
               private _userService:UsuarioServicioProvider,
               private _authService:AuthServicioProvider,
-              private _viajeService:ViajeServicio) {
+              private _viajeService:ViajeServicio,
+              private _qrScanner: QrServicioProvider,
+              private platform:Platform) {
 
       this.mostrarSpinner = true;
   }
@@ -208,20 +211,22 @@ export class ClienteViajePage {
                 this.mostrarAlerta("Viaje tomado");
                 //Activar boton QR para ver datos del chofer
                 this.boton_qr = true;
+                this.viaje.estado = data.estado;
                 this.viaje.id_chofer = data.id_chofer;
+                this.viaje.id_vehiculo = data.id_vehiculo;
                 console.log("Chofer cargado: " + data.id_chofer);
                 this._viajeService.esperar_estado(this.viaje.id_viaje, "en curso")
                   .then((data:any)=>{
    // 3) VIAJE EN CURSO: -espero proximo estado: cumpido-
                     this.mostrarAlerta("Viaje en curso");
                     this.boton_cancelar = false;
+                    this.viaje.estado = data.estado;
                     console.log("Chofer cargado: " + data.id_chofer);
                       this._viajeService.esperar_estado(this.viaje.id_viaje, "cumplido")
                         .then((data:any)=>{
    // 4) VIAJE CUMPLIDO: -fin del viaje: ver encuesta-
                           this.mostrarAlerta("Viaje finalizado");
-                          this.navCtrl.push(ClienteEncuestaPage);
-                          //Activar boton QR para completar encuesta
+                          this.viaje.estado = data.estado;
                           console.log("Chofer cargado: " + data.id_chofer);
                         })
                         .catch((error)=>{console.log("Error al esperar viaje -> terminado: " + error)})
@@ -262,15 +267,52 @@ export class ClienteViajePage {
   }
 
   //DIRECCIONAR
-  lectura_QR(){
-    //Datos del chofer
-      this._userService.traer_un_usuario(this.viaje.id_chofer)
-        .then((user:any)=>{
-          this.navCtrl.push(PerfilPage, {'userSelected' : user, 'profile' : "cliente" });
-        })
-        .catch((error)=>{ console.log("Error al traer usuario: " + error); });
+  direccionar(){
+      //Validación para el navegador web (probar servicio)
+      if(!this.platform.is('cordova')){
+        this.mostrarAlerta("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
+        return;
+      }
 
-    //Encuesta
+      this._qrScanner.lector_qr()
+        .then((texto)=>{
+
+          switch(texto){
+            //QR PARA ENCUESTA
+            case "encuesta_qr":
+            if(this.viaje.estado == "cumplido")
+              this.ir_encuesta();
+            else
+              this.mostrarAlerta("Acceso no disponible");
+            break;
+            //QR PARA DATOS DEL CHOFER
+            case "accion_qr":
+            if(this.viaje.estado != "pendiente")
+              this.ir_datos_chofer();
+            else
+              this.mostrarAlerta("Acceso no disponible");
+            break;
+            //QR DESCONOCIDO
+            default:
+            this.mostrarAlerta("Código desconocido");
+            break;
+          }
+
+        })
+        .catch((error)=>{ console.log("Error en lectura QR: " + error); })
+  }
+
+  //IR A ...
+  ir_datos_chofer(){
+    this._userService.traer_un_usuario(this.viaje.id_chofer)
+      .then((user:any)=>{
+        this.navCtrl.push(PerfilPage, {'userSelected' : user, 'profile' : "cliente" });
+      })
+      .catch((error)=>{ console.log("Error al traer usuario: " + error); });
+  }
+
+  ir_encuesta(){
+    this.navCtrl.push(ClienteEncuestaPage, { 'id_viaje' : this.viaje.id_viaje });
   }
 
 }
