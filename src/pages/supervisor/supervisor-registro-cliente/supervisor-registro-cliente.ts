@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
+//FORM
+import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //PAGINAS
@@ -16,6 +18,9 @@ export class SupervisorRegistroClientePage {
 
   //CONTROL DE SPINNER
   mostrarSpinner:boolean;
+
+  //FORMS
+  registroForm:FormGroup; // para correo / nombre / edad
 
   //VARIABLES DE CONTROL
   cambios:boolean = false; //Variable de control (activa subir cambios).
@@ -37,6 +42,7 @@ export class SupervisorRegistroClientePage {
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
+              public frRegistration:FormBuilder,
               public _auth: AuthAdministradorProvider,
               public _usuarioServicio: UsuarioServicioProvider) {
 
@@ -50,7 +56,7 @@ export class SupervisorRegistroClientePage {
                 id_usuario: "N/N",
                 correo: "N/N",
                 nombre: "N/N",
-                edad: "N/N",
+                edad: null,
                 direccion: "N/N",
                 perfil: "cliente",
                 foto: "https://firebasestorage.googleapis.com/v0/b/kb-remiseria33.appspot.com/o/perfiles%2Fcliente_XDKTOBwO3xNoRiXNDe8fv0lHHi13.png?alt=media&token=7ada1c16-a659-4392-bb1b-47a3a15b36b3",
@@ -59,6 +65,13 @@ export class SupervisorRegistroClientePage {
               }
               this.usuario = new Usuario(this.user_default);
 
+              this.registroForm = this.frRegistration.group({
+
+                userCorreo: ['',   [ Validators.required, Validators.email ] ],
+                userName:   ['',   [ Validators.minLength(5), Validators.maxLength(30) ] ],
+                userAge:    [null, [ Validators.min(14), Validators.max(100) ] ]
+
+              });
   }
 
   ionViewDidLoad() {
@@ -75,9 +88,14 @@ export class SupervisorRegistroClientePage {
   guardar(){
 
     let credenciales = {
-      email: this.usuario.correo,
+      email: this.registroForm.value.userCorreo,
       password: "asdasd"
     }
+
+    this.usuario.correo = this.registroForm.value.userCorreo;
+    this.usuario.nombre = this.registroForm.value.userName;
+    this.usuario.edad = this.registroForm.value.userAge;
+
     this.mostrarSpinner = true;
    // 1 - REGISTRO EN AUTH
       this._auth.signUpExterno(credenciales)
@@ -88,8 +106,8 @@ export class SupervisorRegistroClientePage {
           this._auth.update_externalUserAccount(data.user, this.usuario.perfil, this.usuario.foto)
           .then(()=>{
           //ENVIAR MAIL DE VERIFICACIÓN (si el usuario se creo inactivo)
-            if(!this.usuario.activo)
-              this._auth.send_ExternalEmailVerification();
+            // if(!this.usuario.activo)
+            //   this._auth.send_ExternalEmailVerification();
    // 3 - DESLOGUEARSE DE AUTH
             this._auth.signOutExternal()
               .then(()=>{
@@ -126,23 +144,6 @@ export class SupervisorRegistroClientePage {
 
   }
 
-  //FUNCTION ATRIBUTO: Valida si hay cambios
-  get hay_diferencias():boolean{
-    if(this.usuario.correo    != this.user_default.correo    ||
-       this.usuario.nombre    != this.user_default.nombre    ||
-       this.usuario.edad      != this.user_default.edad      ||
-       this.usuario.direccion != this.user_default.direccion ||
-       this.usuario.foto      != this.user_default.foto      ||
-       this.usuario.activo    != this.user_default.activo){
-         this.cambios = true;
-         return true;
-    }
-    else{
-      this.cambios = false;
-      return false;
-    }
-  }
-
   //ALERTA
   mostrarAlerta(msj:string){
     let toast = this.toastCtrl.create({
@@ -160,7 +161,7 @@ export class SupervisorRegistroClientePage {
 
   //VOLVER ATRAS
   volver(){
-    this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    this.navCtrl.push(SupervisorListaUsuariosPage);
   }
 
 }
