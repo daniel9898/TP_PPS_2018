@@ -13,6 +13,7 @@ export class Viaje {
     public estado: string;
     public destino_coord: number[];
     public origen_coord: number[];
+    public displayName: string;
 }
 
 export class Reserva extends Viaje {
