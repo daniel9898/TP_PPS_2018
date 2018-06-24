@@ -14,6 +14,7 @@ import { LoginPage, PerfilPage,
          SupervisorRegistroClientePage, SupervisorRegistroChoferPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
 
 @Component({
   templateUrl: 'app.html'
@@ -87,7 +88,8 @@ export class MyApp {
             { title: 'Inicio', component: ClienteInicioPage, visibility: this.vista_cliente },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_cliente },
             { title: 'Viaje', component: ClienteViajePage, visibility: this.vista_cliente },
-            { title: 'Reserva', component: ClienteReservaPage, visibility: this.vista_cliente },
+            { title: 'Reservas', component: ClienteReservasPage, visibility: this.vista_cliente },
+            // { title: 'Reserva', component: ClienteReservaPage, visibility: this.vista_cliente },
             { title: 'Historial', component: ClienteHistorialPage, visibility: this.vista_cliente },
             { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_cliente },
             { title: 'Encuesta', component: ClienteEncuestaPage, visibility: this.vista_cliente },
