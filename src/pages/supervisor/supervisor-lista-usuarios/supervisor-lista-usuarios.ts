@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
-import { PerfilPage, SupervisorRegistroClientePage } from '../../index-paginas';
+import { PerfilPage, SupervisorRegistroUsuarioPage } from '../../index-paginas';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
@@ -83,7 +83,7 @@ export class SupervisorListaUsuariosPage {
   }
 
   agregarUsuario(){
-    this.navCtrl.push(SupervisorRegistroClientePage, {'fromLista' : true});
+    this.navCtrl.push(SupervisorRegistroUsuarioPage);
   }
 
   mostrarAlerta(msj:string){

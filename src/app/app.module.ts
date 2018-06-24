@@ -36,13 +36,17 @@ import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 
+//DIRECTIVAS
+import { DirectivesModule } from '../directives/directives.module';
+
 //PAGES
 import { MyApp } from './app.component';
 import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
          ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
          ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
+         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage,
+         SupervisorRegistroVehiculoPage, SupervisorRegistroUsuarioPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 
 
@@ -80,6 +84,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
@@ -91,6 +96,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     HttpModule,
+    DirectivesModule,
     AgmCoreModule.forRoot({
       	   apiKey: environment.googleMaps.apiKey
     	})
@@ -129,6 +135,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
