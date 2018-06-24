@@ -156,23 +156,13 @@ export class ClienteReservaPage {
   /**
    * guardar reserva
    */
-  guardarReserva(){
-    console.log(this.viajeReserva);
-    //se convierte la fecha del imput en tipo fecha
+  guardarReserva(){   
     const fecha = new Date(this.viajeReserva.fecha);
-    const hora = new Date(this.viajeReserva.hora);
-    //se unen fecha y hora
-    const fechaTipoDate = new Date(
-      fecha.getFullYear(),
-      fecha.getMonth(),
-      fecha.getDay(),
-      hora.getHours(),
-      hora.getMinutes(),
-      hora.getSeconds());
     //se setean los datos para guardar
-    this.viajeReserva.fecha = fechaTipoDate.toLocaleString();
-    this.viajeReserva.cod_fecha = fechaTipoDate.valueOf().toString();
+    this.viajeReserva.cod_fecha = fecha.valueOf().toString();
     this.viajeReserva.id_cliente = this.usuario.id_usuario;
-    console.log(this.viajeReserva);
+    this.viajeReserva.displayName = this.usuario.nombre;
+    // console.log(this.viajeReserva);
+    this.reservasSrv.addItem(this.viajeReserva);
   }
 }
