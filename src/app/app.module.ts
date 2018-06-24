@@ -39,6 +39,7 @@ import {
 } from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 import { ReservasProvider } from '../providers/reservas/reservas';
+import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
 
 
 
@@ -58,6 +59,7 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -106,6 +108,7 @@ import { ReservasProvider } from '../providers/reservas/reservas';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
