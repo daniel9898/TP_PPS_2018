@@ -76,28 +76,28 @@ export class ClienteReservasPage {
       ClienteReservaPage,
       {
         isEditable: false,
-        vehiculo: this.reservas[value].vehiculo,
+        reserva: this.reservas[value].reserva,
         key: this.reservas[value].key
       });
   }
 
 
-    /**
-   * Va a la pantalla de vehículo para generar un nuevo vehículo
-   */
-  nuevoVehiculo() {
-    this.navCtrl.push(ClienteReservaPage, { isEditable: true });
+  /**
+ * Va a la pantalla de vehículo para generar un nuevo vehículo
+ */
+  nuevaReserva() {
+    this.navCtrl.push(ClienteReservaPage);
   }
 
 
   /**
-   * Elimina muestra una alerta y elimina el vehículo
+   * Elimina muestra una alerta y elimina la reserva
    * @param i indice de la colección
    */
-  eliminarVehiculo(i) {
+  eliminarReserva(i) {
     const confirm = this.alertCtrl.create({
       title: '¿Está seguro?',
-      message: 'Esta por eliminar un vehículo',
+      message: 'Esta por eliminar una reserva',
       buttons: [
         {
           text: 'No',

@@ -23,7 +23,12 @@ export class ClienteReservaPage {
   myOriginCallbackFunction: Function;
   myDestCallbackFunction: Function;
   usuario: Usuario;
-  viajeReserva: Reserva;
+  reserva: Reserva;
+
+    /**
+   * key de la base
+   */
+  key: any = '';
 
   constructor(
     public navCtrl: NavController,
@@ -44,22 +49,26 @@ export class ClienteReservaPage {
    * Inicializa la reserva
    */
   private inicializarReserva() {
-    this.viajeReserva = new Reserva();
-    this.viajeReserva.origen_coord = [];
-    this.viajeReserva.destino_coord = [];
+    this.reserva = new Reserva();
+    this.reserva.origen_coord = [];
+    this.reserva.destino_coord = [];
   }
 
   /**
    * ion View Did Load
    */
   ionViewDidLoad() {
+    if (this.navParams.data.reserva) {
+      this.reserva = this.navParams.data.reserva;
+      this.key = this.navParams.data.key;
+    }
     this.myOriginCallbackFunction = (_params) => {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
-        this.viajeReserva.origen = _params;
+        this.reserva.origen = _params;
         //cambiar el tipo de coordinadas en el merge
         this.geo.obtenerCoordenadas(_params).then(coord => {
-          this.setTripOriginCoord(coord, this.viajeReserva);
+          this.setTripOriginCoord(coord, this.reserva);
         });
         resolve();
       });
@@ -67,9 +76,9 @@ export class ClienteReservaPage {
     this.myDestCallbackFunction = (_params) => {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
-        this.viajeReserva.destino = _params;
+        this.reserva.destino = _params;
         this.geo.obtenerCoordenadas(_params).then(coord => {
-          this.setTripDestCoord(coord, this.viajeReserva);
+          this.setTripDestCoord(coord, this.reserva);
         });
         resolve();
       });
@@ -105,7 +114,7 @@ export class ClienteReservaPage {
    */
   setTripCoord(coords: number[], coordToUpdate: number[]) {
     coordToUpdate = coords;
-    console.log(this.viajeReserva, coordToUpdate);
+    console.log(this.reserva, coordToUpdate);
   }
 
   /**
@@ -115,8 +124,8 @@ export class ClienteReservaPage {
    */
   setTripOriginCoord(coordenadas: number[], reserva: Reserva) {
     reserva.origen_coord = coordenadas;
-    this.viajeReserva = reserva;
-    console.log(coordenadas, this.viajeReserva, reserva);
+    this.reserva = reserva;
+    console.log(coordenadas, this.reserva, reserva);
   }
 
 
@@ -127,8 +136,8 @@ export class ClienteReservaPage {
    */
   setTripDestCoord(coordenadas: number[], reserva: Reserva) {
     reserva.destino_coord = coordenadas;
-    this.viajeReserva = reserva;
-    console.log(coordenadas, this.viajeReserva, reserva);
+    this.reserva = reserva;
+    console.log(coordenadas, this.reserva, reserva);
   }
 
   /**
@@ -137,32 +146,38 @@ export class ClienteReservaPage {
    * @param dir dirección
    */
   public setDir(dir) {
-    this.viajeReserva.origen = dir;
+    this.reserva.origen = dir;
   }
 
   /**
    * Setea la dirección de origen
    */
   setOriginDir() {
-    this.navCtrl.push(MapaPage, { 'direccion': this.viajeReserva.origen, 'callback': this.myOriginCallbackFunction });
+    this.navCtrl.push(MapaPage, { 'direccion': this.reserva.origen, 'callback': this.myOriginCallbackFunction });
   }
 
   /**
    * Setea la dirección de destino
    */
   setDestDir() {
-    this.navCtrl.push(MapaPage, { 'direccion': this.viajeReserva.destino, 'callback': this.myDestCallbackFunction });
+    this.navCtrl.push(MapaPage, { 'direccion': this.reserva.destino, 'callback': this.myDestCallbackFunction });
   }
   /**
    * guardar reserva
    */
   guardarReserva(){   
-    const fecha = new Date(this.viajeReserva.fecha);
+    const fecha = new Date(this.reserva.fecha);
     //se setean los datos para guardar
-    this.viajeReserva.cod_fecha = fecha.valueOf().toString();
-    this.viajeReserva.id_cliente = this.usuario.id_usuario;
-    this.viajeReserva.email = this.usuario.correo;
-    // console.log(this.viajeReserva);
-    this.reservasSrv.addItem(this.viajeReserva);
+    this.reserva.cod_fecha = fecha.valueOf().toString();
+    this.reserva.id_cliente = this.usuario.id_usuario;
+    this.reserva.email = this.usuario.correo;
+    console.log(this.reserva);
+    // this.reservasSrv.addItem(this.reserva);
+    if (this.key == '') {
+      this.reservasSrv.addItem(this.reserva);
+    } else if (this.key !== '') {
+      this.reservasSrv.updateItem(this.key, this.reserva);
+    }
+    this.navCtrl.pop();
   }
 }

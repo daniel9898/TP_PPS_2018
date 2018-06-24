@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Crear Reserva</ion-title>
+    <!-- <ion-title>Crear Reserva</ion-title> -->
     <ion-buttons right>
       <button ion-button clear color="primary" (click)="guardarReserva()" [disabled]="origen.invalid || fecha.invalid || hora.invalid || destino.invalid">Guardar</button>
       <!-- <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button> -->
@@ -17,20 +17,20 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Dirección origen</ion-label>
-    <ion-input type="text" [(ngModel)]="viajeReserva.origen" (ionFocus)="setOriginDir()" id="origen" name="origen" #origen="ngModel" required></ion-input>
+    <ion-input type="text" [(ngModel)]="reserva.origen" (ionFocus)="setOriginDir()" id="origen" name="origen" #origen="ngModel" required></ion-input>
 
   </ion-item>
   <ion-item>
     <ion-label>Fecha</ion-label>
-    <ion-datetime id="fecha" name="fecha" #fecha="ngModel"  [(ngModel)]="viajeReserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
+    <ion-datetime id="fecha" name="fecha" #fecha="ngModel"  [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Hora</ion-label>
-    <ion-datetime id="hora" name="hora" #hora="ngModel" [(ngModel)]="viajeReserva.hora" displayFormat="HH:mm" pickerFormat="HH:mm" required></ion-datetime>
+    <ion-datetime id="hora" name="hora" #hora="ngModel" [(ngModel)]="reserva.hora" displayFormat="HH:mm" pickerFormat="HH:mm" required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Dirección destino</ion-label>
-    <ion-input id="destino" name="destino" #destino="ngModel" type="text" [(ngModel)]="viajeReserva.destino" (ionFocus)="setDestDir()" required></ion-input>
+    <ion-input id="destino" name="destino" #destino="ngModel" type="text" [(ngModel)]="reserva.destino" (ionFocus)="setDestDir()" required></ion-input>
   </ion-item>
   <ion-item-divider color="light"></ion-item-divider>
   <!-- <ion-item >
