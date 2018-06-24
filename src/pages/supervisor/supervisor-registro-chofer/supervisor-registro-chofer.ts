@@ -6,7 +6,7 @@ import { SupervisorInicioPage,SupervisorListaChoferesPage } from '../../index-pa
 import { ChoferProvider } from '../../../providers/chofer/chofer';
 import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario-imagen';
 import { Camera } from '@ionic-native/camera';
-import { cameraConfig } from '../../../config/camera.config'; 
+import { cameraConfig } from '../../../config/camera.config';
 
 @IonicPage()
 @Component({
@@ -22,8 +22,8 @@ export class SupervisorRegistroChoferPage {
   viewImage  : string ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevjT5_rnSGE76WpJQLuyBb99skuZmJ3DqLGwkT8UUQopXugUrQQ';
   image : string;
 
-  constructor(public navCtrl: NavController, 
-  	          public navParams: NavParams, 
+  constructor(public navCtrl: NavController,
+  	          public navParams: NavParams,
   	          private fb: FormBuilder,
               private chofer: ChoferProvider,
               public camera: Camera,
@@ -43,7 +43,7 @@ export class SupervisorRegistroChoferPage {
 	lista de espera
 
   */
-  
+
   setFormValidator(){
     this.rForm = this.fb.group({
       'nombre' : ['test',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
@@ -61,7 +61,7 @@ export class SupervisorRegistroChoferPage {
 
   //VOLVER ATRAS
   volver(){
-    this.navCtrl.setRoot(SupervisorInicioPage);
+    this.navCtrl.push(SupervisorInicioPage);
   }
 
   async guardar(){
@@ -76,9 +76,9 @@ export class SupervisorRegistroChoferPage {
 
         this.image != null ?  chofer.foto = await this.usrFoto.subirImagenUsuario(authOk.user.uid,this.image) :
                               chofer.foto = this.viewImage;
-   
+
         delete chofer.clave;
-       
+
      	  let keyUser = await this.chofer.altaDb(chofer);
      	  console.log('keyUser ',keyUser);
         chofer.key = keyUser;
@@ -88,15 +88,15 @@ export class SupervisorRegistroChoferPage {
         this.killLoading();
         this.showToast();
         this.navCtrl.setRoot(SupervisorListaChoferesPage);
-      
+
     }catch(e){
         this.killLoading();
         console.log('error ',e.message);
         this.showAlert(e.message);
     }
-     
+
   }
-  
+
 
   async tomarImagen(){
     try{
