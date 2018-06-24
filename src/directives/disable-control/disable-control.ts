@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { NgControl } from '@angular/forms';
+//import { NgControl } from '@angular/forms';
 //FORM
 import { FormControl } from '@angular/forms';
 
