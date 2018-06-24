@@ -161,7 +161,7 @@ export class ClienteReservaPage {
     //se setean los datos para guardar
     this.viajeReserva.cod_fecha = fecha.valueOf().toString();
     this.viajeReserva.id_cliente = this.usuario.id_usuario;
-    this.viajeReserva.displayName = this.usuario.nombre;
+    this.viajeReserva.email = this.usuario.correo;
     // console.log(this.viajeReserva);
     this.reservasSrv.addItem(this.viajeReserva);
   }
