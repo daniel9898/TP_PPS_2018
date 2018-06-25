@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
+import { NguiMapModule} from '@ngui/map';
 
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
@@ -92,6 +93,7 @@ import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-r
     AgmCoreModule.forRoot({
       apiKey: environment.googleMaps.apiKey
     }),
+    NguiMapModule.forRoot({apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}`})
   ],
   bootstrap: [IonicApp],
   entryComponents: [
