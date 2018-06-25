@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
@@ -8,6 +8,7 @@ import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 import { Usuario } from '../../../classes/usuario';
 import { Reserva } from '../../../classes/viaje.model';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
+import { DirectionsRenderer } from '@ngui/map';
 
 @IonicPage()
 @Component({
@@ -29,6 +30,16 @@ export class ClienteReservaPage {
    * key de la base
    */
   key: any = '';
+  @ViewChild(DirectionsRenderer) directionsRendererDirective: DirectionsRenderer;
+  directionsRenderer: google.maps.DirectionsRenderer;
+  directionsResult: google.maps.DirectionsResult;
+  direction: any = {
+    origin: '',
+    destination: '',
+    travelMode: 'DRIVING'
+  };
+  coordenadas: string;
+
 
   constructor(
     public navCtrl: NavController,
@@ -37,7 +48,8 @@ export class ClienteReservaPage {
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
     private geo: GeocodingProvider,
-    private reservasSrv : ReservasProvider) {
+    private reservasSrv : ReservasProvider,
+    private cdr: ChangeDetectorRef) {
     this.monthNames = dateTimeSrv.getMonthNames();
     this.daysNames = dateTimeSrv.getWeekDays();
     this.daysShortNames = dateTimeSrv.getWeekDaysShort();
@@ -58,8 +70,15 @@ export class ClienteReservaPage {
    * ion View Did Load
    */
   ionViewDidLoad() {
+    this.directionsRendererDirective['initialized$'].subscribe( directionsRenderer => {
+      this.directionsRenderer = directionsRenderer;
+      // this.directionsRenderer.setDirections(this.direction);
+    });
     if (this.navParams.data.reserva) {
       this.reserva = this.navParams.data.reserva;
+      this.direction.origin = this.navParams.data.reserva.origen;
+      this.direction.destination = this.navParams.data.reserva.destino;
+      this.coordenadas = `${this.navParams.data.reserva.destino_coord[0]},${this.navParams.data.reserva.destino_coord[1]}`;
       this.key = this.navParams.data.key;
     }
     this.myOriginCallbackFunction = (_params) => {
@@ -84,6 +103,13 @@ export class ClienteReservaPage {
       });
     }
   }
+
+  
+  directionsChanged() {
+    this.directionsResult = this.directionsRenderer.getDirections();
+    this.cdr.detectChanges();
+  }
+
   /**
    * ion view can enter
    */
@@ -124,7 +150,8 @@ export class ClienteReservaPage {
    */
   setTripOriginCoord(coordenadas: number[], reserva: Reserva) {
     reserva.origen_coord = coordenadas;
-    this.reserva = reserva;
+    this.direction.origin = reserva.origen;
+    this.directionsRendererDirective['showDirections'](this.direction);
     console.log(coordenadas, this.reserva, reserva);
   }
 
@@ -137,6 +164,8 @@ export class ClienteReservaPage {
   setTripDestCoord(coordenadas: number[], reserva: Reserva) {
     reserva.destino_coord = coordenadas;
     this.reserva = reserva;
+    this.direction.destination = reserva.destino;
+    this.directionsRendererDirective['showDirections'](this.direction);
     console.log(coordenadas, this.reserva, reserva);
   }
 
