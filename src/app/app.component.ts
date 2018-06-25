@@ -8,7 +8,7 @@ import * as $ from 'jquery';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage, ListaViajesPage,//-----------------------------CHOFER
          SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage,
          SupervisorRegistroClientePage, SupervisorRegistroChoferPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
@@ -95,10 +95,11 @@ export class MyApp {
             //PAGINAS CHOFER (6)
             { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },
-            { title: 'Viaje', component: ChoferViajePage, visibility: this.vista_chofer },
+            { title: 'Viaje en Curso', component: ChoferViajePage, visibility: this.vista_chofer },
             { title: 'Historial', component: ChoferHistorialPage, visibility: this.vista_chofer },
             { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
             { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
+            { title: 'Reservas Pendientes', component: ListaViajesPage, visibility: this.vista_chofer },
             //PAGINAS SUPERVISOR (11)
             { title: 'Inicio', component: SupervisorInicioPage, visibility: this.vista_supervisor },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_supervisor },
