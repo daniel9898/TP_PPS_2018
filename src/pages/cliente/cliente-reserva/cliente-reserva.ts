@@ -47,7 +47,6 @@ export class ClienteReservaPage {
     dateTimeSrv: DateTimeProvider,
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
-    private geo: GeocodingProvider,
     private reservasSrv : ReservasProvider,
     private cdr: ChangeDetectorRef) {
     this.monthNames = dateTimeSrv.getMonthNames();
@@ -84,21 +83,23 @@ export class ClienteReservaPage {
     this.myOriginCallbackFunction = (_params) => {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
-        this.reserva.origen = _params;
+        this.reserva.origen = _params.direccion;
         //cambiar el tipo de coordinadas en el merge
-        this.geo.obtenerCoordenadas(_params).then(coord => {
-          this.setTripOriginCoord(coord, this.reserva);
-        });
+        this.setTripOriginCoord([_params.lat,_params.lng], this.reserva);
+        // this.geo.obtenerCoordenadas(_params).then(coord => {
+        //   this.setTripOriginCoord(coord, this.reserva);
+        // });
         resolve();
       });
     }
     this.myDestCallbackFunction = (_params) => {
       console.log("callback asignado");
       return new Promise((resolve, reject) => {
-        this.reserva.destino = _params;
-        this.geo.obtenerCoordenadas(_params).then(coord => {
-          this.setTripDestCoord(coord, this.reserva);
-        });
+        this.reserva.destino = _params.direccion;
+        this.setTripDestCoord([_params.lat,_params.lng], this.reserva);
+        // this.geo.obtenerCoordenadas(_params).then(coord => {
+        //   this.setTripDestCoord(coord, this.reserva);
+        // });
         resolve();
       });
     }
