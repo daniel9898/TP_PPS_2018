@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
+import { NguiMapModule} from '@ngui/map';
 
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
@@ -38,11 +39,13 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
-         ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
-         SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage,SupervisorListaChoferesPage} from '../pages/index-paginas';
+import {
+  InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
+  ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+  SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
+} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 
 
@@ -92,9 +95,9 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireStorageModule,
     HttpModule,
     AgmCoreModule.forRoot({
-      	   apiKey: environment.googleMaps.apiKey
-    	})
-
+      apiKey: environment.googleMaps.apiKey
+    }),
+    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -136,7 +139,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     StatusBar,
     SplashScreen,
     AngularFireDatabase,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     Camera,
     UsuarioServicioProvider,
     AuthServicioProvider,
@@ -155,4 +158,4 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     QrServicioProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }
