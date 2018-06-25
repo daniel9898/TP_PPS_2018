@@ -31,7 +31,7 @@ export class GeocodingProvider {
 
   //METODO -> OBTENER COORDENADAS (a partir de una dirección)
   obtenerCoordenadas(direccion:string){
-    let promesa = new Promise((resolve, reject)=>{
+    let promesa = new Promise<number[]>((resolve, reject)=>{
       let url = "https://maps.googleapis.com/maps/api/geocode/json?address="+ direccion +"&key=" + environment.geocoding.apiKey;
       this._http.get(url)
           .subscribe( (data:any) =>{

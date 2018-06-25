@@ -28,14 +28,7 @@ import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-image
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
 import { ChoferProvider } from '../providers/chofer/chofer';
-import { GeocodingProvider } from '../providers/geocoding/geocoding';
-import { GeolocationProvider } from '../providers/geolocation/geolocation';
-import { StorageProvider } from '../providers/storage/storage';
-import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
-import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
-import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
-import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
-import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
+import { DateTimeProvider } from '../providers/date-time/date-time';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -47,6 +40,16 @@ import {
   SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
 } from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { ReservasProvider } from '../providers/reservas/reservas';
+import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
+import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { GeocodingProvider } from '../providers/geocoding/geocoding';
+import { StorageProvider } from '../providers/storage/storage';
+import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
+import { GeolocationProvider } from '../providers/geolocation/geolocation';
+import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
+import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 
 
 @NgModule({
@@ -65,6 +68,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -114,6 +118,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -155,7 +160,9 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ViajeServicio,
     ClienteEncuestaServicio,
     BarcodeScanner,
-    QrServicioProvider
+    QrServicioProvider,
+    DateTimeProvider,
+    ReservasProvider
   ]
 })
 export class AppModule { }

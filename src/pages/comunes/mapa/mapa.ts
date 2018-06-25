@@ -24,8 +24,11 @@ export class MapaPage {
       if(this.navParams.get('direccion')){
         this.direccion = this.navParams.get('direccion');
         console.log("Direccion recibida: " + this.direccion);
-        //CALLBACK
-        this.callback = this.navParams.get("callback");
+      }
+      //Se setea el callback siempre ya que el if anterior 
+      //no siempre sirve como verificacion
+      if (this.navParams.get("callback") !== null) {
+        this.callback = this.navParams.get("callback");  
       }
   }
 

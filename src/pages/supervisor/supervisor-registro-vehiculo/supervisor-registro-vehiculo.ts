@@ -35,7 +35,7 @@ export class SupervisorRegistroVehiculoPage {
   }
 
   sacarFotos() {
-    this.navCtrl.push(PhotoTakerPage)
+    this.navCtrl.push(PhotoTakerPage, { key: this.key, vehiculo: this.vehiculo });
   }
 
   enableEdit() {
@@ -46,7 +46,7 @@ export class SupervisorRegistroVehiculoPage {
     if (this.key == '') {
       this.vehiculoSrv.addItem(this.vehiculo);
     } else if (this.key !== '') {
-      this.vehiculoSrv.updateItem(this.key,this.vehiculo);
+      this.vehiculoSrv.updateItem(this.key, this.vehiculo);
     }
     this.navCtrl.pop();
   }

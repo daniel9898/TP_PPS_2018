@@ -49,18 +49,23 @@
       <ion-icon name="camera" color="danger"></ion-icon>
     </button>
   </ion-item>
-  <ion-item>
-    <ion-slides pager direction="vertical">
-      <ion-slide *ngFor="let foto of vehiculo.fotos">
-        <img [src]="foto" *ngIf="foto" alt="">
-      </ion-slide>
-      <!-- <ion-slide>
-        <img src="https://loremflickr.com/320/240/car,sport?random=2" alt="">
-      </ion-slide>
-      <ion-slide>
-        <img src="https://loremflickr.com/320/240/car,sport?random=3" alt="">
-      </ion-slide> -->
-    </ion-slides>
-  </ion-item>
+  <ion-card>
+    <ion-card-content>
+      <ion-slides pager>
+        <ion-slide *ngFor="let foto of vehiculo.fotos">
+          <img [src]="foto" *ngIf="foto" alt="">
+        </ion-slide>
+        <!-- <ion-slide>
+          <img src="https://loremflickr.com/320/240/car,sport?random=2" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="https://loremflickr.com/320/240/car,sport?random=3" alt="">
+        </ion-slide> -->
+      </ion-slides>
+    </ion-card-content>
+  </ion-card>
+  <!-- <ion-item>
+
+  </ion-item> -->
 
 </ion-content>
