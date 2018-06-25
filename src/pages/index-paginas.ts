@@ -20,6 +20,7 @@ export { ChoferViajePage } from "./chofer/chofer-viaje/chofer-viaje";
 export { ChoferEncuestaPage } from "./chofer/chofer-encuesta/chofer-encuesta";
 export { ChoferHistorialPage } from "./chofer/chofer-historial/chofer-historial";
 export { ChoferEstadisticaPage } from "./chofer/chofer-estadistica/chofer-estadistica";
+export { ListaViajesPage } from "./chofer/lista-viajes/lista-viajes";
 
 /********************************SUPERVISOR (10)********************************/
 export { SupervisorInicioPage } from "./supervisor/supervisor-inicio/supervisor-inicio";
