@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { ClienteReservaPage } from '../cliente-reserva/cliente-reserva';
+import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 
 /**
  * Generated class for the ClienteReservasPage page.
@@ -21,28 +23,45 @@ export class ClienteReservasPage {
  * colección de vehículos
  */
   public reservas: any[];
+  private usuario: any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public reservasSrv: ReservasProvider,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private auth: AuthServicioProvider,
+    private usuarioServicio: UsuarioServicioProvider
   ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ClienteReservasPage');
-    this.initializeItems();
+    // this.initializeItems();
+    this.loadUser();
+  }
+
+    /**
+   * Metodo que carga el usuario
+   */
+  loadUser() {
+    this.usuarioServicio.traer_un_usuario(this.auth.get_userUID())
+      .then((user: any) => {
+        this.usuario = user;
+        this.initializeItems();
+      })
+      .catch((error) => {
+        // this.mostrarSpinner = false;
+        console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
+      })
   }
 
   /**
  * Inicializa los vehículos
  */
   initializeItems() {
-    // this.vehiculos = vehiculosMock;
     this.reservasSrv.getListaReservas().subscribe(next => {
-      console.log(next);
-      this.reservas = next;
+      this.reservas = next.filter(value => value.reserva.id_cliente == this.usuario.id_usuario);
     });
   }
 
@@ -61,8 +80,9 @@ export class ClienteReservasPage {
     // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.reservas = this.reservas.filter((item) => {
-        return (item.reserva.email.toLowerCase().indexOf(val.toLowerCase()) > -1) || (item.reserva.fecha.toLowerCase().indexOf(val.toLowerCase()) > -1);
-      })
+        console.log(item,val);
+        return (item.reserva.destino.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      });
     }
   }
 
