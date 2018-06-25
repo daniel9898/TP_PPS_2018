@@ -4,7 +4,6 @@ import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 import { Usuario } from '../../../classes/usuario';
 import { Reserva } from '../../../classes/viaje.model';
 import { ReservasProvider } from '../../../providers/reservas/reservas';

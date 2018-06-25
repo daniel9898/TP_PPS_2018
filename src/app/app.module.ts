@@ -50,6 +50,9 @@ import { GeolocationProvider } from '../providers/geolocation/geolocation';
 import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
+import { UtilidadesProvider } from '../providers/utilidades/utilidades';
+import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
+
 
 
 @NgModule({
@@ -75,6 +78,7 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
+    ListaViajesPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -125,6 +129,7 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
+    ListaViajesPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -162,7 +167,8 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
     BarcodeScanner,
     QrServicioProvider,
     DateTimeProvider,
-    ReservasProvider
+    ReservasProvider,
+    UtilidadesProvider
   ]
 })
 export class AppModule { }

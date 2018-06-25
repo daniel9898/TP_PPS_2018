@@ -217,4 +217,29 @@ export class UsuarioServicioProvider {
     return promesa;
   }
 
+   //DEVUELVE UN USUARIO SIN EL FORMATO DE LA CLASE
+  traerUsuario(uid:string){
+    let promesa = new Promise((resolve, reject)=>{
+      let usuario;
+      this.usuarios.forEach((value)=>{
+        for(let user of value){
+          if(user.id_usuario == uid){
+            console.log("Usuario encontrado: " + user.id_usuario);
+            usuario = user;
+          }
+        }
+        resolve(usuario);
+      })
+    });
+    return promesa;
+  }
+
+  //DESUSCRIBIR
+  // desuscribir(){
+  //   this.destroy$.next();
+  //   // Now let's also unsubscribe from the subject itself:
+  //   this.destroy$.complete();
+  //   console.log("Observables de provider usuarios desuscriptos");
+  // }
+
 }
