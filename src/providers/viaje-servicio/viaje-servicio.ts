@@ -93,23 +93,17 @@ export class ViajeServicio {
     }
 
     //VALIDAR CAMBIO DE ESTADOS
-    esperar_estado(key:string, estado:string){
+    esperar_estado(key:string){
 
-      let promesa = new Promise((resolve, reject)=>{
-
-        this.afDB.list('/viajes',
-          ref=> ref.orderByKey()
-                   .equalTo( key )//Interrupción de la lectura al alcanzar key.
-        ).valueChanges()
-         .subscribe((viaje:any)=>{
-           viaje.forEach((item) => {
-             console.log("Estado del viaje: " + item.estado);
-             if(item.estado == estado) resolve(item);
-           })
-         })
-
-      });
-      return promesa;
+      return this.afDB.list('/viajes',
+              ref=> ref.orderByKey()
+                       .equalTo( key )//Interrupción de la lectura al alcanzar key.
+             ).valueChanges()
+         // .subscribe((viaje:any)=>{
+         //   viaje.forEach((item) => {
+         //     console.log("Estado del viaje: " + item.estado);
+         //   })
+         // })
     }
 
 }

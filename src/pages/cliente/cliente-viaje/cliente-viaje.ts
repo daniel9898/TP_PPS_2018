@@ -62,8 +62,9 @@ export class ClienteViajePage {
 
   ionViewDidLoad() {
 
-    this.traer_usuario()
+    this.traer_usuario(this._authService.get_userUID(), "cliente")
       .then(()=>{
+        this.mostrarSpinner = false;
         this.generar_viaje_default();
       })
 
@@ -116,18 +117,18 @@ export class ClienteViajePage {
   }
 
   //TRAER UN USUARIO
-  traer_usuario(){
+  traer_usuario(uid:string, usuario:string){
     this.mostrarSpinner = true;
-    return this._userService.traer_un_usuario(this._authService.get_userUID())
+    return this._userService.traer_un_usuario(uid)
             .then((user:any)=>{
               console.log("Usuario: " + JSON.stringify(user));
-              this.usuario = user;
-              this.mostrarSpinner = false;
+              if(usuario == "cliente")
+                this.usuario = user;
+              if(usuario == "chofer")
+                this.chofer = user;
+
             })
-            .catch((error)=>{
-              this.mostrarSpinner = false;
-              console.log("Error al traer usuario: " + error);
-            })
+            .catch((error)=>{ console.log("Error al traer usuario: " + error); })
   }
 
   //ARMAR VIAJE BASE
@@ -199,7 +200,7 @@ export class ClienteViajePage {
   pedir_viaje(){
 
     this.boton_pedir = false;
-    this.boton_cancelar = true;
+    this.mostrarMapa = false;
     this.mostrarSpinner = true;
     // ALTA VIAJE
     this._viajeService.alta_viaje(this.viaje)
@@ -208,58 +209,112 @@ export class ClienteViajePage {
     // ACTUALIZO VIAJE (key)
         this._viajeService.modificar_viaje(this.viaje)
           .then(()=>{
-   // 1) VIAJE PENDIENTE: -espero proximo estado: tomado-
-            this.mostrarAlerta("Buscando chofer");
-            this._viajeService.esperar_estado(this.viaje.id_viaje, "tomado")
-              .then((data:any)=>{
-   // 2) VIAJE TOMADO: -espero proximo estado: en curso-
-                this.mostrarAlerta("Viaje tomado");
-                //Activar boton QR para ver datos del chofer
-                this.boton_qr = true;
-                this.viaje.estado = data.estado;
-                this.viaje.id_chofer = data.id_chofer;
-                this.viaje.id_vehiculo = data.id_vehiculo;
-                //ACTUALIZAR ATRIBUTO DE CLIENTE
-                this.usuario.viajando = true;
-                this._userService.modificar_usuario(this.usuario)
-                  .then(()=>{
-                    // TRAER CHOFER
-                    this.traer_chofer()
-                      .then(()=>{ this.mostrarDatos_chofer = true; })
-                  })
-                  .catch((error)=>{ console.log("Error al actualizar usuario: " + error); });
-
-                this._viajeService.esperar_estado(this.viaje.id_viaje, "en curso")
-                  .then((data:any)=>{
-   // 3) VIAJE EN CURSO: -espero proximo estado: cumpido-
-                    this.mostrarAlerta("Viaje en curso");
-                    this.boton_cancelar = false;
-                    this.viaje.estado = data.estado;
-                    console.log("Chofer cargado: " + data.id_chofer);
-                      this._viajeService.esperar_estado(this.viaje.id_viaje, "cumplido")
-                        .then((data:any)=>{
-   // 4) VIAJE CUMPLIDO: -fin del viaje: ver encuesta-
-                          this.mostrarAlerta("Viaje finalizado");
-                          this.viaje.estado = data.estado;
-                          // ACTUALIZAR ATRIBUTO DEL CLIENTE
-                          this.usuario.viajando = false;
-                          this._userService.modificar_usuario(this.usuario)
-                            .then(()=>{
-                              this.mostrarSpinner = false;
-                              this.mostrarMsj = true;
-                            })
-                            .catch((error)=>{ console.log("Error al actualizar usuario: " + error); });
-
-                        })
-                        .catch((error)=>{console.log("Error al esperar viaje -> terminado: " + error)})
-                  })
-                  .catch((error)=>{console.log("Error al esperar viaje -> en curso: " + error)})
+            this.boton_cancelar = true;
+    // ACTUALIZO USUARIO
+            this.usuario.viajando = true;
+            this._userService.modificar_usuario(this.usuario)
+              .then(()=>{
+                console.log("Usuario ocupado - en viaje");
+                // VALIDO ESTADO
+                this.validar_espera();
               })
-              .catch((error)=>{console.log("Error al esperar viaje -> tomado: " + error)})
+              .catch((error)=>{ console.log("Error al actualizar usuario: " + error); });
           })
           .catch((error)=>{console.log("Error al actualizar viaje: " + error);})
       })
       .catch((error)=>{console.log("Error al dar de alta viaje: " + error);})
+  }
+
+  //VALIDAR CAMBIOS DE ESTADO
+  validar_espera(){
+
+    this._viajeService.esperar_estado(this.viaje.id_viaje)
+    .subscribe((viaje:any)=>{
+      viaje.forEach((item) => {
+          console.log("Estado del viaje: " + item.estado);
+          this.viaje = item;
+          switch(this.viaje.estado){
+        // 1) VIAJE A LA ESPERA DE UN CHOFER
+            case "pendiente":
+            this.mostrarAlerta("Buscando chofer");
+            this.mostrarSpinner = true;
+            //Habilitar vistas
+            this.boton_pedir = false;
+            this.mostrarMapa = false;
+            this.boton_cancelar = true;
+            this.mostrarDatos_chofer = false;
+            break;
+        // 2) VIAJE TOMADO POR UN CHOFER
+            case "tomado":
+            this.mostrarAlerta("Chofer asignado");
+            this.mostrarSpinner = true;
+            //Datos del chofer
+            this.traer_usuario(this.viaje.id_chofer, "chofer")
+            .then(()=>{
+                //Habilitar vistas
+                this.mostrarDatos_chofer = true;
+                this.boton_pedir = false;
+                this.mostrarMapa = false;
+                this.boton_cancelar = true;
+                this.boton_qr = true;
+            })
+            break;
+        // 3) VIAJE EN CURSO
+            case "en curso":
+            this.mostrarAlerta("Viaje en curso");
+            this.mostrarSpinner = true;
+            //Datos del chofer
+            this.traer_usuario(this.viaje.id_chofer, "chofer")
+            .then(()=>{
+                //Habilitar vistas
+                this.mostrarDatos_chofer = true;
+                this.boton_pedir = false;
+                this.mostrarMapa = false;
+                this.boton_cancelar = false;
+                this.boton_qr = true;
+            })
+            break;
+        // 4) VIAJE CUMPLIDO
+            case "cumplido":
+            this.mostrarAlerta("Viaje cumplido");
+            this.mostrarSpinner = true;
+            //Datos del chofer
+            this.traer_usuario(this.viaje.id_chofer, "chofer")
+            .then(()=>{
+              this.usuario.viajando = false;
+              this._userService.modificar_usuario(this.usuario)
+              .then(()=>{
+                //Habilitar vistas
+                this.mostrarDatos_chofer = true;
+                this.boton_pedir = false;
+                this.mostrarMapa = true;
+                this.mostrarMsj = true;
+                this.boton_cancelar = false;
+                this.boton_qr = true;
+                this.mostrarSpinner = false;
+              })
+            })
+            break;
+        // 5) VIAJE CANCELADO
+            case "cancelado":
+            this.mostrarAlerta("Viaje cancelado por chofer");
+            this.mostrarSpinner = true;
+            this.usuario.viajando = false;
+            this._userService.modificar_usuario(this.usuario)
+            .then(()=>{
+              this.boton_pedir = false;
+              this.mostrarMapa = false;
+              this.mostrarMsj = false;
+              this.boton_cancelar = false;
+              this.boton_qr = false;
+              this.mostrarDatos_chofer = false;
+              this.generar_viaje_default();
+              this.mostrarSpinner = false;
+            })
+            break;
+          }//Fin del switch
+      })//item
+    })//observable
   }
 
   //DETENER PEDIDO DE VIAJE
@@ -267,15 +322,19 @@ export class ClienteViajePage {
 
     this._viajeService.baja_viaje(this.viaje.id_viaje)
       .then(()=>{
-        this.generar_viaje_default();
-        this.boton_qr = false;
-        this.mostrarMapa = false;
-        this.mostrarSpinner = false;
-        this.mostrarAlerta("Viaje cancelado");
+        this.usuario.viajando = false;
+        this._userService.modificar_usuario(this.usuario)
+          .then(()=>{
+            this.generar_viaje_default();
+            this.boton_qr = false;
+            this.boton_cancelar = false;
+            this.mostrarMapa = false;
+            this.mostrarDatos_chofer = false;
+            this.mostrarSpinner = false;
+            this.mostrarAlerta("Viaje cancelado");
+          })
       })
-      .catch((error)=>{
-        console.log("Error al eliminar viaje: " + error);
-      })
+      .catch((error)=>{ console.log("Error al eliminar viaje: " + error); })
   }
 
   //MENSAJES AL USUARIO
@@ -322,15 +381,6 @@ export class ClienteViajePage {
 
         })
         .catch((error)=>{ console.log("Error en lectura QR: " + error); })
-  }
-
-  //TRAER CHOFER
-  traer_chofer(){
-    return this._userService.traer_un_usuario(this.viaje.id_chofer)
-            .then((user:any)=>{
-              this.chofer = user;
-            })
-            .catch((error)=>{ console.log("Error al traer usuario: " + error); });
   }
 
   //IR A ...
