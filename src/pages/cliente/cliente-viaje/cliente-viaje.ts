@@ -61,11 +61,25 @@ export class ClienteViajePage {
   }
 
   ionViewDidLoad() {
-
+    this.generar_fecha();
+    let hora = this.hora.split(':');
+    let horaActual = parseInt(hora[0]);
+    //VALIDAR = NUEVA VIAJE vs VIAJE PROCESADO
     this.traer_usuario(this._authService.get_userUID(), "cliente")
       .then(()=>{
-        this.mostrarSpinner = false;
-        this.generar_viaje_default();
+
+        this._viajeService.traer_un_viaje_actual(this.usuario.id_usuario, this.fecha, horaActual)
+          .then((data:any)=>{
+            if(data){
+              console.log("DATA: " + JSON.stringify(data));
+              this.viaje = data;
+              this.validar_espera();
+            }
+            else{
+              this.generar_viaje_default();
+              this.mostrarSpinner = false;
+            }
+          })
       })
 
     //callBack para mapa
@@ -135,15 +149,13 @@ export class ClienteViajePage {
   generar_viaje_default(){
 
     this.mostrarSpinner = true;
-    this.generar_fecha();
-
     this.viaje_default = {
       id_viaje: "N/N",
       id_cliente: this.usuario.id_usuario,
       id_chofer:"N/N",
       id_vehiculo:"N/N",
-      fecha:this.fecha,
-      hora:this.hora,
+      fecha:"N/N",
+      hora:"N/N",
       cod_fecha: new Date().valueOf().toString(),
       origen: "N/N",
       origen_coord:[1,1],
@@ -154,7 +166,7 @@ export class ClienteViajePage {
       estado:"pendiente"
     }
     this.viaje = new Viaje(this.viaje_default);
-    console.log("Datos generados de fecha: " + JSON.stringify(this.viaje));
+    //console.log("Datos generados de fecha: " + JSON.stringify(this.viaje));
     this.mostrarSpinner = false;
   }
 
@@ -202,6 +214,11 @@ export class ClienteViajePage {
     this.boton_pedir = false;
     this.mostrarMapa = false;
     this.mostrarSpinner = true;
+    this.generar_fecha();
+    // ACTUALIZO FECHA + HORA
+    this.viaje.fecha = this.fecha;
+    this.viaje.cod_fecha = new Date().valueOf().toString();
+    this.viaje.hora = this.hora;
     // ALTA VIAJE
     this._viajeService.alta_viaje(this.viaje)
       .then((key:any)=>{
@@ -284,6 +301,23 @@ export class ClienteViajePage {
               this.usuario.viajando = false;
               this._userService.modificar_usuario(this.usuario)
               .then(()=>{
+                //Asignar marcadores
+                this.origen_marker = ({
+                  lat: this.viaje.origen_coord[0],
+                  lng: this.viaje.origen_coord[1],
+                  label: "Origen",
+                  icon: "assets/imgs/marker_person.png",
+                  draggable: false
+                });
+                this.destino_marker = ({
+                  lat: this.viaje.destino_coord[0],
+                  lng: this.viaje.destino_coord[1],
+                  label: "Destino",
+                  icon: "assets/imgs/marker_finish.png",
+                  draggable: false
+                });
+                //Refrescar marcadores
+                this.markers = [this.origen_marker, this.destino_marker];
                 //Habilitar vistas
                 this.mostrarDatos_chofer = true;
                 this.boton_pedir = false;

@@ -62,6 +62,38 @@ export class ViajeServicio {
       return promesa;
     }
 
+    //TRAER UN VIAJE ACTUAL
+    traer_un_viaje_actual(cliente:string, fecha:string, horaActual:number){
+
+      let promesa = new Promise((resolve, reject)=>{
+
+        let unViaje:Viaje; //RETORNO
+        console.log("METODO: Traer viajes");
+
+        this.viajes.forEach((value)=>{
+          for(let v of value){
+            if(v.estado != "cancelado" && v.estado != "cumplido"){
+              if(v.id_cliente == cliente && v.fecha == fecha){
+                let horaTomada = v.hora.split(':'); //Generada al pedir viaje
+                let horaMaxima = parseInt(horaTomada[0]); //Diferencia horaria: 2
+                if(horaMaxima == 23) horaMaxima = 1;
+                else horaMaxima += 2;
+                console.log("Hora actual: " + horaActual);
+                console.log("Hora maxima permitida: " + horaMaxima);
+                if(horaActual <= horaMaxima){
+                  console.log("Hay un viaje aún activo!");
+                  unViaje = new Viaje(v);
+                  resolve(unViaje)
+                }
+              }
+            }
+          }
+          resolve(false);
+        })
+      });
+      return promesa;
+    }
+
     //ALTA
     alta_viaje(viaje:Viaje){
         let promesa = new Promise((resolve, reject)=>{
