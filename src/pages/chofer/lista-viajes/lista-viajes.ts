@@ -3,7 +3,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import * as firebase from 'firebase/app';
-import { ChoferViajePage } from '../../index-paginas'; 
+import { ChoferViajePage } from '../../index-paginas';
+
+import { Subscription } from "rxjs/Subscription"; 
+import { Observable } from "rxjs/Observable"; 
+import 'rxjs/add/observable/fromPromise';
 
 @IonicPage()
 @Component({
@@ -12,19 +16,24 @@ import { ChoferViajePage } from '../../index-paginas';
 })
 export class ListaViajesPage {
 
-  viajes :any;
+  viajes : any;
   chofer : any;
   usuarioSesion:any;
+  someListener: Subscription = new Subscription();
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viajesProv : ViajeServicio,
               public userProv: UsuarioServicioProvider) {
+  }
+  //VERFICAR QUE TENGA UN AUTO ASIGNADO 
+  ionViewDidLoad(){
 
-  	this.traerViajes();
+    this.traerViajes();
     this.usuarioSesion = firebase.auth().currentUser;
     this.traerUsuario();
     console.log(this.chofer);
+
   }
   //cancelado / pendiente / tomado / en curso / cumplido
   async traerUsuario(){
@@ -37,10 +46,11 @@ export class ListaViajesPage {
   	
   }
 
-  async traerViajes(){
+  traerViajes(){
   	try{
-        this.viajes = await this.viajesProv.traer_viajes('pendiente','estado');
-        console.log(this.viajes);
+        this.someListener = Observable.fromPromise(this.viajesProv.traer_viajes('pendiente','estado'))
+                                      .subscribe(viajes => this.viajes = viajes);
+        console.log("Viajes ",this.viajes);
   	}catch(e){
         console.log(e.message);
   	}
@@ -56,7 +66,11 @@ export class ListaViajesPage {
     this.navCtrl.push(ChoferViajePage, {viaje: viaje, chofer: this.chofer});
   }
 
-  
+  /*ionViewWillLeave(){
+    console.log("se ejecuto ionViewWillLeave");
+    this.someListener.unsubscribe();
+    //this.viajes = null;
+  }*/
 
   
 

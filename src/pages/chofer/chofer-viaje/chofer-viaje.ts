@@ -22,7 +22,7 @@ export class ChoferViajePage {
     
   	this.chofer = this.navParams.get('chofer');
     this.viaje =  new Viaje(this.navParams.get('viaje'));
-
+   
     console.log('CHOFER : ',this.chofer);
     console.log('VIAJE : ',this.viaje);
    
@@ -30,6 +30,7 @@ export class ChoferViajePage {
 
   ionViewDidLoad(){
     this.traerCliente();
+    
   }
 
   traerCliente(){ //VER EN QUE MOMENTO SE EJECUTA,ROMPE LA VISTA
