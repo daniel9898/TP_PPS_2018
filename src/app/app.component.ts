@@ -15,6 +15,7 @@ import { LoginPage, PerfilPage,
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
+import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 
 @Component({
   templateUrl: 'app.html'
@@ -36,7 +37,8 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public menu: MenuController,
-              public auth: AuthServicioProvider) {
+              public auth: AuthServicioProvider,
+              public usuarioSrv: UsuarioServicioProvider) {
 
       this.inicializarApp();
 
@@ -137,6 +139,12 @@ export class MyApp {
   logout() {
   	this.menu.close();
     this.menu.enable(false);
+    if (this.vista_chofer) {
+      this.usuarioSrv.traerUsuario(this.auth.get_userUID()).then((value:any) => {
+        value.id_vehiculo = '';
+        this.usuarioSrv.modificar_usuario(value);
+      });
+    }
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }
