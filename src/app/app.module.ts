@@ -37,6 +37,7 @@ import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-
 import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
+import { ReservasProvider } from '../providers/reservas/reservas';
 
 //DIRECTIVAS
 import { DirectivesModule } from '../directives/directives.module';
@@ -161,7 +162,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ViajeServicio,
     ClienteEncuestaServicio,
     BarcodeScanner,
-    QrServicioProvider
+    QrServicioProvider,
+    ReservasProvider
   ]
 })
 export class AppModule {}
