@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Nav, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController } from 'ionic-angular';
 //FIREBASE
 import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
