@@ -29,7 +29,7 @@
       <!-- VIAJES -->
       <ion-list *ngSwitchCase="'viajes'">
         <ion-item-sliding *ngFor="let viaje of viajes; index as i;">
-          <ion-item (click)="verReserva(i)">
+          <ion-item (click)="verViaje(i)">
               <ion-icon name="md-car" color="primary" item-start></ion-icon>
               {{viaje.fecha }} || ${{viaje.precio }}
           </ion-item>
@@ -51,7 +51,7 @@
       <!-- ENCUESTAS -->
       <ion-list *ngSwitchCase="'encuestas'">
         <ion-item-sliding *ngFor="let encuesta of encuestas; index as i;">
-          <ion-item (click)="verUsuario(encuesta)">
+          <ion-item (click)="verEncuesta(i)">
               <ion-icon name="ios-list-box-outline" color="primary" item-start></ion-icon>
               {{encuesta.fecha }}
           </ion-item>

@@ -23,6 +23,7 @@ export class ClienteEncuestaPage {
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
   texto:any = Encuesta_texto;
   cambios:boolean;
+  modificar:boolean;
   //VALORES
   fecha:string;
   hora:string;
@@ -39,8 +40,17 @@ export class ClienteEncuestaPage {
   }
 
   ionViewDidLoad() {
-
-    this.generar_encuesta_byDefault();
+    this.mostrarSpinner = true;
+    if(this.navParams.data.encuesta){
+      this.encuesta = this.navParams.data.encuesta;
+      this.encuesta_byDefault = this.navParams.data.encuesta;
+      this.modificar = this.navParams.data.isEditable;
+      this.mostrarSpinner = false;
+    }
+    else{
+      this.generar_encuesta_byDefault();
+      this.modificar = true;
+    }
   }
 
   //GENERAR ENCUESTA (by default)

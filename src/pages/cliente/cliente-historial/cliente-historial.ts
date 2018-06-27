@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
-import { ClienteReservaPage } from '../../index-paginas';
+import { ClienteReservaPage, ClienteEncuestaPage } from '../../index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
@@ -84,25 +84,38 @@ export class ClienteHistorialPage {
     return promesa;
   }
 
-  verReserva(value) {
-    console.log(value);
+  // DIRECCIONAR
+
+  verViaje(indice) {
+    console.log(indice);
     this.navCtrl.push(
       ClienteReservaPage,
       {
         isEditable: false,
-        reserva: this.reservas[value].reserva,
-        key: this.reservas[value].key
+        reserva: this.viajes[indice],
+        key: this.viajes[indice].id_viaje
       });
   }
 
-  verViaje(value) {
-    console.log(value);
+  verReserva(indice) {
+    console.log(indice);
     this.navCtrl.push(
       ClienteReservaPage,
       {
         isEditable: false,
-        reserva: this.viajes[value],
-        key: this.viajes[value].id_viaje
+        reserva: this.reservas[indice].reserva,
+        key: this.reservas[indice].key
+      });
+  }
+
+  verEncuesta(indice) {
+    console.log(indice);
+    this.navCtrl.push(
+      ClienteEncuestaPage,
+      {
+        isEditable: false,
+        encuesta: this.encuestas[indice],
+        key: this.encuestas[indice].id_encuesta
       });
   }
 
