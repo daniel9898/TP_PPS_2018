@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import * as firebase from 'firebase/app';
@@ -19,17 +19,21 @@ export class ListaViajesPage {
   viajes : any;
   chofer : any;
   usuarioSesion:any;
-  someListener: Subscription = new Subscription();
+  vehiculo : any;
+  v : any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viajesProv : ViajeServicio,
-              public userProv: UsuarioServicioProvider) {
+              public userProv: UsuarioServicioProvider,
+              public menu: MenuController) {
+    this.menu.enable(true);
+    this.vehiculo = this.navParams.get('vehiculo');
   }
   //VERFICAR QUE TENGA UN AUTO ASIGNADO 
   ionViewDidLoad(){
-
-    this.traerViajes();
+    
+    this.traerViajes(); //CAMBIAR A RESERVAS Y CUANDO SE LA TOMA PASA A SER UN VIAJE EN ESTADO TOMADO
     this.usuarioSesion = firebase.auth().currentUser;
     this.traerUsuario();
     console.log(this.chofer);
@@ -48,7 +52,7 @@ export class ListaViajesPage {
 
   traerViajes(){
   	try{
-        this.someListener = Observable.fromPromise(this.viajesProv.traer_viajes('pendiente','estado'))
+        this.v = Observable.fromPromise(this.viajesProv.traer_viajes('pendiente','estado'))
                                       .subscribe(viajes => this.viajes = viajes);
         console.log("Viajes ",this.viajes);
   	}catch(e){
@@ -66,11 +70,11 @@ export class ListaViajesPage {
     this.navCtrl.push(ChoferViajePage, {viaje: viaje, chofer: this.chofer});
   }
 
-  /*ionViewWillLeave(){
+  ionViewWillLeave(){
     console.log("se ejecuto ionViewWillLeave");
-    this.someListener.unsubscribe();
+    this.v.unsubscribe();
     //this.viajes = null;
-  }*/
+  }
 
   
 
