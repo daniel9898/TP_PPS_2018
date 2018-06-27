@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
-//import { ClienteReservaPage, ClienteEncuestaPage } from '../../index-paginas';
+import { ClienteReservaPage } from '../../index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
@@ -11,7 +11,6 @@ import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-ser
 //clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
-import { Reserva } from '../../../classes/viaje.model';
 import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
 
 @Component({
@@ -24,7 +23,7 @@ export class ClienteHistorialPage {
   historial:string;
   usuario:Usuario;
   viajes:Viaje[] = [];
-  reservas:Reserva[] = [];
+  reservas:any[] = [];
   encuestas:Encuesta_cliente[] = [];
   isAndroid: boolean = false;
   constructor(public navCtrl: NavController,
@@ -49,15 +48,17 @@ export class ClienteHistorialPage {
         this._viajeService.traer_viajes(this.usuario.id_usuario, "cliente")
           .then((viajes:any)=>{
               this.viajes = viajes;
-  // 3) TRAER RESERVAS
-              this._reservaService.traer_reservas(this.usuario.id_usuario, "cliente")
-                .then((reservas:any)=>{
-                  this.reservas = reservas;
-  // 4) TRAER ENCUESTAS
+  // 3) TRAER ENCUESTAS
                   this.generar_lista_encuestas()
-                    .then(()=>{ this.mostrarSpinner = false; })
-                })
-                .catch(()=>{ console.log("Error al traer reservas") })
+                    .then(()=>{
+  // 4) TRAER RESERVAS
+                      this._reservaService.getListaReservas().subscribe(next => {
+                        this.reservas = next.filter(value => value.reserva.id_cliente == this.usuario.id_usuario);
+                      });
+                      this.mostrarSpinner = false;
+                    })
+                    .catch((error)=>{ console.log("Error al traer encuestas: " + error) })
+
           })
           .catch((error)=>{ console.log("Error al traer viajes: " + error) })
       })
@@ -81,6 +82,28 @@ export class ClienteHistorialPage {
         .catch((error)=>{ console.log("Error al traer encuestas: " + error); resolve() })
     });
     return promesa;
+  }
+
+  verReserva(value) {
+    console.log(value);
+    this.navCtrl.push(
+      ClienteReservaPage,
+      {
+        isEditable: false,
+        reserva: this.reservas[value].reserva,
+        key: this.reservas[value].key
+      });
+  }
+
+  verViaje(value) {
+    console.log(value);
+    this.navCtrl.push(
+      ClienteReservaPage,
+      {
+        isEditable: false,
+        reserva: this.viajes[value],
+        key: this.viajes[value].id_viaje
+      });
   }
 
 }
