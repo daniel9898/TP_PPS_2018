@@ -85,7 +85,7 @@ export class ChoferInicioPage {
 
   listadoDeViajes(){
     //this.navCtrl.setRoot(ListaViajesPage);
-    this.navCtrl.setRoot(ChoferEncuestaPage);
+    this.navCtrl.push(ChoferEncuestaPage,{vehiculo:this.vehiculoAsignado,chofer:this.usuarioSesion});
   }
 
 

@@ -15,7 +15,7 @@
 
 	<ion-card *ngIf="asignado">
 	  <ion-card-title padding>Vehiculo Asignado : </ion-card-title>
-	  <img *ngIf="vehiculoAsignado.vehiculo.foto != null" src="{{vehiculoAsignado.vehiculo.foto}}"/>
+	  <img *ngIf="vehiculoAsignado.vehiculo.foto != null" src="{{vehiculoAsignado.vehiculo.foto[0]}}"/>
 	  <img *ngIf="vehiculoAsignado.vehiculo.foto == null" 
 	        src="https://www.freeiconspng.com/uploads/vehicle-icon-29.png"/>
 	  <ion-card-content>
