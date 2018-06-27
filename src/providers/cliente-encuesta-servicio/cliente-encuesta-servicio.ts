@@ -32,7 +32,7 @@ export class ClienteEncuestaServicio {
   }
 
   //TRAER UNA ENCUESTA
-  traer_viajes(valor:string, criterio:string){
+  traer_encuestas(valor:string, criterio:string){
     let promesa = new Promise((resolve, reject)=>{
 
       let encuestasArray:Encuesta_cliente[] = []; //RETORNO

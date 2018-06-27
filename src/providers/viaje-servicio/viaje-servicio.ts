@@ -41,6 +41,7 @@ export class ViajeServicio {
         this.viajes.forEach((value)=>{
           for(let v of value){
             let viaje:Viaje = new Viaje(v);
+            //console.log("Viajes: " + v.id_cliente);
             switch(criterio){
               case "cliente":
               if(v.id_cliente == valor) viajesArray.push(viaje); break;

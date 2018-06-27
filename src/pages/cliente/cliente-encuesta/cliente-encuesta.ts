@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
+//PAGINAS
+import { ClienteViajePage } from '../../index-paginas';
 //CLASE
 import { Encuesta_cliente, Encuesta_texto } from '../../../classes/encuesta_cliente';
 //SERVICIO
@@ -157,6 +159,7 @@ export class ClienteEncuestaPage {
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
             this.mostrarAlerta("Cambios realizados con éxito");
+            this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{
             console.log("Error al actualizar datos de encuesta: " + error);
