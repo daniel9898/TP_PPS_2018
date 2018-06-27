@@ -11,6 +11,7 @@ export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
 export { ClienteReservaPage } from "./cliente/cliente-reserva/cliente-reserva";
 export { ClienteEncuestaPage } from "./cliente/cliente-encuesta/cliente-encuesta";
+export { ClienteEncuestasPage } from "./cliente/cliente-encuestas/cliente-encuestas";
 export { ClienteHistorialPage } from "./cliente/cliente-historial/cliente-historial";
 export { ClienteEstadisticaPage } from "./cliente/cliente-estadistica/cliente-estadistica";
 

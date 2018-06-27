@@ -7,7 +7,7 @@ import { timer } from 'rxjs/observable/timer';
 import * as $ from 'jquery';
 //PAGES
 import { LoginPage, PerfilPage,
-         ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+         ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestasPage, //--CLIENTE
          ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
          SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
          SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage,
@@ -91,7 +91,7 @@ export class MyApp {
             // { title: 'Reserva', component: ClienteReservaPage, visibility: this.vista_cliente },
             { title: 'Historial', component: ClienteHistorialPage, visibility: this.vista_cliente },
             { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_cliente },
-            { title: 'Encuesta', component: ClienteEncuestaPage, visibility: this.vista_cliente },
+            { title: 'Encuestas', component: ClienteEncuestasPage, visibility: this.vista_cliente },
             //PAGINAS CHOFER (6)
             { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },

@@ -8,7 +8,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
-//clase USUARIO
+//CLASES
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
 import { Encuesta_cliente } from '../../../classes/encuesta_cliente';

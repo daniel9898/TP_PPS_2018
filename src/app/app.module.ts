@@ -39,6 +39,7 @@ import { MyApp } from './app.component';
 import {
   InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
   ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ClienteEncuestasPage,
   ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
   SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
   SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
@@ -77,6 +78,7 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -130,6 +132,7 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,

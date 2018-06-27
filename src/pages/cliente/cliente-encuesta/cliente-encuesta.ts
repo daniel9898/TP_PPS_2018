@@ -70,6 +70,7 @@ export class ClienteEncuestaPage {
       pregunta_5:"",
       foto: this.encuesta_foto
     }
+    console.log("ID de viaje asociado: " + this.navParams.get('id_viaje'));
     this.encuesta = new Encuesta_cliente(this.encuesta_byDefault);
     this.mostrarSpinner = false;
   }
@@ -168,7 +169,7 @@ export class ClienteEncuestaPage {
           .then(()=>{
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
-            this.mostrarAlerta("Cambios realizados con éxito");
+            this.mostrarAlerta("¡Gracias por participar!");
             this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{
