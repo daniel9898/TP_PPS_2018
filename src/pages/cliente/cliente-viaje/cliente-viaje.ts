@@ -40,6 +40,7 @@ export class ClienteViajePage {
   markers:Marker[] = [];
   origen_marker:Marker;
   destino_marker:Marker;
+  options:any;
   precio:number = 18; // por KM
   precio_minimo:number = 60;
   //texto
@@ -58,6 +59,9 @@ export class ClienteViajePage {
               private platform:Platform) {
 
       this.mostrarSpinner = true;
+      this.options = {
+          suppressMarkers: true,
+      };
   }
 
   ionViewDidLoad() {
@@ -93,7 +97,7 @@ export class ClienteViajePage {
                 this.origen_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
-                  label: "Origen",
+                  label: "origen",
                   icon: "assets/imgs/marker_person.png",
                   draggable: false
                 });
@@ -105,7 +109,7 @@ export class ClienteViajePage {
                 this.destino_marker = ({
                   lat: datos.lat,
                   lng: datos.lng,
-                  label: "Destino",
+                  label: "destino",
                   icon: "assets/imgs/marker_finish.png",
                   draggable: false
                 });

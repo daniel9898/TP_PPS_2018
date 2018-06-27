@@ -102,16 +102,11 @@
                  [iconUrl]="m.icon"
                  [markerDraggable]="m.draggable">
                </agm-marker>
-               <agm-polyline
-               [visible]="true"
-               [strokeWeight]="3">
-                  <agm-polyline-point
-                    *ngFor="let m of markers; let i = index"
-                    [latitude]="m.lat"
-                    [longitude]="m.lng">
-                  </agm-polyline-point>
-               </agm-polyline>
-
+               <agm-direction
+                 [origin]=origen_marker
+                 [destination]=destino_marker
+                 [renderOptions]="options">
+              </agm-direction>
       </agm-map>
     </div>
 

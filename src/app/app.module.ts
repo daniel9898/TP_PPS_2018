@@ -16,6 +16,7 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction'
 //GEOLOCATION
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
@@ -99,7 +100,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     DirectivesModule,
     AgmCoreModule.forRoot({
       	   apiKey: environment.googleMaps.apiKey
-    	})
+    	}),
+    AgmDirectionModule
 
   ],
   bootstrap: [IonicApp],
