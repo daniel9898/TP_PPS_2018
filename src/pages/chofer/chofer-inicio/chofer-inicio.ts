@@ -37,7 +37,7 @@ export class ChoferInicioPage {
   comenzarActividad(){
     
     this.utils.showLoading();
-    console.log('vehiculos',this.vehiculos);
+    // console.log('vehiculos',this.vehiculos);
 
     try{
         this.vehiculos.map(v => {
@@ -60,8 +60,10 @@ export class ChoferInicioPage {
   }
 
   guardarVehiculo(){
-    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.key);
-
+    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.vehiculo.patente).then(value => {
+      this.vehiculoAsignado.vehiculo.ocupado = true;
+      this.vehiculosProv.updateItem(this.vehiculoAsignado.key,this.vehiculoAsignado.vehiculo);
+    });
   }
 
   listadoDeViajes(){
