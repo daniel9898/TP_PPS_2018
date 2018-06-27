@@ -10,7 +10,6 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-supervisor-registro-vehiculo',
@@ -22,7 +21,8 @@ export class SupervisorRegistroVehiculoPage {
   isEditable: boolean = false;
   constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculoSrv: VehiculosProvider) {
     this.vehiculo = new vehiculo();
-
+    this.vehiculo.patente = '';
+    this.vehiculo.ano = 1995;
   }
 
   ionViewDidLoad() {
@@ -31,6 +31,7 @@ export class SupervisorRegistroVehiculoPage {
       this.vehiculo = this.navParams.data.vehiculo;
       this.key = this.navParams.data.key;
     }
+
     this.isEditable = this.navParams.data.isEditable
   }
 

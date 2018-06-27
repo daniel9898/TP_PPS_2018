@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
-      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || patente.invalid">Guardar</button>
+      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || ((vehiculo.ano > 1994 && vehiculo.ano < 2016) && patente.invalid ) || ( vehiculo.ano > 2015 && patente2.invalid)">Guardar</button>
       <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
@@ -27,19 +27,28 @@
     <ion-label stacked>Marca</ion-label>
     <ion-input type="text" id="marca" name="marca" [disabled]="!isEditable" #marca="ngModel" [(ngModel)]="vehiculo.marca" [minlength]="3" required></ion-input>
   </ion-item>
+  <p color="danger" ion-text [hidden]="!(marca.invalid && marca.dirty)">Debe tener una marca mayor 3 carateres</p>
   <ion-item>
     <ion-label stacked>Modelo</ion-label>
     <ion-input type="text" [disabled]="!isEditable" [(ngModel)]="vehiculo.modelo"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label stacked>Patente</ion-label>
-    <ion-input type="text" id="patente" name="patente" [disabled]="!isEditable" #patente="ngModel" [(ngModel)]="vehiculo.patente" [minlength]="6" required></ion-input>
-  </ion-item>
-  <ion-item>
     <ion-label stacked>Año</ion-label>
-    <!-- <ion-input type="text" ></ion-input> -->
-    <ion-datetime min="2008" displayFormat="YYYY" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano"></ion-datetime>
+    <ion-datetime id="ano" name="ano" #ano="ngModel" min="1995" displayFormat="YYYY" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano" required></ion-datetime>
   </ion-item>
+  <ion-item [hidden]="!(vehiculo.ano > 1994 && vehiculo.ano < 2016)">
+    <ion-label stacked>Patente</ion-label>
+    <ion-input type="text" id="patente" name="patente"  placeholder="ABC123" pattern="^([A-Z]{3})([0-9]{3})$" [disabled]="!isEditable" #patente="ngModel" [ngModel]="vehiculo.patente" (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
+    <!-- <ion-input type="text" id="patente2" name="patente2" [hidden]="!(vehiculo.ano >= 2016)" [disabled]="!isEditable" #patente2="ngModel" placeholder="AB123CD" pattern="^([A-Z]{2})([0-9]{3})([A-Z]{2})$" [(ngModel)]="vehiculo.patente"  (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input> -->
+  </ion-item>
+  <ion-item [hidden]="!(vehiculo.ano >= 2016)">
+    <ion-label stacked>Patente</ion-label>
+    <!-- <ion-input type="text" id="patente" name="patente" [hidden]="!(vehiculo.ano > 1994 && vehiculo.ano < 2016)" placeholder="ABC123" pattern="^([A-Z]{3})([0-9]{3})$" [disabled]="!isEditable" #patente="ngModel" [ngModel]="vehiculo.patente" (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input> -->
+    <ion-input type="text" id="patente2" name="patente2"  [disabled]="!isEditable" #patente2="ngModel" placeholder="AB123CD" pattern="^([A-Z]{2})([0-9]{3})([A-Z]{2})$" [(ngModel)]="vehiculo.patente"  (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
+  </ion-item>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length > 1 && patente.invalid )">No debe contenter espacios</p>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente.invalid && (patente.dirty) && (vehiculo.ano > 1994 && vehiculo.ano < 2016))">El formato debe ser ABC123</p>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente2.invalid && (patente2.dirty) && (vehiculo.ano >= 2016))">El formato debe ser AB123CD</p>
   <ion-item>
     <ion-label>Activo</ion-label>
     <ion-toggle [(ngModel)]="vehiculo.activo" [disabled]="!isEditable"></ion-toggle>
