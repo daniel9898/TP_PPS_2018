@@ -75,7 +75,7 @@ export class ChoferInicioPage {
   }
 
   async asignarVehiculo(){
-    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.key);
+    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.vehiculo.patente);
   }
   //FALTA VER EN QUE MOMENTO SE LIBERA 
 
