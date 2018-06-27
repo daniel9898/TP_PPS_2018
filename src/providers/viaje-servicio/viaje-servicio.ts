@@ -74,17 +74,15 @@ export class ViajeServicio {
           for(let v of value){
             if(v.estado != "cancelado" && v.estado != "cumplido"){
               if(v.id_cliente == cliente && v.fecha == fecha){
-                let horaTomada = v.hora.split(':'); //Generada al pedir viaje
-                let horaMaxima = parseInt(horaTomada[0]); //Diferencia horaria: 2
-                if(horaMaxima == 23) horaMaxima = 1;
-                else horaMaxima += 2;
-                console.log("Hora actual: " + horaActual);
-                console.log("Hora maxima permitida: " + horaMaxima);
-                if(horaActual <= horaMaxima){
+                // let horaTomada = v.hora.split(':'); //Generada al pedir viaje
+                // let horaMaxima = parseInt(horaTomada[0]) + 2; //Diferencia horaria: 2
+                // console.log("Hora actual: " + horaActual);
+                // console.log("Hora maxima permitida: " + horaMaxima);
+                // if(horaActual <= horaMaxima){
                   console.log("Hay un viaje aún activo!");
                   unViaje = new Viaje(v);
                   resolve(unViaje)
-                }
+                // }
               }
             }
           }
