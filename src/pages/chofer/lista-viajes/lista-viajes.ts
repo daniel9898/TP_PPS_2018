@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import * as firebase from 'firebase/app';
-import { ChoferViajePage } from '../../index-paginas'; 
+import { ChoferViajePage } from '../../index-paginas';
+
+import { Observable } from "rxjs/Observable"; 
+import 'rxjs/add/observable/fromPromise';
 
 @IonicPage()
 @Component({
@@ -12,19 +15,28 @@ import { ChoferViajePage } from '../../index-paginas';
 })
 export class ListaViajesPage {
 
-  viajes :any;
+  viajes : any;
   chofer : any;
   usuarioSesion:any;
+  vehiculo : any;
+  v : any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public viajesProv : ViajeServicio,
-              public userProv: UsuarioServicioProvider) {
-
-  	this.traerViajes();
+              public userProv: UsuarioServicioProvider,
+              public menu: MenuController) {
+    this.menu.enable(true);
+    this.vehiculo = this.navParams.get('vehiculo');
+  }
+  //VERFICAR QUE TENGA UN AUTO ASIGNADO 
+  ionViewDidLoad(){
+    
+    this.traerViajes(); //CAMBIAR A RESERVAS Y CUANDO SE LA TOMA PASA A SER UN VIAJE EN ESTADO TOMADO
     this.usuarioSesion = firebase.auth().currentUser;
     this.traerUsuario();
     console.log(this.chofer);
+
   }
   //cancelado / pendiente / tomado / en curso / cumplido
   async traerUsuario(){
@@ -37,10 +49,11 @@ export class ListaViajesPage {
   	
   }
 
-  async traerViajes(){
+  traerViajes(){
   	try{
-        this.viajes = await this.viajesProv.traer_viajes('pendiente','estado');
-        console.log(this.viajes);
+        this.v = Observable.fromPromise(this.viajesProv.traer_viajes('pendiente','estado'))
+                                      .subscribe(viajes => this.viajes = viajes);
+        console.log("Viajes ",this.viajes);
   	}catch(e){
         console.log(e.message);
   	}
@@ -56,7 +69,11 @@ export class ListaViajesPage {
     this.navCtrl.push(ChoferViajePage, {viaje: viaje, chofer: this.chofer});
   }
 
-  
+  ionViewWillLeave(){
+    console.log("se ejecuto ionViewWillLeave");
+    this.v.unsubscribe();
+    //this.viajes = null;
+  }
 
   
 

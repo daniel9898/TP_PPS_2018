@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, MenuController } from 'ionic-angular';
 //FIREBASE
 import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { ListaViajesPage } from '../lista-viajes/lista-viajes';
+import { ChoferEncuestaPage } from '../../../pages/index-paginas';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { vehiculo } from '../../../classes/vehiculo.model';
+
 
 @IonicPage()
 @Component({
@@ -15,16 +18,16 @@ import { ListaViajesPage } from '../lista-viajes/lista-viajes';
 export class ChoferInicioPage {
 
   usuarioSesion:any;
-  asignado: boolean = false;
+  asignado: boolean;
   vehiculos: any;
   vehiculoAsignado : any;
-  userUpdate:any;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public utils: UtilidadesProvider,
               public vehiculosProv :VehiculosProvider,
-              public userProv: UsuarioServicioProvider) {
+              public userProv: UsuarioServicioProvider,
+              private barcodeScanner: BarcodeScanner,
+              public menu: MenuController,) {
         
     this.usuarioSesion = firebase.auth().currentUser;
 
@@ -34,38 +37,55 @@ export class ChoferInicioPage {
     )
   }
 
-  comenzarActividad(){
-    
-    this.utils.showLoading();
+  async comenzarActividad(){
+
     console.log('vehiculos',this.vehiculos);
 
     try{
+        this.asignado = false;
+        let barcodeData = await this.barcodeScanner.scan();
+        console.log('Barcode data', barcodeData);
+
         this.vehiculos.map(v => {
-          if(v.vehiculo.activo && !v.vehiculo.ocupado){
+          if(barcodeData.text == v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado){
              this.vehiculoAsignado = v;
              this.asignado = true;
              throw 'break';
           }
         })
 
+        console.log('this.vehiculoAsignado', this.vehiculoAsignado);
+        if(!this.asignado) { this.utils.showAlert('Atención !','Vehiculo no disponible o codigo incorrecto, reintente.') }
+
     }catch(e){
       console.log(e);
     }
- 
 
-    if(!this.asignado) { this.utils.showAlert('Atención !','Por el momento no hay vehiculos disponibles reintente más tarde.') }
+    try{
+        if(this.asignado){
+           this.menu.enable(false);
+           await this.asignarVehiculo();
+           this.vehiculoAsignado.vehiculo.ocupado = true;
+           await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
+        }
+    }catch(e){
+       this.utils.showAlert('Atención : ',e.message);
+    }
 
-    this.guardarVehiculo();
-    this.utils.dismissLoading();
   }
 
-  guardarVehiculo(){
+  async asignarVehiculo(){
     this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.key);
+  }
+  //FALTA VER EN QUE MOMENTO SE LIBERA 
 
+  async actualizarDisponibilidad(key: string, vehiculo: vehiculo){ 
+     this.vehiculosProv.updateItem(key,vehiculo);
   }
 
   listadoDeViajes(){
-    this.navCtrl.setRoot(ListaViajesPage);
+    //this.navCtrl.setRoot(ListaViajesPage);
+    this.navCtrl.push(ChoferEncuestaPage,{vehiculo:this.vehiculoAsignado,chofer:this.usuarioSesion});
   }
 
 
