@@ -38,6 +38,7 @@ export class ReservasProvider {
    * @param reserva una reserva 
    */
   addItem(reserva: Viaje) {
+    reserva.estado = 'pendiente'
     this.reservasRef.push(reserva);
   }
 
