@@ -22,7 +22,7 @@ export class SupervisorRegistroVehiculoPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculoSrv: VehiculosProvider) {
     this.vehiculo = new vehiculo();
     this.vehiculo.patente = '';
-    this.vehiculo.ano = 1995;
+    this.vehiculo.ano = "1995";
   }
 
   ionViewDidLoad() {
