@@ -52,6 +52,7 @@ import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
+import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
 
 
 
@@ -168,7 +169,8 @@ import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
     QrServicioProvider,
     DateTimeProvider,
     ReservasProvider,
-    UtilidadesProvider
+    UtilidadesProvider,
+    ChoferEncuestaProvider
   ]
 })
 export class AppModule { }
