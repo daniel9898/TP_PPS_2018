@@ -41,6 +41,8 @@ export class ClienteViajePage {
   origen_marker:Marker;
   destino_marker:Marker;
   options:any;
+  directionsService:any;
+  request_directions:any;
   precio:number = 18; // por KM
   precio_minimo:number = 60;
   //texto
@@ -59,6 +61,7 @@ export class ClienteViajePage {
               private platform:Platform) {
 
       this.mostrarSpinner = true;
+      this.directionsService = new google.maps.DirectionsService();
       this.options = {
           suppressMarkers: true,
       };
@@ -119,15 +122,24 @@ export class ClienteViajePage {
               //Refrescar marcadores
               this.markers = [this.origen_marker, this.destino_marker];
               //Tomar distancia
-              this.viaje.distancia = Math.round(this.calcular_distancia(this.origen_marker.lat, this.origen_marker.lng, this.destino_marker.lat, this.origen_marker.lng, 'K') * 100) / 100;
-              //Definir precio
-              if(this.viaje.distancia * this.precio < this.precio_minimo)
-                this.viaje.precio = this.precio_minimo;
-              else
-                this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
-              //Mostrar mapa
-              this.mostrarMapa = true;
-              this.boton_pedir = true;
+              this.request_directions= {
+                origin      : this.viaje.origen,
+                destination : this.viaje.destino,
+                travelMode  : 'DRIVING'
+              };
+              this.medir_distancia()
+                .then((distancia:number)=>{
+                  this.viaje.distancia = Math.round(distancia);
+                  //Definir precio
+                  if(this.viaje.distancia * this.precio < this.precio_minimo)
+                    this.viaje.precio = this.precio_minimo;
+                  else
+                    this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
+                  //Mostrar mapa
+                  this.mostrarMapa = true;
+                  this.boton_pedir = true;
+                })
+                .catch((error)=>{ console.log("Error al calcular distancia: " + error); })
             }
                 resolve();
            });
@@ -195,6 +207,25 @@ export class ClienteViajePage {
       mostrar_direccion = this.viaje.destino;
 
     this.navCtrl.push(MapaPage, {'direccion' : mostrar_direccion, 'callback':this.myCallbackFunction});
+  }
+
+  //MEDIR DISTANCIA CON DIRECTIONS
+  medir_distancia(){
+
+    let promesa = new Promise((resolve, reject)=>{
+        let distancia:number;
+        this.directionsService.route(this.request_directions, (response, status)=> {
+          if ( status == google.maps.DirectionsStatus.OK ) {
+            distancia = response.routes[0].legs[0].distance.value / 1000; // the distance in metres / 1000 = KM
+            resolve(distancia);
+          }
+          else {
+            console.log("Error al calcular distancia");
+            resolve(false);
+          }
+        });
+    });
+    return promesa;
   }
 
   //METODO PARA CALCULAR DISTANCIA ENTRE DOS PUNTOS

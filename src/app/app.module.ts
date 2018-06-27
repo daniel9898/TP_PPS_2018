@@ -16,7 +16,8 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { AgmCoreModule } from '@agm/core';
-import { AgmDirectionModule } from 'agm-direction'
+import { AgmDirectionModule } from 'agm-direction';
+import { NguiMapModule} from '@ngui/map';
 //GEOLOCATION
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
@@ -98,9 +99,8 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireStorageModule,
     HttpModule,
     DirectivesModule,
-    AgmCoreModule.forRoot({
-      	   apiKey: environment.googleMaps.apiKey
-    	}),
+    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
+    AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
     AgmDirectionModule
 
   ],
