@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
-import { NguiMapModule} from '@ngui/map';
 
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
@@ -17,6 +16,8 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+import { NguiMapModule} from '@ngui/map';
 //GEOLOCATION
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
@@ -29,6 +30,9 @@ import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
 import { ChoferProvider } from '../providers/chofer/chofer';
 import { DateTimeProvider } from '../providers/date-time/date-time';
+
+//DIRECTIVAS
+import { DirectivesModule } from '../directives/directives.module';
 
 //PAGES
 import { MyApp } from './app.component';
@@ -52,6 +56,7 @@ import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
+import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
 
 
 
@@ -91,6 +96,7 @@ import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
@@ -102,10 +108,11 @@ import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     HttpModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleMaps.apiKey
-    }),
-    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` })
+    DirectivesModule,
+    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
+    AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
+    AgmDirectionModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -142,6 +149,7 @@ import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],

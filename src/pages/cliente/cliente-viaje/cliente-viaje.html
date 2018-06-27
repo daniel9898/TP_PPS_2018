@@ -7,15 +7,20 @@
   </div>
   <!-- MENSAJE FINAL -->
   <div class="msj_box" *ngIf="!mostrarSpinner && mostrarMsj">
-    <ion-label class="msj_final_1">
+    <ion-label class="msj_size_1">
       <strong>{{texto.msj_final.titulo}}</strong>
       <br>{{texto.msj_final.subtitulo}}
     </ion-label>
-    <ion-label class="msj_final_2">
-      <br><br><strong>{{texto.msj_final.texto_1}}</strong> {{texto.msj_final.texto_2}}
+    <ion-label class="msj_size_2">
+      <br><br><strong>{{texto.msj_final.texto_1}}</strong><br> {{texto.msj_final.texto_2}}
     </ion-label>
+    <!-- BOTON ENCUESTA -->
+    <button ion-button color="primary" (click)="ir_encuesta()">
+        <ion-icon class="iconPoll" name="ios-list-box-outline"></ion-icon>
+    </button>
     <img src="assets/imgs/fin_recorrido.png">
   </div>
+
   <!-- VER BOTON QR -->
   <ion-fab *ngIf="boton_qr" right top>
       <button ion-fab color="yellow" (click)="direccionar()">
@@ -68,7 +73,19 @@
   <div class="msj_box" *ngIf="!mostrarSpinner && !mostrarMapa">
     <img src="assets/imgs/inicio_recorrido.png">
   </div>
-
+  <!-- DATOS DEL CHOFER -->
+  <div *ngIf="mostrarDatos_chofer">
+    <ion-item no-lines>
+      <ion-avatar item-start>
+        <img src="assets/imgs/default_chofer.png">
+      </ion-avatar>
+      <ion-label class="msj_size_2">
+            <strong>{{texto.chofer.titulo}}</strong>
+        <br><strong>{{texto.chofer.nombre}} </strong>  {{chofer.nombre}}
+        <br><strong>{{texto.chofer.patente}} </strong> {{viaje.id_vehiculo}}
+      </ion-label>
+    </ion-item>
+  </div>
   <!-- MAPA -->
    <div *ngIf="!mostrarSpinner" xFlex="100" class="map-full-card-content">
       <agm-map *ngIf="mostrarMapa"
@@ -83,19 +100,13 @@
                  [latitude]="m.lat"
                  [longitude]="m.lng"
                  [iconUrl]="m.icon"
-                 [markerDraggable]="m.draggable"
-                 (dragEnd)="markerMovido(m, $event)">
+                 [markerDraggable]="m.draggable">
                </agm-marker>
-               <agm-polyline
-               [visible]="true"
-               [strokeWeight]="3">
-                  <agm-polyline-point
-                    *ngFor="let m of markers; let i = index"
-                    [latitude]="m.lat"
-                    [longitude]="m.lng">
-                  </agm-polyline-point>
-               </agm-polyline>
-
+               <agm-direction
+                 [origin]=origen_marker
+                 [destination]=destino_marker
+                 [renderOptions]="options">
+              </agm-direction>
       </agm-map>
     </div>
 
@@ -107,7 +118,7 @@
   </ion-fab>
 
   <!-- CANCELAR PEDIDO -->
-  <ion-fab *ngIf="boton_cancelar && mostrarMapa" right bottom>
+  <ion-fab *ngIf="boton_cancelar" right bottom>
       <button ion-fab color="danger" (click)="cancelar_viaje()">
           <ion-icon class="iconTravel" name="md-car"></ion-icon>
       </button>
