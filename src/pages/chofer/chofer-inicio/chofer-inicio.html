@@ -2,7 +2,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Usuario : {{usuarioSesion.displayName}}</ion-title>
+    <ion-title>Principal</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -14,8 +14,10 @@
  </button>
 
 	<ion-card *ngIf="asignado">
-	  <ion-card-title>Vehiculo Asignado : </ion-card-title>
-	  <img src="http://www.freepngimg.com/download/car/4-2-car-png-hd.png"/>
+	  <ion-card-title padding>Vehiculo Asignado : </ion-card-title>
+	  <img *ngIf="vehiculoAsignado.vehiculo.foto != null" src="{{vehiculoAsignado.vehiculo.foto}}"/>
+	  <img *ngIf="vehiculoAsignado.vehiculo.foto == null" 
+	        src="https://www.freeiconspng.com/uploads/vehicle-icon-29.png"/>
 	  <ion-card-content>
 	    <ion-card-title>
 	     Patente : {{ vehiculoAsignado.vehiculo.patente }}
