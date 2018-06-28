@@ -22,6 +22,8 @@ import { NguiMapModule} from '@ngui/map';
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+//CHARTS
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -58,8 +60,6 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
 import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
-
-
 
 @NgModule({
   declarations: [
@@ -113,7 +113,8 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     DirectivesModule,
     NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
     AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
-    AgmDirectionModule
+    AgmDirectionModule,
+    ChartsModule
 
   ],
   bootstrap: [IonicApp],
@@ -179,7 +180,8 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     QrServicioProvider,
     DateTimeProvider,
     ReservasProvider,
-    UtilidadesProvider
+    UtilidadesProvider,
+    ChartsModule
   ]
 })
 export class AppModule { }
