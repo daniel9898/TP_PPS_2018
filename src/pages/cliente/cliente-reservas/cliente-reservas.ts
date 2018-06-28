@@ -22,7 +22,7 @@ export class ClienteReservasPage {
   /**
  * colección de vehículos
  */
-  public reservas: any[];
+  public reservas: any[] = [];
   private usuario: any;
 
   constructor(

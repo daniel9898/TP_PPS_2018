@@ -13,15 +13,18 @@
         <img src="assets/imgs/encuesta_default.png">
       </ion-avatar>
     </ion-item>
-    <ion-list>
-      <ion-item-sliding *ngFor="let viaje of viajes_sinEncuesta; index as i;">
-        <ion-item (click)="irEncuesta(i)">
-            <ion-icon name="ios-list-box-outline" color="primary" item-start></ion-icon>
-            {{viaje.fecha }}
-        </ion-item>
+      <ion-list>
+        <ion-item-sliding *ngFor="let viaje of viajes_sinEncuesta; index as i;">
+          <ion-item (click)="irEncuesta(i)">
+              <ion-icon name="ios-list-box-outline" color="primary" item-start></ion-icon>
+              {{viaje.fecha }}
+          </ion-item>
 
-      </ion-item-sliding>
-    </ion-list>
+        </ion-item-sliding>
+      </ion-list>
+    <div *ngIf="viajes_sinEncuesta.length == 0">
+      <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+    </div>
   </div>
 
 </ion-content>
