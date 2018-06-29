@@ -177,7 +177,7 @@ export class UsuarioServicioProvider {
   async asignarVehiculo(uid : string , keyVehiculo : string){
 
     let user:any = await this.traer_un_usuario(uid);
-    console.log(user);
+    // console.log(user);
     user.id_vehiculo = keyVehiculo;
     return this.modificar_usuario(user);
   }
