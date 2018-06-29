@@ -5,7 +5,7 @@ export { InicioPage } from "./comunes/inicio/inicio";
 export { LoginPage } from "./comunes/login/login";
 export { RegistroPage } from "./comunes/registro/registro";
 export { PerfilPage } from "./comunes/perfil/perfil";
-
+export { MapaPage } from "./comunes/mapa/mapa";
 /********************************CLIENTE (6)********************************/
 export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
@@ -20,6 +20,7 @@ export { ChoferViajePage } from "./chofer/chofer-viaje/chofer-viaje";
 export { ChoferEncuestaPage } from "./chofer/chofer-encuesta/chofer-encuesta";
 export { ChoferHistorialPage } from "./chofer/chofer-historial/chofer-historial";
 export { ChoferEstadisticaPage } from "./chofer/chofer-estadistica/chofer-estadistica";
+export { ListaViajesPage } from "./chofer/lista-viajes/lista-viajes";
 
 /********************************SUPERVISOR (10)********************************/
 export { SupervisorInicioPage } from "./supervisor/supervisor-inicio/supervisor-inicio";
@@ -28,7 +29,10 @@ export { SupervisorEstadisticaPage } from "./supervisor/supervisor-estadistica/s
 export { SupervisorUsuarioPage } from "./supervisor/supervisor-usuario/supervisor-usuario";
 export { SupervisorVehiculoPage } from "./supervisor/supervisor-vehiculo/supervisor-vehiculo";
 export { SupervisorListaUsuariosPage } from "./supervisor/supervisor-lista-usuarios/supervisor-lista-usuarios";
+export { SupervisorListaChoferesPage } from "./supervisor/supervisor-lista-choferes/supervisor-lista-choferes";
 export { SupervisorListaVehiculosPage } from "./supervisor/supervisor-lista-vehiculos/supervisor-lista-vehiculos";
 export { SupervisorRegistroUsuarioPage } from "./supervisor/supervisor-registro-usuario/supervisor-registro-usuario";
+export { SupervisorRegistroClientePage } from "./supervisor/supervisor-registro-cliente/supervisor-registro-cliente";
+export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";
 export { SupervisorRegistroVehiculoPage } from "./supervisor/supervisor-registro-vehiculo/supervisor-registro-vehiculo";
 export { SupervisorSeguimientoPage } from "./supervisor/supervisor-seguimiento/supervisor-seguimiento";

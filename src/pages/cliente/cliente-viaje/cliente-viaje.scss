@@ -1,3 +1,86 @@
 page-cliente-viaje {
 
+  ion-content{
+    background: rgb(226,226,226);
+    background: -moz-linear-gradient(45deg, rgba(226,226,226,1) 0%, rgba(219,219,219,1) 50%, rgba(209,209,209,1) 51%, rgba(254,254,254,1) 100%);
+    background: -webkit-linear-gradient(45deg, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%);
+    background: linear-gradient(45deg, rgba(226,226,226,1) 0%,rgba(219,219,219,1) 50%,rgba(209,209,209,1) 51%,rgba(254,254,254,1) 100%);
+    // background-image: url('../assets/imgs/background_1.png');
+    // background-size: 100% 100%;
+    // background-repeat: no-repeat;
+    // width: 100%;
+    // height: 100%;
+  }
+
+  .map-full-card-content {
+    position:sticky;
+    height: 100% !important;
+    width: 100%;
+    margin: 0;
+  }
+
+  agm-map {
+    height: 70%;
+  }
+
+  .iconTravel{
+    font-size: 50px;
+  }
+
+  .iconPoll{
+    font-size: 25px;
+  }
+
+  .input_direccion{
+    background-color: transparent;
+    border-bottom: 3px solid rgba(96, 96, 96, 0.61);
+  }
+
+  .text_precio{
+    font-size: 15px;
+  }
+
+  .msj_box{
+    margin-top: 10%;
+  }
+
+  .msj_size_1{
+    font-size: 20px;
+  }
+
+  .msj_size_2{
+    font-size: 13px;
+  }
+
+  .spinner {
+    position:sticky;
+    width: auto;
+    height: auto;
+    margin: 100px auto;
+    background-color: rgba(#333333, 0);
+
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+
+    @-webkit-keyframes sk-scaleout {
+      0% { -webkit-transform: scale(0) }
+      100% {
+        -webkit-transform: scale(1.0);
+        opacity: 0;
+      }
+    }
+
+    @keyframes sk-scaleout {
+      0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+      } 100% {
+        -webkit-transform: scale(1.0);
+        transform: scale(1.0);
+        opacity: 0;
+      }
+    }
+
 }

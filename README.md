@@ -44,7 +44,7 @@
 * Branch: [ezequiel.caballero](https://github.com/lucasbonanni/TP_PPS_2018/tree/ezequiel.caballero)
 
 #### Daniel Pereira
-* Módulos (objetivos) a desarrollar: ABM viajes
+* Módulos (objetivos) a desarrollar: ABM chofers
 * Fecha de inicio: 02/06/2018
 * Fecha de fin: 07/06/2018
 * Branch: [daniel.pereira](https://github.com/lucasbonanni/TP_PPS_2018/tree/daniel.pereira)

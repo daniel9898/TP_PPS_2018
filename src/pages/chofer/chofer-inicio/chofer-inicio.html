@@ -1,8 +1,38 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Principal</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
 <ion-content padding>
-  <ion-row>
-    <ion-col>
-      <h1>{{usuarioSesion.displayName}}</h1>
-      <img id="perfil" [src]=usuarioSesion.photoURL alt="login imagen">
-    </ion-col>
-  </ion-row>
+ <button ion-button block icon-end (click)="comenzarActividad()" [disabled]="asignado">
+ 	Comenzar Actividad
+   <ion-icon ios="ios-car" md="md-car"></ion-icon>
+ </button>
+
+	<ion-card *ngIf="asignado">
+	  <ion-card-title padding>Vehiculo Asignado : </ion-card-title>
+	  <img *ngIf="vehiculoAsignado.vehiculo.foto != null" src="{{vehiculoAsignado.vehiculo.foto[0]}}"/>
+	  <img *ngIf="vehiculoAsignado.vehiculo.foto == null" 
+	        src="https://www.freeiconspng.com/uploads/vehicle-icon-29.png"/>
+	  <ion-card-content>
+	    <ion-card-title>
+	     Patente : {{ vehiculoAsignado.vehiculo.patente }}
+	     </ion-card-title>
+	    <p>
+	     Marca : {{ vehiculoAsignado.vehiculo.marca }}
+	    </p>
+	    <p>
+	     Modelo : {{ vehiculoAsignado.vehiculo.modelo }}
+	    </p>
+	  </ion-card-content>
+	</ion-card>
+ <button *ngIf="asignado" color="secondary" ion-button block icon-end (click)="listadoDeViajes()">
+ 	Continuar
+   <ion-icon ios="ios-car" md="md-car"></ion-icon>
+ </button>
+
 </ion-content>

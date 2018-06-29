@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //PAGINAS
-import { PerfilPage } from '../../index-paginas';
+import { PerfilPage, SupervisorRegistroUsuarioPage } from '../../index-paginas';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
@@ -16,6 +16,7 @@ export class SupervisorListaUsuariosPage {
 
   mostrarSpinner:boolean = false;
   usuarios:Usuario[] = [];
+  usuariosBackUp:Usuario[] = [];
   usuarioActual:string;
   usuarioDePrueba:boolean;
 
@@ -39,15 +40,19 @@ export class SupervisorListaUsuariosPage {
     this._usuarioServicio.traer_usuarios().then((usuariosRecibidos:any)=>{
         //console.log("USUARIOS: " + JSON.stringify(this._usuarioServicio.usuariosArray));
         this.usuarios = usuariosRecibidos;
+        this.usuariosBackUp = usuariosRecibidos;
     }).catch((error)=>{
       console.log("Ocurrió un error al traer usuarios!: " + JSON.stringify(error));
     }).then(()=>{ this.mostrarSpinner = false; });
   }
 
+  resetValues(){
+    this.usuarios = this.usuariosBackUp;
+  }
+
   getItems(ev: any) {
     // Reset items back to all of the items
-    this.initializeItems();
-
+    this.resetValues();
     // set val to the value of the searchbar
     const val = ev.target.value;
 
@@ -74,7 +79,11 @@ export class SupervisorListaUsuariosPage {
   }
 
   verUsuario(user:Usuario){
-    this.navCtrl.push(PerfilPage, {'userSelected' : user});
+    this.navCtrl.push(PerfilPage, {'userSelected' : user, 'profile' : "supervisor" });
+  }
+
+  agregarUsuario(){
+    this.navCtrl.push(SupervisorRegistroUsuarioPage);
   }
 
   mostrarAlerta(msj:string){

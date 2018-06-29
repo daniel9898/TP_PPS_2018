@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="app.EzequielCaballero.KBremiseria0001" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="app.PPS.KBremiseria0001" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>KB Remiseria</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="kb_developer@gmail.com" href="http://ionicframework.com/">EAC</author>
+    <description>Una aplicación de remises</description>
+    <author email="pps_2018@fake.com" href="http://ionicframework.com/">PPS</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -85,5 +85,15 @@
     <plugin name="cordova-plugin-ionic-webview" spec="1.1.19" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
+    </plugin>
+    <plugin name="phonegap-plugin-barcodescanner" spec="^8.0.0">
+        <variable name="ANDROID_SUPPORT_V4_VERSION" value="27.+" />
+    </plugin>
+    <plugin name="cordova-plugin-geolocation" spec="~4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
+    </plugin>
+    <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.0" />
     <engine name="android" spec="7.0.0" />
 </widget>

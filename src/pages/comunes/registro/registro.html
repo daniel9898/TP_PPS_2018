@@ -32,7 +32,8 @@
               <ion-item>
                 <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
-                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right></ion-icon>
+                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right>
+                </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
                                registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" class="alerta_form">
@@ -44,14 +45,15 @@
                 <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                  registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
-                                 registroForm.get('userClave2').dirty && input_clave1 != input_clave2" color="danger" name="alert" item-right></ion-icon>
+                                 registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" color="danger" name="alert" item-right>
+                </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
-                               registroForm.get('userClave2').dirty && input_clave1 != input_clave2" class="alerta_form">
+                               registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" class="alerta_form">
                 <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('required')">Campo requerido</p>
                 <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('minlength') && !registroForm.get('userClave2').hasError('required')">La clave debe ser de mínimo 6 caracteres</p>
-                <p color="danger" ion-text *ngIf="input_clave1 != input_clave2 &&
+                <p color="danger" ion-text *ngIf="registroForm.value.userClave1 != registroForm.value.userClave2 &&
                                                   !registroForm.get('userClave2').hasError('minlength') &&
                                                   !registroForm.get('userClave2').hasError('required')">La clave no es idéntica a la ingresada</p>
               </ion-item>

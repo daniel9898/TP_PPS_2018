@@ -1,18 +1,36 @@
-<!--
-  Generated template for the ChoferViajePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>chofer-viaje</ion-title>
+    <ion-title>Viaje a Realizar</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
 
+		<!--<ion-item>
+		    <ion-label stacked>Apellido y Nombre de cliente</ion-label>
+			<ion-input type="text" value="{{ cliente.nombre }}"></ion-input>
+		</ion-item>-->
+	
+		<ion-item>
+			<ion-label stacked color="primary">Dirección de Busqueda</ion-label>
+			<ion-input [disabled]="true" type="text" value="{{ viaje.origen }}"></ion-input> 
+		</ion-item>
+	
+		<ion-item>
+			<ion-label stacked color="primary">Destino</ion-label>
+			<ion-input [disabled]="true" type="text" value="{{ viaje.destino }}"></ion-input>
+		</ion-item>
+	
+		<ion-item>
+			<ion-label stacked color="primary">Hora</ion-label>
+			<ion-input [disabled]="true" type="text" value="{{ viaje.hora }}"></ion-input>
+		</ion-item>
+   
+        
+	  <button ion-button block icon-end>Ver Mapa</button>
+	  <button ion-button block icon-end (click)="modificarEstado('en curso')">En Curso</button>
+	  <button ion-button block icon-end (click)="modificarEstado('cumplido')">Cumplido</button>
+    
 </ion-content>

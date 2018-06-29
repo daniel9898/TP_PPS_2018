@@ -1,8 +1,10 @@
 <ion-content padding>
-  <ion-row>
-    <ion-col>
-      <h1>{{usuarioSesion.displayName}}</h1>
-      <img id="perfil" [src]=usuarioSesion.photoURL alt="login imagen">
-    </ion-col>
-  </ion-row>
+  <div class="main_content">
+    <div *ngIf="show_arrow" class="downArrow bounce">
+      <img src="assets/imgs/arrow-down.png" alt="">
+    </div>
+    <div class="box_boton">
+        <img class="boton_viaje" [src]="foto_viaje" alt="viaje" (click)="pedir_viaje()">
+    </div>
+  </div>
 </ion-content>

@@ -11,31 +11,65 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-//CONFIGURACION FIREBASE
+//CONFIGURACION ENVIRONMENT
 import { environment } from '../environments/environment';
+
+//GOOGLE MAPS
+import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+import { NguiMapModule} from '@ngui/map';
+//GEOLOCATION
+import { Geolocation } from '@ionic-native/geolocation';
+//QR plugin
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
-import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { UsuarioImagenProvider } from '../providers/usuario-imagen/usuario-imagen';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-imagen';
+import { ChoferProvider } from '../providers/chofer/chofer';
+import { DateTimeProvider } from '../providers/date-time/date-time';
+
+//DIRECTIVAS
+import { DirectivesModule } from '../directives/directives.module';
 
 //PAGES
 import { MyApp } from './app.component';
-import { InicioPage, RegistroPage, LoginPage,
-         ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
-         ChoferInicioPage,ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
-         SupervisorInicioPage,SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroUsuarioPage, SupervisorRegistroVehiculoPage, PerfilPage} from '../pages/index-paginas';
+import {
+  InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
+  ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
+  SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
+  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
+} from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
+import { ReservasProvider } from '../providers/reservas/reservas';
+import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
+import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
+import { GeocodingProvider } from '../providers/geocoding/geocoding';
+import { StorageProvider } from '../providers/storage/storage';
+import { AuthAdministradorProvider } from '../providers/auth-administrador/auth-administrador';
+import { GeolocationProvider } from '../providers/geolocation/geolocation';
+import { ViajeServicio } from '../providers/viaje-servicio/viaje-servicio';
+import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
+import { UtilidadesProvider } from '../providers/utilidades/utilidades';
+import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
+import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
+import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
+
 
 
 @NgModule({
   declarations: [
     MyApp,
+    //COMUNES
     InicioPage,
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -43,12 +77,14 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
+    ListaViajesPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -58,8 +94,11 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
+    SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   imports: [
@@ -69,7 +108,12 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,
-    HttpModule
+    HttpModule,
+    DirectivesModule,
+    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
+    AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
+    AgmDirectionModule
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -78,6 +122,7 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     RegistroPage,
     LoginPage,
     PerfilPage,
+    MapaPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -85,12 +130,14 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     ClienteHistorialPage,
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
+    ClienteReservasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
     ChoferHistorialPage,
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
+    ListaViajesPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -100,19 +147,38 @@ import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
     SupervisorVehiculoPage,
     SupervisorListaUsuariosPage,
     SupervisorListaVehiculosPage,
-    SupervisorRegistroUsuarioPage,
+    SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
+    SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
+    SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     AngularFireDatabase,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     Camera,
     UsuarioServicioProvider,
     AuthServicioProvider,
-    VehiculosProvider
+    VehiculosProvider,
+    GeocodingProvider,
+    StorageProvider,
+    VehiculoImagenProvider,
+    UsuarioImagenProvider,
+    ChoferProvider,
+    AuthAdministradorProvider,
+    Geolocation,
+    GeolocationProvider,
+    ViajeServicio,
+    ClienteEncuestaServicio,
+    BarcodeScanner,
+    QrServicioProvider,
+    DateTimeProvider,
+    ReservasProvider,
+    UtilidadesProvider,
+    ChoferEncuestaProvider
   ]
 })
-export class AppModule {}
+export class AppModule { }
