@@ -26,7 +26,12 @@
       <!-- ESTADISTICA INDIVIDUAL -->
       <div *ngSwitchCase="'individual'">
         <div *ngIf="encuestas_cliente.length != 0">
-          <h1 text-center>Calidad del servicio</h1>
+          <ion-item class="cartel">
+            <ion-label text-center>
+              <ion-icon class="icon" name="ios-person"></ion-icon>
+              Calidad del servicio
+            </ion-label>
+          </ion-item>
           <!-- GRAFICO -->
           <canvas baseChart
                   [data]="chartData"
@@ -41,7 +46,12 @@
 
       <!-- ESTADISTICA GENERAL -->
       <div *ngSwitchCase="'general'">
-        <h1 text-center>Calidad del servicio</h1>
+        <ion-item class="cartel">
+          <ion-label text-center>
+            <ion-icon class="icon" name="ios-people"></ion-icon>
+            Calidad del servicio
+          </ion-label>
+        </ion-item>
         <!-- GRAFICO -->
         <canvas baseChart
                 [data]="chartData"
