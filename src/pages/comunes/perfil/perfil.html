@@ -16,6 +16,16 @@
           </button>
         </ion-fab-list>
         <ion-fab-list side="bottom">
+          <!-- MODIFICAR CLAVE -->
+          <button ion-fab mini color="green" (click)="accionMenu($event,fab,'modificarClave')"
+                  *ngIf="!usuario.viajando && !vistaSupervisor &&
+                      usuario.correo != 'cliente@kbremiseria.com' &&
+                      usuario.correo != 'chofer@kbremiseria.com'&&
+                      usuario.correo != 'supervisor@kbremiseria.com' &&
+                      usuario.correo != 'superuser@kbremiseria.com'">
+
+            <ion-icon name="md-finger-print"></ion-icon>
+          </button>
           <!-- BORRAR -->
           <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'borrar')"
                   *ngIf="!usuario.viajando &&
@@ -25,12 +35,6 @@
                       usuario.correo != 'superuser@kbremiseria.com'">
 
             <ion-icon name="md-trash"></ion-icon>
-          </button>
-          <button *ngIf="!vistaSupervisor && !modificar" ion-fab mini color="green" (click)="accionMenu($event,fab,'cambiarClave')">
-            <ion-icon name="md-finger-print"></ion-icon>
-          </button>
-          <button *ngIf="!vistaSupervisor && modificar" ion-fab mini color="dark" (click)="accionMenu($event,fab,'cambiarClave')">
-            <ion-icon name="md-finger-print"></ion-icon>
           </button>
         </ion-fab-list>
       </ion-fab>
