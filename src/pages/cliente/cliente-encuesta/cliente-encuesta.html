@@ -84,7 +84,7 @@
             </button>
           </ion-col>
           <!-- GUARDAR -->
-          <ion-col>
+          <ion-col *ngIf="navParams.get('id_viaje')">
             <button class="boton" ion-button block color="secondary" (click)="guardar()" [disabled]="!cambios">
               <ion-icon name="ios-folder-open"></ion-icon>
             </button>
