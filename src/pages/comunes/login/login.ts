@@ -135,17 +135,14 @@ export class LoginPage {
               this.usuario = new Usuario(user);
    // 3) VALIDAR INGRESO
 
-     //A- USUARIO EXISTE PERO ESTA INHABILITADO (inactivo y sin mail verificado)
-              if(!this.mail_verificado && !this.usuario.activo)
+     //A- USUARIO INACTIVO
+              if(!this.usuario.activo)
                 this.usuario_inhabilitado();
-     //B- USUARIO CON MAIL VERIFICADO (inactivo pero con mail verificado)
-              if(this.mail_verificado && !this.usuario.activo)
-                this.usuario_mailVerificado();
-     //C- USUARIO ACTIVO
+     //B- USUARIO ACTIVO
               if(this.usuario.activo)
                 this.usuario_activo();
           }
-     //2-B USUARIO NO EXISTE
+  //2-B USUARIO NO EXISTE
           else{
             this.usuario_inexistente();
           }
@@ -175,23 +172,32 @@ export class LoginPage {
   //ACCIONES SEGUN ESTADO DEL USUARIO
   usuario_activo(){
     console.log("Coincidencia en el usuario!");
-    this._authServicio.signInWithEmail(this.credenciales)
-      .then(()=>{ this.mostrarSpinner = false; })
-    // this.mostrarSpinner = false;
-    // this.ingresar();
+    if(this.mail_verificado && !this.usuario.verificado){
+      this.usuario_mailVerificado()
+        .then(()=>{
+          this.loguearse();
+        })
+    }
+    else{
+      this.loguearse();
+    }
   }
 
   usuario_inhabilitado(){
     console.log("El usuario no está activo");
-    this._authAdmin.signOutExternal()
-      .then(()=>{
-        this.mostrarSpinner = false;
-        this.reproducirSonido(this.error_sound);
-        this.mostrarAlerta("Cuenta desactiva");
-      })
+    if(this.mail_verificado && !this.usuario.verificado){
+      this.usuario_mailVerificado()
+        .then(()=>{
+          this.desloguearse();
+        })
+    }
+    else{
+      this.desloguearse();
+    }
+
   }
 
-  usuario_inexistente(){ //Usuario borrado por supervisor (falta eliminar auth)
+  usuario_inexistente(){ //Usuario borrado por supervisor (faltaba eliminar auth)
     console.log("El usuario fue eliminado!");
     this._authAdmin.delete_externalUserAccount();
     this.reproducirSonido(this.error_sound);
@@ -199,16 +205,35 @@ export class LoginPage {
     this.navCtrl.setRoot(LoginPage);
   }
 
+  //Se actualiza el atributo "verificado" del usuario a "true"
   usuario_mailVerificado(){
-    this.usuario.activo = true;
-    this._usuarioServicio.modificar_usuario(this.usuario)
+    let promesa = new Promise((resolve, reject)=>{
+      this.usuario.verificado = true;
+      this._usuarioServicio.modificar_usuario(this.usuario)
+        .then(()=>{
+          console.log("El usuario con mail verificado ha sido activado");
+          resolve();
+        })
+        .catch((error)=>{
+          console.log("Error al activar usuario con mail verificado: " + error);
+        });
+    });
+    return promesa;
+  }
+
+  // ACCIONES DE LOGUEO******************************************************//
+  loguearse(){
+    this._authServicio.signInWithEmail(this.credenciales)
+      .then(()=>{ this.mostrarSpinner = false; })
+  }
+
+  desloguearse(){
+    this._authAdmin.signOutExternal()
       .then(()=>{
-        console.log("El usuario con mail verificado ha sido activado");
-        this.usuario_activo();
+        this.mostrarSpinner = false;
+        this.reproducirSonido(this.error_sound);
+        this.mostrarAlerta("Cuenta desactivada");
       })
-      .catch((error)=>{
-        console.log("Error al activar usuario con mail verificado: " + error);
-      });
   }
 
   mostrarAlerta(msj:string){

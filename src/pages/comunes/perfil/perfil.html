@@ -7,6 +7,7 @@
       <ion-fab *ngIf="!vistaCliente" top right #fab>
         <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
         <ion-fab-list side="left">
+          <!-- MODIFICAR -->
           <button *ngIf="!modificar" ion-fab mini color="yellow" (click)="accionMenu($event,fab,'modificar')">
             <ion-icon name="md-sync"></ion-icon>
           </button>
@@ -15,6 +16,7 @@
           </button>
         </ion-fab-list>
         <ion-fab-list side="bottom">
+          <!-- BORRAR -->
           <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'borrar')"
                   *ngIf="!usuario.viajando &&
                       usuario.correo != 'cliente@kbremiseria.com' &&
@@ -23,6 +25,12 @@
                       usuario.correo != 'superuser@kbremiseria.com'">
 
             <ion-icon name="md-trash"></ion-icon>
+          </button>
+          <button *ngIf="!vistaSupervisor && !modificar" ion-fab mini color="green" (click)="accionMenu($event,fab,'cambiarClave')">
+            <ion-icon name="md-finger-print"></ion-icon>
+          </button>
+          <button *ngIf="!vistaSupervisor && modificar" ion-fab mini color="dark" (click)="accionMenu($event,fab,'cambiarClave')">
+            <ion-icon name="md-finger-print"></ion-icon>
           </button>
         </ion-fab-list>
       </ion-fab>
@@ -117,6 +125,11 @@
         <ion-item>
           <ion-label stacked>Activo</ion-label>
           <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar" (ionChange)="hay_diferencias"></ion-checkbox>
+        </ion-item>
+        <!-- VERIFICADO -->
+        <ion-item>
+          <ion-label stacked>Verificado</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.verificado" disabled="true"></ion-checkbox>
         </ion-item>
       </div>
 
