@@ -60,6 +60,7 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
 import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
+import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -115,7 +117,6 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
     AgmDirectionModule,
     ChartsModule
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -125,6 +126,7 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
