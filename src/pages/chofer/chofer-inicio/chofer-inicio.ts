@@ -52,7 +52,7 @@ export class ChoferInicioPage {
              this.asignado = true;
              throw 'break';
           }
-        })
+        });
 
         console.log('this.vehiculoAsignado', this.vehiculoAsignado);
         if(!this.asignado) { this.utils.showAlert('Atención !','Vehiculo no disponible o codigo incorrecto, reintente.') }
@@ -63,7 +63,7 @@ export class ChoferInicioPage {
 
     try{
         if(this.asignado){
-           this.menu.enable(false);
+          //  this.menu.enable(false);
            await this.asignarVehiculo();
            this.vehiculoAsignado.vehiculo.ocupado = true;
            await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
