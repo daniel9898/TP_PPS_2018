@@ -63,7 +63,7 @@ export class ChoferInicioPage {
 
     try{
         if(this.asignado){
-          //  this.menu.enable(false);
+           this.menu.enable(false);
            await this.asignarVehiculo();
            this.vehiculoAsignado.vehiculo.ocupado = true;
            await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
