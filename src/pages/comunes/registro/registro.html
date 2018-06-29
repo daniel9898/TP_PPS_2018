@@ -59,7 +59,7 @@
               </ion-item>
 
               <!-- SUBMIT -->
-                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid">
+                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid || registroForm.value.userClave1 != registroForm.value.userClave2">
                   <ion-icon name="md-contact"></ion-icon>
                   Registrarse
                 </button>
