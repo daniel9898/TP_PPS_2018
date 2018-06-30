@@ -27,7 +27,7 @@ export class ViajeServicio {
           map(changes =>
             changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
           )
-        );
+        )
     }
 
     //TRAER UN VIAJE (por algún criterio)
@@ -135,6 +135,15 @@ export class ViajeServicio {
          //     console.log("Estado del viaje: " + item.estado);
          //   })
          // })
+    }
+
+    traerViajes(){
+        return this.viajesRef.snapshotChanges().pipe(
+          map(changes =>
+            changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+          )
+        )
+
     }
 
 }
