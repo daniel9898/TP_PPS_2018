@@ -1,10 +1,26 @@
 <ion-content padding>
-  <ion-row>
+  <!-- <ion-row>
     <ion-col>
       <h1>{{user_perfil}}</h1>
       <img id="perfil" [src]=user_photo alt="login imagen">
     </ion-col>
-  </ion-row>
+  </ion-row> -->
+  <ion-card>
+    <ion-card-header>
+      Choferes disponibles
+    </ion-card-header>
+    <ion-card-content>
+    <div style="display: block">
+        <canvas baseChart
+                    [data]="doughnutChartData"
+                    [labels]="doughnutChartLabels"
+                    [chartType]="doughnutChartType"
+                    (chartHover)="chartHovered($event)"
+                    (chartClick)="chartClicked($event)"
+                    [legend]="true" [options]="options"></canvas>
+      </div>
+    </ion-card-content>
+  </ion-card>
   <ion-fab right bottom>
     <button ion-fab color="secondary" (click)="scanCode()">
       <ion-icon name="qr-scanner"></ion-icon>
