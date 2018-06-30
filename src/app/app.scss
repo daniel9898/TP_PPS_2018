@@ -63,3 +63,25 @@
     -webkit-transform: scale(1.0);
   }
 }
+
+.my-alert .alert-wrapper{
+  background-color:rgba(0, 0, 0, 0.59);
+  color: white;
+  -webkit-box-shadow: 10px 10px 58px 21px rgba(0, 0, 0, 0.59);
+  -moz-box-shadow: 10px 10px 58px 21px rgba(0,0,0,0.59);
+  box-shadow: 10px 10px 58px 21px rgba(0, 0, 0, 0.59);
+  border-radius: 15px;
+}
+.my-alert .alert-message{
+  overflow: hidden;
+  color: white;
+}
+.alert-md .alert-button-group{
+  justify-content: center
+}
+.alert-md .alert-button{
+  color: white;
+}
+// .my-alert{
+// background-color: red;
+// }
