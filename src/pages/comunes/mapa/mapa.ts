@@ -25,15 +25,15 @@ export class MapaPage {
         this.direccion = this.navParams.get('direccion');
         console.log("Direccion recibida: " + this.direccion);
       }
-      //Se setea el callback siempre ya que el if anterior 
+      //Se setea el callback siempre ya que el if anterior
       //no siempre sirve como verificacion
       if (this.navParams.get("callback") !== null) {
-        this.callback = this.navParams.get("callback");  
+        this.callback = this.navParams.get("callback");
       }
   }
 
   ionViewDidLoad() {
-    if(this.direccion && this.direccion != "N/N")
+    if(this.direccion && this.direccion != "*****" && this.direccion != "N/N")
       this.marcarDireccion();
     else{
       this.lat = -34.662305;

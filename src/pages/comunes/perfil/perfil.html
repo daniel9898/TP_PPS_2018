@@ -8,16 +8,23 @@
         <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
         <ion-fab-list side="left">
           <!-- MODIFICAR -->
-          <button *ngIf="!modificar" ion-fab mini color="yellow" (click)="accionMenu($event,fab,'modificar')">
+          <button *ngIf="!modificar" ion-fab mini color="yellow" (click)="accionMenu($event,'activar_modificar',fab)">
             <ion-icon name="md-sync"></ion-icon>
           </button>
-          <button *ngIf="modificar" ion-fab mini color="dark" (click)="accionMenu($event,fab,'modificar')">
+          <button *ngIf="modificar" ion-fab mini color="dark" (click)="accionMenu($event,'activar_modificar',fab)">
             <ion-icon name="md-sync"></ion-icon>
+          </button>
+          <!-- GUARDAR -->
+          <button *ngIf="!cambios && modificar" ion-fab mini color="second_grey" [disabled]="!cambios">
+            <ion-icon name="ios-folder-open"></ion-icon>
+          </button>
+          <button *ngIf="cambios" ion-fab mini color="secondary" (click)="accionMenu($event,'guardar',fab)" [disabled]="!cambios">
+            <ion-icon name="ios-folder-open"></ion-icon>
           </button>
         </ion-fab-list>
         <ion-fab-list side="bottom">
           <!-- MODIFICAR CLAVE -->
-          <button ion-fab mini color="green" (click)="accionMenu($event,fab,'modificarClave')"
+          <button ion-fab mini color="green" (click)="accionMenu($event,'modificarClave',fab)"
                   *ngIf="!usuario.viajando && !vistaSupervisor &&
                       usuario.correo != 'cliente@kbremiseria.com' &&
                       usuario.correo != 'chofer@kbremiseria.com'&&
@@ -27,7 +34,7 @@
             <ion-icon name="md-finger-print"></ion-icon>
           </button>
           <!-- BORRAR -->
-          <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'borrar')"
+          <button ion-fab mini color="danger" (click)="accionMenu($event,'borrar',fab)"
                   *ngIf="!usuario.viajando &&
                       usuario.correo != 'cliente@kbremiseria.com' &&
                       usuario.correo != 'chofer@kbremiseria.com'&&
@@ -50,7 +57,7 @@
                       <img [src]=foto_byDefault alt="...">
                     </ion-avatar>
                     <ion-label stacked>Correo</ion-label>
-                    <ion-input class="input_correo" [formControl]="registroForm.controls['userEmail']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
+                    <ion-input class="input_correo" [formControl]="registroForm.controls['userEmail']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar || vistaSupervisor"></ion-input>
                     <ion-icon *ngIf="registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('email') ||
                                      registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('required')" color="danger" name="alert" item-right>
                     </ion-icon>
@@ -96,7 +103,7 @@
             <ion-col>
               <ion-item>
                 <ion-label stacked>Dirección</ion-label>
-                <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"
+                <ion-input type="text" [disabled]="!modificar" [(ngModel)]="usuario.direccion"
                            (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
               </ion-item>
             </ion-col>
@@ -136,13 +143,6 @@
           <ion-checkbox [(ngModel)]="usuario.verificado" disabled="true"></ion-checkbox>
         </ion-item>
       </div>
-
-      <!-- GUARDAR -->
-      <ion-fab *ngIf="modificar" class="" bottom right>
-        <button ion-fab mini color="secondary" (click)="guardar()" [disabled]="!cambios">
-          <ion-icon name="ios-folder-open"></ion-icon>
-        </button>
-      </ion-fab>
 
       <!-- VOLVER ATRAS -->
       <ion-fab *ngIf="vistaSupervisor || vistaCliente " class="floatBack" top left>
