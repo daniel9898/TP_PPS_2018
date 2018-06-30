@@ -7,6 +7,7 @@
       <ion-fab *ngIf="!vistaCliente" top right #fab>
         <button ion-fab mini color="primary"><ion-icon name="md-menu"></ion-icon></button>
         <ion-fab-list side="left">
+          <!-- MODIFICAR -->
           <button *ngIf="!modificar" ion-fab mini color="yellow" (click)="accionMenu($event,fab,'modificar')">
             <ion-icon name="md-sync"></ion-icon>
           </button>
@@ -15,6 +16,17 @@
           </button>
         </ion-fab-list>
         <ion-fab-list side="bottom">
+          <!-- MODIFICAR CLAVE -->
+          <button ion-fab mini color="green" (click)="accionMenu($event,fab,'modificarClave')"
+                  *ngIf="!usuario.viajando && !vistaSupervisor &&
+                      usuario.correo != 'cliente@kbremiseria.com' &&
+                      usuario.correo != 'chofer@kbremiseria.com'&&
+                      usuario.correo != 'supervisor@kbremiseria.com' &&
+                      usuario.correo != 'superuser@kbremiseria.com'">
+
+            <ion-icon name="md-finger-print"></ion-icon>
+          </button>
+          <!-- BORRAR -->
           <button ion-fab mini color="danger" (click)="accionMenu($event,fab,'borrar')"
                   *ngIf="!usuario.viajando &&
                       usuario.correo != 'cliente@kbremiseria.com' &&
@@ -29,30 +41,66 @@
 
       <ion-grid class="datosPerfil">
             <!-- CORREO -->
-            <ion-item>
-              <ion-avatar item-end>
-                <img [src]=foto_byDefault>
-              </ion-avatar>
-              <ion-label stacked>Correo</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.correo" (ionChange)="hay_diferencias"></ion-input>
-            </ion-item>
-            <!-- NOMBRE -->
-            <ion-item>
-              <ion-label stacked>Nombre</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.nombre" (ionChange)="hay_diferencias"></ion-input>
-            </ion-item>
-            <!-- EDAD -->
-            <ion-item>
-              <ion-label stacked>Edad</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.edad" (ionChange)="hay_diferencias"></ion-input>
-            </ion-item>
-            <!-- DIRECCION -->
-            <ion-item>
-              <ion-label stacked>Dirección</ion-label>
-              <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"
-                         (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
-            </ion-item>
+            <form [formGroup]="registroForm" novalidate class="top-1" role="form">
+              <ion-row>
+                <ion-col>
+                <!-- CORREO -->
+                <ion-item>
+                    <ion-avatar item-end>
+                      <img [src]=foto_byDefault alt="...">
+                    </ion-avatar>
+                    <ion-label stacked>Correo</ion-label>
+                    <ion-input class="input_correo" [formControl]="registroForm.controls['userEmail']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
+                    <ion-icon *ngIf="registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('email') ||
+                                     registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('required')" color="danger" name="alert" item-right>
+                    </ion-icon>
+                </ion-item>
+                <ion-item *ngIf="registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('required') ||
+                                     registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('email')" class="alerta_form">
+                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('required')">Campo requerido</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('email') && !registroForm.get('userEmail').hasError('required')">Formato incorrecto</p>
+                </ion-item>
 
+                <!-- NOMBRE -->
+                <ion-item>
+                    <ion-label stacked>Nombre</ion-label>
+                    <ion-input class="input_nombre" [formControl]="registroForm.controls['userName']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
+                    <ion-icon *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
+                                     registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" color="danger" name="alert" item-right>
+                    </ion-icon>
+                </ion-item>
+                <ion-item *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
+                                 registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" class="alerta_form">
+                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength')">Mínimo: 5 caracteres</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')">Máximo: 30 caracteres</p>
+                </ion-item>
+                <!-- EDAD -->
+                <ion-item>
+                    <ion-label stacked>Edad</ion-label>
+                    <ion-input class="input_edad" [formControl]="registroForm.controls['userAge']" type="number" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
+                    <ion-icon *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
+                                     registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" color="danger" name="alert" item-right>
+                    </ion-icon>
+                </ion-item>
+                <ion-item *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
+                                 registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" class="alerta_form">
+                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min')">Edad mínima: 14</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')">Edad máxima: 100</p>
+                </ion-item>
+
+              </ion-col>
+            </ion-row>
+          </form>
+          <!-- DIRECCION -->
+          <ion-row>
+            <ion-col>
+              <ion-item>
+                <ion-label stacked>Dirección</ion-label>
+                <ion-input type="text" required [disabled]="!modificar" [(ngModel)]="usuario.direccion"
+                           (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
       </ion-grid>
 
       <!-- PERFIL (NO modificable)-->
@@ -81,6 +129,11 @@
         <ion-item>
           <ion-label stacked>Activo</ion-label>
           <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar" (ionChange)="hay_diferencias"></ion-checkbox>
+        </ion-item>
+        <!-- VERIFICADO -->
+        <ion-item>
+          <ion-label stacked>Verificado</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.verificado" disabled="true"></ion-checkbox>
         </ion-item>
       </div>
 

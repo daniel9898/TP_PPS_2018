@@ -11,6 +11,7 @@ export { ClienteInicioPage } from "./cliente/cliente-inicio/cliente-inicio";
 export { ClienteViajePage } from "./cliente/cliente-viaje/cliente-viaje";
 export { ClienteReservaPage } from "./cliente/cliente-reserva/cliente-reserva";
 export { ClienteEncuestaPage } from "./cliente/cliente-encuesta/cliente-encuesta";
+export { ClienteEncuestasPage } from "./cliente/cliente-encuestas/cliente-encuestas";
 export { ClienteHistorialPage } from "./cliente/cliente-historial/cliente-historial";
 export { ClienteEstadisticaPage } from "./cliente/cliente-estadistica/cliente-estadistica";
 
@@ -31,6 +32,7 @@ export { SupervisorVehiculoPage } from "./supervisor/supervisor-vehiculo/supervi
 export { SupervisorListaUsuariosPage } from "./supervisor/supervisor-lista-usuarios/supervisor-lista-usuarios";
 export { SupervisorListaChoferesPage } from "./supervisor/supervisor-lista-choferes/supervisor-lista-choferes";
 export { SupervisorListaVehiculosPage } from "./supervisor/supervisor-lista-vehiculos/supervisor-lista-vehiculos";
+export { SupervisorRegistroUsuarioPage } from "./supervisor/supervisor-registro-usuario/supervisor-registro-usuario";
 export { SupervisorRegistroClientePage } from "./supervisor/supervisor-registro-cliente/supervisor-registro-cliente";
 export { SupervisorRegistroChoferPage } from "./supervisor/supervisor-registro-chofer/supervisor-registro-chofer";
 export { SupervisorRegistroVehiculoPage } from "./supervisor/supervisor-registro-vehiculo/supervisor-registro-vehiculo";

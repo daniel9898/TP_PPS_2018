@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, Nav, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController } from 'ionic-angular';
 //FIREBASE
 import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
@@ -52,7 +52,7 @@ export class ChoferInicioPage {
              this.asignado = true;
              throw 'break';
           }
-        })
+        });
 
         console.log('this.vehiculoAsignado', this.vehiculoAsignado);
         if(!this.asignado) { this.utils.showAlert('Atención !','Vehiculo no disponible o codigo incorrecto, reintente.') }
@@ -75,7 +75,7 @@ export class ChoferInicioPage {
   }
 
   async asignarVehiculo(){
-    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.key);
+    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.vehiculo.patente);
   }
   //FALTA VER EN QUE MOMENTO SE LIBERA 
 

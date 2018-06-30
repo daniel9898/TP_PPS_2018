@@ -120,16 +120,17 @@ export class UsuarioServicioProvider {
   alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
-      key: "N/N",
+      key: "***",
       id_usuario: userId,
       correo: userEmail,
-      nombre: "N/N",
-      edad: "N/N",
-      direccion: "N/N",
+      nombre: "*****",
+      edad: "*****",
+      direccion: "*****",
       perfil: "cliente",
       foto: "assets/imgs/default_cliente.png",
       viajando: false,
-      activo: false
+      activo: false,
+      verificado:false
     }
 
     console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));
@@ -176,9 +177,9 @@ export class UsuarioServicioProvider {
   //ASIGNAR VEHICULO A USUARIO (Chofer)
   async asignarVehiculo(uid : string , keyVehiculo : string){
 
-    let user = await this.traer_un_usuario(uid);
-    console.log(user);
-    user['id_vehiculo'] = keyVehiculo;
+    let user:any = await this.traer_un_usuario(uid);
+    // console.log(user);
+    user.id_vehiculo = keyVehiculo;
     return this.modificar_usuario(user);
   }
 

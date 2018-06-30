@@ -1,9 +1,5 @@
 page-perfil {
 
-  // .item_modificando{
-  //   background-color: #f7f9e1;
-  // }
-
   .datosPerfil{
     margin-top: 30px;
   }
@@ -12,6 +8,10 @@ page-perfil {
     position: absolute;
     bottom: 25%;
     right: 0px;
+  }
+
+  .alerta_form{
+    background-color: #f7d5d5;
   }
 
   .fotoPerfil{
@@ -56,16 +56,16 @@ page-perfil {
     }
   }
 
-  ion-item.item-md.item-input.input-has-focus .item-inner,
-  ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
-  ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
-      border-bottom-color: #ffffff;
-      box-shadow: none;
-  }
-
-  ion-input:disabled{
-      background-color: #ffffff;
-  }
+  // ion-item.item-md.item-input.input-has-focus .item-inner,
+  // ion-item.item-md.item-input.ng-valid.input-has-value:not(.input-has-focus) .item-inner,
+  // ion-item.item-md.item-input.ng-invalid.ng-touched:not(.input-has-focus) .item-inner {
+  //     border-bottom-color: #ffffff;
+  //     box-shadow: none;
+  // }
+  //
+  // ion-input:disabled{
+  //     background-color: #ffffff;
+  // }
 
 
 }

@@ -4,36 +4,71 @@
 
       <!-- INFORMACION A COMPLETAR -->
       <ion-grid class="datosPerfil">
+        <form [formGroup]="registroForm" novalidate class="top-1">
+          <ion-row>
+            <ion-col>
             <!-- CORREO -->
             <ion-item>
-              <ion-avatar item-end>
-                <img [src]=usuario.foto alt="...">
-              </ion-avatar>
-              <ion-label stacked>Correo</ion-label>
-              <ion-input type="text" required [(ngModel)]="usuario.correo" (ionChange)="hay_diferencias"></ion-input>
+                <ion-avatar item-end>
+                  <img [src]=usuario.foto alt="...">
+                </ion-avatar>
+                <ion-label stacked>Correo</ion-label>
+                <ion-input formControlName="userCorreo" type="text"></ion-input>
+                <ion-icon *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email') ||
+                                 registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
+                </ion-icon>
             </ion-item>
+            <ion-item *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required') ||
+                                 registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email')" class="alerta_form">
+                  <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('required')">Campo requerido</p>
+                  <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('email') && !registroForm.get('userCorreo').hasError('required')">Formato incorrecto</p>
+            </ion-item>
+
             <!-- NOMBRE -->
             <ion-item>
-              <ion-label stacked>Nombre</ion-label>
-              <ion-input type="text" [(ngModel)]="usuario.nombre" (ionChange)="hay_diferencias"></ion-input>
+                <ion-label stacked>Nombre</ion-label>
+                <ion-input formControlName="userName" type="text"></ion-input>
+                <ion-icon *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
+                                 registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" color="danger" name="alert" item-right>
+                </ion-icon>
+            </ion-item>
+            <ion-item *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
+                             registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" class="alerta_form">
+                  <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength')">Mínimo: 5 caracteres</p>
+                  <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')">Máximo: 30 caracteres</p>
             </ion-item>
             <!-- EDAD -->
             <ion-item>
-              <ion-label stacked>Edad</ion-label>
-              <ion-input type="text" [(ngModel)]="usuario.edad" (ionChange)="hay_diferencias"></ion-input>
+                <ion-label stacked>Edad</ion-label>
+                <ion-input formControlName="userAge" type="number"></ion-input>
+                <ion-icon *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
+                                 registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" color="danger" name="alert" item-right>
+                </ion-icon>
             </ion-item>
+            <ion-item *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
+                             registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" class="alerta_form">
+                  <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min')">Edad mínima: 14</p>
+                  <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')">Edad máxima: 100</p>
+            </ion-item>
+
+          </ion-col>
+        </ion-row>
+      </form>
+        <ion-row>
+          <ion-col>
             <!-- DIRECCION -->
             <ion-item>
               <ion-label stacked>Dirección</ion-label>
               <ion-input type="text" [(ngModel)]="usuario.direccion"
-                         (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
+                         (ionFocus)="verMapa()"></ion-input>
             </ion-item>
             <!-- PERFIL -->
             <ion-item class="perfilBox">
               <ion-label>Perfil</ion-label>
-              <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil" (ionChange)="hay_diferencias"></ion-input>
+              <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
             </ion-item>
-
+          </ion-col>
+        </ion-row>
       </ion-grid>
 
       <!-- FOTO -->
@@ -51,19 +86,24 @@
         <!-- ESTADO -->
         <ion-item>
           <ion-label stacked>Activo</ion-label>
-          <ion-checkbox [(ngModel)]="usuario.activo" (ionChange)="hay_diferencias"></ion-checkbox>
+          <ion-checkbox [(ngModel)]="usuario.activo"></ion-checkbox>
+        </ion-item>
+        <!-- VERIFICADO -->
+        <ion-item>
+          <ion-label stacked>Verificado</ion-label>
+          <ion-checkbox [(ngModel)]="usuario.verificado" disabled="true"></ion-checkbox>
         </ion-item>
       </div>
 
       <!-- GUARDAR -->
       <ion-fab class="" bottom right>
-        <button ion-fab mini color="secondary" (click)="guardar()" [disabled]="!cambios">
+        <button ion-fab mini (click)="guardar()" color="secondary" [disabled]="registroForm.invalid">
           <ion-icon name="ios-folder-open"></ion-icon>
         </button>
       </ion-fab>
 
       <!-- VOLVER ATRAS -->
-      <ion-fab class="floatBack" top left *ngIf="from_lista">
+      <ion-fab class="floatBack" top left>
         <button ion-fab mini color="primary" (click)="volver()">
           <ion-icon name="md-arrow-round-back"></ion-icon>
         </button>

@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, ToastController, FabContainer, PopoverController } from 'ionic-angular';
 //PAGINAS
 import { SupervisorListaUsuariosPage, LoginPage, MapaPage } from '../../index-paginas';
+import { PopoverClavePage } from '../popover-clave/popover-clave';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
+//FORM
+import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -20,11 +23,14 @@ export class PerfilPage {
   //CONTROL DE SPINNER
   mostrarSpinner:boolean;
 
+  //FORMS
+  registroForm:FormGroup; // para correo / nombre / edad
+
   //VARIABLES DE CONTROL
   vistaExterna:string; //Perfil del usuario que esta viendo perfil de OTRO usuario
   vistaSupervisor:boolean = false; //Mostrar: viajando + activo
   vistaCliente:boolean = false;//Mostrar: solo datos (accede un cliente que está en viaje para ver los datos del chofer)
-  modificar:boolean = false; //Variable de control (activa mod. de datos text).
+  modificar:boolean; //Variable de control (activa mod. de datos text).
   cambios:boolean = false; //Variable de control (activa subir cambios).
 
   //DATOS DEL USUARIO
@@ -42,6 +48,8 @@ export class PerfilPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
+              public popoverCtrl:PopoverController,
+              public frRegistration:FormBuilder,
               public _auth: AuthServicioProvider,
               private camera: Camera,
               public _usuarioServicio: UsuarioServicioProvider) {
@@ -52,7 +60,8 @@ export class PerfilPage {
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    this.traer_usuario();
+    this.traer_usuario()
+
     //CALLBACK para traer direccion de mapa
     this.myCallbackFunction = (datos)=> {
       console.log("callback asignado");
@@ -66,35 +75,56 @@ export class PerfilPage {
   traer_usuario(){
     //CARGAR PERFIL PROPIO
     this.mostrarSpinner = true;
-    if(!this.navParams.get('userSelected')){
-      this._usuarioServicio.traer_un_usuario(this._auth.get_userUID())
-      .then((user:any)=>{
-          //console.log("USUARIO: " + JSON.stringify(user));
-          this.usuario = user;
-          this.copy_user = new Usuario(this.usuario);
-          this.traerFoto_byDefault(this.usuario.perfil);
+    let promesa = new Promise((resolve, reject)=>{
+
+      if(!this.navParams.get('userSelected')){
+        this._usuarioServicio.traer_un_usuario(this._auth.get_userUID())
+        .then((user:any)=>{
+            //console.log("USUARIO: " + JSON.stringify(user));
+            this.usuario = user;
+            this.copy_user = new Usuario(this.usuario);
+            this.traerFoto_byDefault(this.usuario.perfil);
+            this.mostrarSpinner = false;
+            resolve();
+        })
+        .catch((error)=>{
           this.mostrarSpinner = false;
-      })
-      .catch((error)=>{
-        this.mostrarSpinner = false;
-        console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
-      })
+          console.log("Ocurrió un error al traer un usuario!: " + JSON.stringify(error));
+        })
+        .then(()=>{
+          this.armar_form();
+        })
+        .catch((error)=>{ console.log("Error al armar form: " + error); })
 
-    //CARGAR PERFIL DE USUARIO SELECCIONADO
-    }else{
-      this.usuario = this.navParams.get('userSelected');
-      this.vistaExterna = this.navParams.get('profile');
-      this.copy_user = new Usuario(this.usuario);
-      this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
-        //VALIDAR botones que se verán en perfil
-        if(this.vistaExterna == "supervisor")
-          this.vistaSupervisor = true;
-        if(this.vistaExterna == "cliente")
-          this.vistaCliente = true;
+      //CARGAR PERFIL DE USUARIO SELECCIONADO
+      }else{
+        this.usuario = this.navParams.get('userSelected');
+        this.vistaExterna = this.navParams.get('profile');
+        this.copy_user = new Usuario(this.usuario);
+        this.traerFoto_byDefault(this.usuario.perfil).then(()=>{
+          //VALIDAR botones que se verán en perfil
+          if(this.vistaExterna == "supervisor")
+            this.vistaSupervisor = true;
+          if(this.vistaExterna == "cliente")
+            this.vistaCliente = true;
+          this.armar_form();
+          this.mostrarSpinner = false;
+          resolve();
+        });
+      }
 
-        this.mostrarSpinner = false;
-      });
-    }
+    });
+    return promesa;
+  }
+
+  armar_form(){
+    this.registroForm = this.frRegistration.group({
+
+      userEmail: [this.usuario.correo, [ Validators.required, Validators.email ] ],
+      userName:  [this.usuario.nombre, [ Validators.minLength(5), Validators.maxLength(30) ] ],
+      userAge:   [this.usuario.edad,   [ Validators.min(14), Validators.max(100) ] ]
+
+    });
   }
 
   traerFoto_byDefault(perfil:string){
@@ -119,6 +149,9 @@ export class PerfilPage {
       case "modificar":
       this.activar_modificar();
       break;
+      case "modificarClave":
+      this.presentPopover(event);
+      break;
       case "borrar":
       this.borrar();
       break;
@@ -129,11 +162,45 @@ export class PerfilPage {
   activar_modificar(){
     if(!this.modificar){
       this.modificar = true;
+      this.armar_form();
     }
     else{
       this.modificar = false;
       this.traer_usuario();
     }
+  }
+
+  //POPOVER - CLAVE
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverClavePage);
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss((data)=>{
+      if(data){
+        console.log("DATA: " + JSON.stringify(data));
+        this.modificarClave(data);
+      }
+    })
+  }
+
+  //MODIFICAR CLAVE
+  modificarClave(credentials:any){
+    this.mostrarSpinner = true;
+    //CREDENCIALES
+    this._auth.reauthenticate_user(credentials.passOld)
+      .then((data)=>{
+        this._auth.update_userPassword(credentials.passNew)
+          .then(()=>{
+            this.mostrarSpinner = false;
+            this.mostrarAlerta("Clave cambiada");
+          })
+      })
+      .catch((error)=>{
+        console.log("Error al intentar cambiar clave: " + error);
+        this.mostrarSpinner = false;
+        this.mostrarAlerta("Clave inválida");
+      })
   }
 
   //BORRAR
@@ -198,6 +265,9 @@ export class PerfilPage {
   guardar(){
 
     this.mostrarSpinner = true;
+    this.usuario.correo = this.registroForm.value.userEmail;
+    this.usuario.nombre = this.registroForm.value.userName;
+    this.usuario.edad   = this.registroForm.value.userAge;
     //SI EL USUARIO TIENE NUEVA FOTO
     this.guardar_nuevaFoto().then(()=>{
      //SI EL USUARIO TIENE NUEVO CORREO
@@ -285,14 +355,23 @@ export class PerfilPage {
 
   //FUNCTION ATRIBUTO: Valida si hay cambios
   get hay_diferencias():boolean{
-    if(this.usuario.correo    != this.copy_user.correo    ||
-       this.usuario.nombre    != this.copy_user.nombre    ||
-       this.usuario.edad      != this.copy_user.edad      ||
+    this.usuario.correo = this.registroForm.value.userEmail;
+    this.usuario.nombre = this.registroForm.value.userName;
+    this.usuario.edad   = this.registroForm.value.userAge;
+    if(this.usuario.correo    != this.copy_user.correo  ||
+       this.usuario.nombre    != this.copy_user.nombre ||
+       this.usuario.edad      != this.copy_user.edad   ||
        this.usuario.direccion != this.copy_user.direccion ||
        this.usuario.foto      != this.copy_user.foto      ||
        this.usuario.activo    != this.copy_user.activo){
+       if(!this.registroForm.invalid){
          this.cambios = true;
          return true;
+       }
+       else{
+         this.cambios = false;
+         return false;
+       }
     }
     else{
       this.cambios = false;
@@ -317,7 +396,9 @@ export class PerfilPage {
 
   //VOLVER ATRAS
   volver(){
-    //this.navCtrl.setRoot(SupervisorListaUsuariosPage);
+    if(this.vistaSupervisor)
+    this.navCtrl.push(SupervisorListaUsuariosPage);
+    if(this.vistaCliente)
     this.navCtrl.pop();
   }
 

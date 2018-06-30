@@ -41,6 +41,7 @@ export class ViajeServicio {
         this.viajes.forEach((value)=>{
           for(let v of value){
             let viaje:Viaje = new Viaje(v);
+            //console.log("Viajes: " + v.id_cliente);
             switch(criterio){
               case "cliente":
               if(v.id_cliente == valor) viajesArray.push(viaje); break;
@@ -57,6 +58,36 @@ export class ViajeServicio {
             }
           }
           resolve(viajesArray);
+        })
+      });
+      return promesa;
+    }
+
+    //TRAER UN VIAJE ACTUAL
+    traer_un_viaje_actual(cliente:string, fecha:string, horaActual:number){
+
+      let promesa = new Promise((resolve, reject)=>{
+
+        let unViaje:Viaje; //RETORNO
+        console.log("METODO: Traer viajes");
+
+        this.viajes.forEach((value)=>{
+          for(let v of value){
+            if(v.estado != "cancelado" && v.estado != "cumplido"){
+              if(v.id_cliente == cliente && v.fecha == fecha){
+                // let horaTomada = v.hora.split(':'); //Generada al pedir viaje
+                // let horaMaxima = parseInt(horaTomada[0]) + 2; //Diferencia horaria: 2
+                // console.log("Hora actual: " + horaActual);
+                // console.log("Hora maxima permitida: " + horaMaxima);
+                // if(horaActual <= horaMaxima){
+                  console.log("Hay un viaje aún activo!");
+                  unViaje = new Viaje(v);
+                  resolve(unViaje)
+                // }
+              }
+            }
+          }
+          resolve(false);
         })
       });
       return promesa;
@@ -93,23 +124,17 @@ export class ViajeServicio {
     }
 
     //VALIDAR CAMBIO DE ESTADOS
-    esperar_estado(key:string, estado:string){
+    esperar_estado(key:string){
 
-      let promesa = new Promise((resolve, reject)=>{
-
-        this.afDB.list('/viajes',
-          ref=> ref.orderByKey()
-                   .equalTo( key )//Interrupción de la lectura al alcanzar key.
-        ).valueChanges()
-         .subscribe((viaje:any)=>{
-           viaje.forEach((item) => {
-             console.log("Estado del viaje: " + item.estado);
-             if(item.estado == estado) resolve(item);
-           })
-         })
-
-      });
-      return promesa;
+      return this.afDB.list('/viajes',
+              ref=> ref.orderByKey()
+                       .equalTo( key )//Interrupción de la lectura al alcanzar key.
+             ).valueChanges()
+         // .subscribe((viaje:any)=>{
+         //   viaje.forEach((item) => {
+         //     console.log("Estado del viaje: " + item.estado);
+         //   })
+         // })
     }
 
 }

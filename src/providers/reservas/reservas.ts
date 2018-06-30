@@ -35,16 +35,17 @@ export class ReservasProvider {
 
   /**
    * Agregar una reserva
-   * @param reserva una reserva 
+   * @param reserva una reserva
    */
   addItem(reserva: Viaje) {
+    reserva.estado = 'pendiente';
     this.reservasRef.push(reserva);
   }
 
   /**
    * Actualizar una reserva
    * @param key Db key
-   * @param reserva la reserva a actualizar 
+   * @param reserva la reserva a actualizar
    */
   updateItem(key: string, reserva: Viaje) {
     this.reservasRef.update(key, reserva).catch(error => console.log(error));

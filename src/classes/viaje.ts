@@ -53,8 +53,13 @@ export const Viaje_texto = {
   msj_final:{
     titulo: "FIN DEL RECORRIDO",
     subtitulo: "¡Gracias por elegirnos!",
-    texto_1: "Encuesta disponible:",
-    texto_2: "utilice su lector QR para acceder"
+    texto_1: "¿Estás conforme?",
+    texto_2: "Ingresa en la encuesta y danos tu opinión"
+  },
+  chofer:{
+    titulo: "DATOS DEL CHOFER",
+    nombre: "Nombre:",
+    patente:"Patente:"
   }
 
 }

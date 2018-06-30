@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { HttpModule } from '@angular/http';
 import { Camera } from '@ionic-native/camera';
-import { NguiMapModule} from '@ngui/map';
 
 //FIREBASE
 import { AngularFireModule } from 'angularfire2';
@@ -17,10 +16,14 @@ import { environment } from '../environments/environment';
 
 //GOOGLE MAPS
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
+import { NguiMapModule} from '@ngui/map';
 //GEOLOCATION
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+//CHARTS
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -30,11 +33,15 @@ import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-im
 import { ChoferProvider } from '../providers/chofer/chofer';
 import { DateTimeProvider } from '../providers/date-time/date-time';
 
+//DIRECTIVAS
+import { DirectivesModule } from '../directives/directives.module';
+
 //PAGES
 import { MyApp } from './app.component';
 import {
   InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
   ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ClienteEncuestasPage,
   ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
   SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
   SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
@@ -52,9 +59,11 @@ import { ClienteEncuestaServicio } from '../providers/cliente-encuesta-servicio/
 import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
+import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
 import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
 
 
+import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
 
 @NgModule({
   declarations: [
@@ -65,6 +74,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -73,6 +83,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -92,6 +103,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
@@ -103,10 +115,11 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     HttpModule,
-    AgmCoreModule.forRoot({
-      apiKey: environment.googleMaps.apiKey
-    }),
-    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` })
+    DirectivesModule,
+    NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
+    AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
+    AgmDirectionModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -116,6 +129,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -124,6 +138,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -143,6 +158,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     SupervisorRegistroClientePage,
     SupervisorRegistroVehiculoPage,
     SupervisorRegistroChoferPage,
+    SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
     PhotoTakerPage
   ],
@@ -170,7 +186,8 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     DateTimeProvider,
     ReservasProvider,
     UtilidadesProvider,
-    ChoferEncuestaProvider
+    ChoferEncuestaProvider,
+    ChartsModule
   ]
 })
 export class AppModule { }

@@ -5,7 +5,6 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import * as firebase from 'firebase/app';
 import { ChoferViajePage } from '../../index-paginas';
 
-import { Subscription } from "rxjs/Subscription"; 
 import { Observable } from "rxjs/Observable"; 
 import 'rxjs/add/observable/fromPromise';
 

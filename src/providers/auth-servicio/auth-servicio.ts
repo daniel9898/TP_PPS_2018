@@ -39,6 +39,20 @@ export class AuthServicioProvider {
     return this.user.sendEmailVerification();
   }
 
+  //Volver a autenticar usuario
+  reauthenticate_user(password:string){
+    const credential = firebase.auth.EmailAuthProvider.credential(
+      this.user.email,
+      password
+    );
+    return this.user.reauthenticateAndRetrieveDataWithCredential(credential);
+  }
+
+  //Modificar password
+  update_userPassword(password:string){
+    return this.user.updatePassword(password)
+  }
+
   //Borrar usuario
   delete_userAccount(){
     return this.user.delete();

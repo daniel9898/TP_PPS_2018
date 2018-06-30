@@ -32,7 +32,8 @@
               <ion-item>
                 <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
-                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right></ion-icon>
+                                 registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right>
+                </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
                                registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" class="alerta_form">
@@ -44,7 +45,8 @@
                 <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                  registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
-                                 registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" color="danger" name="alert" item-right></ion-icon>
+                                 registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" color="danger" name="alert" item-right>
+                </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
@@ -57,7 +59,7 @@
               </ion-item>
 
               <!-- SUBMIT -->
-                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid">
+                <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid || registroForm.value.userClave1 != registroForm.value.userClave2">
                   <ion-icon name="md-contact"></ion-icon>
                   Registrarse
                 </button>
@@ -70,7 +72,7 @@
   </ion-grid>
 
   <!-- VOLVER ATRAS -->
-  <ion-fab class="floatBack" bottom left>
+  <ion-fab class="floatBack" top left>
     <button ion-fab mini color="primary" (click)="volver()">
       <ion-icon name="md-arrow-round-back"></ion-icon>
     </button>
