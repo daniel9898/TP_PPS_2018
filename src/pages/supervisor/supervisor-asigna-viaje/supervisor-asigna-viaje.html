@@ -7,12 +7,39 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>supervisorAsignaViaje</ion-title>
+    <ion-title>Asiganar viaje</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <ion-card>
+    <ion-card-header>
+      Chofer: {{chofer.correo}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <h3>Datos del viaje</h3>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Origen: {{viaje.origen}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Destino: {{viaje.destino}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          {{viaje.fecha}} - {{viaje.hora}}
+        </ion-col>
+      </ion-row>
+      <button ion-button block (click)="asignarViaje()">Asignar</button>
+      <button ion-button block [disabled]="viaje.id_chofer.length > 0" color="danger" (click)="liberarViaje()">Desasignar</button>
+    </ion-card-content>
+    
+  </ion-card>
 </ion-content>
