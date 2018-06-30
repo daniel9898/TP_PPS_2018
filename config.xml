@@ -3,7 +3,7 @@
     <name>KB Remiseria</name>
     <description>Una aplicación de remises</description>
     <author email="pps_2018@fake.com" href="http://ionicframework.com/">PPS</author>
-    <content original-src="index.html" src="http://192.168.0.17:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -96,5 +96,5 @@
     </plugin>
     <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.0" />
     <allow-navigation href="http://192.168.0.17:8100" />
-    <engine name="android" spec="7.0.0" />
+    <engine name="android" spec="~7.0.0" />
 </widget>
