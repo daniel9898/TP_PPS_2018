@@ -38,7 +38,7 @@
         </ion-col>
       </ion-row>
       <button ion-button block (click)="asignarViaje()">Asignar</button>
-      <button ion-button block [disabled]="viaje.id_chofer.length > 0" color="danger" (click)="liberarViaje()">Desasignar</button>
+      <button ion-button block [disabled]="viaje.estado !== 'pendiente'" color="danger" (click)="liberarViaje()">Desasignar</button>
     </ion-card-content>
     
   </ion-card>
