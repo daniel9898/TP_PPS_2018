@@ -177,9 +177,9 @@ export class UsuarioServicioProvider {
   //ASIGNAR VEHICULO A USUARIO (Chofer)
   async asignarVehiculo(uid : string , keyVehiculo : string){
 
-    let user = await this.traer_un_usuario(uid);
-    console.log(user);
-    user['id_vehiculo'] = keyVehiculo;
+    let user:any = await this.traer_un_usuario(uid);
+    // console.log(user);
+    user.id_vehiculo = keyVehiculo;
     return this.modificar_usuario(user);
   }
 

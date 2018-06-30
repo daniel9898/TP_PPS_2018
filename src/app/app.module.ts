@@ -60,6 +60,9 @@ import { QrServicioProvider } from '../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
 import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
+import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
+
+
 import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
 
 @NgModule({
@@ -183,6 +186,7 @@ import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
     DateTimeProvider,
     ReservasProvider,
     UtilidadesProvider,
+    ChoferEncuestaProvider,
     ChartsModule
   ]
 })
