@@ -64,6 +64,8 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
 
 
 import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
+import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-viajes/supervisor-lista-viajes';
 
 @NgModule({
   declarations: [
@@ -105,7 +107,9 @@ import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
     SupervisorRegistroChoferPage,
     SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
-    PhotoTakerPage
+    PhotoTakerPage,
+    SupervisorViajesReservasPage,
+    SupervisorListaViajesPage
   ],
   imports: [
     BrowserModule,
@@ -160,7 +164,9 @@ import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
     SupervisorRegistroChoferPage,
     SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
-    PhotoTakerPage
+    PhotoTakerPage,
+    SupervisorViajesReservasPage,
+    SupervisorListaViajesPage
   ],
   providers: [
     StatusBar,
