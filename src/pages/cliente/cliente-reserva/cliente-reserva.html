@@ -24,11 +24,11 @@
   <ion-item>
     <ion-label>Fecha</ion-label>
     <ion-datetime id="fecha" name="fecha" #fecha="ngModel" [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames"
-      [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
+      [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" doneText="Listo" cancelText="Cancelar" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Hora</ion-label>
-    <ion-datetime id="hora" name="hora" #hora="ngModel" [(ngModel)]="reserva.hora" displayFormat="HH:mm" pickerFormat="HH:mm"
+    <ion-datetime id="hora" name="hora" #hora="ngModel" [(ngModel)]="reserva.hora" doneText="Listo" cancelText="Cancelar" displayFormat="HH:mm" pickerFormat="HH:mm"
       required></ion-datetime>
   </ion-item>
   <ion-item>
