@@ -96,4 +96,5 @@
     </plugin>
     <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.0" />
     <engine name="android" spec="7.0.0" />
+
 </widget>
