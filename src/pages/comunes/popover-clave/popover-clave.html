@@ -1,5 +1,7 @@
 <ion-content padding>
-  <div>
+
+  <!-- CAMBIAR CONTRASEÑA -->
+  <div class="menu_1" *ngIf="cambiarClave">
     <form [formGroup]="registroForm" novalidate class="top-1">
       <ion-row>
         <ion-col>
@@ -42,15 +44,28 @@
                                               !registroForm.get('userClave2').hasError('minlength') &&
                                               !registroForm.get('userClave2').hasError('required')">Clave no idéntica</p>
           </ion-item>
-
+          <!-- SUBMIT -->
+          <button ion-button color="register" icon-left block
+                  (click)="volver()" [disabled]="registroForm.invalid || registroForm.value.userClave1 != registroForm.value.userClave2">
+            <ion-icon name="md-contact"></ion-icon>
+            Aceptar
+          </button>
         </ion-col>
       </ion-row>
     </form>
+  </div>
+
+  <!-- INSERTAR CONTRASEÑA -->
+  <div class="menu_2" *ngIf="insertarClave">
+    <!-- Contraseña -->
+    <ion-item>
+      <ion-input id="inputClave" type="password" placeholder="Contraseña" [(ngModel)]="credentials"></ion-input>
+    </ion-item>
     <!-- SUBMIT -->
-      <button ion-button color="register" icon-left block
-              (click)="volver()" [disabled]="registroForm.invalid || registroForm.value.userClave1 != registroForm.value.userClave2">
-        <ion-icon name="md-contact"></ion-icon>
-        Aceptar
-      </button>
+    <button ion-button color="register" icon-left block
+            (click)="volver()" [disabled]="credentials == ''">
+      <ion-icon name="md-contact"></ion-icon>
+      Aceptar
+    </button>
   </div>
 </ion-content>

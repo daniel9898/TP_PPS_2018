@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController } from 'ionic-angular';
+import { ViewController, NavParams } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 
@@ -11,27 +11,45 @@ export class PopoverClavePage {
 
   //FORMS
   registroForm:FormGroup;
+  //VALIDACION
+  cambiarClave:boolean = false;
+  insertarClave:boolean = false;
   //CREDENTIALS
-  credentials:any;
+  credentials:any = '';
 
-  constructor(public viewCtrl:ViewController,
+  constructor(public navParams:NavParams,
+              public viewCtrl:ViewController,
               public fbRegistration:FormBuilder) {
 
-    this.registroForm = this.fbRegistration.group({
+    switch(navParams.data.opcion){
+      case "cambiarClave":
+        this.cambiarClave = true;
+        this.insertarClave = false;
+        this.registroForm = this.fbRegistration.group({
 
-      userClave:  ['', [Validators.required] ],
-      userClave1: ['', [Validators.required, Validators.minLength(6)] ],
-      userClave2: ['', [Validators.required, Validators.minLength(6)] ]
+          userClave:  ['', [Validators.required] ],
+          userClave1: ['', [Validators.required, Validators.minLength(6)] ],
+          userClave2: ['', [Validators.required, Validators.minLength(6)] ]
 
-    });
+        });
+        break;
+
+      case "insertarClave":
+        this.insertarClave = true;
+        this.cambiarClave = false;
+        break;
+    }
   }
 
   volver(){
-    let credentials = {
-      passOld:  this.registroForm.value.userClave,
-      passNew: this.registroForm.value.userClave2
+    if(this.cambiarClave){
+      this.credentials = {
+        action: 'cambiar_clave',
+        passOld:  this.registroForm.value.userClave,
+        passNew: this.registroForm.value.userClave2
+      }
     }
-    this.viewCtrl.dismiss(credentials);
+    this.viewCtrl.dismiss(this.credentials);
   }
 
 }
