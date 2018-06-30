@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
+import { SupervisorChoferesDisponiblesPage } from '../supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 
 /**
  * Generated class for the SupervisorListaViajesPage page.
@@ -19,9 +20,9 @@ export class SupervisorListaViajesPage {
   viajes: Array<any>;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
-    private viajeSrv:ViajeServicio) {
+    private viajeSrv: ViajeServicio) {
   }
 
   ionViewDidLoad() {
@@ -29,6 +30,16 @@ export class SupervisorListaViajesPage {
     this.viajeSrv.getAllTrips().subscribe(next => {
       this.viajes = next.filter(viaje => viaje.estado === 'pendiente');
     });
+  }
+
+
+  /**
+   * push a la lista de choferess
+   * @param index indice del array de viajes
+   */
+  verChoferes(index) {
+    const viaje = this.viajes[index];
+    this.navCtrl.push(SupervisorChoferesDisponiblesPage, { viaje: viaje });
   }
 
 }
