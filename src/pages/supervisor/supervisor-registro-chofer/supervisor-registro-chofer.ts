@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController  } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //PAGINAS
-import { SupervisorInicioPage,SupervisorListaChoferesPage } from '../../index-paginas';
+import { SupervisorListaUsuariosPage } from '../../index-paginas';
 import { ChoferProvider } from '../../../providers/chofer/chofer';
 import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario-imagen';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
@@ -23,7 +23,7 @@ export class SupervisorRegistroChoferPage {
   viewImage  : string ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevjT5_rnSGE76WpJQLuyBb99skuZmJ3DqLGwkT8UUQopXugUrQQ';
   image : string;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
   	          private fb: FormBuilder,
               private chofer: ChoferProvider,
               public camera: Camera,
@@ -58,7 +58,7 @@ export class SupervisorRegistroChoferPage {
   }
 
   volver(){
-    this.navCtrl.push(SupervisorInicioPage);
+    this.navCtrl.push(SupervisorListaUsuariosPage);
   }
 
   async guardar(){
@@ -81,9 +81,9 @@ export class SupervisorRegistroChoferPage {
 
         chofer.id_usuario = authOk.user.uid;
      	  await this.chofer.actualizarChofer(chofer);
-     	  
+
         this.utils.showToast('REGISTRO EXITOSO !');
-        this.navCtrl.setRoot(SupervisorListaChoferesPage);
+        this.navCtrl.setRoot(SupervisorListaUsuariosPage);
 
     }catch(e){
         this.utils.dismissLoading();
