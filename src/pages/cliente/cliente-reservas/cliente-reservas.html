@@ -29,6 +29,9 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <div *ngIf="reservas.length == 0">
+    <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+  </div>
   <ion-fab right bottom>
       <button ion-fab color="secondary" (click)="nuevaReserva()">
           <ion-icon name="add"></ion-icon>

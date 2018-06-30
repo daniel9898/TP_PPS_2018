@@ -12,6 +12,7 @@ export class Usuario{
     foto:string;
     viajando:boolean;
     activo:boolean;
+    verificado:boolean;
 
     constructor(user_data:any){
         //REGISTRO
@@ -21,6 +22,7 @@ export class Usuario{
         this.perfil = user_data.perfil;
         this.viajando = user_data.viajando;
         this.activo = user_data.activo;
+        this.verificado = user_data.verificado;
         //PERFIL
         this.nombre = user_data.nombre;
         this.edad = user_data.edad;

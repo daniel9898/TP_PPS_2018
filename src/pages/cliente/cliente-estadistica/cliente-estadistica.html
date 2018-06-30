@@ -1,18 +1,71 @@
-<!--
-  Generated template for the ClienteEstadisticaPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>cliente-estadistica</ion-title>
-  </ion-navbar>
+  <ion-toolbar no-border-top>
+    <ion-segment [(ngModel)]="estadistica" (ionChange)="cambioSegmento($event)">
+      <ion-segment-button value="individual">
+        Individual
+      </ion-segment-button>
+      <ion-segment-button value="general">
+        General
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
 </ion-header>
 
-
 <ion-content padding>
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
+  <div class="main" *ngIf="!mostrarSpinner">
+    <!-- MANEJO DEL CONTENIDO -->
+    <div [ngSwitch]="estadistica">
+
+      <!-- ESTADISTICA INDIVIDUAL -->
+      <div *ngSwitchCase="'individual'">
+        <div *ngIf="encuestas_cliente.length != 0">
+          <ion-item class="cartel">
+            <ion-label text-center>
+              <ion-icon class="icon" name="ios-person"></ion-icon>
+              Calidad del servicio
+            </ion-label>
+          </ion-item>
+          <!-- GRAFICO -->
+          <canvas baseChart
+                  [data]="chartData"
+                  [labels]="chartLabels"
+                  [chartType]="chartType">
+          </canvas>
+        </div>
+        <div *ngIf="encuestas_cliente.length == 0">
+          <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+        </div>
+      </div>
+
+      <!-- ESTADISTICA GENERAL -->
+      <div *ngSwitchCase="'general'">
+        <ion-item class="cartel">
+          <ion-label text-center>
+            <ion-icon class="icon" name="ios-people"></ion-icon>
+            Calidad del servicio
+          </ion-label>
+        </ion-item>
+        <!-- GRAFICO -->
+        <canvas baseChart
+                [data]="chartData"
+                [labels]="chartLabels"
+                [chartType]="chartType">
+        </canvas>
+      </div>
+
+      <!-- VISTA POR DEFAULT -->
+      <div *ngSwitchDefault>
+        <img id="estadistica_logo" src="assets/imgs/estadistica_default.png" alt="">
+      </div>
+
+    </div>
+  </div>
 
 </ion-content>

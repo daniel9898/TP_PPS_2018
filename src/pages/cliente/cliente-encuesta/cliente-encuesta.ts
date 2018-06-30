@@ -23,6 +23,7 @@ export class ClienteEncuestaPage {
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
   texto:any = Encuesta_texto;
   cambios:boolean;
+  modificar:boolean;
   //VALORES
   fecha:string;
   hora:string;
@@ -39,8 +40,17 @@ export class ClienteEncuestaPage {
   }
 
   ionViewDidLoad() {
-
-    this.generar_encuesta_byDefault();
+    this.mostrarSpinner = true;
+    if(this.navParams.data.encuesta){
+      this.encuesta = this.navParams.data.encuesta;
+      this.encuesta_byDefault = this.navParams.data.encuesta;
+      this.modificar = this.navParams.data.isEditable;
+      this.mostrarSpinner = false;
+    }
+    else{
+      this.generar_encuesta_byDefault();
+      this.modificar = true;
+    }
   }
 
   //GENERAR ENCUESTA (by default)
@@ -60,6 +70,7 @@ export class ClienteEncuestaPage {
       pregunta_5:"",
       foto: this.encuesta_foto
     }
+    console.log("ID de viaje asociado: " + this.navParams.get('id_viaje'));
     this.encuesta = new Encuesta_cliente(this.encuesta_byDefault);
     this.mostrarSpinner = false;
   }
@@ -158,7 +169,7 @@ export class ClienteEncuestaPage {
           .then(()=>{
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
-            this.mostrarAlerta("Cambios realizados con éxito");
+            this.mostrarAlerta("¡Gracias por participar!");
             this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, FabContainer } from 'ionic-angular';
+import { NavController, NavParams, ToastController, FabContainer, PopoverController } from 'ionic-angular';
 //PAGINAS
 import { SupervisorListaUsuariosPage, LoginPage, MapaPage } from '../../index-paginas';
+import { PopoverClavePage } from '../popover-clave/popover-clave';
 //Clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //FORM
@@ -47,6 +48,7 @@ export class PerfilPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
+              public popoverCtrl:PopoverController,
               public frRegistration:FormBuilder,
               public _auth: AuthServicioProvider,
               private camera: Camera,
@@ -147,6 +149,9 @@ export class PerfilPage {
       case "modificar":
       this.activar_modificar();
       break;
+      case "modificarClave":
+      this.presentPopover(event);
+      break;
       case "borrar":
       this.borrar();
       break;
@@ -163,6 +168,39 @@ export class PerfilPage {
       this.modificar = false;
       this.traer_usuario();
     }
+  }
+
+  //POPOVER - CLAVE
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverClavePage);
+    popover.present({
+      ev: myEvent
+    });
+    popover.onDidDismiss((data)=>{
+      if(data){
+        console.log("DATA: " + JSON.stringify(data));
+        this.modificarClave(data);
+      }
+    })
+  }
+
+  //MODIFICAR CLAVE
+  modificarClave(credentials:any){
+    this.mostrarSpinner = true;
+    //CREDENCIALES
+    this._auth.reauthenticate_user(credentials.passOld)
+      .then((data)=>{
+        this._auth.update_userPassword(credentials.passNew)
+          .then(()=>{
+            this.mostrarSpinner = false;
+            this.mostrarAlerta("Clave cambiada");
+          })
+      })
+      .catch((error)=>{
+        console.log("Error al intentar cambiar clave: " + error);
+        this.mostrarSpinner = false;
+        this.mostrarAlerta("Clave inválida");
+      })
   }
 
   //BORRAR

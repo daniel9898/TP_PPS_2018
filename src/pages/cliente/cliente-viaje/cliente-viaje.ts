@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
-//clase USUARIO
+//CLASES
 import { Usuario } from '../../../classes/usuario';
 import { Viaje, Viaje_texto } from '../../../classes/viaje';
 //Interface MARKER

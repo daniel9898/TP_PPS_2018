@@ -61,7 +61,8 @@ export class SupervisorRegistroClientePage {
                 perfil: "cliente",
                 foto: "https://firebasestorage.googleapis.com/v0/b/kb-remiseria33.appspot.com/o/perfiles%2Fcliente_XDKTOBwO3xNoRiXNDe8fv0lHHi13.png?alt=media&token=7ada1c16-a659-4392-bb1b-47a3a15b36b3",
                 viajando: false,
-                activo: false
+                activo: false,
+                verificado: false
               }
               this.usuario = new Usuario(this.user_default);
 
@@ -106,8 +107,7 @@ export class SupervisorRegistroClientePage {
           this._auth.update_externalUserAccount(data.user, this.usuario.perfil, this.usuario.foto)
           .then(()=>{
           //ENVIAR MAIL DE VERIFICACIÓN (si el usuario se creo inactivo)
-            // if(!this.usuario.activo)
-            //   this._auth.send_ExternalEmailVerification();
+            // this._auth.send_ExternalEmailVerification();
    // 3 - DESLOGUEARSE DE AUTH
             this._auth.signOutExternal()
               .then(()=>{

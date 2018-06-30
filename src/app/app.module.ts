@@ -22,6 +22,8 @@ import { NguiMapModule} from '@ngui/map';
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+//CHARTS
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -39,6 +41,7 @@ import { MyApp } from './app.component';
 import {
   InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
   ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ClienteEncuestasPage,
   ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
   SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
   SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
@@ -60,6 +63,7 @@ import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-re
 import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
 
 
+import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -78,6 +83,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -112,8 +118,8 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     DirectivesModule,
     NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
     AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
-    AgmDirectionModule
-
+    AgmDirectionModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -123,6 +129,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -131,6 +138,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -178,7 +186,8 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     DateTimeProvider,
     ReservasProvider,
     UtilidadesProvider,
-    ChoferEncuestaProvider
+    ChoferEncuestaProvider,
+    ChartsModule
   ]
 })
 export class AppModule { }
