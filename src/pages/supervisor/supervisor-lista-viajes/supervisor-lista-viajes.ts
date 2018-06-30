@@ -42,4 +42,14 @@ export class SupervisorListaViajesPage {
     this.navCtrl.push(SupervisorChoferesDisponiblesPage, { viaje: viaje });
   }
 
+
+  /**
+   * Elimina el viaje
+   * @param index indice del viaje selecionado
+   */
+  eliminarViaje(index){
+    const viaje = this.viajes[index]
+    this.viajeSrv.baja_viaje(viaje);
+  }
+
 }
