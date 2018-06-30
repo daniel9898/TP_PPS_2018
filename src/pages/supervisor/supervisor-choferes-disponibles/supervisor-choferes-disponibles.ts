@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Usuario } from '../../../classes/usuario';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { Viaje } from '../../../classes/viaje.model';
+import { SupervisorAsignaViajePage } from '../supervisor-asigna-viaje/supervisor-asigna-viaje';
 
 /**
  * Generated class for the SupervisorChoferesDisponiblesPage page.
@@ -45,7 +46,7 @@ export class SupervisorChoferesDisponiblesPage {
  */
   asignarViaje(index) {
     const chofer = this.usuarios[index];
-    this.navCtrl.push('',{ viaje: this.viaje, chofer: chofer })
+    this.navCtrl.push(SupervisorAsignaViajePage,{ viaje: this.viaje, chofer: chofer });
   }
 
 }
