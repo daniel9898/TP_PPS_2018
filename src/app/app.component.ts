@@ -155,6 +155,7 @@ export class MyApp {
               vehiculos[0].vehiculo.ocupado = false;
               this.vehiculoSrv.updateItem(vehiculos[0].key,vehiculos[0].vehiculo);
               value.id_vehiculo = '';
+              value.id_viaje = '';
               this.usuarioSrv.modificar_usuario(value);
             }
           });
