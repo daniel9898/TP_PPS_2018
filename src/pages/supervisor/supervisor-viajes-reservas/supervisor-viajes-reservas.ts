@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { SupervisorListaViajesPage } from '../supervisor-lista-viajes/supervisor-lista-viajes';
 
 /**
  * Generated class for the SupervisorViajesReservasPage page.
@@ -15,11 +16,11 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SupervisorViajesReservasPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  viajes: any;
+  tab2: any;
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SupervisorViajesReservasPage');
+  constructor() {
+    this.viajes = SupervisorListaViajesPage;
+    // this.tab2 = Tab2;
   }
-
 }
