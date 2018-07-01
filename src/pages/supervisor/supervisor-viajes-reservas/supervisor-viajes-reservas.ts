@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage } from 'ionic-angular';
 import { SupervisorListaViajesPage } from '../supervisor-lista-viajes/supervisor-lista-viajes';
+import { SupervisorListaReservasPage } from '../supervisor-lista-reservas/supervisor-lista-reservas';
 
 /**
  * Generated class for the SupervisorViajesReservasPage page.
@@ -17,10 +18,10 @@ import { SupervisorListaViajesPage } from '../supervisor-lista-viajes/supervisor
 export class SupervisorViajesReservasPage {
 
   viajes: any;
-  tab2: any;
+  reservas: any;
 
   constructor() {
     this.viajes = SupervisorListaViajesPage;
-    // this.tab2 = Tab2;
+    this.reservas = SupervisorListaReservasPage;
   }
 }
