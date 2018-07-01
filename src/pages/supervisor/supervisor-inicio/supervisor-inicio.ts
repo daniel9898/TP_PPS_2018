@@ -20,13 +20,19 @@ export class SupervisorInicioPage {
   public doughnutChartData: number[] = [350, 450, 100];
   public doughnutChartType: string = 'doughnut';
   public options: any = {
-    legend: false,
+    legend: {
+      display: true,
+      position: 'top',
+      fullWidth: true
+    },
     padding: {
       left: 0,
       right: 0,
       top: 10,
       bottom: 0
-    }
+    },
+    responsive: true,
+    maintainAspectRatio: false
   };
 
   // events
@@ -50,10 +56,10 @@ export class SupervisorInicioPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorInicioPage');
-    this.usuarioSrv.getUsers().subscribe(next =>{
+    this.usuarioSrv.getUsers().subscribe(next => {
       const disponibles = next.filter(usr => usr.perfil == 'chofer' && usr.id_vehiculo && usr.id_vehiculo.length > 0 && usr.activo && !usr.viajando).length;
-      const v = next.filter(usr => usr.perfil == 'chofer' &&  usr.activo).length;
-      this.doughnutChartData = [disponibles,v]
+      const v = next.filter(usr => usr.perfil == 'chofer' && usr.activo).length;
+      this.doughnutChartData = [disponibles, v]
     });
   }
 
