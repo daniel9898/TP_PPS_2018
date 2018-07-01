@@ -21,6 +21,21 @@
       </div>
     </ion-card-content>
   </ion-card>
+  <ion-card>
+    <ion-card-header>
+      Viajes según estados
+    </ion-card-header>
+    <ion-card-content>
+    <div style="display: block" class="dashboard-chart">
+      <canvas baseChart
+      [data]="barChartData"
+      [labels]="barChartLabels"
+      [options]="barChartOptions"
+      [legend]="barChartLegend"
+      [chartType]="barChartType"></canvas>
+      </div>
+    </ion-card-content>
+  </ion-card>
   <ion-fab right bottom>
     <button ion-fab color="secondary" (click)="scanCode()">
       <ion-icon name="qr-scanner"></ion-icon>
