@@ -68,6 +68,7 @@ import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-via
 import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-viajes/supervisor-lista-viajes';
 import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
+import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna
     SupervisorViajesReservasPage,
     SupervisorListaViajesPage,
     SupervisorChoferesDisponiblesPage,
-    SupervisorAsignaViajePage
+    SupervisorAsignaViajePage,
+    SupervisorListaReservasPage
   ],
   imports: [
     BrowserModule,
@@ -172,7 +174,8 @@ import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna
     SupervisorViajesReservasPage,
     SupervisorListaViajesPage,
     SupervisorChoferesDisponiblesPage,
-    SupervisorAsignaViajePage
+    SupervisorAsignaViajePage,
+    SupervisorListaReservasPage
   ],
   providers: [
     StatusBar,
