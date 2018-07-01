@@ -108,17 +108,17 @@ export class MyApp {
             //PAGINAS SUPERVISOR (11)
             { title: 'Inicio', component: SupervisorInicioPage, visibility: this.vista_supervisor },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_supervisor },
-            { title: 'Seguimiento', component: SupervisorSeguimientoPage, visibility: this.vista_supervisor },
+            // { title: 'Seguimiento', component: SupervisorSeguimientoPage, visibility: this.vista_supervisor },
             { title: 'Viajes/Reservas', component: SupervisorViajesReservasPage, visibility: this.vista_supervisor },
-            { title: 'Estadística', component: SupervisorEstadisticaPage, visibility: this.vista_supervisor },
-            { title: 'Encuesta', component: SupervisorEncuestaPage, visibility: this.vista_supervisor },
-            { title: 'Control usuarios', component: SupervisorUsuarioPage, visibility: this.vista_supervisor },
-            { title: 'Control vehiculos', component: SupervisorVehiculoPage, visibility: this.vista_supervisor },
+            // { title: 'Estadística', component: SupervisorEstadisticaPage, visibility: this.vista_supervisor },
+            // { title: 'Encuesta', component: SupervisorEncuestaPage, visibility: this.vista_supervisor },
+            // { title: 'Control usuarios', component: SupervisorUsuarioPage, visibility: this.vista_supervisor },
+            // { title: 'Control vehiculos', component: SupervisorVehiculoPage, visibility: this.vista_supervisor },
             { title: 'Lista usuarios', component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
             { title: 'Lista vehiculos', component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
-            { title: 'Registro Cliente', component: SupervisorRegistroClientePage, visibility: this.vista_supervisor },
-            { title: 'Registro Chofer', component: SupervisorRegistroChoferPage, visibility: this.vista_supervisor },
-            { title: 'Registro Vehiculos', component: SupervisorRegistroVehiculoPage, visibility: this.vista_supervisor }
+            // { title: 'Registro Cliente', component: SupervisorRegistroClientePage, visibility: this.vista_supervisor },
+            // { title: 'Registro Chofer', component: SupervisorRegistroChoferPage, visibility: this.vista_supervisor },
+            // { title: 'Registro Vehiculos', component: SupervisorRegistroVehiculoPage, visibility: this.vista_supervisor }
           ];
 
         } else {
