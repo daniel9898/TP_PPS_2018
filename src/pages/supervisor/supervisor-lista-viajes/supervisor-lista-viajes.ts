@@ -49,7 +49,8 @@ export class SupervisorListaViajesPage {
    */
   eliminarViaje(index){
     const viaje = this.viajes[index]
-    this.viajeSrv.baja_viaje(viaje);
+    viaje.estado = 'cancelado';
+    this.viajeSrv.modificar_viaje(viaje);
   }
 
 }
