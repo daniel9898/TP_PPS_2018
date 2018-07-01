@@ -9,9 +9,18 @@ import * as $ from 'jquery';
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestasPage, //--CLIENTE
          ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage, ListaViajesPage,//-----------------------------CHOFER
-         SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-         SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage,
-         SupervisorRegistroClientePage, SupervisorRegistroChoferPage, SupervisorRegistroVehiculoPage} from '../pages/index-paginas';
+         SupervisorInicioPage, 
+        //  SupervisorSeguimientoPage, 
+        //  SupervisorEstadisticaPage, 
+        //  SupervisorEncuestaPage,//------------------------SUPERVISOR
+        //  SupervisorUsuarioPage, 
+        //  SupervisorVehiculoPage, 
+         SupervisorListaUsuariosPage, SupervisorListaVehiculosPage,
+        //  SupervisorRegistroClientePage, 
+        //  SupervisorRegistroChoferPage, 
+        //  SupervisorRegistroVehiculoPage
+        } 
+         from '../pages/index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
