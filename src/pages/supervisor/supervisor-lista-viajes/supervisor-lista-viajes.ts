@@ -39,7 +39,7 @@ export class SupervisorListaViajesPage {
    */
   verChoferes(index) {
     const viaje = this.viajes[index];
-    this.navCtrl.push(SupervisorChoferesDisponiblesPage, { viaje: viaje });
+    this.navCtrl.push(SupervisorChoferesDisponiblesPage, { viaje: viaje, esReserva: false });
   }
 
 
@@ -47,7 +47,7 @@ export class SupervisorListaViajesPage {
    * Elimina el viaje
    * @param index indice del viaje selecionado
    */
-  eliminarViaje(index){
+  eliminarViaje(index) {
     const viaje = this.viajes[index]
     viaje.estado = 'cancelado';
     this.viajeSrv.modificar_viaje(viaje);
