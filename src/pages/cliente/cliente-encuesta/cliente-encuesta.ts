@@ -79,7 +79,7 @@ export class ClienteEncuestaPage {
   generar_fecha(){
     let promesa = new Promise((resolve, reject)=>{
       let currentDate = new Date();
-      this.fecha = currentDate.getDate()+'/'+(currentDate.getMonth() + 1)+'/'+currentDate.getFullYear();
+      this.fecha = currentDate.getFullYear()+'-'+(currentDate.getMonth()<10?'0':'').toString()+(currentDate.getMonth() + 1)+'-'+(currentDate.getDate()<10?'0':'').toString()+currentDate.getDate();
       this.hora = currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
       resolve();
     });

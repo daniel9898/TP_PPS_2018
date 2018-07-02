@@ -20,7 +20,7 @@ page-cliente-viaje {
   }
 
   agm-map {
-    height: 70%;
+    height: 60%;
   }
 
   .iconTravel{
@@ -37,7 +37,7 @@ page-cliente-viaje {
   }
 
   .text_precio{
-    font-size: 15px;
+    font-size: 20px;
   }
 
   .msj_box{
@@ -52,11 +52,18 @@ page-cliente-viaje {
     font-size: 13px;
   }
 
+  .msj_intermedio{
+    background-color: rgb(164, 226, 149);
+  }
+
   .spinner {
-    position:sticky;
-    width: auto;
-    height: auto;
-    margin: 100px auto;
+    //position:fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    margin: 50px auto;
     background-color: rgba(#333333, 0);
 
     border-radius: 100%;
