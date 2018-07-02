@@ -22,6 +22,7 @@ export class SupervisorChoferesDisponiblesPage {
   mostrarSpinner: boolean = false;
   usuarios: Usuario[] = [];
   viaje: Viaje
+  esReserva: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -29,6 +30,7 @@ export class SupervisorChoferesDisponiblesPage {
     private _usuarioServicio: UsuarioServicioProvider) {
     if (this.navParams.data.viaje !== null) {
       this.viaje = this.navParams.data.viaje;
+      this.esReserva = this.navParams.data.esReserva;
       console.log(this.viaje);
     }
   }
@@ -46,7 +48,7 @@ export class SupervisorChoferesDisponiblesPage {
  */
   asignarViaje(index) {
     const chofer = this.usuarios[index];
-    this.navCtrl.push(SupervisorAsignaViajePage,{ viaje: this.viaje, chofer: chofer });
+    this.navCtrl.push(SupervisorAsignaViajePage,{ viaje: this.viaje, chofer: chofer, esReserva: this.esReserva });
   }
 
 }
