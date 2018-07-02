@@ -14,6 +14,7 @@ export class MapaPage {
   lng:number;
   direccion:string;
   callback:Function;
+  mostrarSpinner:boolean = false;
 
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
@@ -55,12 +56,13 @@ export class MapaPage {
 
   marcarUbicacion(event){
     //Muestra las coordenadas
-    console.log(event);
+    this.mostrarSpinner = true;
     this._geoCoding.obtenerDireccion(event.coords.lat, event.coords.lng)
       .then((data:any)=>{
         this.direccion = data.toString();
         this.lat = event.coords.lat;
         this.lng = event.coords.lng;
+        this.mostrarSpinner = false;
       })
       .catch((error)=>{
         console.log("ERROR: al convertir coordenadas -> dirección: " + error);
@@ -69,11 +71,13 @@ export class MapaPage {
   }
 
   marcarDireccion(){
+    this.mostrarSpinner = true;
     this._geoCoding.obtenerCoordenadas(this.direccion)
       .then((coordenadas:any)=>{
         console.log("Dato recibido de obtener coordenadas: " + coordenadas);
         this.lat = coordenadas[0];
         this.lng = coordenadas[1];
+        this.mostrarSpinner = false;
       })
       .catch((error)=>{
         console.log("ERROR: al convertir direccion -> coordenadas: " + error);
@@ -82,6 +86,7 @@ export class MapaPage {
 
   localizarDispositivo(){
     //OBTENER Y MARCAR UBICACION
+    this.mostrarSpinner = true;
     this._geoLocate.obtenerPosicion()
       .then((data)=>{
         console.log("Geolocalización: " + JSON.stringify(data));
@@ -96,6 +101,7 @@ export class MapaPage {
         this._geoCoding.obtenerDireccion(this.lat, this.lng)
           .then((data:any)=>{
             this.direccion = data.toString();
+            this.mostrarSpinner = false;
             console.log("Dirección: " + this.direccion);
           })
           .catch((error)=>{

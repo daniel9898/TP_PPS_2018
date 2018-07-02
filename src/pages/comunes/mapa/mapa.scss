@@ -16,6 +16,13 @@ page-mapa {
     margin-top: 10px;
   }
 
+  .map-full-card-content {
+    position:sticky;
+    height: 100% !important;
+    width: 100%;
+    margin: 0;
+  }
+
   agm-map {
   	  height: 90%; //Ocuparía toda la pantalla.
   }
@@ -24,5 +31,33 @@ page-mapa {
     font-size: 50px;
   }
 
+  .spinner {
+    width: 100px;
+    height: 100px;
+    margin: 100px auto;
+    background-color: rgba(#333333, 0);
 
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+    animation: sk-scaleout 1.0s infinite ease-in-out;
+  }
+
+  @-webkit-keyframes sk-scaleout {
+    0% { -webkit-transform: scale(0) }
+    100% {
+      -webkit-transform: scale(1.0);
+      opacity: 0;
+    }
+  }
+
+  @keyframes sk-scaleout {
+    0% {
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 100% {
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+      opacity: 0;
+    }
+  }
 }
