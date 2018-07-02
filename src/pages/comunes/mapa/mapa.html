@@ -21,6 +21,7 @@
 
       </div>
       <!-- MAPA -->
+      <div *ngIf="!mostrarSpinner" xFlex="100" class="map-full-card-content">
       <agm-map [latitude]="lat"
                [longitude]="lng"
                [zoom]="16"
@@ -32,12 +33,17 @@
             [longitude]="lng">
           </agm-marker>
       </agm-map>
-
+      </div>
       <!-- MARCAR UBICACION DISPOSITIVO -->
       <ion-fab right bottom>
           <button ion-fab color="primary" (click)="localizarDispositivo()">
               <ion-icon class="iconGeoLocate" name="ios-locate-outline"></ion-icon>
           </button>
       </ion-fab>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
 
 </ion-content>

@@ -60,6 +60,15 @@ export const Viaje_texto = {
     titulo: "DATOS DEL CHOFER",
     nombre: "Nombre:",
     patente:"Patente:"
+  },
+  estados:{
+    titulo: "ESTADO",
+    pendiente: "Buscando chofer",
+    tomado: "Chofer asignado - aguarde llegada",
+    en_curso: "Viaje iniciado",
+    cumplido:"Viaje finalizado",
+    cancelado_cliente: "Viaje cancelado",
+    cancelado_sistema: "Viaje cancelado por sistema"
   }
 
 }

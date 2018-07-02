@@ -45,15 +45,16 @@ export class ClienteHistorialPage {
       .then((user:any)=>{
         this.usuario = user;
   // 2) TRAER VIAJES
-        this._viajeService.traer_viajes(this.usuario.id_usuario, "cliente")
+        this._viajeService.traer_viajes(this.usuario.id_usuario, "cliente-estado", "cumplido")
           .then((viajes:any)=>{
+            console.log("VIAJES: " + JSON.stringify(viajes));
               this.viajes = viajes;
   // 3) TRAER ENCUESTAS
                   this.generar_lista_encuestas()
                     .then(()=>{
   // 4) TRAER RESERVAS
                       this._reservaService.getListaReservas().subscribe(next => {
-                        this.reservas = next.filter(value => value.reserva.id_cliente == this.usuario.id_usuario);
+                        this.reservas = next.filter(value => value.reserva.id_cliente == this.usuario.id_usuario && value.reserva.estado == "cumplida");
                       });
                       this.mostrarSpinner = false;
                     })

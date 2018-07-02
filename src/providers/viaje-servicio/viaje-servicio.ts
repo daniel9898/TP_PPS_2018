@@ -31,7 +31,7 @@ export class ViajeServicio {
     }
 
     //TRAER UN VIAJE (por algún criterio)
-    traer_viajes(valor:string, criterio:string){
+    traer_viajes(valor:string, criterio:string, valor2?:string){
       let promesa = new Promise((resolve, reject)=>{
 
 
@@ -53,6 +53,8 @@ export class ViajeServicio {
               if(v.fecha == valor) viajesArray.push(viaje); break;
               case "estado":
               if(v.estado == valor) viajesArray.push(viaje); break;
+              case "cliente-estado":
+              if(v.id_cliente == valor && v.estado == valor2) viajesArray.push(viaje); break;
               case "todos":
               viajesArray.push(viaje); break;
             }
