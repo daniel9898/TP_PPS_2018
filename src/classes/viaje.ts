@@ -2,9 +2,9 @@
 
 export class Viaje{
 
-    id_viaje?:string;//------es la key de firebase
+    id_viaje:string;//------es la key de firebase
     id_cliente:string;
-    id_chofer?:string; //---se define al tomar viaje chofer
+    id_chofer:string; //---se define al tomar viaje chofer
     id_vehiculo?:string; //-se define al tomar viaje chofer
     fecha:string;
     cod_fecha:string;

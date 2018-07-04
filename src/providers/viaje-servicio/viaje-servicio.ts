@@ -30,6 +30,13 @@ export class ViajeServicio {
         );
     }
 
+    /**
+     * Se devuelven todos los viajes por RxJs
+     */
+    getAllTrips(){
+      return this.viajes;
+    }
+
     //TRAER UN VIAJE (por algún criterio)
     traer_viajes(valor:string, criterio:string, valor2?:string){
       let promesa = new Promise((resolve, reject)=>{

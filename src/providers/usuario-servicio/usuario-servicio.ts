@@ -36,6 +36,13 @@ export class UsuarioServicioProvider {
     );
   }
 
+  /**
+   * retorna los usuarios RxJs
+   */
+  getUsers(){
+    return this.usuarios;
+  }
+
   //TRAER USUARIOS DE PRUEBA
   obtener_usuarios_prueba (){
 
