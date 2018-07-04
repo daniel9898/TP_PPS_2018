@@ -26,7 +26,7 @@ export class SupervisorRegistroChoferPage {
 
   constructor(public navCtrl: NavController,
   	          private fb: FormBuilder,
-              private chofer: ChoferProvider,
+              private _chofer: ChoferProvider,
               public camera: Camera,
               public usrFoto: UsuarioImagenProvider,
               public utils: UtilidadesProvider,
@@ -71,11 +71,11 @@ export class SupervisorRegistroChoferPage {
 
         delete chofer.clave;
 
-     	  let keyUser = await this.chofer.altaDb(chofer);
+     	  let keyUser = await this._chofer.altaDb(chofer);
         chofer.key = keyUser;
 
         chofer.id_usuario = authOk.user.uid;
-     	  await this.chofer.actualizarChofer(chofer);
+     	  await this._chofer.actualizarChofer(chofer);
 
         this.utils.showToast('REGISTRO EXITOSO !','success');
         this.navCtrl.setRoot(SupervisorListaUsuariosPage);

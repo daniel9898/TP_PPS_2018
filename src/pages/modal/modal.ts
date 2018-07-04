@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ModalController, Platform, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 /**
  * Generated class for the ModalPage page.
@@ -18,7 +18,6 @@ export class ModalPage {
  viaje :any;
 
   constructor(
-    public platform: Platform,
     public nav_params: NavParams,
     public viewCtrl: ViewController
   ) {

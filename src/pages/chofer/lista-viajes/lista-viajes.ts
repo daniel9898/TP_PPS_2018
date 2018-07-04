@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, ModalController, NavController, MenuController} from 'ionic-angular';
+import { IonicPage, NavController, MenuController} from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 //import * as firebase from 'firebase/app';
@@ -19,7 +19,6 @@ export class ListaViajesPage {
 
   viajes : any;
   chofer : any;
-  usuarioSesion:any;
   viajesSubsc : Subscription;
   viajeAsignado = [];
 
@@ -28,8 +27,7 @@ export class ListaViajesPage {
               public userProv: UsuarioServicioProvider,
               public menu: MenuController,
               public utils: UtilidadesProvider,
-              public aut : AuthServicioProvider,
-              public modalCtrl: ModalController) {
+              public aut : AuthServicioProvider) {
 
     this.menu.enable(true);
   }

@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ModalController } from 'ionic-angular';
+import { IonicPage, NavParams,ModalController } from 'ionic-angular';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { Viaje } from '../../../classes/viaje';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
-import { Subscription } from 'rxjs/Subscription';
+//import { Subscription } from 'rxjs/Subscription';
 import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
@@ -14,13 +14,11 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 })
 export class ChoferViajePage {
 
-  chofer : any;
+  //chofer : any;
   cliente : any;
   viaje: any;
-  viajesSubsc : Subscription;
-  viajes : any;
-
-  constructor(public navCtrl: NavController, 
+  
+  constructor( 
   	          public navParams: NavParams,
   	          public userProv: UsuarioServicioProvider,
   	          public viajesProv : ViajeServicio,
@@ -28,10 +26,10 @@ export class ChoferViajePage {
               public modalCtrl: ModalController) {
 
 
-    this.chofer = this.navParams.get('chofer');
+    //this.chofer = this.navParams.get('chofer');
     this.viaje = this.navParams.get('viaje');
   
-    console.log('CHOFER : ',this.chofer);
+    //console.log('CHOFER : ',this.chofer);
     
    
   }
