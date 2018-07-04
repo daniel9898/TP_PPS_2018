@@ -77,13 +77,13 @@ export class SupervisorRegistroChoferPage {
         chofer.id_usuario = authOk.user.uid;
      	  await this.chofer.actualizarChofer(chofer);
 
-        this.utils.showToast('REGISTRO EXITOSO !');
+        this.utils.showToast('REGISTRO EXITOSO !','success');
         this.navCtrl.setRoot(SupervisorListaUsuariosPage);
 
     }catch(e){
         this.utils.dismissLoading();
         console.log('error ',e.message);
-        this.utils.showAlert('Atención ! ',e.message);
+        this.utils.showToast('Atención ! '+e.message,'success');
     }
 
   }
@@ -95,7 +95,7 @@ export class SupervisorRegistroChoferPage {
         this.viewImage = 'data:image/jpeg;base64,'+this.image;
     }catch(e){
         console.log(e.message);
-        this.utils.showAlert('Atención ! ',e.message);
+        this.utils.showToast('Atención ! '+e.message,'success');
     }
   }
 
