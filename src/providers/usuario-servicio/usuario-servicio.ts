@@ -59,17 +59,11 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
-      //RETORNO
-      let usuarios:Usuario[] = [];
       console.log("METODO: Traer usuarios");
       //TRAER DATOS
-      this.usuarios.forEach((value)=>{
-        for(let user of value){
-          let usuario:Usuario = new Usuario(user);
-          usuarios.push(usuario);
-        }
+      this.usuarios.subscribe( usuarios => {
         resolve(usuarios);
-      })
+      }, error => reject(error));
     });
     return promesa;
   }
