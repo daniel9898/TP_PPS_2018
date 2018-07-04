@@ -34,7 +34,7 @@
   </ion-item>
   <ion-item>
     <ion-label stacked>Año</ion-label>
-    <ion-datetime id="ano" name="ano" #ano="ngModel" min="1995" displayFormat="YYYY" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano" required></ion-datetime>
+    <ion-datetime id="ano" name="ano" #ano="ngModel" min="1995" displayFormat="YYYY" doneText="Listo" cancelText="Cancelar" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano" required></ion-datetime>
   </ion-item>
   <ion-item [hidden]="!(vehiculo.ano > 1994 && vehiculo.ano < 2016)">
     <ion-label stacked>Patente</ion-label>

@@ -98,6 +98,7 @@ export class PerfilPage {
 
       //CARGAR PERFIL DE USUARIO SELECCIONADO
       }else{
+        this.mostrarSpinner = true;
         this.usuario = this.navParams.get('userSelected');
         this.vistaExterna = this.navParams.get('profile');
         this.copy_user = new Usuario(this.usuario);
@@ -143,17 +144,29 @@ export class PerfilPage {
   }
 
   //MENU OPCIONES
-  accionMenu(event, fab:FabContainer, opcion:string){
-    fab.close();
+  accionMenu(event, opcion:string, fab?:FabContainer){
+    if(fab)
+      fab.close();
+
     switch(opcion){
-      case "modificar":
+      case "activar_modificar":
       this.activar_modificar();
       break;
       case "modificarClave":
-      this.presentPopover(event);
+      this.presentPopover(event, 'cambiarClave', "modificar_clave");
       break;
       case "borrar":
-      this.borrar();
+        if(!this.vistaSupervisor)
+          this.presentPopover(event, 'insertarClave', "borrar_usuario");
+        else
+          this.borrar("nada");
+      break;
+      case "guardar":
+        this.usuario.correo = this.registroForm.value.userEmail;
+        if(this.usuario.correo != this.copy_user.correo)
+          this.presentPopover(event, 'insertarClave', "modificar_correo");
+        else
+          this.guardar();
       break;
     }
   }
@@ -166,20 +179,24 @@ export class PerfilPage {
     }
     else{
       this.modificar = false;
+      this.cambios = false;
       this.traer_usuario();
     }
   }
 
   //POPOVER - CLAVE
-  presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(PopoverClavePage);
+  presentPopover(myEvent, accion:string, opcion:string) {
+    let popover = this.popoverCtrl.create(PopoverClavePage, {opcion:accion});
     popover.present({
       ev: myEvent
     });
     popover.onDidDismiss((data)=>{
       if(data){
-        console.log("DATA: " + JSON.stringify(data));
-        this.modificarClave(data);
+        switch(opcion){
+          case "modificar_clave": this.modificarClave(data); break;
+          case "borrar_usuario": this.borrar(data); break;
+          case "modificar_correo": this.validar_guardar(data); break;
+        }
       }
     })
   }
@@ -204,30 +221,33 @@ export class PerfilPage {
   }
 
   //BORRAR
-  borrar(){
+  borrar(pass:string){
 
     //USUARIO QUE BORRA SU CUENTA
     this.mostrarSpinner = true;
     if(!this.vistaSupervisor){
-      this._auth.delete_userAccount()
-      .then(()=>{
-        console.log("OK: usuario eliminado de authentication");
-      })
-      .catch((error)=>{
-        console.log("Error al eliminar usuario de Authentication" + error);
-      })
-      .then(()=>{
-        this._usuarioServicio.baja_usuario(this.usuario.key)
-        .then(()=>{
-              console.log("OK: usuario eliminado de database");
-              this.mostrarSpinner = false;
-              this.mostrarAlerta("Usuario eliminado!");
-              this.navCtrl.setRoot(LoginPage);
+      this._auth.reauthenticate_user(pass)
+        .then((data)=>{
+          this._auth.delete_userAccount()
+          .then(()=>{
+            console.log("OK: usuario eliminado de authentication");
+          })
+          .catch((error)=>{console.log("Error al eliminar usuario de Authentication" + error);})
+          .then(()=>{
+            this._usuarioServicio.baja_usuario(this.usuario.key)
+            .then(()=>{
+                  console.log("OK: usuario eliminado de database");
+                  this.mostrarSpinner = false;
+                  this.mostrarAlerta("Usuario eliminado!");
+                  this.navCtrl.setRoot(LoginPage);
+            })
+          }).catch((error)=>{console.log("Error al borrar usuario de database" + error);});
         })
-      })
-      .catch((error)=>{
-        console.log("Error al borrar usuario de database" + error);
-      });
+        .catch((error)=>{
+          console.log("Error al intentar cambiar clave: " + error);
+          this.mostrarSpinner = false;
+          this.mostrarAlerta("Clave inválida");
+        })
     }
 
     //SUPER* QUE BORRA CUENTA DE TERCERO
@@ -242,8 +262,6 @@ export class PerfilPage {
         console.log("Error al borrar usuario de database: " + error);
       })
     }
-
-
   }
 
   //CAMBIAR FOTO
@@ -261,6 +279,20 @@ export class PerfilPage {
     });
   }
 
+  //VALIDAR_GUARDAR
+  validar_guardar(pass:string){
+  this.mostrarSpinner = true;
+  this._auth.reauthenticate_user(pass)
+    .then((data)=>{
+      this.guardar();
+    })
+    .catch((error)=>{
+      console.log("Error al intentar cambiar clave: " + error);
+      this.mostrarSpinner = false;
+      this.mostrarAlerta("Clave inválida");
+    })
+  }
+
   //ACCIÓN GUARDAR
   guardar(){
 
@@ -268,16 +300,15 @@ export class PerfilPage {
     this.usuario.correo = this.registroForm.value.userEmail;
     this.usuario.nombre = this.registroForm.value.userName;
     this.usuario.edad   = this.registroForm.value.userAge;
+    //SI EL USUARIO TIENE NUEVO CORREO
+    this.guardar_nuevoCorreo().then(()=>{
     //SI EL USUARIO TIENE NUEVA FOTO
-    this.guardar_nuevaFoto().then(()=>{
-     //SI EL USUARIO TIENE NUEVO CORREO
-      this.guardar_nuevoCorreo().then(()=>{
-      //SI EL USUARIO SOLO MODIFICO DATOS
+      this.guardar_nuevaFoto().then(()=>{
+    //SI EL USUARIO SOLO MODIFICO DATOS
         this.guardar_datos();
       })
     })
   }
-
   //MODIFICAR USUARIO EN STORAGE + AUTH
   guardar_nuevaFoto(){
 
@@ -344,6 +375,7 @@ export class PerfilPage {
         this.mostrarSpinner = false;
         this.mostrarAlerta("Cambios realizados con éxito");
         this.modificar = false;
+        this.cambios = false;
         this.traer_usuario();
       })
       .catch((error)=>{

@@ -33,6 +33,7 @@ import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-im
 import { ChoferProvider } from '../providers/chofer/chofer';
 import { DateTimeProvider } from '../providers/date-time/date-time';
 
+
 //DIRECTIVAS
 import { DirectivesModule } from '../directives/directives.module';
 
@@ -44,7 +45,8 @@ import {
   ClienteEncuestasPage,
   ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
   SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
+  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage,
+  SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
 } from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 import { ReservasProvider } from '../providers/reservas/reservas';
@@ -61,8 +63,6 @@ import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
 import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
 import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
-
-
 import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
 
 @NgModule({
