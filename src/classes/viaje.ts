@@ -48,7 +48,10 @@ export const Viaje_texto = {
     origen: "Origen",
     destino: "Destino",
     distancia: "Distancia",
-    precio: "Precio"
+    precio: "Precio",
+    hora: "Hora",
+    button_ok: "Listo",
+    button_cancel: "Cancelar"
   },
   msj_final:{
     titulo: "FIN DEL RECORRIDO",
