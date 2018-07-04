@@ -4,6 +4,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { barCodeScanTextES } from '../../../assets/data/textos';
 
 @IonicPage()
 @Component({
@@ -54,9 +56,10 @@ export class SupervisorInicioPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public _auth: AuthServicioProvider,
-    public usuarioSrv: UsuarioServicioProvider,
-    public viajesSrv: ViajeServicio) {
+    private _auth: AuthServicioProvider,
+    private usuarioSrv: UsuarioServicioProvider,
+    private viajesSrv: ViajeServicio,
+    private barcodeScanner: BarcodeScanner) {
 
     this.user_perfil = this._auth.get_userProfile();
     this.user_photo = this._auth.get_userPhoto();
@@ -94,6 +97,24 @@ export class SupervisorInicioPage {
 
   public chartHovered(e: any): void {
     console.log(e);
+  }
+
+  scanCode() {
+    var options = {
+      preferFrontCamera: false, // iOS and Android
+      showFlipCameraButton: true, // iOS and Android
+      showTorchButton: true, // iOS and Android
+      saveHistory: true, // Android, save scan history (default false)
+      prompt: barCodeScanTextES, // Android
+      resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
+      disableSuccessBeep: false // iOS and Android
+    }
+    this.barcodeScanner.scan(options).then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+      console.log(barcodeData);
+    }).catch(err => {
+      console.log('Error', err);
+    });
   }
 
 }
