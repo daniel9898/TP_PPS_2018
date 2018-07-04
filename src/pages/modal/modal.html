@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Detalle del viaje
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text color="primary" showWhen="ios">Cancelar</span>
+        <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="http://www.theargonath.cc/characters/gollum/pictures/gollum27.jpg">
+        </ion-avatar>
+        <h2>Alberto Gomez</h2>
+        <p>Lomas de Zamora</p>
+      </ion-item>
+
+      <ion-item>
+        Monto a abonar : 
+        <ion-note item-end>
+        $ {{viaje.precio}} 
+        </ion-note>
+      </ion-item>
+      <ion-item>
+         Distancia Recorrida :
+        <ion-note item-end>
+         {{viaje.distancia}} klmts.
+        </ion-note>
+      </ion-item>
+  </ion-list>
+</ion-content>
