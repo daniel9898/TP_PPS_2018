@@ -14,13 +14,13 @@ page-cliente-viaje {
 
   .map-full-card-content {
     position:sticky;
-    height: 100% !important;
+    height: 60% !important;
     width: 100%;
     margin: 0;
   }
 
   agm-map {
-    height: 60%;
+    height: 100%;
   }
 
   .iconTravel{

@@ -121,7 +121,7 @@ export class ClienteViajePage {
                 });
             }
             // CALCULAR DISTANCIA Y MOSTRAR MAPA
-            if(this.viaje.origen != "N/N" && this.viaje.destino != "N/N"){
+            if(this.viaje.origen != "*****" && this.viaje.destino != "*****"){
               //Refrescar marcadores
               this.markers = [this.origen_marker, this.destino_marker];
               //Tomar distancia
@@ -174,12 +174,12 @@ export class ClienteViajePage {
       id_cliente: this.usuario.id_usuario,
       id_chofer:"N/N",
       id_vehiculo:"N/N",
-      fecha:"N/N",
-      hora:"N/N",
+      fecha:this.fecha,
+      hora:this.hora,
       cod_fecha: new Date().valueOf().toString(),
-      origen: "N/N",
+      origen: "*****",
       origen_coord:[1,1],
-      destino:"N/N",
+      destino:"*****",
       destino_coord:[1,1],
       distancia: 0,
       precio: 0,
@@ -193,8 +193,6 @@ export class ClienteViajePage {
   //GENERAR FECHA
   generar_fecha(){
     let currentDate = new Date();
-    //console.log("FECHA completa: " + currentDate);
-    //this.fecha = currentDate.getDate()+'/'+(currentDate.getMonth() + 1)+'/'+currentDate.getFullYear();
     this.fecha = currentDate.getFullYear()+'-'+(currentDate.getMonth()<10?'0':'').toString()+(currentDate.getMonth() + 1)+'-'+(currentDate.getDate()<10?'0':'').toString()+currentDate.getDate();
     console.log("Fecha: " + this.fecha);
     this.hora = currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();

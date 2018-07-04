@@ -62,7 +62,15 @@
       </ion-item>
 
       <!-- HORARIO DE SALIDA -->
-
+      <ion-item class="input_direccion">
+        <ion-label>{{texto.label.hora}}</ion-label>
+        <ion-avatar item-start>
+          <img src="assets/imgs/clock.png">
+        </ion-avatar>
+        <ion-datetime id="hora" name="hora" [(ngModel)]="viaje.hora" [min]="hora"
+                      [doneText]="texto.label.button_ok" cancelText="" displayFormat="HH:mm" pickerFormat="HH:mm"
+          required></ion-datetime>
+      </ion-item>
     </ion-grid>
 
   </div>
