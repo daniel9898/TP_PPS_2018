@@ -28,9 +28,9 @@
 			<ion-input [disabled]="true" type="text" value="{{ viaje.hora }}"></ion-input>
 		</ion-item>
    
-        
-	  <button ion-button block icon-end>Ver Mapa</button>
-	  <button ion-button block icon-end (click)="modificarEstado('en curso')">En Curso</button>
-	  <button ion-button block icon-end (click)="modificarEstado('cumplido')">Cumplido</button>
+      
+	  <button ion-button block icon-end color="danger" (click)="modificarEstado('pendiente')">Cancelar</button>
+	  <button ion-button block icon-end color="primary" (click)="modificarEstado('en curso')">En Curso</button>
+	  <button ion-button block icon-end color="secondary" (click)="modificarEstado('cumplido')">Cumplido</button>
     
 </ion-content>
