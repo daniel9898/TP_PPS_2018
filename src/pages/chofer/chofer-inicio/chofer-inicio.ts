@@ -33,7 +33,7 @@ export class ChoferInicioPage {
 
     this.vehiculosProv.getListaVehiculos().subscribe(
       lista => this.vehiculos = lista,
-      error => this.utils.showAlert('Atención !',error.json())
+      error => this.utils.showToast('Atención ! '+error.json(),'error')
     )
   }
 
@@ -55,7 +55,7 @@ export class ChoferInicioPage {
         });
 
         console.log('this.vehiculoAsignado', this.vehiculoAsignado);
-        if(!this.asignado) { this.utils.showAlert('Atención !','Vehiculo no disponible o codigo incorrecto, reintente.') }
+        if(!this.asignado) { this.utils.showToast('Atención ! Vehiculo no disponible o codigo incorrecto, reintente.','error') }
 
     }catch(e){
       console.log(e);
@@ -69,7 +69,7 @@ export class ChoferInicioPage {
            await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
         }
     }catch(e){
-       this.utils.showAlert('Atención : ',e.message);
+       this.utils.showToast('Atención : '+e.message,'error');
     }
 
   }
@@ -81,6 +81,7 @@ export class ChoferInicioPage {
 
   async actualizarDisponibilidad(key: string, vehiculo: vehiculo){ 
      this.vehiculosProv.updateItem(key,vehiculo);
+     this.utils.showToast('Vehiculo Asignado correctamente !','success');
   }
 
   listadoDeViajes(){

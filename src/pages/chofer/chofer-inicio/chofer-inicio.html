@@ -1,17 +1,25 @@
 
-<ion-header>
+<ion-header class="heade">
 
   <ion-navbar>
-    <ion-title>Principal</ion-title>
+    <ion-title><ion-icon>PRINCIPAL</ion-icon></ion-title>
   </ion-navbar>
 
 </ion-header>
 
-<ion-content padding>
+<ion-content padding class="masters">
  <button ion-button block icon-end (click)="comenzarActividad()" [disabled]="asignado">
  	Comenzar Actividad
    <ion-icon ios="ios-car" md="md-car"></ion-icon>
  </button>
+
+
+<ion-slides *ngIf="!asignado">
+  <ion-slide>
+    <img src="assets/imgs/inicio_chofer.gif"/>
+  </ion-slide>
+</ion-slides>
+
 
 	<ion-card *ngIf="asignado">
 	  <ion-card-title padding>Vehiculo Asignado : </ion-card-title>
