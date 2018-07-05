@@ -25,15 +25,15 @@ export class UtilidadesProvider {
     alert.present();
   }
 
-  showToast(msg : string, dismissFunction?: any) {
+  showToast(msg : string, type:string) {
      
     let toast = this.toastCtrl.create({
       message: msg,
-      duration: 3000,
+      duration: 6000,
       position: 'top',
-      cssClass: './toast.scss'
+      cssClass:  type == 'success' ? './toast.scss' : './error.scss'
     });
-    toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
+    
     
     toast.present();
   }

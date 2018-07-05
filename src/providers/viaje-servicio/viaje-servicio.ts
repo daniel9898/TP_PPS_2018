@@ -27,7 +27,7 @@ export class ViajeServicio {
           map(changes =>
             changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
           )
-        );
+        )
     }
 
     /**
@@ -137,6 +137,10 @@ export class ViajeServicio {
          //     console.log("Estado del viaje: " + item.estado);
          //   })
          // })
+    }
+
+    traerViajes(){
+        return this.viajes;
     }
 
 }

@@ -26,7 +26,7 @@ export class SupervisorRegistroChoferPage {
 
   constructor(public navCtrl: NavController,
   	          private fb: FormBuilder,
-              private chofer: ChoferProvider,
+              private _chofer: ChoferProvider,
               public camera: Camera,
               public usrFoto: UsuarioImagenProvider,
               public utils: UtilidadesProvider,
@@ -71,19 +71,19 @@ export class SupervisorRegistroChoferPage {
 
         delete chofer.clave;
 
-     	  let keyUser = await this.chofer.altaDb(chofer);
+     	  let keyUser = await this._chofer.altaDb(chofer);
         chofer.key = keyUser;
 
         chofer.id_usuario = authOk.user.uid;
-     	  await this.chofer.actualizarChofer(chofer);
+     	  await this._chofer.actualizarChofer(chofer);
 
-        this.utils.showToast('REGISTRO EXITOSO !');
+        this.utils.showToast('REGISTRO EXITOSO !','success');
         this.navCtrl.setRoot(SupervisorListaUsuariosPage);
 
     }catch(e){
         this.utils.dismissLoading();
         console.log('error ',e.message);
-        this.utils.showAlert('Atención ! ',e.message);
+        this.utils.showToast('Atención ! '+e.message,'success');
     }
 
   }
@@ -95,7 +95,7 @@ export class SupervisorRegistroChoferPage {
         this.viewImage = 'data:image/jpeg;base64,'+this.image;
     }catch(e){
         console.log(e.message);
-        this.utils.showAlert('Atención ! ',e.message);
+        this.utils.showToast('Atención ! '+e.message,'success');
     }
   }
 
