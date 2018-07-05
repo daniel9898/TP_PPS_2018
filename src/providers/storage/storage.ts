@@ -25,7 +25,7 @@ export class StorageProvider {
     const promesa = new Promise<string>((resolve, reject) => {
       // const foto = `data:image/jpeg;base64,${base64}`;
       const imageRef: AngularFireStorageReference = this.ref.child(path);
-      const task: AngularFireUploadTask = imageRef.putString(base64, 'data_url');
+      const task: AngularFireUploadTask = imageRef.putString(base64,'base64', { contentType:'image/jpeg'});
       task.snapshotChanges().pipe(
         finalize(() => {
           imageRef.getDownloadURL()
