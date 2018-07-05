@@ -15,6 +15,7 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
 
 @Component({
   templateUrl: 'app.html'
@@ -113,7 +114,8 @@ export class MyApp {
             { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_supervisor },
             { title: 'Lista usuarios', component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
             { title: 'Lista vehiculos', component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
-            { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_supervisor }
+            { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_supervisor },
+            { title: 'Viajes/Reservas', component: SupervisorViajesReservasPage, visibility: this.vista_supervisor },
           ];
 
         } else {
