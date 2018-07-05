@@ -106,6 +106,12 @@
 //Toast para mensajes de errores
 .error-toast {
   .toast-wrapper {
-    background-color: rgba(197, 0, 0, 0.5);
+    background-color: rgba(197, 0, 0, 0.61);
+  }
+}
+
+.warning-toast{
+  .toast-wrapper {
+    background-color: rgba(197, 177, 0, 0.61);
   }
 }
