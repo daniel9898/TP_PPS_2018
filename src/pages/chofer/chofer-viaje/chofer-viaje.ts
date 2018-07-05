@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams,ModalController } from 'ionic-angular';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import { Viaje } from '../../../classes/viaje';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 //import { Subscription } from 'rxjs/Subscription';
-import * as firebase from 'firebase/app';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @IonicPage()
