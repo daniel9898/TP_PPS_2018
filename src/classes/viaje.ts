@@ -72,6 +72,10 @@ export const Viaje_texto = {
     cumplido:"Viaje finalizado",
     cancelado_cliente: "Viaje cancelado",
     cancelado_sistema: "Viaje cancelado por sistema"
+  },
+  qr_msj:{
+    inaccesible: "Acceso no disponible",
+    desconocido: "Código desconocido"
   }
 
 }
