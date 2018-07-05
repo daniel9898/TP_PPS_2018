@@ -92,14 +92,20 @@
 }
 
 
-.error-toast {
-  .toast-container {
-    .toast-message {
-        text-align: center;
-    }
+//Toast general
+.toast-container {
+  .toast-message {
+      text-align: center;
   }
+}
+
+.toast-wrapper {
+  border-radius: 10px;
+}
+
+//Toast para mensajes de errores
+.error-toast {
   .toast-wrapper {
-    border-radius: 10px;
     background-color: rgba(197, 0, 0, 0.5);
   }
 }
