@@ -36,6 +36,18 @@ export class UtilidadesProvider {
     toast.present();
   }
 
+  public showErrorToast(msg : string, dismissFunction?: any) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      // showCloseButton:true,
+      position: 'top',
+      cssClass:'error-toast'
+    });
+    toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
+    toast.present();
+  }
+
 
   /**
    * Muestra toast pasando opciones
