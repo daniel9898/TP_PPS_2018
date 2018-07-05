@@ -48,6 +48,18 @@ export class UtilidadesProvider {
     toast.present();
   }
 
+  public showWarningToast(msg : string, dismissFunction?: any) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      // showCloseButton:true,
+      position: 'top',
+      cssClass:'warning-toast'
+    });
+    toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
+    toast.present();
+  }
+
 
   /**
    * Muestra toast pasando opciones
