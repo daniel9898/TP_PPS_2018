@@ -153,7 +153,7 @@ export class ClienteViajePage {
   //TRAER UN USUARIO
   traer_usuario(uid:string, usuario:string){
     this.mostrarSpinner = true;
-    return this._userService.traer_un_usuario(uid)
+    return this._userService.traerUsuario(uid)
             .then((user:any)=>{
               console.log("Usuario: " + JSON.stringify(user));
               if(usuario == "cliente")
@@ -446,6 +446,7 @@ export class ClienteViajePage {
               this.boton_cancelar = false;
               this.boton_qr = false;
               this.mostrarDatos_chofer = false;
+              this.mostrarPrecio = false;
               this.generar_viaje_default();
               this.mostrarSpinner = false;
             })
@@ -468,6 +469,8 @@ export class ClienteViajePage {
             this.boton_cancelar = false;
             this.mostrarMapa = false;
             this.mostrarDatos_chofer = false;
+            this.mostrarPrecio = false;
+            this.mostrarMsjMedio = false;
             this.mostrarSpinner = false;
             this.mostrarAlerta(this.texto.estados.cancelado_cliente);
           })
@@ -495,25 +498,26 @@ export class ClienteViajePage {
 
       this._qrScanner.lector_qr()
         .then((texto)=>{
-
+          console.log("Texto capturado: " + texto);
+          console.log("Id vehiculo del chofer: " + this.chofer.id_vehiculo);
           switch(texto){
             //QR PARA ENCUESTA
             case "encuesta_qr":
-            if(this.viaje.estado == "cumplido")
-              this.ir_encuesta();
-            else
-              this.mostrarAlerta("Acceso no disponible");
+              if(this.viaje.estado == "cumplido")
+                this.ir_encuesta();
+              else
+                this.mostrarAlerta(this.texto.qr_msj.inaccesible);
             break;
             //QR PARA DATOS DEL CHOFER
-            case "accion_qr":
-            if(this.viaje.estado != "pendiente")
-              this.ir_datos_chofer();
-            else
-              this.mostrarAlerta("Acceso no disponible");
+            case this.viaje.id_vehiculo.toString().trim():
+              if(this.viaje.estado != "pendiente")
+                this.ir_datos_chofer();
+              else
+                this.mostrarAlerta(this.texto.qr_msj.inaccesible);
             break;
             //QR DESCONOCIDO
             default:
-            this.mostrarAlerta("Código desconocido");
+            this.mostrarAlerta(this.texto.qr_msj.desconocido);
             break;
           }
 
