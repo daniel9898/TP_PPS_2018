@@ -8,6 +8,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { barCodeScanTextES } from '../../../assets/data/textos';
 import { patentes } from '../../../assets/data/textosQR';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { SupervisorEncuestaPage } from '../../index-paginas';
 
 @IonicPage()
 @Component({
@@ -105,7 +106,7 @@ export class SupervisorInicioPage {
   }
 
   scanCode() {
-    var options = {
+    const options = {
       preferFrontCamera: false, // iOS and Android
       showFlipCameraButton: true, // iOS and Android
       showTorchButton: true, // iOS and Android
@@ -115,21 +116,22 @@ export class SupervisorInicioPage {
       disableSuccessBeep: false // iOS and Android
     }
     this.barcodeScanner.scan(options).then(barcodeData => {
-      const text:string = barcodeData.text;
-      if(patentes.filter(value => value === text).length > 0){
-        if(this.choferesDisponibles.filter(c => c.id_vehiculo === text).length > 0){
-
+      const text: string = barcodeData.text;
+      if (patentes.filter(value => value === text).length > 0) {
+        if (this.choferesDisponibles.filter(c => c.id_vehiculo === text).length > 0) {
+          const chofer = this.choferesDisponibles.filter(c => c.id_vehiculo === text)[0];
+          this.navCtrl.push(SupervisorEncuestaPage, { chofer: chofer });
         }
         else {
           //No hay choferes diponibles
-
+          this.utilidades.showWarningToast("No hay choferes disponibles para ese vehículo");
         }
       }
-      else{
+      else {
         //No es un codigo válido
         this.utilidades.showErrorToast("No es un codigo valido");
       }
-      
+
     }).catch(err => {
       console.log('Error', err);
     });
