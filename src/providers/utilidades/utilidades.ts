@@ -25,16 +25,28 @@ export class UtilidadesProvider {
     alert.present();
   }
 
-  showToast(msg : string, dismissFunction?: any) {
+  public showToast(msg : string, dismissFunction?: any) {
      
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
       position: 'top',
-      cssClass: './toast.scss'
     });
     toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
-    
+    toast.present();
+  }
+
+
+  /**
+   * Muestra toast pasando opciones
+   * @param msg Mensaje del toast
+   * @param options Opciones (sin el mensaje)
+   * @param dismissFunction Función de cuando finaliza el toats
+   */
+  public showToastOtps(msg: string, options: any, dismissFunction?: any){
+    let toast = this.toastCtrl.create(options);
+    toast.setMessage(msg);
+    toast.onDidDismiss((dismissFunction) ? dismissFunction() : null );
     toast.present();
   }
 
