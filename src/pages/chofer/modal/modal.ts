@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams, NavController, ViewController } from 'ionic-angular';
 //PAGINAS
-import { ChoferInicioPage } from '../../../pages/index-paginas';
+import { ListaViajesPage } from '../lista-viajes/lista-viajes';
 
 @IonicPage()
 @Component({
@@ -24,11 +24,8 @@ export class ModalPage {
       console.log('cliente en modal', this.cliente)
   }
 
-
-
   dismiss() {
-    this.viewCtrl.dismiss();
-    this.navCtrl.setRoot(ChoferInicioPage);
+    this.navCtrl.setRoot(ListaViajesPage);
   }
 
 }
