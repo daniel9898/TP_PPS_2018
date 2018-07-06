@@ -27,7 +27,7 @@ export class ChoferInicioPage {
     public vehiculosProv: VehiculosProvider,
     public userProv: UsuarioServicioProvider,
     private barcodeScanner: BarcodeScanner,
-    public menu: MenuController, ) {
+    public menu: MenuController) {
 
     this.usuarioSesion = firebase.auth().currentUser;
 

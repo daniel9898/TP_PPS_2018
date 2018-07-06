@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, ViewController } from 'ionic-angular';
 //CLASE
 import { Encuesta_chofer, Encuesta_texto } from '../../../classes/encuesta_chofer';
 //SERVICIO
@@ -7,7 +7,6 @@ import { ChoferEncuestaProvider } from '../../../providers/chofer-encuesta/chofe
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
-import { ListaViajesPage } from '../../../pages/index-paginas';
 
 @Component({
   selector: 'page-chofer-encuesta',
@@ -34,6 +33,7 @@ export class ChoferEncuestaPage {
               public navParams: NavParams,
               public toastCtrl: ToastController,
               private camera: Camera,
+              private viewCtrl: ViewController,
               private _encuestaService:ChoferEncuestaProvider) {
 
     if(this.navParams.get('chofer') != undefined){ this.chofer = this.navParams.get('chofer')};
@@ -121,6 +121,7 @@ export class ChoferEncuestaPage {
 
       console.log('Encuesta : ',this.encuesta);
       this.guardar_encuesta();
+      this.viewCtrl.dismiss();
    
     })
 
@@ -141,7 +142,7 @@ export class ChoferEncuestaPage {
                  console.log("Cambios guardados!");
 	             this.mostrarSpinner = false;
 	             this.mostrarAlerta("Cambios realizados con éxito");
-	             this.navCtrl.push(ListaViajesPage,{vehiculo: this.vehiculo});
+	             this.viewCtrl.dismiss();
 
             })
             .catch((error)=>{
@@ -195,7 +196,7 @@ export class ChoferEncuestaPage {
   }
 
   cancelar(){
-    this.navCtrl.pop();
+    this.viewCtrl.dismiss();
   }
 
 }

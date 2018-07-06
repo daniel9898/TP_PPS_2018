@@ -69,6 +69,7 @@ import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-
 import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
+import { ChoferInicioFullPage } from '../pages/chofer/chofer-inicio-full/chofer-inicio-full';
 
 @NgModule({
   declarations: [
@@ -96,6 +97,7 @@ import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-list
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
     ListaViajesPage,
+    ChoferInicioFullPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -156,6 +158,7 @@ import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-list
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
     ListaViajesPage,
+    ChoferInicioFullPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,

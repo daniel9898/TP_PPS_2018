@@ -16,6 +16,7 @@ import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-r
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { ChoferInicioFullPage } from '../pages/chofer/chofer-inicio-full/chofer-inicio-full';
 
 @Component({
   templateUrl: 'app.html'
@@ -74,7 +75,7 @@ export class MyApp {
             this.vista_cliente = false;
             this.vista_chofer = true;
             this.vista_supervisor = false;
-            this.rootPage = ChoferInicioPage;
+            this.rootPage = ChoferInicioFullPage;
             break;
             case "supervisor":
             case "superusuario":
@@ -95,7 +96,7 @@ export class MyApp {
             { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_cliente },
             { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_cliente },
             //PAGINAS CHOFER (6)
-            { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
+            { title: 'Inicio', component: ChoferInicioFullPage, visibility: this.vista_chofer },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },
             { title: 'Pedir viaje', component: ClienteViajePage, visibility: this.vista_chofer },
             { title: 'Viaje en Curso', component: ChoferViajePage, visibility: this.vista_chofer },
