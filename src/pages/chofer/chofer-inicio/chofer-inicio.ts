@@ -17,76 +17,82 @@ import { vehiculo } from '../../../classes/vehiculo.model';
 })
 export class ChoferInicioPage {
 
-  usuarioSesion:any;
+  usuarioSesion: any;
   asignado: boolean;
   vehiculos: any;
-  vehiculoAsignado : any;
+  vehiculoAsignado: any;
 
   constructor(public navCtrl: NavController,
-              public utils: UtilidadesProvider,
-              public vehiculosProv :VehiculosProvider,
-              public userProv: UsuarioServicioProvider,
-              private barcodeScanner: BarcodeScanner,
-              public menu: MenuController,) {
-        
+    public utils: UtilidadesProvider,
+    public vehiculosProv: VehiculosProvider,
+    public userProv: UsuarioServicioProvider,
+    private barcodeScanner: BarcodeScanner,
+    public menu: MenuController, ) {
+
     this.usuarioSesion = firebase.auth().currentUser;
 
     this.vehiculosProv.getListaVehiculos().subscribe(
       lista => this.vehiculos = lista,
-      error => this.utils.showToast('Atención ! '+error.json(),'error')
+      error => this.utils.showErrorToast('Atención ! ' + error.json())
     )
   }
 
-  async comenzarActividad(){
+  async comenzarActividad() {
 
-    console.log('vehiculos',this.vehiculos);
+    console.log('vehiculos', this.vehiculos);
 
-    try{
-        this.asignado = false;
-        let barcodeData = await this.barcodeScanner.scan();
-        console.log('Barcode data', barcodeData);
-
-        this.vehiculos.map(v => {
-          if(barcodeData.text == v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado){
-             this.vehiculoAsignado = v;
-             this.asignado = true;
-             throw 'break';
+    try {
+      this.asignado = false;
+      this.barcodeScanner.scan().then(value => {
+        this.vehiculosProv.getListaVehiculos().subscribe(vehiculos => {
+          const result = (vehiculos.filter(v => value.text === v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado).length > 0);
+          console.log(result);
+          if (result) {
+            const vehiculo = vehiculos.filter(v => value.text == v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado)[0];
+            console.log(vehiculos);
+            vehiculo.vehiculo.ocupado = true;
+            this.vehiculoAsignado = vehiculo;
+            this.asignado = true;
+            this.vehiculosProv.updateItem(vehiculo.key, vehiculo.vehiculo);
+            this.asignarVehiculo();
+          }
+          else {
+            console.log('this.vehiculoAsignado', this.vehiculoAsignado);
+            this.utils.showWarningToast('Atención ! Vehiculo no disponible o codigo incorrecto, reintente.');
           }
         });
-
-        console.log('this.vehiculoAsignado', this.vehiculoAsignado);
-        if(!this.asignado) { this.utils.showToast('Atención ! Vehiculo no disponible o codigo incorrecto, reintente.','error') }
-
-    }catch(e){
+        console.log('Barcode data', value);
+      });
+    } catch (e) {
       console.log(e);
     }
 
-    try{
-        if(this.asignado){
-           this.menu.enable(false);
-           await this.asignarVehiculo();
-           this.vehiculoAsignado.vehiculo.ocupado = true;
-           await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
-        }
-    }catch(e){
-       this.utils.showToast('Atención : '+e.message,'error');
+    try {
+      if (this.asignado) {
+        this.menu.enable(false);
+        await this.asignarVehiculo();
+        this.vehiculoAsignado.vehiculo.ocupado = true;
+        await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
+      }
+    } catch (e) {
+      this.utils.showErrorToast('Atención : ' + e.message);
     }
 
   }
 
-  async asignarVehiculo(){
-    this.userProv.asignarVehiculo(this.usuarioSesion.uid,this.vehiculoAsignado.vehiculo.patente);
+  asignarVehiculo() {
+    this.userProv.asignarVehiculo(this.usuarioSesion.uid, this.vehiculoAsignado.vehiculo.patente);
   }
   //FALTA VER EN QUE MOMENTO SE LIBERA 
 
-  async actualizarDisponibilidad(key: string, vehiculo: vehiculo){ 
-     this.vehiculosProv.updateItem(key,vehiculo);
-     this.utils.showToast('Vehiculo Asignado correctamente !','success');
+  async actualizarDisponibilidad(key: string, vehiculo: vehiculo) {
+    this.vehiculosProv.updateItem(key, vehiculo);
+    this.utils.showToast('Vehiculo Asignado correctamente !', 'success');
   }
 
-  listadoDeViajes(){
+  listadoDeViajes() {
     //this.navCtrl.setRoot(ListaViajesPage);
-    this.navCtrl.push(ChoferEncuestaPage,{vehiculo:this.vehiculoAsignado,chofer:this.usuarioSesion});
+    this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.vehiculoAsignado, chofer: this.usuarioSesion });
   }
 
 
