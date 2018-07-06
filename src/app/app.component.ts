@@ -16,6 +16,7 @@ import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-r
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { SonidosProvider } from '../providers/sonidos/sonidos';
 
 @Component({
   templateUrl: 'app.html'
@@ -39,7 +40,8 @@ export class MyApp {
               public menu: MenuController,
               public auth: AuthServicioProvider,
               public usuarioSrv: UsuarioServicioProvider,
-              public vehiculoSrv: VehiculosProvider) {
+              public vehiculoSrv: VehiculosProvider,
+              public _soundsServ:SonidosProvider) {
 
       this.inicializarApp();
 
@@ -53,6 +55,8 @@ export class MyApp {
       this.splashScreen.hide();
       timer(3000).subscribe(()=> {
         $('.splashScreen').addClass('animated fadeOutUp');
+        let sound = this._soundsServ.get_soundCar();
+        this._soundsServ.reproducirSonido(sound);
       });
 
     });

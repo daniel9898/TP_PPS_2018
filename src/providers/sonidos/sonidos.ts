@@ -10,6 +10,7 @@ export class SonidosProvider {
   error_sound:string = "assets/sounds/error_sound.mp3";
   warning_sound:string = "assets/sounds/warning_sound.mp3";
   success_sound:string = "assets/sounds/success_sound.mp3";
+  car_engine:string = "assets/sounds/car_start_engine.mp3";
 
   constructor() {
     console.log('Sonidos servicio');
@@ -25,6 +26,10 @@ export class SonidosProvider {
 
   get_soundSuccess(){
     return this.success_sound;
+  }
+
+  get_soundCar(){
+    return this.car_engine;
   }
 
   reproducirSonido(sound:string){
