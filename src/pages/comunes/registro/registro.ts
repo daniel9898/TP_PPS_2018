@@ -7,6 +7,7 @@ import { LoginPage } from '../../index-paginas';;
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @Component({
   selector: 'page-registro',
@@ -17,10 +18,6 @@ export class RegistroPage {
   mostrarSpinner:boolean = false;
   //FORMS
   registroForm:FormGroup;
-  //AUDIO
-  audio = new Audio();
-  error_sound:string = "assets/sounds/error_sound.mp3";
-  success_sound:string = "assets/sounds/success_sound.mp3";
   //NUEVO USUARIO
   userId:string;
   userEmail:string;
@@ -31,7 +28,8 @@ export class RegistroPage {
               public fbRegistration:FormBuilder,
               public toastCtrl: ToastController,
               public _usuarioServicio:UsuarioServicioProvider,
-              public _authServicio:AuthAdministradorProvider) {
+              public _authServicio:AuthAdministradorProvider,
+              public _utilitiesServ: UtilidadesProvider) {
 
     this.registroForm = this.fbRegistration.group({
 
@@ -76,7 +74,7 @@ export class RegistroPage {
                 this._usuarioServicio.modificar_usuario(newUser)
                 .then(()=>{
                   this.mostrarSpinner = false;
-                  this.mostrarAlerta("Cuenta creada");
+                  this._utilitiesServ.showToast("Cuenta creada");
                   this.volver();
                 })
                 .catch((error)=>{ console.log("Error al actualizar usuario en firebase: " + error); });
@@ -94,31 +92,15 @@ export class RegistroPage {
         //var errorMessage = error.message;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta no disponible");
+          this._utilitiesServ.showWarningToast("Cuenta no disponible");
           this.registroForm.reset();
           break;
           case "auth/invalid-email":
-          this.mostrarAlerta("Correo invalido");
+          this._utilitiesServ.showErrorToast("Correo invalido");
           break;
         }
         this.mostrarSpinner = false;
-        this.reproducirSonido(this.error_sound);
       })
-  }
-
-  reproducirSonido(sound:string){
-    this.audio.src = sound;
-    this.audio.load();
-    this.audio.play();
-  }
-
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   volver(){
