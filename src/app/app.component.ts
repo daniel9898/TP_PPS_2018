@@ -8,7 +8,7 @@ import * as $ from 'jquery';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
-         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage,//------------------------------------------CHOFER
+         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage, ChoferEstadisticaPage,//-------------------CHOFER
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
@@ -101,7 +101,7 @@ export class MyApp {
             { title: 'Viaje en Curso', component: ChoferViajePage, visibility: this.vista_chofer },
             { title: 'Ganancias', component: ChoferHistorialPage, visibility: this.vista_chofer },
             { title: 'Viajes pedidos', component: ClienteHistorialPage, visibility: this.vista_chofer },
-            { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_chofer },
+            { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
             { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
             { title: 'Reservas Pendientes', component: ListaViajesPage, visibility: this.vista_chofer },
             { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_chofer },
