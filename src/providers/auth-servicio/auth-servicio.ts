@@ -23,6 +23,10 @@ export class AuthServicioProvider {
     return this.user !== undefined;
   }
 
+  get authenticated_2():boolean{
+    return this.afAuth.user !== undefined;
+  }
+
   //Iniciar sesión (email + password)
   signInWithEmail(credentials) {
 		console.log('Sign in with email');
@@ -88,6 +92,10 @@ export class AuthServicioProvider {
 
   get_userUID(){
     return this.user.uid;
+  }
+
+  get_userUID_2(){
+    return this.afAuth.auth.currentUser.uid;
   }
 
   get_userProfile(){
