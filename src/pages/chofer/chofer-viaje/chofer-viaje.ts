@@ -52,12 +52,12 @@ export class ChoferViajePage {
     if (estado != 'cumplido') {
       this.utils.showToast('Viaje en Estado : ' + estado);
     } else {
-      // this.showModal();
+      this.showModal();
     }
   }
 
   showModal() {
-    let contactModal = this.modalCtrl.create('ModalPage', { viaje: this.viaje });
+    let contactModal = this.modalCtrl.create('ModalPage', { 'viaje': this.viaje, 'cliente':this.cliente });
     contactModal.present();
   }
 
