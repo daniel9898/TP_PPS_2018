@@ -9,6 +9,7 @@ import { Usuario } from '../../../classes/usuario';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //jQUERY
 import * as $ from 'jquery';
 
@@ -32,10 +33,6 @@ export class LoginPage {
   userNameTxt:string;
   userPassTxt:string;
   usuariosDePrueba:any[] = [];
-  //AUDIO
-  audio = new Audio();
-  error_sound:string = "assets/sounds/error_sound.mp3";
-  success_sound:string = "assets/sounds/success_sound.mp3";
 
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
@@ -43,7 +40,8 @@ export class LoginPage {
               public fbLogin:FormBuilder,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthServicioProvider,
-              public _authAdmin:AuthAdministradorProvider) {
+              public _authAdmin:AuthAdministradorProvider,
+              public _utilitiesServ: UtilidadesProvider) {
 
         //this.user = afAuth.authState;
         console.log("¿Sesión activa?: " + this._authServicio.authenticated);
@@ -156,16 +154,15 @@ export class LoginPage {
       .catch(error => { console.log('Error: al realizar signIn ',error.message);
       let errorCode = error.code;
       switch(errorCode){
-        case "auth/invalid-email":
         case "auth/wrong-password":
-        this.mostrarAlerta("Usuario y/o contraseña incorrecta");
+        this._utilitiesServ.showWarningToast("Usuario y/o contraseña incorrecta");
         break;
+        case "auth/invalid-email":
         case "auth/user-not-found":
-        this.mostrarAlerta("Cuenta inexistente");
+        this._utilitiesServ.showErrorToast("Cuenta inexistente");
         break;
       }
       this.mostrarSpinner = false;
-      this.reproducirSonido(this.error_sound);
       });
   }
 
@@ -200,8 +197,7 @@ export class LoginPage {
   usuario_inexistente(){ //Usuario borrado por supervisor (faltaba eliminar auth)
     console.log("El usuario fue eliminado!");
     this._authAdmin.delete_externalUserAccount();
-    this.reproducirSonido(this.error_sound);
-    this.mostrarAlerta("Cuenta inexistente");
+    this._utilitiesServ.showErrorToast("Cuenta inexistente");
     this.navCtrl.setRoot(LoginPage);
   }
 
@@ -224,31 +220,18 @@ export class LoginPage {
   // ACCIONES DE LOGUEO******************************************************//
   loguearse(){
     this._authServicio.signInWithEmail(this.credenciales)
-      .then(()=>{ this.mostrarSpinner = false; })
+      .then(()=>{
+        this._utilitiesServ.showToast("Bienvenido");
+        this.mostrarSpinner = false;
+      })
   }
 
   desloguearse(){
     this._authAdmin.signOutExternal()
       .then(()=>{
         this.mostrarSpinner = false;
-        this.reproducirSonido(this.error_sound);
-        this.mostrarAlerta("Cuenta desactivada");
+        this._utilitiesServ.showWarningToast("Cuenta desactivada");
       })
-  }
-
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
-  }
-
-  reproducirSonido(sound:string){
-    this.audio.src = sound;
-    this.audio.load();
-    this.audio.play();
   }
 
   registrarse(){
