@@ -7,8 +7,7 @@ import { ChoferViajePage } from '../../index-paginas';
 import { Subscription } from 'rxjs/Subscription';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
-
-
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -21,6 +20,10 @@ export class ListaViajesPage {
   chofer : any;
   viajesSubsc : Subscription;
   viajeAsignado = [];
+  usuarioSesion:any;
+  usersSubs : Subscription;
+  viajesSubs : Subscription;
+  viaje: any;
 
   constructor(public navCtrl: NavController,
               public viajesProv : ViajeServicio,
@@ -30,6 +33,30 @@ export class ListaViajesPage {
               public aut : AuthServicioProvider) {
 
     this.menu.enable(true);
+    this.usuarioSesion = firebase.auth().currentUser;
+
+    this.usersSubs = this.userProv.getUsers().subscribe(
+      lista => {
+        this.chofer = lista.filter(v => v.id_usuario == this.usuarioSesion.uid);
+        console.log('this.chofer ',this.chofer);
+
+        if(this.chofer[0].id_viaje != ''){
+
+            this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
+                lista => {
+                    this.viaje = lista.filter(v => v.id_viaje == this.chofer[0].id_viaje)[0];
+                    console.log('this.viaje ',this.viaje);
+                    this.utils.showToast('Tiene un viaje Asignado !!');
+                    this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
+      
+                },
+                error => this.utils.showErrorToast('Atención ! ' + error.json())
+            )
+        }
+      },
+      error => this.utils.showErrorToast('Atención ! ' + error.json())
+    )
+
   }
   //VERFICAR QUE TENGA UN AUTO ASIGNADO 
   ionViewDidLoad(){

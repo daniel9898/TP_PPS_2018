@@ -1,12 +1,18 @@
 
 <ion-content padding>
-
-  <!-- SPINNER -->
-  <div *ngIf="mostrarSpinner" class="spinner">
-    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  <!-- MENSAJE INTERMEDIO -->
+  <div *ngIf="mostrarMsjMedio">
+    <ion-item no-lines class="msj_intermedio">
+      <ion-avatar item-start>
+        <img src="assets/imgs/auto_viaje_on.png">
+      </ion-avatar>
+      <ion-label class="msj_size_2">
+            <strong>{{texto.estados.titulo}}</strong><br>{{msj_estado}}
+      </ion-label>
+    </ion-item>
   </div>
-  <!-- MENSAJE FINAL -->
-  <div class="msj_box" *ngIf="!mostrarSpinner && mostrarMsj">
+  <!-- MENSAJE FIN DEL VIAJE -->
+  <div class="msj_box" *ngIf="!mostrarSpinner && mostrarMsjFinal">
     <ion-label class="msj_size_1">
       <strong>{{texto.msj_final.titulo}}</strong>
       <br>{{texto.msj_final.subtitulo}}
@@ -21,14 +27,14 @@
     <img src="assets/imgs/fin_recorrido.png">
   </div>
 
-  <!-- VER BOTON QR -->
+  <!-- BOTON QR -->
   <ion-fab *ngIf="boton_qr" right top>
       <button ion-fab color="yellow" (click)="direccionar()">
           <ion-icon class="iconTravel" name="md-qr-scanner"></ion-icon>
       </button>
   </ion-fab>
 
-  <div *ngIf="!mostrarSpinner && !mostrarMsj">
+  <div *ngIf="!mostrarSpinner && !mostrarMsjFinal">
 
   <!-- DATOS DEL VIAJE -->
     <ion-grid class="datosViaje">
@@ -56,22 +62,33 @@
       </ion-item>
 
       <!-- HORARIO DE SALIDA -->
-
-
-      <!-- DISTANCIA / PRECIO -->
-      <div *ngIf="viaje.distancia != 0 && viaje.precio != 0">
-        <p class="text_precio" text-center>
-          <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
-          {{viaje.distancia}}KM = ${{viaje.precio}}
-        </p>
-      </div>
-
+      <ion-item class="input_direccion">
+        <ion-label>{{texto.label.hora}}</ion-label>
+        <ion-avatar item-start>
+          <img src="assets/imgs/clock.png">
+        </ion-avatar>
+        <ion-datetime id="hora" name="hora" [(ngModel)]="viaje.hora" [min]="hora"
+                      [doneText]="texto.label.button_ok" cancelText="" displayFormat="HH:mm" pickerFormat="HH:mm"
+          required></ion-datetime>
+      </ion-item>
     </ion-grid>
 
   </div>
   <!-- MENSAJE INICIO -->
   <div class="msj_box" *ngIf="!mostrarSpinner && !mostrarMapa">
     <img src="assets/imgs/inicio_recorrido.png">
+  </div>
+  <!-- DISTANCIA / PRECIO -->
+  <div *ngIf="mostrarPrecio">
+    <p class="text_precio" text-center>
+      <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
+      {{viaje.distancia}}KM = ${{viaje.precio}}
+    </p>
+  </div>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
   </div>
   <!-- DATOS DEL CHOFER -->
   <div *ngIf="mostrarDatos_chofer">
@@ -87,8 +104,8 @@
     </ion-item>
   </div>
   <!-- MAPA -->
-   <div *ngIf="!mostrarSpinner" xFlex="100" class="map-full-card-content">
-      <agm-map *ngIf="mostrarMapa"
+   <div *ngIf="mostrarMapa" xFlex="100" class="map-full-card-content">
+      <agm-map
                [latitude]="markers[0].lat"
                [longitude]="markers[0].lng"
                [zoom]="12"

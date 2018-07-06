@@ -12,7 +12,7 @@ export class ViajeServicio {
 
   //LISTA VIAJES
   viajesRef: AngularFireList<any>;
-  viajes: Observable<any[]>;
+  viajes: Observable<Viaje[]>;
 
   constructor(public afDB: AngularFireDatabase) {
     console.log('Viaje servicio iniciado...');
@@ -30,35 +30,37 @@ export class ViajeServicio {
         )
     }
 
+    /**
+     * Se devuelven todos los viajes por RxJs
+     */
+    getAllTrips(){
+      return this.viajes;
+    }
+
     //TRAER UN VIAJE (por algún criterio)
-    traer_viajes(valor:string, criterio:string){
+    traer_viajes(valor:string, criterio:string, valor2?:string){
       let promesa = new Promise((resolve, reject)=>{
 
-
-        let viajesArray:Viaje[] = []; //RETORNO
         console.log("METODO: Traer viajes");
 
-        this.viajes.forEach((value)=>{
-          for(let v of value){
-            let viaje:Viaje = new Viaje(v);
-            //console.log("Viajes: " + v.id_cliente);
-            switch(criterio){
+        this.viajes.subscribe(viajes => {
+           switch(criterio){
               case "cliente":
-              if(v.id_cliente == valor) viajesArray.push(viaje); break;
+              resolve(viajes.filter(v => v.id_cliente === valor )); break;
               case "chofer":
-              if(v.id_chofer == valor) viajesArray.push(viaje); break;
+              resolve(viajes.filter(v => v.id_chofer === valor )); break;
               case "vehiculo":
-              if(v.id_vehiculo == valor) viajesArray.push(viaje); break;
+              resolve(viajes.filter(v => v.id_vehiculo === valor )); break;
               case "fecha":
-              if(v.fecha == valor) viajesArray.push(viaje); break;
+              resolve(viajes.filter(v => v.fecha === valor )); break;
               case "estado":
-              if(v.estado == valor) viajesArray.push(viaje); break;
+              resolve(viajes.filter(v => v.estado === valor )); break;
+              case "cliente-estado":
+              resolve(viajes.filter(v => v.id_cliente === valor && v.estado === valor2)); break;
               case "todos":
-              viajesArray.push(viaje); break;
-            }
-          }
-          resolve(viajesArray);
-        })
+              resolve(viajes); break;
+           }
+       }, error => reject(error));
       });
       return promesa;
     }

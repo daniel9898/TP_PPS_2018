@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //CLASE
-import { Encuesta_chofer} from '../../../classes/encuesta_chofer';
+import { Encuesta_chofer, Encuesta_texto } from '../../../classes/encuesta_chofer';
 //SERVICIO
 import { ChoferEncuestaProvider } from '../../../providers/chofer-encuesta/chofer-encuesta';
 //CAMARA
@@ -20,7 +20,7 @@ export class ChoferEncuestaPage {
   encuesta:Encuesta_chofer;
   encuesta_byDefault:any;
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
-  //texto:any = Encuesta_texto;
+  texto:any = Encuesta_texto;
   cambios:boolean;
   //VALORES
   fecha:string;

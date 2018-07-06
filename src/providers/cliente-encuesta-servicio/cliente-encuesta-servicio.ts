@@ -43,7 +43,7 @@ export class ClienteEncuestaServicio {
           let encuesta:Encuesta_cliente = new Encuesta_cliente(e);
           switch(criterio){
             case "viaje":
-            if(e.estado == valor) encuestasArray.push(encuesta); break;
+            if(e.id_viaje == valor) encuestasArray.push(encuesta); break;
             case "fecha":
             if(e.fecha == valor) encuestasArray.push(encuesta); break;
             case "todos":

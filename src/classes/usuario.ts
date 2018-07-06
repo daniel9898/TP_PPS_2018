@@ -13,6 +13,8 @@ export class Usuario{
     viajando:boolean;
     activo:boolean;
     verificado:boolean;
+    id_vehiculo:string;
+    id_viaje:string;
 
     constructor(user_data:any){
         //REGISTRO

@@ -2,9 +2,9 @@
 
 export class Viaje{
 
-    id_viaje?:string;//------es la key de firebase
+    id_viaje:string;//------es la key de firebase
     id_cliente:string;
-    id_chofer?:string; //---se define al tomar viaje chofer
+    id_chofer:string; //---se define al tomar viaje chofer
     id_vehiculo?:string; //-se define al tomar viaje chofer
     fecha:string;
     cod_fecha:string;
@@ -48,7 +48,10 @@ export const Viaje_texto = {
     origen: "Origen",
     destino: "Destino",
     distancia: "Distancia",
-    precio: "Precio"
+    precio: "Precio",
+    hora: "Hora",
+    button_ok: "Listo",
+    button_cancel: "Cancelar"
   },
   msj_final:{
     titulo: "FIN DEL RECORRIDO",
@@ -60,6 +63,19 @@ export const Viaje_texto = {
     titulo: "DATOS DEL CHOFER",
     nombre: "Nombre:",
     patente:"Patente:"
+  },
+  estados:{
+    titulo: "ESTADO",
+    pendiente: "Buscando chofer",
+    tomado: "Chofer asignado - aguarde llegada",
+    en_curso: "Viaje iniciado",
+    cumplido:"Viaje finalizado",
+    cancelado_cliente: "Viaje cancelado",
+    cancelado_sistema: "Viaje cancelado por sistema"
+  },
+  qr_msj:{
+    inaccesible: "Acceso no disponible",
+    desconocido: "Código desconocido"
   }
 
 }

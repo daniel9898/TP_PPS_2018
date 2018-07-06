@@ -46,6 +46,7 @@ export class SupervisorRegistroChoferPage {
       'viajando' : [false],
       'clave' : [null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(15)])],
       'activo' : [true],
+      'verificado': [false],
       'foto': [null]
     });
   }
@@ -63,7 +64,7 @@ export class SupervisorRegistroChoferPage {
      	  let authOk = await this._authAdmin.signUpExterno(credenciales);
         await this._authAdmin.update_externalUserAccount(authOk.user,this.rForm.value.perfil,'http://www.radiozero.cl/static/2018/06/capturadepantalla20180626alas22627pm-bb432d2169693c2c90256fe777dded74-1200x600-1200x500.jpg');
         await this._authAdmin.signOutExternal();
-        
+
         let chofer =  this.rForm.value;
 
         this.image != null ?  chofer.foto = await this.usrFoto.subirImagenUsuario(authOk.user.uid,this.image) :

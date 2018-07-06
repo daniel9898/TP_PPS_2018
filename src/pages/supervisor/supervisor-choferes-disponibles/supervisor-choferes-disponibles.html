@@ -1,0 +1,25 @@
+<!--
+  Generated template for the SupervisorChoferesDisponiblesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>choferes disponibles</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-item-sliding *ngFor="let usuario of usuarios; index as i;">
+          <ion-item (click)="asignarViaje(i)">
+              {{usuario.correo }}
+              <ion-icon name="ios-arrow-forward" item-end></ion-icon>
+          </ion-item>
+        </ion-item-sliding>
+      </ion-list>
+</ion-content>

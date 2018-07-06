@@ -8,13 +8,14 @@ import * as $ from 'jquery';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
-         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage,//------------------------------------------CHOFER
+         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage, ChoferEstadisticaPage,//-------------------CHOFER
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
+import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
 
 @Component({
   templateUrl: 'app.html'
@@ -98,9 +99,9 @@ export class MyApp {
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },
             { title: 'Pedir viaje', component: ClienteViajePage, visibility: this.vista_chofer },
             { title: 'Viaje en Curso', component: ChoferViajePage, visibility: this.vista_chofer },
-            { title: 'Historial', component: ChoferHistorialPage, visibility: this.vista_chofer },
-            { title: 'Historial (cliente)', component: ClienteHistorialPage, visibility: this.vista_chofer },
-            { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_chofer },
+            { title: 'Ganancias', component: ChoferHistorialPage, visibility: this.vista_chofer },
+            { title: 'Viajes pedidos', component: ClienteHistorialPage, visibility: this.vista_chofer },
+            { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
             { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
             { title: 'Reservas Pendientes', component: ListaViajesPage, visibility: this.vista_chofer },
             { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_chofer },
@@ -109,11 +110,12 @@ export class MyApp {
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_supervisor },
             { title: 'Pedir viaje', component: ClienteViajePage, visibility: this.vista_supervisor },
             { title: 'Reservas', component: ClienteReservasPage, visibility: this.vista_supervisor },
-            { title: 'Historial (cliente)', component: ClienteHistorialPage, visibility: this.vista_supervisor },
+            { title: 'Mi historial', component: ClienteHistorialPage, visibility: this.vista_supervisor },
             { title: 'Estadística', component: ClienteEstadisticaPage, visibility: this.vista_supervisor },
             { title: 'Lista usuarios', component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
             { title: 'Lista vehiculos', component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
-            { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_supervisor }
+            { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_supervisor },
+            { title: 'Viajes/Reservas', component: SupervisorViajesReservasPage, visibility: this.vista_supervisor },
           ];
 
         } else {
