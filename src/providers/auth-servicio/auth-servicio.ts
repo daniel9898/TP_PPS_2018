@@ -20,7 +20,7 @@ export class AuthServicioProvider {
 
   //Validar login
   get authenticated():boolean{
-    return this.user !== null;
+    return this.user !== undefined;
   }
 
   //Iniciar sesión (email + password)
