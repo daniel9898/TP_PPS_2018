@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -52,7 +53,8 @@ export class PerfilPage {
               public frRegistration:FormBuilder,
               public _auth: AuthServicioProvider,
               private camera: Camera,
-              public _usuarioServicio: UsuarioServicioProvider) {
+              public _usuarioServicio: UsuarioServicioProvider,
+              public _utilitiesServ: UtilidadesProvider) {
 
       this.mostrarSpinner = true;
       this.modificar = false;
@@ -210,13 +212,13 @@ export class PerfilPage {
         this._auth.update_userPassword(credentials.passNew)
           .then(()=>{
             this.mostrarSpinner = false;
-            this.mostrarAlerta("Clave cambiada");
+            this._utilitiesServ.showToast("Clave cambiada");
           })
       })
       .catch((error)=>{
         console.log("Error al intentar cambiar clave: " + error);
         this.mostrarSpinner = false;
-        this.mostrarAlerta("Clave inválida");
+        this._utilitiesServ.showErrorToast("Clave inválida");
       })
   }
 
@@ -238,7 +240,7 @@ export class PerfilPage {
             .then(()=>{
                   console.log("OK: usuario eliminado de database");
                   this.mostrarSpinner = false;
-                  this.mostrarAlerta("Usuario eliminado!");
+                  this._utilitiesServ.showErrorToast("Usuario eliminado");
                   this.navCtrl.setRoot(LoginPage);
             })
           }).catch((error)=>{console.log("Error al borrar usuario de database" + error);});
@@ -246,7 +248,7 @@ export class PerfilPage {
         .catch((error)=>{
           console.log("Error al intentar cambiar clave: " + error);
           this.mostrarSpinner = false;
-          this.mostrarAlerta("Clave inválida");
+          this._utilitiesServ.showErrorToast("Clave inválida");
         })
     }
 
@@ -255,7 +257,7 @@ export class PerfilPage {
       this._usuarioServicio.baja_usuario(this.usuario.key)
       .then(()=>{
             console.log("OK: usuario eliminado de database");
-            this.mostrarAlerta("Usuario eliminado!");
+            this._utilitiesServ.showToast("Usuario eliminado");
             this.navCtrl.setRoot(SupervisorListaUsuariosPage);
       })
       .catch((error)=>{
@@ -289,7 +291,7 @@ export class PerfilPage {
     .catch((error)=>{
       console.log("Error al intentar cambiar clave: " + error);
       this.mostrarSpinner = false;
-      this.mostrarAlerta("Clave inválida");
+      this._utilitiesServ.showErrorToast("Clave inválida");
     })
   }
 
@@ -373,7 +375,7 @@ export class PerfilPage {
       .then(()=>{
         console.log("Cambios guardados!");
         this.mostrarSpinner = false;
-        this.mostrarAlerta("Cambios realizados con éxito");
+        this._utilitiesServ.showToast("Cambios realizados con éxito");
         this.modificar = false;
         this.cambios = false;
         this.traer_usuario();
@@ -409,16 +411,6 @@ export class PerfilPage {
       this.cambios = false;
       return false;
     }
-  }
-
-  //ALERTA
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 2000,
-      position: "top"
-    });
-    toast.present();
   }
 
   //MOSTRAR MAPA
