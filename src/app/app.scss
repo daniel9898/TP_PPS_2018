@@ -106,9 +106,12 @@
 //Toast para mensajes de errores
 .error-toast {
   .toast-wrapper {
-    background-color: rgba(197, 0, 0, 0.61);
+    background-color: rgba(197, 28, 28, 0.61);
     .toast-container {
-      background-color: rgba(197, 0, 0, 0.61);
+      background-color: rgba(197, 28, 28, 0.61);
+    }
+    .toast-message {
+      background-color: rgba(197, 28, 28, 0.61);
     }
   }
 }
@@ -117,12 +120,12 @@
   .toast-wrapper {
     background-color: rgba(231, 220, 171, 0.651); // color: red;
     .toast-container {
-      background-color: rgba(192, 160, 19, 0.651);
+      background-color: rgba(240, 231, 113, 0.651);
     }
     .toast-message {
       color: red;
       font-weight: bold;
-      background-color: rgba(233, 202, 62, 0.651);
+      background-color: rgba(240, 231, 113, 0.651);
     }
   }
 }
