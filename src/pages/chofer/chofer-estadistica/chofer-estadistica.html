@@ -14,6 +14,8 @@
       </ion-label>
     </ion-item>
     <div *ngIf="encuestas_al_chofer.length != 0" class="graphic_box">
+      <!-- VIAJES -->
+      <ion-label text-center>Viajes realizados: {{viajes.length}}</ion-label>
       <!-- GRAFICO -->
         <canvas class="graphic" baseChart
           height="100"

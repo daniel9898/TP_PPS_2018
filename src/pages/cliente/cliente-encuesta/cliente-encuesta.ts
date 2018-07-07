@@ -6,6 +6,7 @@ import { ClienteViajePage } from '../../index-paginas';
 import { Encuesta_cliente, Encuesta_texto } from '../../../classes/encuesta_cliente';
 //SERVICIO
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -34,6 +35,7 @@ export class ClienteEncuestaPage {
               public navParams: NavParams,
               public toastCtrl: ToastController,
               private camera: Camera,
+              private _utilitiesServ: UtilidadesProvider,
               private _encuestaService:ClienteEncuestaServicio) {
 
       this.mostrarSpinner = true;
@@ -169,7 +171,7 @@ export class ClienteEncuestaPage {
           .then(()=>{
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
-            this.mostrarAlerta("¡Gracias por participar!");
+            this._utilitiesServ.showToast("¡Gracias por participar!");
             this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{
@@ -181,16 +183,6 @@ export class ClienteEncuestaPage {
         console.log("Error al agregar encuesta: " + error);
       })
     }
-  }
-
-  //ALERTA
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   cancelar(){

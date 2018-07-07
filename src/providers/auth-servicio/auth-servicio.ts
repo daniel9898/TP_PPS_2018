@@ -20,7 +20,11 @@ export class AuthServicioProvider {
 
   //Validar login
   get authenticated():boolean{
-    return this.user !== null;
+    return this.user !== undefined;
+  }
+
+  get authenticated_2():boolean{
+    return this.afAuth.user !== undefined;
   }
 
   //Iniciar sesión (email + password)
@@ -88,6 +92,10 @@ export class AuthServicioProvider {
 
   get_userUID(){
     return this.user.uid;
+  }
+
+  get_userUID_2(){
+    return this.afAuth.auth.currentUser.uid;
   }
 
   get_userProfile(){

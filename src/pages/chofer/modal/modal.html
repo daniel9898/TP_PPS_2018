@@ -16,22 +16,22 @@
   <ion-list>
       <ion-item>
         <ion-avatar item-start>
-          <img src="http://www.theargonath.cc/characters/gollum/pictures/gollum27.jpg">
+          <img [src]="cliente.foto">
         </ion-avatar>
-        <h2>Alberto Gomez</h2>
-        <p>Lomas de Zamora</p>
+        <h2>{{cliente.nombre}}</h2>
+        <p>{{cliente.direccion}}</p>
       </ion-item>
 
       <ion-item>
-        Monto a abonar : 
+        Monto a abonar :
         <ion-note item-end>
-        $ {{viaje.precio}} 
+        $ {{viaje.precio}}
         </ion-note>
       </ion-item>
       <ion-item>
          Distancia Recorrida :
         <ion-note item-end>
-         {{viaje.distancia}} klmts.
+         {{viaje.distancia}} KM
         </ion-note>
       </ion-item>
   </ion-list>

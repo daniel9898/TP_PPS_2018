@@ -69,6 +69,7 @@ import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-
 import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
+import { SonidosProvider } from '../providers/sonidos/sonidos';
 
 @NgModule({
   declarations: [
@@ -202,7 +203,8 @@ import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-list
     ReservasProvider,
     UtilidadesProvider,
     ChoferEncuestaProvider,
-    ChartsModule
+    ChartsModule,
+    SonidosProvider
   ]
 })
 export class AppModule { }

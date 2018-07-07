@@ -15,6 +15,7 @@ export class Usuario{
     verificado:boolean;
     id_vehiculo:string;
     id_viaje:string;
+    sonido:boolean;
 
     constructor(user_data:any){
         //REGISTRO

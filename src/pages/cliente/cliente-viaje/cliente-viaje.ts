@@ -12,6 +12,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @Component({
   selector: 'page-cliente-viaje',
@@ -61,6 +62,7 @@ export class ClienteViajePage {
               private _authService:AuthServicioProvider,
               private _viajeService:ViajeServicio,
               private _qrScanner: QrServicioProvider,
+              private _utilitiesServ: UtilidadesProvider,
               private platform:Platform) {
 
       this.mostrarSpinner = true;
@@ -291,7 +293,7 @@ export class ClienteViajePage {
           switch(this.viaje.estado){
         // 1) VIAJE A LA ESPERA DE UN CHOFER
             case "pendiente":
-            this.mostrarAlerta(this.texto.estados.pendiente);
+            this._utilitiesServ.showToast(this.texto.estados.pendiente);
             this.msj_estado = this.texto.estados.pendiente;
             this.mostrarSpinner = true;
             //Asignar marcadores
@@ -321,7 +323,7 @@ export class ClienteViajePage {
             break;
         // 2) VIAJE TOMADO POR UN CHOFER
             case "tomado":
-            this.mostrarAlerta(this.texto.estados.tomado);
+            this._utilitiesServ.showToast(this.texto.estados.tomado);
             this.msj_estado = this.texto.estados.tomado;
             this.mostrarSpinner = true;
             //Datos del chofer
@@ -356,7 +358,7 @@ export class ClienteViajePage {
             break;
         // 3) VIAJE EN CURSO
             case "en curso":
-            this.mostrarAlerta(this.texto.estados.en_curso);
+            this._utilitiesServ.showToast(this.texto.estados.en_curso);
             this.msj_estado = this.texto.estados.en_curso;
             this.mostrarSpinner = true;
             //Datos del chofer
@@ -391,7 +393,7 @@ export class ClienteViajePage {
             break;
         // 4) VIAJE CUMPLIDO
             case "cumplido":
-            this.mostrarAlerta(this.texto.estados.cumplido);
+            this._utilitiesServ.showToast(this.texto.estados.cumplido);
             //this.msj_estado = this.texto.estados.cumplido;
             this.mostrarSpinner = true;
             //Datos del chofer
@@ -432,7 +434,7 @@ export class ClienteViajePage {
             break;
         // 5) VIAJE CANCELADO POR SISTEMA
             case "cancelado":
-            this.mostrarAlerta(this.texto.estados.cancelado_sistema);
+            this._utilitiesServ.showToast(this.texto.estados.cancelado_sistema);
             //this.msj_estado = this.texto.estados.cancelado_sistema;
             this.mostrarSpinner = true;
             this.usuario.viajando = false;
@@ -472,27 +474,17 @@ export class ClienteViajePage {
             this.mostrarPrecio = false;
             this.mostrarMsjMedio = false;
             this.mostrarSpinner = false;
-            this.mostrarAlerta(this.texto.estados.cancelado_cliente);
+            this._utilitiesServ.showWarningToast(this.texto.estados.cancelado_cliente);
           })
       })
       .catch((error)=>{ console.log("Error al eliminar viaje: " + error); })
-  }
-
-  //MENSAJES AL USUARIO
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   //DIRECCIONAR
   direccionar(){
       //Validación para el navegador web (probar servicio)
       if(!this.platform.is('cordova')){
-        this.mostrarAlerta("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
+        this._utilitiesServ.showWarningToast("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
         return;
       }
 
@@ -506,18 +498,18 @@ export class ClienteViajePage {
               if(this.viaje.estado == "cumplido")
                 this.ir_encuesta();
               else
-                this.mostrarAlerta(this.texto.qr_msj.inaccesible);
+                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
             break;
             //QR PARA DATOS DEL CHOFER
             case this.viaje.id_vehiculo.toString().trim():
               if(this.viaje.estado != "pendiente")
                 this.ir_datos_chofer();
               else
-                this.mostrarAlerta(this.texto.qr_msj.inaccesible);
+                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
             break;
             //QR DESCONOCIDO
             default:
-            this.mostrarAlerta(this.texto.qr_msj.desconocido);
+            this._utilitiesServ.showErrorToast(this.texto.qr_msj.desconocido);
             break;
           }
 

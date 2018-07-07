@@ -10,12 +10,15 @@ import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
          ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage, ChoferEstadisticaPage,//-------------------CHOFER
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
+import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
+//CLASE
+import { Usuario } from '../classes/usuario';
 //SERVICIOS
 import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
-import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
-import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { SonidosProvider } from '../providers/sonidos/sonidos';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,7 +30,8 @@ export class MyApp {
   mostrarSplash:boolean = true;
   pagesApp: Array<{title: string, component: any, visibility: boolean}>;
   usuarioSesion:boolean;
-
+  usuario:Usuario;
+  sound:boolean = false;
   //Variables para control de vistas
   vista_cliente:boolean = false;
   vista_chofer:boolean = false;
@@ -39,7 +43,8 @@ export class MyApp {
               public menu: MenuController,
               public auth: AuthServicioProvider,
               public usuarioSrv: UsuarioServicioProvider,
-              public vehiculoSrv: VehiculosProvider) {
+              public vehiculoSrv: VehiculosProvider,
+              public _soundsServ:SonidosProvider) {
 
       this.inicializarApp();
 
@@ -53,6 +58,8 @@ export class MyApp {
       this.splashScreen.hide();
       timer(3000).subscribe(()=> {
         $('.splashScreen').addClass('animated fadeOutUp');
+        let sound = this._soundsServ.get_soundCar();
+        this._soundsServ.reproducirSonido(sound);
       });
 
     });
@@ -61,6 +68,7 @@ export class MyApp {
     .subscribe(
       user => {
         if (user) {
+          this.usuario_db();
           this.menu.enable(true);
           console.log("USUARIO EN APP: " + JSON.stringify(user));
           switch(user.displayName){
@@ -136,6 +144,30 @@ export class MyApp {
 
   openPage(page) {
     this.nav.setRoot(page.component);
+  }
+
+  usuario_db(){
+    if(this.auth.authenticated_2){
+      this.usuarioSrv.traerUsuario(this.auth.get_userUID_2())
+        .then((user:any)=>{
+          this.usuario = user;
+          this.sound = this.usuario.sonido;
+          console.log("USUARIO DB: " + this.usuario);
+        })
+        .catch((error)=>{ console.log("Error al traer usuario: " + error) })
+    }
+  }
+
+  sonido(){
+    if(this.usuario.sonido){
+      this.usuario.sonido = false;
+      this.sound = false;
+    }
+    else{
+      this.usuario.sonido = true;
+      this.sound = true;
+    }
+    this.usuarioSrv.modificar_usuario(this.usuario)
   }
 
   logout() {

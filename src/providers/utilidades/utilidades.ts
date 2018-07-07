@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { ToastController, AlertController, LoadingController } from 'ionic-angular';
+//SERVICIO SONIDO
+import { SonidosProvider } from '../sonidos/sonidos';
 
 @Injectable()
 export class UtilidadesProvider {
 
  private loading : any;
-
+ private sound:string;
   constructor(private toastCtrl: ToastController,
               private alertCtrl: AlertController,
-              private loadingCtrl: LoadingController) {}
+              private loadingCtrl: LoadingController,
+              private _soundsSrv: SonidosProvider ) {}
 
   showAlert(title: string, msj: string, handler?: any) {
     let alert = this.alertCtrl.create({
@@ -26,7 +29,7 @@ export class UtilidadesProvider {
   }
 
   public showToast(msg : string, dismissFunction?: any) {
-     
+
     let toast = this.toastCtrl.create({
       message: msg,
       duration: 3000,
@@ -34,6 +37,9 @@ export class UtilidadesProvider {
     });
     toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
     toast.present();
+    //SONIDO
+    this.sound = this._soundsSrv.get_soundSuccess();
+    this._soundsSrv.reproducirSonido(this.sound);
   }
 
   public showErrorToast(msg : string, dismissFunction?: any) {
@@ -46,6 +52,9 @@ export class UtilidadesProvider {
     });
     toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
     toast.present();
+    //SONIDO
+    this.sound = this._soundsSrv.get_soundError();
+    this._soundsSrv.reproducirSonido(this.sound);
   }
 
   public showWarningToast(msg : string, dismissFunction?: any) {
@@ -58,6 +67,9 @@ export class UtilidadesProvider {
     });
     toast.onDidDismiss((dismissFunction) ? dismissFunction() : "" );
     toast.present();
+    //SONIDO
+    this.sound = this._soundsSrv.get_soundWarning();
+    this._soundsSrv.reproducirSonido(this.sound);
   }
 
 
@@ -76,7 +88,7 @@ export class UtilidadesProvider {
 
   showLoading(dismissOnPageChange? : boolean){
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: 'Cargando',
       dismissOnPageChange: (dismissOnPageChange != null) ? dismissOnPageChange : false
     });
 

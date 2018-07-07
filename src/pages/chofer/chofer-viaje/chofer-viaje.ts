@@ -4,7 +4,6 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 //import { Subscription } from 'rxjs/Subscription';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
-import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -13,10 +12,10 @@ import * as firebase from 'firebase/app';
 })
 export class ChoferViajePage {
 
- 
+  //chofer : any;
+  cliente: any;
   viaje: any;
-  usuarioSesion:any;
- 
+
   constructor(
     public navParams: NavParams,
     public userProv: UsuarioServicioProvider,
@@ -24,36 +23,42 @@ export class ChoferViajePage {
     public utils: UtilidadesProvider,
     public modalCtrl: ModalController) {
 
-    //this.chofer = this.navParams.get('chofer');
-    this.usuarioSesion = firebase.auth().currentUser;
-    this.viaje = this.navParams.get('viaje');   //viaje -LGNnCKZSawBdzJANxpq
-    console.log('viaje : ',this.viaje);
 
+    //this.chofer = this.navParams.get('chofer');
+    this.viaje = this.navParams.get('viaje');
+
+    //console.log('CHOFER : ',this.chofer);
+
+
+  }
+
+  ionViewDidLoad() {
+
+    this.traerCliente();
+
+  }
+
+  traerCliente() { //VER EN QUE MOMENTO SE EJECUTA,ROMPE LA VISTA
+
+    this.userProv.traerUsuario(this.viaje.id_cliente)
+      .then(c => this.cliente = c)
+      .catch(e => console.log(e.message));
   }
 
   async modificarEstado(estado: string) {
     this.viaje.estado = estado;
     await this.viajesProv.modificar_viaje(this.viaje);
     console.log('viaje ', this.viaje);
-
     if (estado != 'cumplido') {
-        this.utils.showToast('Viaje en Estado : ' + estado);
+      this.utils.showToast('Viaje en Estado : ' + estado);
     } else {
- 
       this.showModal();
     }
   }
 
   showModal() {
-    let contactModal = this.modalCtrl.create('ModalPage', { viaje: this.viaje });
+    let contactModal = this.modalCtrl.create('ModalPage', { 'viaje': this.viaje, 'cliente':this.cliente });
     contactModal.present();
-  }
-
-  ionViewWillLeave(){
-    console.log("se ejecuto ionViewWillLeave");
-    //this.vehiculosSubs.unsubscribe();
-   
-  
   }
 
 
