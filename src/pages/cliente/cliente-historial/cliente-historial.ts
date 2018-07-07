@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
-//import { ClienteReservaPage, ClienteEncuestaPage } from '../../index-paginas';
+import { ClienteReservaPage, ClienteEncuestaPage } from '../../index-paginas';
 //SERVICIOS
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
-//clase USUARIO
+//CLASES
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
-import { Reserva } from '../../../classes/viaje.model';
 import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
 
 @Component({
@@ -24,7 +23,7 @@ export class ClienteHistorialPage {
   historial:string;
   usuario:Usuario;
   viajes:Viaje[] = [];
-  reservas:Reserva[] = [];
+  reservas:any[] = [];
   encuestas:Encuesta_cliente[] = [];
   isAndroid: boolean = false;
   constructor(public navCtrl: NavController,
@@ -46,18 +45,21 @@ export class ClienteHistorialPage {
       .then((user:any)=>{
         this.usuario = user;
   // 2) TRAER VIAJES
-        this._viajeService.traer_viajes(this.usuario.id_usuario, "cliente")
+        this._viajeService.traer_viajes(this.usuario.id_usuario, "cliente-estado", "cumplido")
           .then((viajes:any)=>{
+            console.log("VIAJES: " + JSON.stringify(viajes));
               this.viajes = viajes;
-  // 3) TRAER RESERVAS
-              this._reservaService.traer_reservas(this.usuario.id_usuario, "cliente")
-                .then((reservas:any)=>{
-                  this.reservas = reservas;
-  // 4) TRAER ENCUESTAS
+  // 3) TRAER ENCUESTAS
                   this.generar_lista_encuestas()
-                    .then(()=>{ this.mostrarSpinner = false; })
-                })
-                .catch(()=>{ console.log("Error al traer reservas") })
+                    .then(()=>{
+  // 4) TRAER RESERVAS
+                      this._reservaService.getListaReservas().subscribe(next => {
+                        this.reservas = next.filter(value => value.reserva.id_cliente == this.usuario.id_usuario && value.reserva.estado == "cumplida");
+                      });
+                      this.mostrarSpinner = false;
+                    })
+                    .catch((error)=>{ console.log("Error al traer encuestas: " + error) })
+
           })
           .catch((error)=>{ console.log("Error al traer viajes: " + error) })
       })
@@ -81,6 +83,41 @@ export class ClienteHistorialPage {
         .catch((error)=>{ console.log("Error al traer encuestas: " + error); resolve() })
     });
     return promesa;
+  }
+
+  // DIRECCIONAR
+
+  verViaje(indice) {
+    console.log(indice);
+    this.navCtrl.push(
+      ClienteReservaPage,
+      {
+        isEditable: false,
+        reserva: this.viajes[indice],
+        key: this.viajes[indice].id_viaje
+      });
+  }
+
+  verReserva(indice) {
+    console.log(indice);
+    this.navCtrl.push(
+      ClienteReservaPage,
+      {
+        isEditable: false,
+        reserva: this.reservas[indice].reserva,
+        key: this.reservas[indice].key
+      });
+  }
+
+  verEncuesta(indice) {
+    console.log(indice);
+    this.navCtrl.push(
+      ClienteEncuestaPage,
+      {
+        isEditable: false,
+        encuesta: this.encuestas[indice],
+        key: this.encuestas[indice].id_encuesta
+      });
   }
 
 }

@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, MenuController} from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
-import * as firebase from 'firebase/app';
+//import * as firebase from 'firebase/app';
 import { ChoferViajePage } from '../../index-paginas';
-
-import { Observable } from "rxjs/Observable"; 
-import 'rxjs/add/observable/fromPromise';
+import { Subscription } from 'rxjs/Subscription';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import * as firebase from 'firebase/app';
 
 @IonicPage()
 @Component({
@@ -17,62 +18,118 @@ export class ListaViajesPage {
 
   viajes : any;
   chofer : any;
+  viajesSubsc : Subscription;
+  viajeAsignado = [];
   usuarioSesion:any;
-  vehiculo : any;
-  v : any;
+  usersSubs : Subscription;
+  viajesSubs : Subscription;
+  viaje: any;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public viajesProv : ViajeServicio,
               public userProv: UsuarioServicioProvider,
-              public menu: MenuController) {
+              public menu: MenuController,
+              public utils: UtilidadesProvider,
+              public aut : AuthServicioProvider) {
+
     this.menu.enable(true);
-    this.vehiculo = this.navParams.get('vehiculo');
+    this.usuarioSesion = firebase.auth().currentUser;
+
+    this.usersSubs = this.userProv.getUsers().subscribe(
+      lista => {
+        this.chofer = lista.filter(v => v.id_usuario == this.usuarioSesion.uid);
+        console.log('this.chofer ',this.chofer);
+
+        if(this.chofer[0].id_viaje != '' && this.chofer[0].id_viaje != null){
+
+            this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
+                lista => {
+                    this.viaje = lista.filter(v => v.id_viaje == this.chofer[0].id_viaje)[0];
+                    console.log('this.viaje ',this.viaje);
+                    
+                    this.viaje.id_vehiculo = this.chofer[0].id_vehiculo;
+                    this.viajesProv.modificar_viaje(this.viaje)
+                    .then(v =>{
+
+                        this.utils.showToast('Tiene un viaje Asignado !!');
+                        this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
+
+                    } )
+                    .catch(error => console.log('error ',error))
+
+
+      
+                },
+                error => this.utils.showErrorToast('Atención ! ' + error.json())
+            )
+        }
+      },
+      error => this.utils.showErrorToast('Atención ! ' + error.json())
+    )
+
   }
   //VERFICAR QUE TENGA UN AUTO ASIGNADO 
   ionViewDidLoad(){
-    
-    this.traerViajes(); //CAMBIAR A RESERVAS Y CUANDO SE LA TOMA PASA A SER UN VIAJE EN ESTADO TOMADO
-    this.usuarioSesion = firebase.auth().currentUser;
-    this.traerUsuario();
-    console.log(this.chofer);
+     
+    this.traerViajes();
+     
+    //this.usuarioSesion = firebase.auth().currentUser;
+    this.traerUsuario().then( d=> {
+      this.chofer = d;
+     }).catch(e => console.log("error ",e))
 
   }
+
   //cancelado / pendiente / tomado / en curso / cumplido
-  async traerUsuario(){
-  	try{
-        this.chofer = await this.userProv.traerUsuario(this.usuarioSesion.uid);
-        console.log(this.chofer);
-  	}catch(e){
-        console.log(e.message);
-  	}
-  	
+  traerUsuario(){
+    return  this.userProv.traerUsuario(this.aut.get_userUID());
   }
 
   traerViajes(){
-  	try{
-        this.v = Observable.fromPromise(this.viajesProv.traer_viajes('pendiente','estado'))
-                                      .subscribe(viajes => this.viajes = viajes);
-        console.log("Viajes ",this.viajes);
-  	}catch(e){
-        console.log(e.message);
-  	}
+  	//'pendiente','estado'
+    //this.viajeAsignado = null;
+    this.viajesSubsc = this.viajesProv.traerViajes()
+    .subscribe(
+      viajes => {
+        this.viajes = viajes.filter(v => v.estado == 'pendiente');
+        this.viajeAsignado = this.viajes.filter(v => v.id_chofer == this.aut.get_userUID());
+      
+      },
+      error =>  console.log("error ",error)
+    )
 
+    if(this.viajeAsignado.length>0){
+
+       console.log("Viaje asignado ",this.viajeAsignado);
+       this.conViajeAsignado(this.viajeAsignado[0]);
+       this.utils.showToast('Tiene un Viaje Asignado !','success');
+    }                     
+    console.log("Viajes ",this.viajes);
   }
 
-  async viajeSeleccionado(viaje:any){
+  async conViajeAsignado(viaje:any){
     
-    viaje.id_chofer = this.usuarioSesion.uid;
+    console.log("this.chofer.id_vehiculo ",this.chofer.id_vehiculo);
     viaje.id_vehiculo = this.chofer.id_vehiculo;
     viaje.estado = 'tomado';
     await this.viajesProv.modificar_viaje(viaje);
     this.navCtrl.push(ChoferViajePage, {viaje: viaje, chofer: this.chofer});
   }
 
+  async viajeSeleccionado(viaje:any){
+    
+    viaje.id_chofer = this.chofer.id_usuario;
+    viaje.id_vehiculo = this.chofer.id_vehiculo;
+    viaje.estado = 'tomado';
+    await this.viajesProv.modificar_viaje(viaje);
+    this.navCtrl.push(ChoferViajePage, {viaje: viaje, chofer: this.chofer});
+  }
+
+ 
   ionViewWillLeave(){
     console.log("se ejecuto ionViewWillLeave");
-    this.v.unsubscribe();
-    //this.viajes = null;
+    this.viajesSubs.unsubscribe();
+  
   }
 
   

@@ -7,12 +7,6 @@
 </ion-header>
 
 <ion-content padding>
-
-		<!--<ion-item>
-		    <ion-label stacked>Apellido y Nombre de cliente</ion-label>
-			<ion-input type="text" value="{{ cliente.nombre }}"></ion-input>
-		</ion-item>-->
-	
 		<ion-item>
 			<ion-label stacked color="primary">Dirección de Busqueda</ion-label>
 			<ion-input [disabled]="true" type="text" value="{{ viaje.origen }}"></ion-input> 
@@ -27,10 +21,13 @@
 			<ion-label stacked color="primary">Hora</ion-label>
 			<ion-input [disabled]="true" type="text" value="{{ viaje.hora }}"></ion-input>
 		</ion-item>
-   
-        
-	  <button ion-button block icon-end>Ver Mapa</button>
-	  <button ion-button block icon-end (click)="modificarEstado('en curso')">En Curso</button>
-	  <button ion-button block icon-end (click)="modificarEstado('cumplido')">Cumplido</button>
+		<ion-item>
+			<ion-label stacked color="primary">Precio</ion-label>
+			<ion-input [disabled]="true" type="text" value="$ {{viaje.precio }}"></ion-input>
+		</ion-item>
+      
+	  <button ion-button block icon-end color="danger" (click)="modificarEstado('pendiente')">Cancelar</button>
+	  <button ion-button block icon-end color="primary" (click)="modificarEstado('en curso')">En Curso</button>
+	  <button ion-button block icon-end color="secondary" (click)="modificarEstado('cumplido')">Cumplido</button>
     
 </ion-content>

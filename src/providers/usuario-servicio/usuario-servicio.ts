@@ -36,6 +36,13 @@ export class UsuarioServicioProvider {
     );
   }
 
+  /**
+   * retorna los usuarios RxJs
+   */
+  getUsers(){
+    return this.usuarios;
+  }
+
   //TRAER USUARIOS DE PRUEBA
   obtener_usuarios_prueba (){
 
@@ -59,17 +66,11 @@ export class UsuarioServicioProvider {
   traer_usuarios(){
     let promesa = new Promise((resolve, reject)=>{
 
-      //RETORNO
-      let usuarios:Usuario[] = [];
       console.log("METODO: Traer usuarios");
       //TRAER DATOS
-      this.usuarios.forEach((value)=>{
-        for(let user of value){
-          let usuario:Usuario = new Usuario(user);
-          usuarios.push(usuario);
-        }
+      this.usuarios.subscribe( usuarios => {
         resolve(usuarios);
-      })
+      }, error => reject(error));
     });
     return promesa;
   }
@@ -120,16 +121,17 @@ export class UsuarioServicioProvider {
   alta_usuario_registro(userId:string, userEmail:string){
     console.log("Datos recibidos: " + userId + " + " + userEmail);
     let nuevo_user = {
-      key: "N/N",
+      key: "***",
       id_usuario: userId,
       correo: userEmail,
-      nombre: "N/N",
-      edad: "N/N",
-      direccion: "N/N",
+      nombre: "*****",
+      edad: "*****",
+      direccion: "*****",
       perfil: "cliente",
       foto: "assets/imgs/default_cliente.png",
       viajando: false,
-      activo: false
+      activo: false,
+      verificado:false
     }
 
     console.log("Usuario nuevo: " + JSON.stringify(nuevo_user));

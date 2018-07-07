@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
 //PAGINAS
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
-//clase USUARIO
+//CLASES
 import { Usuario } from '../../../classes/usuario';
 import { Viaje, Viaje_texto } from '../../../classes/viaje';
 //Interface MARKER
@@ -12,6 +12,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @Component({
   selector: 'page-cliente-viaje',
@@ -22,7 +23,9 @@ export class ClienteViajePage {
   //validaciones
   mostrarSpinner:boolean = false;
   mostrarMapa:boolean = false;
-  mostrarMsj:boolean = false;
+  mostrarMsjFinal:boolean = false;
+  mostrarMsjMedio:boolean = false;
+  mostrarPrecio:boolean = false;
   mostrarDatos_chofer:boolean = false;
   boton_pedir:boolean;
   boton_cancelar:boolean;
@@ -47,6 +50,7 @@ export class ClienteViajePage {
   precio_minimo:number = 60;
   //texto
   texto:any = Viaje_texto;
+  msj_estado:string;
 
   //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;
@@ -58,6 +62,7 @@ export class ClienteViajePage {
               private _authService:AuthServicioProvider,
               private _viajeService:ViajeServicio,
               private _qrScanner: QrServicioProvider,
+              private _utilitiesServ: UtilidadesProvider,
               private platform:Platform) {
 
       this.mostrarSpinner = true;
@@ -118,7 +123,7 @@ export class ClienteViajePage {
                 });
             }
             // CALCULAR DISTANCIA Y MOSTRAR MAPA
-            if(this.viaje.origen != "N/N" && this.viaje.destino != "N/N"){
+            if(this.viaje.origen != "*****" && this.viaje.destino != "*****"){
               //Refrescar marcadores
               this.markers = [this.origen_marker, this.destino_marker];
               //Tomar distancia
@@ -137,6 +142,7 @@ export class ClienteViajePage {
                     this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
                   //Mostrar mapa
                   this.mostrarMapa = true;
+                  this.mostrarPrecio = true;
                   this.boton_pedir = true;
                 })
                 .catch((error)=>{ console.log("Error al calcular distancia: " + error); })
@@ -149,7 +155,7 @@ export class ClienteViajePage {
   //TRAER UN USUARIO
   traer_usuario(uid:string, usuario:string){
     this.mostrarSpinner = true;
-    return this._userService.traer_un_usuario(uid)
+    return this._userService.traerUsuario(uid)
             .then((user:any)=>{
               console.log("Usuario: " + JSON.stringify(user));
               if(usuario == "cliente")
@@ -170,12 +176,12 @@ export class ClienteViajePage {
       id_cliente: this.usuario.id_usuario,
       id_chofer:"N/N",
       id_vehiculo:"N/N",
-      fecha:"N/N",
-      hora:"N/N",
+      fecha:this.fecha,
+      hora:this.hora,
       cod_fecha: new Date().valueOf().toString(),
-      origen: "N/N",
+      origen: "*****",
       origen_coord:[1,1],
-      destino:"N/N",
+      destino:"*****",
       destino_coord:[1,1],
       distancia: 0,
       precio: 0,
@@ -189,10 +195,9 @@ export class ClienteViajePage {
   //GENERAR FECHA
   generar_fecha(){
     let currentDate = new Date();
-    //console.log("FECHA completa: " + currentDate);
-    this.fecha = currentDate.getDate()+'/'+(currentDate.getMonth() + 1)+'/'+currentDate.getFullYear();
+    this.fecha = currentDate.getFullYear()+'-'+(currentDate.getMonth()<10?'0':'').toString()+(currentDate.getMonth() + 1)+'-'+(currentDate.getDate()<10?'0':'').toString()+currentDate.getDate();
     console.log("Fecha: " + this.fecha);
-    this.hora = currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
+    this.hora = (currentDate.getHours()<10?'0':'').toString() + currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
     console.log("Hora: " + this.hora);
   }
 
@@ -288,47 +293,108 @@ export class ClienteViajePage {
           switch(this.viaje.estado){
         // 1) VIAJE A LA ESPERA DE UN CHOFER
             case "pendiente":
-            this.mostrarAlerta("Buscando chofer");
+            this._utilitiesServ.showToast(this.texto.estados.pendiente);
+            this.msj_estado = this.texto.estados.pendiente;
             this.mostrarSpinner = true;
+            //Asignar marcadores
+            this.origen_marker = ({
+              lat: this.viaje.origen_coord[0],
+              lng: this.viaje.origen_coord[1],
+              label: "Origen",
+              icon: "assets/imgs/marker_person.png",
+              draggable: false
+            });
+            this.destino_marker = ({
+              lat: this.viaje.destino_coord[0],
+              lng: this.viaje.destino_coord[1],
+              label: "Destino",
+              icon: "assets/imgs/marker_finish.png",
+              draggable: false
+            });
+            //Refrescar marcadores
+            this.markers = [this.origen_marker, this.destino_marker];
             //Habilitar vistas
+            this.mostrarMsjMedio = true;
             this.boton_pedir = false;
-            this.mostrarMapa = false;
+            this.mostrarMapa = true;
             this.boton_cancelar = true;
+            this.mostrarPrecio = true;
             this.mostrarDatos_chofer = false;
             break;
         // 2) VIAJE TOMADO POR UN CHOFER
             case "tomado":
-            this.mostrarAlerta("Chofer asignado");
+            this._utilitiesServ.showToast(this.texto.estados.tomado);
+            this.msj_estado = this.texto.estados.tomado;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
             .then(()=>{
+                //Asignar marcadores
+                this.origen_marker = ({
+                  lat: this.viaje.origen_coord[0],
+                  lng: this.viaje.origen_coord[1],
+                  label: "Origen",
+                  icon: "assets/imgs/marker_person.png",
+                  draggable: false
+                });
+                this.destino_marker = ({
+                  lat: this.viaje.destino_coord[0],
+                  lng: this.viaje.destino_coord[1],
+                  label: "Destino",
+                  icon: "assets/imgs/marker_finish.png",
+                  draggable: false
+                });
+                //Refrescar marcadores
+                this.markers = [this.origen_marker, this.destino_marker];
                 //Habilitar vistas
+                this.mostrarMsjMedio = true;
                 this.mostrarDatos_chofer = true;
                 this.boton_pedir = false;
-                this.mostrarMapa = false;
+                this.mostrarMapa = true;
                 this.boton_cancelar = true;
                 this.boton_qr = true;
+                this.mostrarPrecio = true;
             })
             break;
         // 3) VIAJE EN CURSO
             case "en curso":
-            this.mostrarAlerta("Viaje en curso");
+            this._utilitiesServ.showToast(this.texto.estados.en_curso);
+            this.msj_estado = this.texto.estados.en_curso;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
             .then(()=>{
+                //Asignar marcadores
+                this.origen_marker = ({
+                  lat: this.viaje.origen_coord[0],
+                  lng: this.viaje.origen_coord[1],
+                  label: "Origen",
+                  icon: "assets/imgs/marker_person.png",
+                  draggable: false
+                });
+                this.destino_marker = ({
+                  lat: this.viaje.destino_coord[0],
+                  lng: this.viaje.destino_coord[1],
+                  label: "Destino",
+                  icon: "assets/imgs/marker_finish.png",
+                  draggable: false
+                });
+                //Refrescar marcadores
+                this.markers = [this.origen_marker, this.destino_marker];
                 //Habilitar vistas
+                this.mostrarMsjMedio = true;
                 this.mostrarDatos_chofer = true;
                 this.boton_pedir = false;
-                this.mostrarMapa = false;
+                this.mostrarMapa = true;
                 this.boton_cancelar = false;
                 this.boton_qr = true;
+                this.mostrarPrecio = true;
             })
             break;
         // 4) VIAJE CUMPLIDO
             case "cumplido":
-            this.mostrarAlerta("Viaje cumplido");
+            this._utilitiesServ.showToast(this.texto.estados.cumplido);
+            //this.msj_estado = this.texto.estados.cumplido;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
@@ -354,29 +420,35 @@ export class ClienteViajePage {
                 //Refrescar marcadores
                 this.markers = [this.origen_marker, this.destino_marker];
                 //Habilitar vistas
+                this.mostrarMsjMedio = false;
                 this.mostrarDatos_chofer = true;
+                this.mostrarPrecio = true;
                 this.boton_pedir = false;
                 this.mostrarMapa = true;
-                this.mostrarMsj = true;
+                this.mostrarMsjFinal = true;
                 this.boton_cancelar = false;
                 this.boton_qr = true;
                 this.mostrarSpinner = false;
               })
             })
             break;
-        // 5) VIAJE CANCELADO
+        // 5) VIAJE CANCELADO POR SISTEMA
             case "cancelado":
-            this.mostrarAlerta("Viaje cancelado por chofer");
+            this._utilitiesServ.showToast(this.texto.estados.cancelado_sistema);
+            //this.msj_estado = this.texto.estados.cancelado_sistema;
             this.mostrarSpinner = true;
             this.usuario.viajando = false;
             this._userService.modificar_usuario(this.usuario)
             .then(()=>{
+              //Habilitar vistas
+              this.mostrarMsjMedio = false;
               this.boton_pedir = false;
               this.mostrarMapa = false;
-              this.mostrarMsj = false;
+              this.mostrarMsjFinal = false;
               this.boton_cancelar = false;
               this.boton_qr = false;
               this.mostrarDatos_chofer = false;
+              this.mostrarPrecio = false;
               this.generar_viaje_default();
               this.mostrarSpinner = false;
             })
@@ -399,52 +471,45 @@ export class ClienteViajePage {
             this.boton_cancelar = false;
             this.mostrarMapa = false;
             this.mostrarDatos_chofer = false;
+            this.mostrarPrecio = false;
+            this.mostrarMsjMedio = false;
             this.mostrarSpinner = false;
-            this.mostrarAlerta("Viaje cancelado");
+            this._utilitiesServ.showWarningToast(this.texto.estados.cancelado_cliente);
           })
       })
       .catch((error)=>{ console.log("Error al eliminar viaje: " + error); })
-  }
-
-  //MENSAJES AL USUARIO
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   //DIRECCIONAR
   direccionar(){
       //Validación para el navegador web (probar servicio)
       if(!this.platform.is('cordova')){
-        this.mostrarAlerta("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
+        this._utilitiesServ.showWarningToast("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
         return;
       }
 
       this._qrScanner.lector_qr()
         .then((texto)=>{
-
+          console.log("Texto capturado: " + texto);
+          console.log("Id vehiculo del chofer: " + this.chofer.id_vehiculo);
           switch(texto){
             //QR PARA ENCUESTA
             case "encuesta_qr":
-            if(this.viaje.estado == "cumplido")
-              this.ir_encuesta();
-            else
-              this.mostrarAlerta("Acceso no disponible");
+              if(this.viaje.estado == "cumplido")
+                this.ir_encuesta();
+              else
+                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
             break;
             //QR PARA DATOS DEL CHOFER
-            case "accion_qr":
-            if(this.viaje.estado != "pendiente")
-              this.ir_datos_chofer();
-            else
-              this.mostrarAlerta("Acceso no disponible");
+            case this.viaje.id_vehiculo.toString().trim():
+              if(this.viaje.estado != "pendiente")
+                this.ir_datos_chofer();
+              else
+                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
             break;
             //QR DESCONOCIDO
             default:
-            this.mostrarAlerta("Código desconocido");
+            this._utilitiesServ.showErrorToast(this.texto.qr_msj.desconocido);
             break;
           }
 
@@ -458,7 +523,7 @@ export class ClienteViajePage {
   }
 
   ir_encuesta(){
-    this.navCtrl.push(ClienteEncuestaPage, { 'id_viaje' : this.viaje.id_viaje });
+    this.navCtrl.push(ClienteEncuestaPage, { 'id_viaje' : this.viaje.id_viaje, 'desde':'viaje' });
   }
 
 }

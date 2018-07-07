@@ -1,5 +1,19 @@
 page-cliente-historial {
-  
+
+  #historial_logo{
+    margin: auto;
+    margin-top: 20%;
+    display: block;
+  }
+
+  #lista_vacia{
+    margin: auto;
+    margin-top: 40%;
+    display: block;
+    width: 150px;
+    height: 125px;
+  }
+
   .spinner {
     width: 100px;
     height: 100px;

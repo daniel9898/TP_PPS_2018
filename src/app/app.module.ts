@@ -22,6 +22,8 @@ import { NguiMapModule} from '@ngui/map';
 import { Geolocation } from '@ionic-native/geolocation';
 //QR plugin
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+//CHARTS
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -31,6 +33,7 @@ import { VehiculoImagenProvider } from '../providers/vehiculo-imagen/vehiculo-im
 import { ChoferProvider } from '../providers/chofer/chofer';
 import { DateTimeProvider } from '../providers/date-time/date-time';
 
+
 //DIRECTIVAS
 import { DirectivesModule } from '../directives/directives.module';
 
@@ -39,9 +42,11 @@ import { MyApp } from './app.component';
 import {
   InicioPage, RegistroPage, LoginPage, PerfilPage, MapaPage,//--------------------------------------------------------------------COMUNES
   ClienteInicioPage, ClienteViajePage, ClienteReservaPage, ClienteHistorialPage, ClienteEstadisticaPage, ClienteEncuestaPage, //--CLIENTE
+  ClienteEncuestasPage,
   ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEstadisticaPage, ChoferEncuestaPage,//-----------------------------CHOFER
   SupervisorInicioPage, SupervisorSeguimientoPage, SupervisorEstadisticaPage, SupervisorEncuestaPage,//------------------------SUPERVISOR
-  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage, SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
+  SupervisorUsuarioPage, SupervisorVehiculoPage, SupervisorListaUsuariosPage, SupervisorListaVehiculosPage, SupervisorRegistroClientePage,
+  SupervisorRegistroVehiculoPage, SupervisorRegistroChoferPage, SupervisorListaChoferesPage
 } from '../pages/index-paginas';
 import { PhotoTakerPage } from '../pages/supervisor/photo-taker/photo-taker';
 import { ReservasProvider } from '../providers/reservas/reservas';
@@ -58,8 +63,13 @@ import { UtilidadesProvider } from '../providers/utilidades/utilidades';
 import { ListaViajesPage } from '../pages/chofer/lista-viajes/lista-viajes';
 import { SupervisorRegistroUsuarioPage } from '../pages/supervisor/supervisor-registro-usuario/supervisor-registro-usuario';
 import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encuesta';
-
-
+import { PopoverClavePage } from '../pages/comunes/popover-clave/popover-clave';
+import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
+import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-viajes/supervisor-lista-viajes';
+import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/supervisor-choferes-disponibles/supervisor-choferes-disponibles';
+import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
+import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
+import { SonidosProvider } from '../providers/sonidos/sonidos';
 
 @NgModule({
   declarations: [
@@ -70,6 +80,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -78,6 +89,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -99,7 +111,12 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     SupervisorRegistroChoferPage,
     SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
-    PhotoTakerPage
+    PhotoTakerPage,
+    SupervisorViajesReservasPage,
+    SupervisorListaViajesPage,
+    SupervisorChoferesDisponiblesPage,
+    SupervisorAsignaViajePage,
+    SupervisorListaReservasPage
   ],
   imports: [
     BrowserModule,
@@ -112,8 +129,8 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     DirectivesModule,
     NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
     AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
-    AgmDirectionModule
-
+    AgmDirectionModule,
+    ChartsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -123,6 +140,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     LoginPage,
     PerfilPage,
     MapaPage,
+    PopoverClavePage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -131,6 +149,7 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     ClienteEstadisticaPage,
     ClienteEncuestaPage,
     ClienteReservasPage,
+    ClienteEncuestasPage,
     //CHOFER
     ChoferInicioPage,
     ChoferViajePage,
@@ -152,7 +171,12 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     SupervisorRegistroChoferPage,
     SupervisorRegistroUsuarioPage,
     SupervisorListaChoferesPage,
-    PhotoTakerPage
+    PhotoTakerPage,
+    SupervisorViajesReservasPage,
+    SupervisorListaViajesPage,
+    SupervisorChoferesDisponiblesPage,
+    SupervisorAsignaViajePage,
+    SupervisorListaReservasPage
   ],
   providers: [
     StatusBar,
@@ -178,7 +202,9 @@ import { ChoferEncuestaProvider } from '../providers/chofer-encuesta/chofer-encu
     DateTimeProvider,
     ReservasProvider,
     UtilidadesProvider,
-    ChoferEncuestaProvider
+    ChoferEncuestaProvider,
+    ChartsModule,
+    SonidosProvider
   ]
 })
 export class AppModule { }

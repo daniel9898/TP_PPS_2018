@@ -6,6 +6,7 @@ import { ClienteViajePage } from '../../index-paginas';
 import { Encuesta_cliente, Encuesta_texto } from '../../../classes/encuesta_cliente';
 //SERVICIO
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -23,6 +24,7 @@ export class ClienteEncuestaPage {
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
   texto:any = Encuesta_texto;
   cambios:boolean;
+  modificar:boolean;
   //VALORES
   fecha:string;
   hora:string;
@@ -33,14 +35,24 @@ export class ClienteEncuestaPage {
               public navParams: NavParams,
               public toastCtrl: ToastController,
               private camera: Camera,
+              private _utilitiesServ: UtilidadesProvider,
               private _encuestaService:ClienteEncuestaServicio) {
 
       this.mostrarSpinner = true;
   }
 
   ionViewDidLoad() {
-
-    this.generar_encuesta_byDefault();
+    this.mostrarSpinner = true;
+    if(this.navParams.data.encuesta){
+      this.encuesta = this.navParams.data.encuesta;
+      this.encuesta_byDefault = this.navParams.data.encuesta;
+      this.modificar = this.navParams.data.isEditable;
+      this.mostrarSpinner = false;
+    }
+    else{
+      this.generar_encuesta_byDefault();
+      this.modificar = true;
+    }
   }
 
   //GENERAR ENCUESTA (by default)
@@ -60,6 +72,7 @@ export class ClienteEncuestaPage {
       pregunta_5:"",
       foto: this.encuesta_foto
     }
+    console.log("ID de viaje asociado: " + this.navParams.get('id_viaje'));
     this.encuesta = new Encuesta_cliente(this.encuesta_byDefault);
     this.mostrarSpinner = false;
   }
@@ -68,8 +81,8 @@ export class ClienteEncuestaPage {
   generar_fecha(){
     let promesa = new Promise((resolve, reject)=>{
       let currentDate = new Date();
-      this.fecha = currentDate.getDate()+'/'+(currentDate.getMonth() + 1)+'/'+currentDate.getFullYear();
-      this.hora = currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
+      this.fecha = currentDate.getFullYear()+'-'+(currentDate.getMonth()<10?'0':'').toString()+(currentDate.getMonth() + 1)+'-'+(currentDate.getDate()<10?'0':'').toString()+currentDate.getDate();
+      this.hora = (currentDate.getHours()<10?'0':'').toString() + currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
       resolve();
     });
     return promesa;
@@ -158,7 +171,7 @@ export class ClienteEncuestaPage {
           .then(()=>{
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
-            this.mostrarAlerta("Cambios realizados con éxito");
+            this._utilitiesServ.showToast("¡Gracias por participar!");
             this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{
@@ -170,16 +183,6 @@ export class ClienteEncuestaPage {
         console.log("Error al agregar encuesta: " + error);
       })
     }
-  }
-
-  //ALERTA
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   cancelar(){

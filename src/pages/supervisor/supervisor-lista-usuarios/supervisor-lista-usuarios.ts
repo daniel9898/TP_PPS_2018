@@ -69,7 +69,7 @@ export class SupervisorListaUsuariosPage {
     this._usuarioServicio.baja_usuario(key)
     .then(()=>{
           console.log("OK: usuario eliminado de database");
-          this.mostrarAlerta("Usuario eliminado!");
+          this.mostrarAlerta("Usuario eliminado");
           this.initializeItems();
     })
     .catch((error)=>{

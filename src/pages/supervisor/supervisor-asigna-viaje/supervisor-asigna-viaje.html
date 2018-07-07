@@ -1,0 +1,45 @@
+<!--
+  Generated template for the SupervisorAsignaViajePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Asiganar viaje</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      Chofer: {{chofer.correo}}
+    </ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <h3>Datos del viaje</h3>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Origen: {{viaje.origen}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          Destino: {{viaje.destino}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          {{viaje.fecha}} - {{viaje.hora}}
+        </ion-col>
+      </ion-row>
+      <button ion-button block (click)="asignarViaje()">Asignar</button>
+      <button ion-button block [disabled]="viaje.estado !== 'pendiente'" color="danger" (click)="liberarViaje()">Desasignar</button>
+    </ion-card-content>
+    
+  </ion-card>
+</ion-content>

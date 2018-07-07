@@ -24,6 +24,13 @@
         </div>
     </ion-list>
 
+    <ion-item (click)="sonido()" *ngIf="sound">
+      <ion-icon name="md-volume-up" item-left></ion-icon>
+    </ion-item>
+    <ion-item (click)="sonido()" *ngIf="!sound">
+      <ion-icon name="md-volume-off" item-left></ion-icon>
+    </ion-item>
+
     <!-- BOTONES LOG -->
     <ion-list-header *ngIf="auth.get_userEmail()">Usuario: {{auth.get_userEmail()}}</ion-list-header>
       <ion-item (click)="logout()" *ngIf="auth.authenticated">

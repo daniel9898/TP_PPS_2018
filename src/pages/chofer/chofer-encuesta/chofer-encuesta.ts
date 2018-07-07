@@ -38,13 +38,13 @@ export class ChoferEncuestaPage {
 
     if(this.navParams.get('chofer') != undefined){ this.chofer = this.navParams.get('chofer')};
     if(this.navParams.get('vehiculo') != undefined){ this.vehiculo = this.navParams.get('vehiculo')};
-    
+
     this.mostrarSpinner = true;
   }
 
   ionViewDidLoad() {
 
-    this.generar_encuesta_byDefault(); 
+    this.generar_encuesta_byDefault();
   }
 
   //GENERAR ENCUESTA (by default)
@@ -121,7 +121,7 @@ export class ChoferEncuestaPage {
 
       console.log('Encuesta : ',this.encuesta);
       this.guardar_encuesta();
-   
+
     })
 
   }
@@ -141,7 +141,7 @@ export class ChoferEncuestaPage {
                  console.log("Cambios guardados!");
 	             this.mostrarSpinner = false;
 	             this.mostrarAlerta("Cambios realizados con éxito");
-	             this.navCtrl.push(ListaViajesPage,{vehiculo: this.vehiculo});
+	             this.navCtrl.setRoot(ListaViajesPage,{vehiculo: this.vehiculo});
 
             })
             .catch((error)=>{

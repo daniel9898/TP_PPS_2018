@@ -9,11 +9,14 @@
 
 <ion-content padding>
 
-<ion-list inset>
+<ion-list >
   <ion-item ion-item *ngFor="let viaje of viajes" (click)="viajeSeleccionado(viaje)">
-    <p>Fecha : {{ viaje.fecha }} Hora: {{ viaje.hora }}</p>
-    <p>Desde : {{ viaje.origen }}</p>
-    <p>Hasta : {{ viaje.destino }}</p>
+  	<ion-avatar item-start>
+      <img src="http://pngimg.com/uploads/gps/gps_PNG8.png">
+    </ion-avatar>
+    <h2>Fecha : {{ viaje.fecha }} Hora: {{ viaje.hora }}</h2>
+    <h3>Desde : {{ viaje.origen }}</h3>
+    <h3>Hasta : {{ viaje.destino }}</h3>
   </ion-item> 
 </ion-list>
 

@@ -29,39 +29,45 @@
       <!-- VIAJES -->
       <ion-list *ngSwitchCase="'viajes'">
         <ion-item-sliding *ngFor="let viaje of viajes; index as i;">
-          <ion-item (click)="verUsuario(viaje)">
+          <ion-item (click)="verViaje(i)">
               <ion-icon name="md-car" color="primary" item-start></ion-icon>
               {{viaje.fecha }} || ${{viaje.precio }}
           </ion-item>
-
         </ion-item-sliding>
+        <div *ngIf="viajes.length == 0">
+          <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+        </div>
       </ion-list>
 
       <!-- RESERVAS -->
       <ion-list *ngSwitchCase="'reservas'">
-        <ion-item-sliding *ngFor="let reserva of reservas; index as i;">
-          <ion-item (click)="verUsuario(reserva)">
+        <ion-item-sliding *ngFor="let item of reservas; index as i;">
+          <ion-item (click)="verReserva(i)">
               <ion-icon name="md-folder" color="primary" item-start></ion-icon>
-              {{reserva.fecha }}
+              {{item.reserva.fecha }}
           </ion-item>
-
         </ion-item-sliding>
+        <div *ngIf="reservas.length == 0">
+          <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+        </div>
       </ion-list>
 
       <!-- ENCUESTAS -->
       <ion-list *ngSwitchCase="'encuestas'">
         <ion-item-sliding *ngFor="let encuesta of encuestas; index as i;">
-          <ion-item (click)="verUsuario(encuesta)">
+          <ion-item (click)="verEncuesta(i)">
               <ion-icon name="ios-list-box-outline" color="primary" item-start></ion-icon>
               {{encuesta.fecha }}
           </ion-item>
-
         </ion-item-sliding>
+        <div *ngIf="encuestas.length == 0">
+          <img id="lista_vacia" src="assets/imgs/auto_void.png" alt="void">
+        </div>
       </ion-list>
 
       <!-- VISTA POR DEFAULT -->
       <div *ngSwitchDefault>
-        POR DEFECTO
+        <img id="historial_logo" src="assets/imgs/encuesta_default.png" alt="">
       </div>
 
     </div>
