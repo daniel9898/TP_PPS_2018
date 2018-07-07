@@ -58,14 +58,12 @@ export class SupervisorAsignaViajePage {
         console.log(result, 'ok')
         this.viaje.id_chofer = this.chofer.key;
         if (!this.esReserva) {
-          this.viaje.estado = 'tomado';
           this.viajeSrv.modificar_viaje(this.viaje)
             .then(viaje => {
               console.log(viaje, 'ok');
               this.navCtrl.popTo(SupervisorListaViajesPage);
             });
         } else if (this.esReserva) {
-          this.reserva.estado = 'tomado';
           this.reservaSrv.updateItem(this.key,this.reserva);
         }
 

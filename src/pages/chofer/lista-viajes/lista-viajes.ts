@@ -52,7 +52,7 @@ export class ListaViajesPage {
                     .then(v =>{
 
                         this.utils.showToast('Tiene un viaje Asignado !!');
-                        this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer:this.chofer[0]});
+                        this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
 
                     } )
                     .catch(error => console.log('error ',error))
