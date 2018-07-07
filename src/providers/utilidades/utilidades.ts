@@ -88,7 +88,7 @@ export class UtilidadesProvider {
 
   showLoading(dismissOnPageChange? : boolean){
     this.loading = this.loadingCtrl.create({
-      content: 'Por favor espere...',
+      content: 'Cargando',
       dismissOnPageChange: (dismissOnPageChange != null) ? dismissOnPageChange : false
     });
 
