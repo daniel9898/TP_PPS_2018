@@ -2,6 +2,8 @@
 
 > ¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio.
 
+rama pereira-documentacion
+
 ## Para el sábado 22/06/2018
 
 
