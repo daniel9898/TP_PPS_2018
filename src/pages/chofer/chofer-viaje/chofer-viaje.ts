@@ -12,7 +12,7 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 })
 export class ChoferViajePage {
 
-  //chofer : any;
+  chofer : any;
   cliente: any;
   viaje: any;
 
@@ -24,7 +24,7 @@ export class ChoferViajePage {
     public modalCtrl: ModalController) {
 
 
-    //this.chofer = this.navParams.get('chofer');
+    this.chofer = this.navParams.get('chofer');
     this.viaje = this.navParams.get('viaje');
 
     //console.log('CHOFER : ',this.chofer);
@@ -52,6 +52,8 @@ export class ChoferViajePage {
     if (estado != 'cumplido') {
       this.utils.showToast('Viaje en Estado : ' + estado);
     } else {
+      this.chofer.viajando = false;
+      this.userProv.modificar_usuario(this.chofer);
       this.showModal();
     }
   }
