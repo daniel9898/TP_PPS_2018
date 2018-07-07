@@ -40,14 +40,24 @@ export class ListaViajesPage {
         this.chofer = lista.filter(v => v.id_usuario == this.usuarioSesion.uid);
         console.log('this.chofer ',this.chofer);
 
-        if(this.chofer[0].id_viaje != ''){
+        if(this.chofer[0].id_viaje != '' && this.chofer[0].id_viaje != null){
 
             this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
                 lista => {
                     this.viaje = lista.filter(v => v.id_viaje == this.chofer[0].id_viaje)[0];
                     console.log('this.viaje ',this.viaje);
-                    this.utils.showToast('Tiene un viaje Asignado !!');
-                    this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
+                    
+                    this.viaje.id_vehiculo = this.chofer[0].id_vehiculo;
+                    this.viajesProv.modificar_viaje(this.viaje)
+                    .then(v =>{
+
+                        this.utils.showToast('Tiene un viaje Asignado !!');
+                        this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
+
+                    } )
+                    .catch(error => console.log('error ',error))
+
+
       
                 },
                 error => this.utils.showErrorToast('Atención ! ' + error.json())
@@ -118,7 +128,7 @@ export class ListaViajesPage {
  
   ionViewWillLeave(){
     console.log("se ejecuto ionViewWillLeave");
-    this.viajesSubsc.remove(this.viajesSubsc); 
+    this.viajesSubs.unsubscribe();
   
   }
 

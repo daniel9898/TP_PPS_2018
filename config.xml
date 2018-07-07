@@ -22,6 +22,7 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="ShowSplashScreen" value="true" />
     <preference name="FadeSplashScreen" value="true" />
+    <preference name="loadUrlTimeoutValue" value="700000" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -95,5 +96,5 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate you" />
     </plugin>
     <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.0" />
-    <engine name="android" spec="~7.0.0" />
+    <engine name="android" spec="7.0.0" />
 </widget>
