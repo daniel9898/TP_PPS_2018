@@ -64,6 +64,9 @@
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",
+  "config": {
+    "ionic_copy": "./scripts/copy.custom.config.js"
+  },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
