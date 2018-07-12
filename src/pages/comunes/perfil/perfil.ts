@@ -356,8 +356,17 @@ export class PerfilPage {
             console.log("Correo actualizado");
           })
           .catch((error)=>{
+            let errorCode = error.code;
+            //var errorMessage = error.message;
+            switch(errorCode){
+              case "auth/email-already-in-use":
+              this._utilitiesServ.showWarningToast("Correo no disponible");
+              break;
+              case "auth/invalid-email":
+              this._utilitiesServ.showErrorToast("Correo inválido");
+              break;
+            }
             this.mostrarSpinner = false;
-            console.log("Error: al actualizar mail en auth " + error);
           })
         }
         else

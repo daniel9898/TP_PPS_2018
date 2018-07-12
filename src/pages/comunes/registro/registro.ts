@@ -96,7 +96,7 @@ export class RegistroPage {
           this.registroForm.reset();
           break;
           case "auth/invalid-email":
-          this._utilitiesServ.showErrorToast("Correo invalido");
+          this._utilitiesServ.showErrorToast("Correo inválido");
           break;
         }
         this.mostrarSpinner = false;

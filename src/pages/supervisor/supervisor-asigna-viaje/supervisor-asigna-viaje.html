@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Asiganar viaje</ion-title>
+    <ion-title>Asignar viaje</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -40,6 +40,6 @@
       <button ion-button block (click)="asignarViaje()">Asignar</button>
       <button ion-button block [disabled]="viaje.estado !== 'pendiente'" color="danger" (click)="liberarViaje()">Desasignar</button>
     </ion-card-content>
-    
+
   </ion-card>
 </ion-content>
