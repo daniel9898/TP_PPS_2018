@@ -37,7 +37,7 @@ export class SupervisorAsignaViajePage {
         this.viaje = this.navParams.data.viaje;
         this.chofer = this.navParams.data.chofer;
         this.esReserva = this.navParams.data.esReserva;
-        console.log(this.viaje, this.chofer);
+        console.log("VIAJE: " + JSON.stringify(this.viaje), "CHOFER: " + JSON.stringify(this.chofer));
       }
     } else if (this.navParams.data.esReserva) {
       this.reserva = this.navParams.data.viaje.reserva;
@@ -57,6 +57,8 @@ export class SupervisorAsignaViajePage {
       .then(result => {
         console.log(result, 'ok')
         this.viaje.id_chofer = this.chofer.key;
+        this.viaje.id_vehiculo = this.chofer.id_vehiculo;
+        this.viaje.estado = 'tomado';
         if (!this.esReserva) {
           this.viajeSrv.modificar_viaje(this.viaje)
             .then(viaje => {
@@ -76,6 +78,8 @@ export class SupervisorAsignaViajePage {
       .then(result => {
         console.log(result, 'ok')
         this.viaje.id_chofer = '';
+        this.viaje.id_vehiculo = '';
+        this.viaje.estado = 'pendiente';
         this.viajeSrv.modificar_viaje(this.viaje)
           .then(viaje => {
             console.log(viaje, 'ok');

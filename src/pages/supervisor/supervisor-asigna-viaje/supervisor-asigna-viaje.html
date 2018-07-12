@@ -37,8 +37,13 @@
           {{viaje.fecha}} - {{viaje.hora}}
         </ion-col>
       </ion-row>
-      <button ion-button block (click)="asignarViaje()">Asignar</button>
-      <button ion-button block [disabled]="viaje.estado !== 'pendiente'" color="danger" (click)="liberarViaje()">Desasignar</button>
+      <button ion-button block [disabled]="viaje.estado !=='pendiente'" (click)="asignarViaje()">Asignar</button>
+      <button ion-button block color="danger" (click)="liberarViaje()"
+              [disabled]="viaje.estado === 'cumplido' ||
+                          viaje.estado ==='pendiente' ||
+                          viaje.id_chofer != chofer.id_usuario"
+              >Desasignar
+      </button>
     </ion-card-content>
 
   </ion-card>
