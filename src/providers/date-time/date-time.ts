@@ -1,45 +1,45 @@
 import { Injectable } from '@angular/core';
 import * as moment from 'moment';
 
-/*
-  Generated class for the DateTimeProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class DateTimeProvider {
 
   constructor() {
-    console.log('Hello DateTimeProvider Provider');
-    moment.locale('es');
+    console.log('Data Time provider');
   }
 
-  /**
-   * Retorna un array con los días de la semana
-   */
+  //INICIALIZAR
+  initialized(code:string){
+    moment.locale(code);
+  }
+
+  //RETORNA: días completos de la semana
   getWeekDays(): string[] {
     return moment.weekdays();
   }
 
-  /**
-   * Retorna un array con los nombres de los días de la semana cortos
-   */
+  //RETORNA: días de la semana (diminutivo)
   getWeekDaysShort(): string[]{
     return moment.weekdaysShort();
   }
 
-  /**
-   * Retorna un array con los meses
-   */
+  //RETORNA: meses del año
   getMonthNames(): string[] {
     return moment.months();
   }
 
-  /**
-   * Retorna un array con los nombres cortos de los meses
-   */
+  //RETORNA: meses del año (diminutivo)
   getMonthNamesShort(){
     return moment.monthsShort();
+  }
+
+  //RETORNA: fecha actual (día + mes + año)
+  getDate(){
+    return moment().format("YYYY-MM-DD");
+  }
+
+  //RETORNA: hora actual
+  getHour(){
+    return moment().format('HH:mm');
   }
 }
