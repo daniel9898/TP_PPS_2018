@@ -1,23 +1,38 @@
-
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Reservas Pendientes</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
 <ion-content padding>
 
-<ion-list >
-  <ion-item ion-item *ngFor="let viaje of viajes" (click)="viajeSeleccionado(viaje)">
-  	<ion-avatar item-start>
-      <img src="http://pngimg.com/uploads/gps/gps_PNG8.png">
-    </ion-avatar>
-    <h2>Fecha : {{ viaje.fecha }} Hora: {{ viaje.hora }}</h2>
-    <h3>Desde : {{ viaje.origen }}</h3>
-    <h3>Hasta : {{ viaje.destino }}</h3>
-  </ion-item> 
-</ion-list>
+<ion-item>
+  <ion-label text-center><strong>Viajes Pendientes</strong></ion-label>
+</ion-item>
+
+<!-- SPINNER -->
+<div *ngIf="mostrarSpinner" class="spinner">
+  <img src="assets/imgs/spinner_black.png" alt="spinner">
+</div>
+<!-- CONTENIDO -->
+<div *ngIf="!mostrarSpinner">
+  <ion-list>
+    <ion-item ion-item *ngFor="let viaje of viajes" (click)="viajeSeleccionado(viaje)">
+    	<ion-avatar item-start>
+        <img src="http://pngimg.com/uploads/gps/gps_PNG8.png">
+      </ion-avatar>
+      <h2>Fecha : {{ viaje.fecha }} Hora: {{ viaje.hora }}</h2>
+      <h3>Desde : {{ viaje.origen }}</h3>
+      <h3>Hasta : {{ viaje.destino }}</h3>
+    </ion-item>
+  </ion-list>
+  <!-- ENCUESTA -->
+  <ion-fab right bottom>
+      <button ion-fab color="green" (click)="encuestaChofer()">
+          <ion-icon class="iconTravel" name="md-list-box"></ion-icon>
+      </button>
+  </ion-fab>
+  <!-- LIBERAR VEHICULO -->
+  <ion-fab left bottom>
+      <button ion-fab color="danger" (click)="liberarVehiculo()">
+          <ion-icon class="iconTravel" name="md-car"></ion-icon>
+      </button>
+  </ion-fab>
+
+</div>
 
 </ion-content>
