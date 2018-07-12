@@ -32,7 +32,7 @@ export class ChoferEncuestaProvider {
   }
 
   //TRAER UNA ENCUESTA
-  /*traer_viajes(valor:string, criterio:string){ //MODIFICAR ESTE METODO
+  traer_encuestas(valor:string, criterio:string){
     let promesa = new Promise((resolve, reject)=>{
 
       let encuestasArray:Encuesta_chofer[] = []; //RETORNO
@@ -43,7 +43,7 @@ export class ChoferEncuestaProvider {
           let encuesta:Encuesta_chofer = new Encuesta_chofer(e);
           switch(criterio){
             case "viaje":
-            if(e.estado == valor) encuestasArray.push(encuesta); break;
+            if(e.id_viaje == valor) encuestasArray.push(encuesta); break;
             case "fecha":
             if(e.fecha == valor) encuestasArray.push(encuesta); break;
             case "todos":
@@ -54,7 +54,7 @@ export class ChoferEncuestaProvider {
       })
     });
     return promesa;
-  }*/
+  }
 
   //ALTA
   alta_encuesta(encuesta:Encuesta_chofer){

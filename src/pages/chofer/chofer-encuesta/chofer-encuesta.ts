@@ -17,6 +17,7 @@ export class ChoferEncuestaPage {
 
   mostrarSpinner:boolean = false;
   //ENCUESTA
+  encuestasDelChofer:Encuesta_chofer[] = [];
   encuesta:Encuesta_chofer;
   encuesta_byDefault:any;
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
@@ -27,8 +28,9 @@ export class ChoferEncuestaPage {
   hora:string;
   foto_preview:string;
   foto_subir:string;
-  chofer : any;
-  vehiculo : any;
+  id_chofer : any;
+  id_vehiculo : any;
+  desdeInicio:boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -36,34 +38,62 @@ export class ChoferEncuestaPage {
               private camera: Camera,
               private _encuestaService:ChoferEncuestaProvider) {
 
-    if(this.navParams.get('chofer') != undefined){ this.chofer = this.navParams.get('chofer')};
-    if(this.navParams.get('vehiculo') != undefined){ this.vehiculo = this.navParams.get('vehiculo')};
-
+    if(this.navParams.get('chofer') != undefined){ this.id_chofer = this.navParams.get('chofer')};
+    if(this.navParams.get('vehiculo') != undefined){ this.id_vehiculo = this.navParams.get('vehiculo')};
+    if(this.navParams.get('desdeInicio') != undefined){ this.desdeInicio = this.navParams.get('desdeInicio')};
     this.mostrarSpinner = true;
   }
 
   ionViewDidLoad() {
+    //GENERAR FECHA DEL DIA
+    this.generar_fecha()
+      .then(()=>{
+   //TRAER ENCUESTA DEL DIA
+        this.traer_encuesta_del_dia()
+   //GENERAR ENCUESTA by DEFAULT
+          .then(()=>{
+            this.generar_encuesta_byDefault();
+        })
+      })
+  }
 
-    this.generar_encuesta_byDefault();
+  //TRAER ENCUESTA DEL DIA
+  traer_encuesta_del_dia(){
+    let promesa = new Promise((resolve, reject)=>{
+      this._encuestaService.traer_encuestas(this.fecha, "fecha")
+        .then((encuestas:any)=>{
+
+          this.encuestasDelChofer = encuestas;
+          console.log("Encuestas!: " + JSON.stringify(this.encuestasDelChofer[0]));
+          resolve();
+        })
+        .catch((error)=>{ console.log("Error al traer encuestas: " + error); resolve() })
+    });
+    return promesa;
   }
 
   //GENERAR ENCUESTA (by default)
   generar_encuesta_byDefault(){
 
     this.mostrarSpinner = true;
-    this.encuesta_byDefault = {
-      id_encuesta: "keyEncuesta",
-      id_chofer: this.chofer != null ? this.chofer.uid : 'uid',
-      id_vehiculo: this.vehiculo != null ? this.vehiculo.key : 'key',
-      fecha:"N/N",
-      cod_fecha: "N/N",
-      hora:"N/N",
-      pregunta_1:0,
-      pregunta_2:0,
-      pregunta_3:0,
-      pregunta_4:false,
-      pregunta_5:"",
-      foto: this.encuesta_foto
+    if(this.encuestasDelChofer[0] != null){
+      this.encuesta_byDefault = this.encuestasDelChofer[0];
+    }
+    else{
+      this.encuesta_byDefault = {
+        id_encuesta: "keyEncuesta",
+        id_chofer: this.id_chofer,
+        id_vehiculo: this.id_vehiculo,
+        fecha:"N/N",
+        cod_fecha: "N/N",
+        hora:"N/N",
+        pregunta_1:0,
+        pregunta_2:0,
+        pregunta_3:0,
+        pregunta_4:false,
+        pregunta_5:"",
+        foto: this.encuesta_foto
+      }
     }
     this.encuesta = new Encuesta_chofer(this.encuesta_byDefault);
     this.mostrarSpinner = false;
@@ -73,8 +103,9 @@ export class ChoferEncuestaPage {
   generar_fecha(){
     let promesa = new Promise((resolve, reject)=>{
       let currentDate = new Date();
-      this.fecha = currentDate.getDate()+'/'+(currentDate.getMonth() + 1)+'/'+currentDate.getFullYear();
-      this.hora = currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
+      this.fecha = currentDate.getFullYear()+'-'+(currentDate.getMonth()<10?'0':'').toString()+(currentDate.getMonth() + 1)+'-'+(currentDate.getDate()<10?'0':'').toString()+currentDate.getDate();
+      console.log("Fecha actual: " + this.fecha);
+      this.hora = (currentDate.getHours()<10?'0':'').toString() + currentDate.getHours().toString()+':'+ (currentDate.getMinutes()<10?'0':'').toString() +currentDate.getMinutes().toString();
       resolve();
     });
     return promesa;
@@ -118,8 +149,7 @@ export class ChoferEncuestaPage {
       this.encuesta.fecha = this.fecha;
       this.encuesta.cod_fecha = new Date().valueOf().toString();
       this.encuesta.hora = this.hora;
-
-      console.log('Encuesta : ',this.encuesta);
+      //console.log('Encuesta : ',this.encuesta);
       this.guardar_encuesta();
 
     })
@@ -130,32 +160,49 @@ export class ChoferEncuestaPage {
   guardar_encuesta(){
     if(this.hay_diferencias){
 
-      this._encuestaService.alta_encuesta(this.encuesta).then((key:any)=>{
+      //SI YA EXISTE UNA ENCUESTA DE CHOFER EN EL DIA
+      if(this.encuestasDelChofer != []){
+      this.guardar_nuevaFoto().then(()=>{
 
-        this.encuesta.id_encuesta = key;
+          this._encuestaService.modificar_encuesta(this.encuesta).then(()=>{
 
-        this.guardar_nuevaFoto().then(()=>{
+               console.log("Cambios guardados!");
+             this.mostrarSpinner = false;
+             this.mostrarAlerta("Cambios realizados con éxito");
+             if(this.desdeInicio)
+               this.navCtrl.setRoot(ListaViajesPage);
+            else
+                this.navCtrl.pop();
 
-            this._encuestaService.modificar_encuesta(this.encuesta).then(()=>{
+          }).catch((error)=>{ console.log("Error al actualizar datos de encuesta: " + error); })
+        }).catch(e => console.log("Error al guardar foto en encuesta: " + e))
+      }
 
-                 console.log("Cambios guardados!");
-	             this.mostrarSpinner = false;
-	             this.mostrarAlerta("Cambios realizados con éxito");
-	             this.navCtrl.setRoot(ListaViajesPage,{vehiculo: this.vehiculo});
+      //SI ES LA PRIMER ENCUESTA DEL DIA
+      if(this.encuestasDelChofer == []){
+          this._encuestaService.alta_encuesta(this.encuesta).then((key:any)=>{
 
-            })
-            .catch((error)=>{
-               console.log("Error al actualizar datos de encuesta: " + error);
-            })
+          this.encuesta.id_encuesta = key;
+          this.guardar_nuevaFoto().then(()=>{
 
+              this._encuestaService.modificar_encuesta(this.encuesta).then(()=>{
 
+                   console.log("Cambios guardados!");
+                 this.mostrarSpinner = false;
+                 this.mostrarAlerta("Cambios realizados con éxito");
+                 if(this.desdeInicio)
+                   this.navCtrl.setRoot(ListaViajesPage);
+                else
+                    this.navCtrl.pop();
 
-        }).catch(e => console.log("Error al actualizar datos de encuesta: " + e))
+              }).catch((error)=>{ console.log("Error al actualizar datos de encuesta: " + error); })
+            }).catch(e => console.log("Error al guardar foto en encuesta: " + e))
+          }).catch((error)=>{
+            this.mostrarSpinner = false;
+            console.log("Error al agregar encuesta: " + error);
+          })
+      }
 
-      }).catch((error)=>{
-        this.mostrarSpinner = false;
-        console.log("Error al agregar encuesta: " + error);
-      })
     }
   }
 
@@ -195,7 +242,12 @@ export class ChoferEncuestaPage {
   }
 
   cancelar(){
-    this.navCtrl.pop();
+    //SI accede a la encuesta desde el inicio chofer (la puede completar en otro momento)
+    if(this.desdeInicio)
+      this.navCtrl.setRoot(ListaViajesPage);
+    //SI accede a la encuesta desde lista viajes o viaje chofer
+    else
+      this.navCtrl.pop();
   }
 
 }

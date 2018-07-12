@@ -1,7 +1,18 @@
-page-cliente-encuesta {
+page-chofer-encuesta {
+
+  .car_card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .imgVehiculo{
+    width: 70px;
+    height: 50px;
+  }
 
   .lbl_titulo{
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .boton_camara{
@@ -11,7 +22,7 @@ page-cliente-encuesta {
     border-radius: 50%;
   }
 
-  .fotoPerfil{
+  .fotoEncuesta{
     width: 100px;
     height: 100px;
   }

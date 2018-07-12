@@ -8,6 +8,16 @@
   <!-- CONTENIDO PRINCIPAL -->
   <div class="main_content" *ngIf="!mostrarSpinner">
 
+    <!-- DATOS DEL VEHICULO -->
+    <ion-card class="car_card">
+      <img class= "imgVehiculo" src="https://www.freeiconspng.com/uploads/vehicle-icon-29.png"/>
+      <ion-card-content>
+        <ion-card-title text-center>
+         Patente {{ id_vehiculo }}
+        </ion-card-title>
+      </ion-card-content>
+    </ion-card>
+
     <!-- FORMULARIO -->
     <div class="formulario">
         <ion-item no-lines>
@@ -72,22 +82,21 @@
                     (click)="cambiar_foto()">
               <ion-icon name="md-camera"></ion-icon>
             </button>
-            <img class="fotoPerfil" [src]=encuesta.foto>
+            <img class="fotoEncuesta" [src]=encuesta.foto>
         </ion-item>
 
         <!-- BOTONERA -->
         <ion-row>
           <!-- CANCELAR -->
           <ion-col>
-            <button class="boton" ion-button block color="danger" (click)="cancelar()"
-             [disabled]="this.chofer == null">
+            <button class="boton" ion-button block color="danger" (click)="cancelar()">
               <ion-icon name="md-close-circle"></ion-icon>
             </button>
           </ion-col>
           <!-- GUARDAR -->
           <ion-col>
-            <button class="boton" ion-button block color="secondary" (click)="guardar()" 
-            [disabled]="!cambios || this.chofer == null">
+            <button class="boton" ion-button block color="secondary" (click)="guardar()"
+            [disabled]="!cambios">
               <ion-icon name="ios-folder-open"></ion-icon>
             </button>
           </ion-col>
@@ -96,4 +105,3 @@
 
   </div>
 </ion-content>
-
