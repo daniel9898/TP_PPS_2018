@@ -8,7 +8,7 @@ import * as $ from 'jquery';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
-         ChoferInicioPage, ChoferViajePage, ChoferHistorialPage, ChoferEncuestaPage, ListaViajesPage, ChoferEstadisticaPage,//-------------------CHOFER
+         ChoferInicioPage, ChoferHistorialPage, ListaViajesPage, ChoferEstadisticaPage,//--------------------------------------------------------CHOFER
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
 import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
@@ -106,11 +106,9 @@ export class MyApp {
             { title: 'Inicio', component: ChoferInicioPage, visibility: this.vista_chofer },
             { title: 'Perfil', component: PerfilPage, visibility: this.vista_chofer },
             { title: 'Pedir viaje', component: ClienteViajePage, visibility: this.vista_chofer },
-            { title: 'Viaje en Curso', component: ChoferViajePage, visibility: this.vista_chofer },
             { title: 'Ganancias', component: ChoferHistorialPage, visibility: this.vista_chofer },
             { title: 'Viajes pedidos', component: ClienteHistorialPage, visibility: this.vista_chofer },
             { title: 'Estadística', component: ChoferEstadisticaPage, visibility: this.vista_chofer },
-            { title: 'Encuesta', component: ChoferEncuestaPage, visibility: this.vista_chofer },
             { title: 'Reservas Pendientes', component: ListaViajesPage, visibility: this.vista_chofer },
             { title: 'Encuestas pendientes', component: ClienteEncuestasPage, visibility: this.vista_chofer },
             //PAGINAS SUPERVISOR (11)
@@ -173,23 +171,6 @@ export class MyApp {
   logout() {
   	this.menu.close();
     this.menu.enable(false);
-    if (this.vista_chofer) {
-      this.usuarioSrv.traerUsuario(this.auth.get_userUID()).then((value:any) => {
-        if(value.id_vehiculo !== ''){
-          this.vehiculoSrv.getListaVehiculos().subscribe(next => {
-            var vehiculos = next.filter(itemVehiculo => itemVehiculo.vehiculo.patente == value.id_vehiculo);
-            // console.log(vehiculos,value,next);
-            if(vehiculos.length > 0)
-            {
-              vehiculos[0].vehiculo.ocupado = false;
-              this.vehiculoSrv.updateItem(vehiculos[0].key,vehiculos[0].vehiculo);
-              value.id_vehiculo = '';
-              this.usuarioSrv.modificar_usuario(value);
-            }
-          });
-        }
-      });
-    }
   	this.auth.signOut();
   	this.nav.setRoot(LoginPage);
   }
