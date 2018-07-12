@@ -1,22 +1,19 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>Viaje a Realizar</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
 <ion-content padding>
+
+    <ion-item>
+      <ion-label text-center><strong>Datos del viaje</strong></ion-label>
+    </ion-item>
+
 		<ion-item>
 			<ion-label stacked color="primary">Dirección de Busqueda</ion-label>
-			<ion-input [disabled]="true" type="text" value="{{ viaje.origen }}"></ion-input> 
+			<ion-input [disabled]="true" type="text" value="{{ viaje.origen }}"></ion-input>
 		</ion-item>
-	
+
 		<ion-item>
 			<ion-label stacked color="primary">Destino</ion-label>
 			<ion-input [disabled]="true" type="text" value="{{ viaje.destino }}"></ion-input>
 		</ion-item>
-	
+
 		<ion-item>
 			<ion-label stacked color="primary">Hora</ion-label>
 			<ion-input [disabled]="true" type="text" value="{{ viaje.hora }}"></ion-input>
@@ -25,9 +22,16 @@
 			<ion-label stacked color="primary">Precio</ion-label>
 			<ion-input [disabled]="true" type="text" value="$ {{viaje.precio }}"></ion-input>
 		</ion-item>
-      
+
 	  <button ion-button block icon-end color="danger" (click)="modificarEstado('pendiente')">Cancelar</button>
 	  <button ion-button block icon-end color="primary" (click)="modificarEstado('en curso')">En Curso</button>
 	  <button ion-button block icon-end color="secondary" (click)="modificarEstado('cumplido')">Cumplido</button>
-    
+
+    <!-- ENCUESTA -->
+    <ion-fab right bottom>
+        <button ion-fab color="green" (click)="encuestaChofer()">
+            <ion-icon class="iconTravel" name="md-list-box"></ion-icon>
+        </button>
+    </ion-fab>
+
 </ion-content>

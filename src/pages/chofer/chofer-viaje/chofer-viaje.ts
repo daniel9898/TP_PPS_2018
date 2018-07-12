@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavParams, NavController } from 'ionic-angular';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 //import { Subscription } from 'rxjs/Subscription';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//PAGINAS
+import { ChoferEncuestaPage, ListaViajesPage } from '../../index-paginas';
+import { ModalPage } from '../modal/modal';
 
 @IonicPage()
 @Component({
@@ -12,22 +15,22 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 })
 export class ChoferViajePage {
 
-  //chofer : any;
+  chofer : any;
   cliente: any;
   viaje: any;
 
   constructor(
     public navParams: NavParams,
+    public navCtrl: NavController,
     public userProv: UsuarioServicioProvider,
     public viajesProv: ViajeServicio,
-    public utils: UtilidadesProvider,
-    public modalCtrl: ModalController) {
+    public utils: UtilidadesProvider) {
 
 
-    //this.chofer = this.navParams.get('chofer');
+    this.chofer = this.navParams.get('chofer');
     this.viaje = this.navParams.get('viaje');
 
-    //console.log('CHOFER : ',this.chofer);
+    console.log('CHOFER EN VIAJE: ', this.chofer.id_viaje);
 
 
   }
@@ -49,16 +52,27 @@ export class ChoferViajePage {
     this.viaje.estado = estado;
     await this.viajesProv.modificar_viaje(this.viaje);
     console.log('viaje ', this.viaje);
-    if (estado != 'cumplido') {
+    switch(estado){
+      case 'pendiente'://Chofer cancela el viaje
+      this.chofer.id_viaje = "" //Desasignación
+      this.userProv.modificar_usuario(this.chofer)
+        .then(()=>{ this.navCtrl.setRoot(ListaViajesPage) })
+      break;
+      case 'en curso':
       this.utils.showToast('Viaje en Estado : ' + estado);
-    } else {
-      this.showModal();
+      break;
+      case 'cumplido':
+      this.showPage();
+      break;
     }
   }
 
-  showModal() {
-    let contactModal = this.modalCtrl.create('ModalPage', { 'viaje': this.viaje, 'cliente':this.cliente });
-    contactModal.present();
+  encuestaChofer() {
+    this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.viaje.id_vehiculo, chofer: this.viaje.id_chofer, desdeInicio: false });
+  }
+
+  showPage() {
+    this.navCtrl.setRoot(ModalPage, { 'viaje': this.viaje, 'cliente':this.cliente });
   }
 
 
