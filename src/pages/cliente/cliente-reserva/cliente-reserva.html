@@ -23,13 +23,14 @@
   </ion-item>
   <ion-item>
     <ion-label>Fecha</ion-label>
-    <ion-datetime id="fecha" name="fecha" #fecha="ngModel" [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames"
+    <ion-datetime id="fecha" name="fecha" [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [min]="fecha"
       [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" doneText="Listo" cancelText="Cancelar" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Hora</ion-label>
-    <ion-datetime id="hora" name="hora" #hora="ngModel" [(ngModel)]="reserva.hora" doneText="Listo" cancelText="Cancelar" displayFormat="HH:mm" pickerFormat="HH:mm"
-      required></ion-datetime>
+    <ion-datetime id="hora" name="hora" [(ngModel)]="reserva.hora" doneText="Listo" cancelText="Cancelar"
+                      displayFormat="HH:mm" pickerFormat="HH:mm"
+    required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>Dirección destino</ion-label>
@@ -39,7 +40,7 @@
   <!-- <ion-item-divider color="light"></ion-item-divider> -->
   <ion-item>
     <ngui-map zoom="13" [center]="coordenadas">
-      <directions-renderer 
+      <directions-renderer
       #DirectionsRenderer
 
       (directions_changed)="directionsChanged()"

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
@@ -9,7 +9,6 @@ import { Reserva } from '../../../classes/viaje.model';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { DirectionsRenderer } from '@ngui/map';
 
-@IonicPage()
 @Component({
   selector: 'page-cliente-reserva',
   templateUrl: 'cliente-reserva.html',
@@ -24,7 +23,8 @@ export class ClienteReservaPage {
   myDestCallbackFunction: Function;
   usuario: Usuario;
   reserva: Reserva;
-
+  fecha:string;
+  hora:string;
     /**
    * key de la base
    */
@@ -48,10 +48,15 @@ export class ClienteReservaPage {
     private usuarioServicio: UsuarioServicioProvider,
     private reservasSrv : ReservasProvider,
     private cdr: ChangeDetectorRef) {
+    dateTimeSrv.initialized('es');
     this.monthNames = dateTimeSrv.getMonthNames();
     this.daysNames = dateTimeSrv.getWeekDays();
     this.daysShortNames = dateTimeSrv.getWeekDaysShort();
     this.monthShortNames = dateTimeSrv.getMonthNamesShort();
+    this.fecha = dateTimeSrv.getDate();
+    console.log("Fecha actual: " + this.fecha);
+    this.hora = dateTimeSrv.getHour();
+    console.log("Hora actual: " + this.hora);
     this.inicializarReserva();
   }
 
@@ -104,7 +109,7 @@ export class ClienteReservaPage {
     }
   }
 
-  
+
   directionsChanged() {
     this.directionsResult = this.directionsRenderer.getDirections();
     this.cdr.detectChanges();
@@ -170,7 +175,7 @@ export class ClienteReservaPage {
   }
 
   /**
-   * Metodo para establecer la dirección 
+   * Metodo para establecer la dirección
    * sin tener problemas con el scope.
    * @param dir dirección
    */
@@ -194,7 +199,7 @@ export class ClienteReservaPage {
   /**
    * guardar reserva
    */
-  guardarReserva(){   
+  guardarReserva(){
     const fecha = new Date(this.reserva.fecha);
     //se setean los datos para guardar
     this.reserva.cod_fecha = fecha.valueOf().toString();
