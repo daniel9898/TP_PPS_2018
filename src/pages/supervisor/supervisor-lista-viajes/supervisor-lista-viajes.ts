@@ -28,7 +28,7 @@ export class SupervisorListaViajesPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorListaViajesPage');
     this.viajeSrv.getAllTrips().subscribe(next => {
-      this.viajes = next.filter(viaje => viaje.estado === 'pendiente');
+      this.viajes = next.filter(viaje => viaje.estado !== 'cumplido');
     });
   }
 
