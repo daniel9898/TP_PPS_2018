@@ -22,7 +22,7 @@ export class SupervisorListaVehiculosPage {
   public vehiculos: any[];
 
   /**
-   * 
+   *
    * @param navCtrl controller de navegación
    * @param navParams controller de parametros entre paginas
    * @param vehiculosSrv servicio de vehículo
@@ -97,25 +97,8 @@ export class SupervisorListaVehiculosPage {
    * @param i indice de la colección
    */
   eliminarVehiculo(i) {
-    const confirm = this.alertCtrl.create({
-      title: '¿Está seguro?',
-      message: 'Esta por eliminar un vehículo',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
-        },
-        {
-          text: 'Si',
-          handler: () => {
-            this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
-          }
-        }
-      ]
-    });
-    confirm.present();
+    this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
+
   }
 
 }
