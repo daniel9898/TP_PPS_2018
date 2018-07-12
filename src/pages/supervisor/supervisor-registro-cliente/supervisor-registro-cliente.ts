@@ -9,6 +9,7 @@ import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -44,7 +45,8 @@ export class SupervisorRegistroClientePage {
               public toastCtrl: ToastController,
               public frRegistration:FormBuilder,
               public _auth: AuthAdministradorProvider,
-              public _usuarioServicio: UsuarioServicioProvider) {
+              public _usuarioServicio: UsuarioServicioProvider,
+              public _utilidadesSrv: UtilidadesProvider) {
 
               //Habilita botón atrás (hacia la lista usuarios)
               if(this.navParams.get("fromLista"))
@@ -119,7 +121,7 @@ export class SupervisorRegistroClientePage {
                  this._usuarioServicio.modificar_usuario(this.usuario)
                    .then(()=>{
                        this.mostrarSpinner = false;
-                       this.mostrarAlerta("Usuario creado");
+                       this._utilidadesSrv.showToast("Usuario creado");
                    })
                    .catch((error)=>{ console.log("Error al actualizar key usuario en DB: " + error); })
                  })
@@ -134,24 +136,14 @@ export class SupervisorRegistroClientePage {
         this.mostrarSpinner = false;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this.mostrarAlerta("Cuenta no disponible");
+          this._utilidadesSrv.showWarningToast("Cuenta no disponible");
           break;
           case "auth/invalid-email":
-          this.mostrarAlerta("Correo invalido");
+          this._utilidadesSrv.showErrorToast("Correo inválido");
           break;
         }
       })
 
-  }
-
-  //ALERTA
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   //MOSTRAR MAPA

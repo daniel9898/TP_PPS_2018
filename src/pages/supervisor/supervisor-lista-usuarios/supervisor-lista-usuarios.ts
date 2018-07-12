@@ -7,6 +7,7 @@ import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 
 @Component({
   selector: 'page-supervisor-lista-usuarios',
@@ -24,7 +25,8 @@ export class SupervisorListaUsuariosPage {
               public navParams: NavParams,
               public toastCtrl: ToastController,
               public _auth: AuthServicioProvider,
-              public _usuarioServicio: UsuarioServicioProvider) {
+              public _usuarioServicio: UsuarioServicioProvider,
+              public _utilidadesSrv: UtilidadesProvider) {
 
         this.mostrarSpinner = true;
   }
@@ -69,11 +71,11 @@ export class SupervisorListaUsuariosPage {
     this._usuarioServicio.baja_usuario(key)
     .then(()=>{
           console.log("OK: usuario eliminado de database");
-          this.mostrarAlerta("Usuario eliminado");
+          this._utilidadesSrv.showToast("Usuario eliminado");
           this.initializeItems();
     })
     .catch((error)=>{
-      //this.mostrarAlerta("Error al realizar acción");
+      this._utilidadesSrv.showErrorToast("Error al realizar acción: " + error);
       console.log("Error al borrar usuario de database: " + error);
     })
   }
@@ -84,15 +86,6 @@ export class SupervisorListaUsuariosPage {
 
   agregarUsuario(){
     this.navCtrl.push(SupervisorRegistroUsuarioPage);
-  }
-
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 2000,
-      position: "top"
-    });
-    toast.present();
   }
 
 }
