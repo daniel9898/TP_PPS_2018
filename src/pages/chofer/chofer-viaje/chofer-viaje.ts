@@ -1,23 +1,26 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController } from 'ionic-angular';
+import { NavParams, NavController } from 'ionic-angular';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
-//import { Subscription } from 'rxjs/Subscription';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //PAGINAS
 import { ChoferEncuestaPage, ListaViajesPage } from '../../index-paginas';
 import { ModalPage } from '../modal/modal';
+//OTROS
+import { Subscription } from 'rxjs/Subscription';
 
-@IonicPage()
 @Component({
   selector: 'page-chofer-viaje',
   templateUrl: 'chofer-viaje.html',
 })
 export class ChoferViajePage {
 
+  mostrarSpinner:boolean = false;
   chofer : any;
   cliente: any;
   viaje: any;
+  //SUSCRIPCION
+  viajesSubs : Subscription;
 
   constructor(
     public navParams: NavParams,
@@ -26,25 +29,42 @@ export class ChoferViajePage {
     public viajesProv: ViajeServicio,
     public utils: UtilidadesProvider) {
 
-
-    this.chofer = this.navParams.get('chofer');
-    this.viaje = this.navParams.get('viaje');
-
-    console.log('CHOFER EN VIAJE: ', this.chofer.id_viaje);
-
-
+      this.chofer = this.navParams.get('chofer');
+      this.viaje = this.navParams.get('viaje');
   }
 
-  ionViewDidLoad() {
-
+  ionViewWillEnter() {
+    this.inicializar();
     this.traerCliente();
+  }
 
+  inicializar(){
+    this.mostrarSpinner = true;
+    this.chofer = this.navParams.get('chofer');
+    this.viaje = this.navParams.get('viaje');
+    this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
+        lista => {
+//3) OBTENER VIAJE
+            this.viaje = lista.filter(v => v.id_viaje == this.chofer.id_viaje)[0];
+            console.log('this.viaje ',this.viaje);
+//4) VALIDAR ESTADO DEL VIAJE
+              if(this.viaje.estado === 'pendiente'){
+                  this.utils.showToast('Viaje desasignado');
+                  this.mostrarSpinner = false;
+                  this.navCtrl.setRoot(ListaViajesPage);
+              }
+              //Chofer tiene vehiculo asignado + viaje asignado PERO es un viaje pasado
+              else
+                this.mostrarSpinner = false;
+            },
+            error => this.utils.showErrorToast('Atención ! ' + error.json())
+        )
   }
 
   traerCliente() { //VER EN QUE MOMENTO SE EJECUTA,ROMPE LA VISTA
-
+    this.mostrarSpinner = true;
     this.userProv.traerUsuario(this.viaje.id_cliente)
-      .then(c => this.cliente = c)
+      .then(c => { this.cliente = c; this.mostrarSpinner = false })
       .catch(e => console.log(e.message));
   }
 
@@ -73,6 +93,11 @@ export class ChoferViajePage {
 
   showPage() {
     this.navCtrl.setRoot(ModalPage, { 'viaje': this.viaje, 'cliente':this.cliente });
+  }
+
+  ionViewWillLeave(){
+    console.log("Se fue de lista viajes");
+    this.viajesSubs.unsubscribe();
   }
 
 
