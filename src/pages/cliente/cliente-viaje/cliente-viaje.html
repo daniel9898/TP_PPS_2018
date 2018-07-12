@@ -82,7 +82,7 @@
   <div *ngIf="mostrarPrecio">
     <p class="text_precio" text-center>
       <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
-      {{viaje.distancia}}KM = ${{viaje.precio}}
+      {{viaje.distancia}}{{texto.unidad_medida}} = {{texto.moneda_simbolo}}{{viaje.precio}}
     </p>
   </div>
 

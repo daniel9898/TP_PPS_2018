@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, NavParams, Platform } from 'ionic-angular';
+import { Subscription } from 'rxjs/Subscription';
 //PAGINAS
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
 //CLASES
@@ -51,6 +52,8 @@ export class ClienteViajePage {
   //texto
   texto:any = Viaje_texto;
   msj_estado:string;
+  //SUSCRIBER
+  clienteSuv:Subscription;
 
   //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;
@@ -72,7 +75,7 @@ export class ClienteViajePage {
       };
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     this.generar_fecha();
     let hora = this.hora.split(':');
     let horaActual = parseInt(hora[0]);
@@ -285,7 +288,7 @@ export class ClienteViajePage {
   //VALIDAR CAMBIOS DE ESTADO
   validar_espera(){
 
-    this._viajeService.esperar_estado(this.viaje.id_viaje)
+    this.clienteSuv = this._viajeService.esperar_estado(this.viaje.id_viaje)
     .subscribe((viaje:any)=>{
       viaje.forEach((item) => {
           console.log("Estado del viaje: " + item.estado);
@@ -393,6 +396,7 @@ export class ClienteViajePage {
             break;
         // 4) VIAJE CUMPLIDO
             case "cumplido":
+            this.clienteSuv.unsubscribe();
             this._utilitiesServ.showToast(this.texto.estados.cumplido);
             //this.msj_estado = this.texto.estados.cumplido;
             this.mostrarSpinner = true;
@@ -461,6 +465,7 @@ export class ClienteViajePage {
   //DETENER PEDIDO DE VIAJE
   cancelar_viaje(){
 
+    this.clienteSuv.unsubscribe();
     this._viajeService.baja_viaje(this.viaje.id_viaje)
       .then(()=>{
         this.usuario.viajando = false;
@@ -524,6 +529,10 @@ export class ClienteViajePage {
 
   ir_encuesta(){
     this.navCtrl.push(ClienteEncuestaPage, { 'id_viaje' : this.viaje.id_viaje, 'desde':'viaje' });
+  }
+
+  ionViewWillLeave(){
+    this.clienteSuv.unsubscribe();
   }
 
 }
