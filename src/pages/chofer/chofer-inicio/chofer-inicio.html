@@ -1,46 +1,23 @@
-
-<ion-header class="heade">
-
-  <ion-navbar>
-    <ion-title><ion-icon>PRINCIPAL</ion-icon></ion-title>
-  </ion-navbar>
-
-</ion-header>
-
 <ion-content padding class="masters">
- <button ion-button block icon-end (click)="comenzarActividad()" [disabled]="asignado">
- 	Comenzar Actividad
-   <ion-icon ios="ios-car" md="md-car"></ion-icon>
- </button>
+
+  <!-- SPINNER -->
+  <div *ngIf="mostrarSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+  <!-- CONTENIDO -->
+  <div *ngIf="!mostrarSpinner">
+    <ion-fab middle center>
+       <button ion-fab block (click)="comenzarActividad()" [disabled]="asignado" color="signin">
+         <ion-icon class="car_icon" md="md-car"></ion-icon>
+       </button>
+    </ion-fab>
 
 
-<ion-slides *ngIf="!asignado">
-  <ion-slide>
-    <img src="assets/imgs/inicio_chofer.gif"/>
-  </ion-slide>
-</ion-slides>
+    <ion-slides>
+      <ion-slide>
+        <img src="assets/imgs/inicio_chofer.gif"/>
+      </ion-slide>
+    </ion-slides>
 
-
-	<ion-card *ngIf="asignado">
-	  <ion-card-title padding>Vehiculo Asignado : </ion-card-title>
-	  <img *ngIf="vehiculoAsignado.vehiculo.foto != null" src="{{vehiculoAsignado.vehiculo.foto[0]}}"/>
-	  <img *ngIf="vehiculoAsignado.vehiculo.foto == null" 
-	        src="https://www.freeiconspng.com/uploads/vehicle-icon-29.png"/>
-	  <ion-card-content>
-	    <ion-card-title>
-	     Patente : {{ vehiculoAsignado.vehiculo.patente }}
-	     </ion-card-title>
-	    <p>
-	     Marca : {{ vehiculoAsignado.vehiculo.marca }}
-	    </p>
-	    <p>
-	     Modelo : {{ vehiculoAsignado.vehiculo.modelo }}
-	    </p>
-	  </ion-card-content>
-	</ion-card>
- <button *ngIf="asignado" color="secondary" ion-button block icon-end (click)="listadoDeViajes()">
- 	Continuar
-   <ion-icon ios="ios-car" md="md-car"></ion-icon>
- </button>
-
+  </div>
 </ion-content>
