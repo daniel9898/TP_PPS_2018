@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams, NavController, ViewController } from 'ionic-angular';
+import { IonicPage, NavParams, NavController } from 'ionic-angular';
 //PAGINAS
 import { ListaViajesPage } from '../lista-viajes/lista-viajes';
 
@@ -15,8 +15,7 @@ export class ModalPage {
 
   constructor(
     public nav_params: NavParams,
-    public navCtrl:NavController,
-    public viewCtrl: ViewController) {
+    public navCtrl:NavController) {
 
       this.viaje = this.nav_params.get('viaje');
       this.cliente = this.nav_params.get('cliente');

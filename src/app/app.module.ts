@@ -69,6 +69,7 @@ import { SupervisorListaViajesPage } from '../pages/supervisor/supervisor-lista-
 import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
+import { ModalPage } from '../pages/chofer/modal/modal';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
 
 @NgModule({
@@ -97,6 +98,7 @@ import { SonidosProvider } from '../providers/sonidos/sonidos';
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
     ListaViajesPage,
+    ModalPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
@@ -157,6 +159,7 @@ import { SonidosProvider } from '../providers/sonidos/sonidos';
     ChoferEstadisticaPage,
     ChoferEncuestaPage,
     ListaViajesPage,
+    ModalPage,
     //SUPERVISOR
     SupervisorInicioPage,
     SupervisorSeguimientoPage,
