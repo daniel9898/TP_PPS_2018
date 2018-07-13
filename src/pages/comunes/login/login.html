@@ -7,6 +7,13 @@
         </ion-col>
       </ion-row>
 
+<!-- CONFIGURACION -->
+      <ion-fab top right>
+          <button ion-fab mini color="green" (click)="elegir_idioma()">
+              <ion-icon class="md-cog" name="md-cog"></ion-icon>
+          </button>
+      </ion-fab>
+
 <!-- OPCIONES DE LOGUEO -->
       <ion-fab top center id="botonPruebas" #fab>
         <button ion-fab mini color="signin"><ion-icon name="md-car"></ion-icon></button>
@@ -60,6 +67,7 @@
 
   </ion-grid>
 
+  <!-- SPINNER -->
   <div *ngIf="mostrarSpinner" class="spinner">
     <img src="assets/imgs/spinner_black.png" alt="spinner">
   </div>

@@ -71,6 +71,7 @@ import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
 import { ModalPage } from '../pages/chofer/modal/modal';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
+import { ConfigPage } from '../pages/config/config';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { SonidosProvider } from '../providers/sonidos/sonidos';
     PerfilPage,
     MapaPage,
     PopoverClavePage,
+    ConfigPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -143,6 +145,7 @@ import { SonidosProvider } from '../providers/sonidos/sonidos';
     PerfilPage,
     MapaPage,
     PopoverClavePage,
+    ConfigPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,

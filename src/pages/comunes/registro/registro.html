@@ -2,6 +2,14 @@
 
   <!-- FORMULARIO -->
   <ion-grid *ngIf="!mostrarSpinner">
+
+    <!-- CONFIGURACION -->
+    <ion-fab top right>
+        <button ion-fab mini color="green" (click)="elegir_idioma()">
+            <ion-icon class="md-cog" name="md-cog"></ion-icon>
+        </button>
+    </ion-fab>
+
     <!-- Imagen por default -->
     <ion-row class="top-5">
       <ion-col class="imgBox">

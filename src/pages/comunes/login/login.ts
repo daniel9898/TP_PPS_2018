@@ -3,6 +3,7 @@ import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 //PAGINAS
 import { RegistroPage } from '../../index-paginas';
+import { ConfigPage } from '../../config/config';
 //clase USUARIO
 import { Usuario } from '../../../classes/usuario';
 //SERVICIOS
@@ -248,6 +249,12 @@ export class LoginPage {
         this.mostrarSpinner = false;
         this._utilitiesServ.showWarningToast(this.idioma.pag_login.mensaje.msj_3);
       })
+  }
+
+  // DIRECCIONAR**************************************************************//
+
+  elegir_idioma(){
+    this.navCtrl.push(ConfigPage);
   }
 
   registrarse(){

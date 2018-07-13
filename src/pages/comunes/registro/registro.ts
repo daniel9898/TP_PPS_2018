@@ -3,7 +3,8 @@ import { NavController, ToastController } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //PAGINAS
-import { LoginPage } from '../../index-paginas';;
+import { LoginPage } from '../../index-paginas';
+import { ConfigPage } from '../../config/config';
 //SERVICIOS
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
@@ -116,6 +117,10 @@ export class RegistroPage {
         }
         this.mostrarSpinner = false;
       })
+  }
+
+  elegir_idioma(){
+    this.navCtrl.push(ConfigPage);
   }
 
   volver(){
