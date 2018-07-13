@@ -137,7 +137,7 @@ export class RegistroPage {
   }
 
   elegir_idioma(){
-    this.navCtrl.push(ConfigPage);
+    this.navCtrl.push(ConfigPage, { 'sin_sesion': true });
   }
 
   volver(){

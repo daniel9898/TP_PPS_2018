@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, MenuController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 //LANGUAGE PACKAGE
@@ -35,6 +35,7 @@ export class ConfigPage implements AfterViewInit {
   constructor(public navCtrl     : NavController,
               public navParams   : NavParams,
               private storage    : Storage,
+              private menu       : MenuController,
               private _geoCoding : GeocodingProvider,
               private _sounds    : SonidosProvider,
               private _toastSrv  : UtilidadesProvider) {
@@ -61,6 +62,9 @@ export class ConfigPage implements AfterViewInit {
   }
 
   ionViewDidLoad() {
+    if(!this.navParams.get('sin_sesion') && this.navParams.get('sin_sesion') === undefined){
+      this.menu.enable(false);
+    }
     // DEFAULT ADDRESS - UTN Avellaneda
     this.lat = -34.662305;
     this.lng = -58.36472349999997;
@@ -68,7 +72,15 @@ export class ConfigPage implements AfterViewInit {
 
   back(){
     this._sounds.reproducirSonido(this._sounds.get_soundClick());
-    this.navCtrl.pop();
+    //VALIDAR ORIGEN
+    if(this.navParams.get('sin_sesion') && this.navParams.get('sin_sesion')!== undefined){
+      this.navCtrl.pop();
+    }
+    else{
+      this.menu.enable(true);
+      this.menu.open();
+    }
+
   }
 
   saveChanges(){

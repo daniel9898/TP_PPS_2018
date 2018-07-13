@@ -271,7 +271,7 @@ export class LoginPage {
   // DIRECCIONAR**************************************************************//
 
   elegir_idioma(){
-    this.navCtrl.push(ConfigPage);
+    this.navCtrl.push(ConfigPage, { 'sin_sesion': true });
   }
 
   registrarse(){
