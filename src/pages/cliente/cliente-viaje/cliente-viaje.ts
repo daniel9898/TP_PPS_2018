@@ -496,7 +496,9 @@ export class ClienteViajePage {
   cancelar_viaje(){
 
     this.clienteSuv.unsubscribe();
-    this._viajeService.baja_viaje(this.viaje.id_viaje)
+    this.mostrarSpinner = true;
+    this.viaje.estado = "cancelado";
+    this._viajeService.modificar_viaje(this.viaje)
       .then(()=>{
         this.usuario.viajando = false;
         this._userService.modificar_usuario(this.usuario)
@@ -512,7 +514,7 @@ export class ClienteViajePage {
             this._utilitiesServ.showWarningToast(this.idioma.pag_viaje_cliente.estados.cancelado_cliente);
           })
       })
-      .catch((error)=>{ console.log("Error al eliminar viaje: " + error); })
+      .catch((error)=>{ console.log("Error al cancelar viaje: " + error); })
   }
 
   //DIRECCIONAR
