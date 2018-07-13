@@ -24,6 +24,8 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 //CHARTS
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+//STORAGE Plugin
+import { IonicStorageModule } from '@ionic/storage';
 
 //SERVICIOS
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
@@ -131,6 +133,7 @@ import { ConfigPage } from '../pages/config/config';
     AngularFireStorageModule,
     HttpModule,
     DirectivesModule,
+    IonicStorageModule.forRoot(),
     NguiMapModule.forRoot({ apiUrl: `https://maps.google.com/maps/api/js?key=${environment.googleMaps.apiKey}` }),
     AgmCoreModule.forRoot({ apiKey: environment.googleMaps.apiKey }),
     AgmDirectionModule,

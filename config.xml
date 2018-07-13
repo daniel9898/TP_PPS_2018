@@ -97,4 +97,5 @@
     </plugin>
     <plugin name="phonegap-plugin-barcodescanner" spec="~8.0.0" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-sqlite-storage" spec="^2.3.3" />
 </widget>
