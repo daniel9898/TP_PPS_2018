@@ -71,6 +71,7 @@ import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
 import { ThemeSettingsProvider } from '../providers/theme-settings/theme-settings';
+import { ConfiguracionesPage } from '../pages/comunes/configuraciones/configuraciones';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { ThemeSettingsProvider } from '../providers/theme-settings/theme-setting
     PerfilPage,
     MapaPage,
     PopoverClavePage,
+    ConfiguracionesPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
@@ -142,6 +144,7 @@ import { ThemeSettingsProvider } from '../providers/theme-settings/theme-setting
     PerfilPage,
     MapaPage,
     PopoverClavePage,
+    ConfiguracionesPage,
     //CLIENTE
     ClienteInicioPage,
     ClienteViajePage,
