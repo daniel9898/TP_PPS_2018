@@ -39,7 +39,7 @@ export class ChoferInicioPage {
     public userProv: UsuarioServicioProvider,
     public menu: MenuController,
     public viajesProv: ViajeServicio,
-    private _qrScannerSrv: QrServicioProvider,) {
+    private _qrScannerSrv: QrServicioProvider) {
 
     this.mostrarSpinner = true;
     this.usuarioSesion = firebase.auth().currentUser;

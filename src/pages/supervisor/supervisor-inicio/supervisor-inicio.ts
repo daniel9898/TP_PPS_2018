@@ -4,8 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import { barCodeScanTextES } from '../../../assets/data/textos';
+import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
 import { patentes } from '../../../assets/data/textosQR';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { SupervisorEncuestaPage } from '../../index-paginas';
@@ -63,7 +62,7 @@ export class SupervisorInicioPage {
     private _auth: AuthServicioProvider,
     private usuarioSrv: UsuarioServicioProvider,
     private viajesSrv: ViajeServicio,
-    private barcodeScanner: BarcodeScanner,
+    private _qrScannerSrv: QrServicioProvider,
     private utilidades: UtilidadesProvider) {
 
     this.user_perfil = this._auth.get_userProfile();
@@ -105,21 +104,14 @@ export class SupervisorInicioPage {
     console.log(e);
   }
 
+  //LECTURA CODIGO QR
   scanCode() {
-    const options = {
-      preferFrontCamera: false, // iOS and Android
-      showFlipCameraButton: true, // iOS and Android
-      showTorchButton: true, // iOS and Android
-      saveHistory: true, // Android, save scan history (default false)
-      prompt: barCodeScanTextES, // Android
-      resultDisplayDuration: 500, // Android, display scanned text for X ms. 0 suppresses it entirely, default 1500
-      disableSuccessBeep: false // iOS and Android
-    }
-    this.barcodeScanner.scan(options).then(barcodeData => {
-      const text: string = barcodeData.text;
-      if (patentes.filter(value => value === text).length > 0) {
-        if (this.choferesDisponibles.filter(c => c.id_vehiculo === text).length > 0) {
-          const chofer = this.choferesDisponibles.filter(c => c.id_vehiculo === text)[0];
+    this._qrScannerSrv.inicializar("Centre el código sobre el rectángulo");
+    this._qrScannerSrv.lector_qr()
+    .then(texto => {
+      if (patentes.filter(value => value === texto).length > 0) {
+        if (this.choferesDisponibles.filter(c => c.id_vehiculo === texto).length > 0) {
+          const chofer = this.choferesDisponibles.filter(c => c.id_vehiculo === texto)[0];
           this.navCtrl.push(SupervisorEncuestaPage, { chofer: chofer });
         }
         else {
