@@ -7,6 +7,23 @@ export const Idioma = {
       moneda_simbolo: "$",
       unidad_medida: "KM",
       //PAGINAS COMUNES*******************************************************//
+      pag_menu:{
+        titulo: "Menú",
+        label: "Usuario:",
+        opcion:{
+          1:  "Inicio",
+          2:  "Perfil",
+          3:  "Pedir viaje",
+          4:  "Mis reservas",
+          5:  "Mi historial",
+          6:  "Estadísticas",
+          7:  "Encuestas pendientes",
+          8:  "Ganancias",
+          9:  "Lista usuarios",
+          10: "Lista vehiculos",
+          11: "Viajes/Reservas"
+        }
+      },
       pag_login:{
           titulo: "KB REMISERIA",
           placeholder:{
@@ -285,7 +302,7 @@ export const Idioma = {
           },
           //RANGE
           p_2: {
-              p:"¿Estado de Limpieza?",
+              p:"¿Estado de limpieza?",
               op:{
                 1:"Muy malo",
                 2:"Malo",

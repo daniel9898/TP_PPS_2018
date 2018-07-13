@@ -10,7 +10,7 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>{{idioma.pag_menu.titulo}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -32,7 +32,7 @@
     </ion-item>
 
     <!-- BOTONES LOG -->
-    <ion-list-header *ngIf="auth.get_userEmail()">Usuario: {{auth.get_userEmail()}}</ion-list-header>
+    <ion-list-header *ngIf="auth.get_userEmail()">{{idioma.pag_menu.label}} {{auth.get_userEmail()}}</ion-list-header>
       <ion-item (click)="logout()" *ngIf="auth.authenticated">
         <ion-icon class="iconLogOut" name="md-log-out" item-left></ion-icon>
       </ion-item>
