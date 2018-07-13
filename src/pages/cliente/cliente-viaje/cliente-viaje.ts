@@ -54,7 +54,7 @@ export class ClienteViajePage {
   msj_estado:string;
   //SUSCRIBER
   clienteSuv:Subscription;
-
+  viajeIniciado:boolean = false;
   //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;
 
@@ -75,14 +75,14 @@ export class ClienteViajePage {
       };
   }
 
-  ionViewWillEnter() {
+  ionViewDidLoad() {
     this.generar_fecha();
     let hora = this.hora.split(':');
     let horaActual = parseInt(hora[0]);
     //VALIDAR = NUEVA VIAJE vs VIAJE PROCESADO
     this.traer_usuario(this._authService.get_userUID(), "cliente")
       .then(()=>{
-
+        this.viajeIniciado = false;
         this._viajeService.traer_un_viaje_actual(this.usuario.id_usuario, this.fecha, horaActual)
           .then((data:any)=>{
             if(data){
@@ -91,6 +91,7 @@ export class ClienteViajePage {
               this.validar_espera();
             }
             else{
+              console.log("SIN VIAJE");
               this.generar_viaje_default();
               this.mostrarSpinner = false;
             }
@@ -101,8 +102,9 @@ export class ClienteViajePage {
     this.myCallbackFunction = (datos)=> {
       console.log("callback asignado");
        return new Promise((resolve, reject) => {
+            this.mostrarSpinner = true;
             // ORIGEN
-            if(this.punto == 1){
+            if(this.punto === 1){
                 this.viaje.origen = datos.direccion;
                 this.viaje.origen_coord = [datos.lat, datos.lng];
                 this.origen_marker = ({
@@ -114,7 +116,7 @@ export class ClienteViajePage {
                 });
             }
             // DESTINO
-            if(this.punto == 2){
+            if(this.punto === 2){
                 this.viaje.destino = datos.direccion;
                 this.viaje.destino_coord = [datos.lat, datos.lng];
                 this.destino_marker = ({
@@ -126,31 +128,11 @@ export class ClienteViajePage {
                 });
             }
             // CALCULAR DISTANCIA Y MOSTRAR MAPA
-            if(this.viaje.origen != "*****" && this.viaje.destino != "*****"){
-              //Refrescar marcadores
-              this.markers = [this.origen_marker, this.destino_marker];
-              //Tomar distancia
-              this.request_directions= {
-                origin      : this.viaje.origen,
-                destination : this.viaje.destino,
-                travelMode  : 'DRIVING'
-              };
-              this.medir_distancia()
-                .then((distancia:number)=>{
-                  this.viaje.distancia = Math.round(distancia);
-                  //Definir precio
-                  if(this.viaje.distancia * this.precio < this.precio_minimo)
-                    this.viaje.precio = this.precio_minimo;
-                  else
-                    this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
-                  //Mostrar mapa
-                  this.mostrarMapa = true;
-                  this.mostrarPrecio = true;
-                  this.boton_pedir = true;
-                })
-                .catch((error)=>{ console.log("Error al calcular distancia: " + error); })
-            }
+            this.refrescar_mapa()
+              .then(()=>{
+                this.mostrarSpinner = false;
                 resolve();
+              })
            });
     }
   }
@@ -204,16 +186,45 @@ export class ClienteViajePage {
     console.log("Hora: " + this.hora);
   }
 
+  //REFRESCAR MAPA
+  refrescar_mapa(){
+  let promesa = new Promise((resolve, reject)=>{
+      if(this.viaje.origen !== "*****" && this.viaje.destino !== "*****"){
+        //Refrescar marcadores
+        this.markers = [this.origen_marker, this.destino_marker];
+        //Tomar distancia
+        this.medir_distancia()
+          .then((distancia:number)=>{
+            this.viaje.distancia = Math.round(distancia);
+            //Definir precio
+            if(this.viaje.distancia * this.precio < this.precio_minimo)
+              this.viaje.precio = this.precio_minimo;
+            else
+              this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
+            //Mostrar mapa
+            this.mostrarMapa = true;
+            this.mostrarPrecio = true;
+            this.boton_pedir = true;
+            resolve();
+          })
+          .catch((error)=>{ console.log("Error al calcular distancia: " + error); })
+      }
+      else
+        resolve();
+    });
+    return promesa;
+  }
+
   //MOSTRAR MAPA
   verMapa(opcion:number){
     this.punto = opcion;
-    let mostrar_direccion:string;
-    if(opcion == 1)
+    console.log("Punto seleccionado: " + this.punto);
+    let mostrar_direccion:string = '*****';
+    if(this.punto === 1)
       mostrar_direccion = this.viaje.origen;
     else
-      (opcion == 2)
       mostrar_direccion = this.viaje.destino;
-
+      
     this.navCtrl.push(MapaPage, {'direccion' : mostrar_direccion, 'callback':this.myCallbackFunction});
   }
 
@@ -222,6 +233,12 @@ export class ClienteViajePage {
 
     let promesa = new Promise((resolve, reject)=>{
         let distancia:number;
+        //Tomar distancia
+        this.request_directions= {
+          origin      : this.viaje.origen,
+          destination : this.viaje.destino,
+          travelMode  : 'DRIVING'
+        };
         this.directionsService.route(this.request_directions, (response, status)=> {
           if ( status == google.maps.DirectionsStatus.OK ) {
             distancia = response.routes[0].legs[0].distance.value / 1000; // the distance in metres / 1000 = KM
@@ -287,7 +304,7 @@ export class ClienteViajePage {
 
   //VALIDAR CAMBIOS DE ESTADO
   validar_espera(){
-
+    this.viajeIniciado = true;
     this.clienteSuv = this._viajeService.esperar_estado(this.viaje.id_viaje)
     .subscribe((viaje:any)=>{
       viaje.forEach((item) => {
@@ -534,7 +551,8 @@ export class ClienteViajePage {
   }
 
   ionViewWillLeave(){
-    this.clienteSuv.unsubscribe();
+    if(this.viajeIniciado)
+      this.clienteSuv.unsubscribe();
   }
 
 }
