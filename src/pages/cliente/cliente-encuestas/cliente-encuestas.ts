@@ -11,6 +11,8 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-encuestas',
@@ -23,6 +25,8 @@ export class ClienteEncuestasPage {
   viajes_sinEncuesta:Viaje[] = [];
   encuestas:Encuesta_cliente[] = [];
   usuario:Usuario;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -30,10 +34,18 @@ export class ClienteEncuestasPage {
               private _userService:UsuarioServicioProvider,
               private _viajeService:ViajeServicio,
               private _encuestaService:ClienteEncuestaServicio) {
-
+      //IDIOMA
+      this.cargar_idioma();
       this.mostrarSpinner = true;
   }
-
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
+  }
   ionViewDidLoad() {
     this._userService.traer_un_usuario(this._authService.get_userUID())
   // 1) TRAER UN USUARIO

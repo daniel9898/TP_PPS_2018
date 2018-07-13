@@ -4,10 +4,13 @@ import { DateTimeProvider } from '../../../providers/date-time/date-time';
 import { MapaPage } from '../../index-paginas';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { Usuario } from '../../../classes/usuario';
 import { Reserva } from '../../../classes/viaje.model';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { DirectionsRenderer } from '@ngui/map';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-reserva',
@@ -38,7 +41,8 @@ export class ClienteReservaPage {
     travelMode: 'DRIVING'
   };
   coordenadas: string;
-
+  //TEXTO
+  idioma:any;
 
   constructor(
     public navCtrl: NavController,
@@ -47,7 +51,11 @@ export class ClienteReservaPage {
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
     private reservasSrv : ReservasProvider,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private _utilitiesServ:UtilidadesProvider) {
+
+    //IDIOMA
+    this.cargar_idioma();
     dateTimeSrv.initialized('es');
     this.monthNames = dateTimeSrv.getMonthNames();
     this.daysNames = dateTimeSrv.getWeekDays();
@@ -67,6 +75,16 @@ export class ClienteReservaPage {
     this.reserva = new Reserva();
     this.reserva.origen_coord = [];
     this.reserva.destino_coord = [];
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   /**
@@ -212,6 +230,7 @@ export class ClienteReservaPage {
     } else if (this.key !== '') {
       this.reservasSrv.updateItem(this.key, this.reserva);
     }
+    this._utilitiesServ.showToast(this.idioma.pag_reserva_cliente.mensaje);
     this.navCtrl.pop();
   }
 }

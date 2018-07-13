@@ -3,7 +3,7 @@
   <ion-navbar>
     <!-- <ion-title>Crear Reserva</ion-title> -->
     <ion-buttons right>
-      <button ion-button clear color="primary" (click)="guardarReserva()" [disabled]="origen.invalid || fecha.invalid || hora.invalid || destino.invalid">Guardar</button>
+      <button ion-button clear color="primary" (click)="guardarReserva()" [disabled]="origen.invalid || fecha.invalid || hora.invalid || destino.invalid">{{idioma.pag_reserva_cliente.label.button}}</button>
       <!-- <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button> -->
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
@@ -16,24 +16,24 @@
 
 <ion-content padding>
   <ion-item>
-    <ion-label>Dirección origen</ion-label>
+    <ion-label>{{idioma.pag_reserva_cliente.label.origen}}</ion-label>
     <ion-input type="text" [(ngModel)]="reserva.origen" (ionFocus)="setOriginDir()" id="origen" name="origen" #origen="ngModel"
       required></ion-input>
 
   </ion-item>
   <ion-item>
-    <ion-label>Fecha</ion-label>
+    <ion-label>{{idioma.pag_reserva_cliente.label.fecha}}</ion-label>
     <ion-datetime id="fecha" name="fecha" [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [min]="fecha"
       [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" doneText="Listo" cancelText="Cancelar" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
   </ion-item>
   <ion-item>
-    <ion-label>Hora</ion-label>
+    <ion-label>{{idioma.pag_reserva_cliente.label.hora}}</ion-label>
     <ion-datetime id="hora" name="hora" [(ngModel)]="reserva.hora" doneText="Listo" cancelText="Cancelar"
                       displayFormat="HH:mm" pickerFormat="HH:mm"
     required></ion-datetime>
   </ion-item>
   <ion-item>
-    <ion-label>Dirección destino</ion-label>
+    <ion-label>{{idioma.pag_reserva_cliente.label.destino}}</ion-label>
     <ion-input id="destino" name="destino" #destino="ngModel" type="text" [(ngModel)]="reserva.destino" (ionFocus)="setDestDir()"
       required></ion-input>
   </ion-item>

@@ -12,6 +12,8 @@ import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-ser
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
 import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-historial',
@@ -26,6 +28,9 @@ export class ClienteHistorialPage {
   reservas:any[] = [];
   encuestas:Encuesta_cliente[] = [];
   isAndroid: boolean = false;
+  //TEXTO
+  idioma:any;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               platform: Platform,
@@ -34,11 +39,20 @@ export class ClienteHistorialPage {
               private _viajeService:ViajeServicio,
               private _reservaService:ReservasProvider,
               private _encuestaService:ClienteEncuestaServicio) {
-
+        //IDIOMA
+        this.cargar_idioma();
         this.isAndroid = platform.is('android');
         this.mostrarSpinner = true;
   }
-
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
+  }
+  
   ionViewDidLoad() {
     this._userService.traer_un_usuario(this._authService.get_userUID())
   // 1) TRAER UN USUARIO

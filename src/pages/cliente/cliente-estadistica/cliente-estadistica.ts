@@ -9,6 +9,8 @@ import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-ser
 import { Usuario } from '../../../classes/usuario';
 import { Viaje } from '../../../classes/viaje';
 import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-estadistica',
@@ -22,6 +24,8 @@ export class ClienteEstadisticaPage {
   viajes:Viaje[] = [];
   encuestas:Encuesta_cliente[] = [];
   encuestas_cliente:Encuesta_cliente[] = [];
+  //TEXTO
+  idioma:any;
   // CANVAS (data)
   public chartLabels:string[];
   public chartData:any[];
@@ -33,11 +37,19 @@ export class ClienteEstadisticaPage {
               private _userService:UsuarioServicioProvider,
               private _viajeService:ViajeServicio,
               private _encuestaService:ClienteEncuestaServicio) {
-
+      //IDIOMA
+      this.cargar_idioma();
       this.mostrarSpinner = true;
 
   }
-
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
+  }
   ionViewDidLoad() {
     this._userService.traer_un_usuario(this._authService.get_userUID())
   // 1) TRAER UN USUARIO
@@ -109,7 +121,11 @@ export class ClienteEstadisticaPage {
     }
 
     this.chartData = [count1,count2,count3,count4,count5];
-    this.chartLabels = ['Excelente', 'Eficiente', 'Regular', 'Deficiente', 'Nefasto'];
+    this.chartLabels = [this.idioma.pag_estadistica_cliente.valores[1],
+                        this.idioma.pag_estadistica_cliente.valores[2],
+                        this.idioma.pag_estadistica_cliente.valores[3],
+                        this.idioma.pag_estadistica_cliente.valores[4],
+                        this.idioma.pag_estadistica_cliente.valores[5]];
     this.chartType = 'doughnut';
   }
 

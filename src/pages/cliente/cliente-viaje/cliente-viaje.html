@@ -7,18 +7,18 @@
         <img src="assets/imgs/auto_viaje_on.png">
       </ion-avatar>
       <ion-label class="msj_size_2">
-            <strong>{{texto.estados.titulo}}</strong><br>{{msj_estado}}
+            <strong>{{idioma.pag_viaje_cliente.estados.titulo}}</strong><br>{{msj_estado}}
       </ion-label>
     </ion-item>
   </div>
   <!-- MENSAJE FIN DEL VIAJE -->
   <div class="msj_box" *ngIf="!mostrarSpinner && mostrarMsjFinal">
     <ion-label class="msj_size_1">
-      <strong>{{texto.msj_final.titulo}}</strong>
-      <br>{{texto.msj_final.subtitulo}}
+      <strong>{{idioma.pag_viaje_cliente.msj_final.titulo}}</strong>
+      <br>{{idioma.pag_viaje_cliente.msj_final.subtitulo}}
     </ion-label>
     <ion-label class="msj_size_2">
-      <br><br><strong>{{texto.msj_final.texto_1}}</strong><br> {{texto.msj_final.texto_2}}
+      <br><br><strong>{{idioma.pag_viaje_cliente.msj_final.texto_1}}</strong><br> {{idioma.pag_viaje_cliente.msj_final.texto_2}}
     </ion-label>
     <!-- BOTON ENCUESTA -->
     <button ion-button color="primary" (click)="ir_encuesta()">
@@ -41,7 +41,7 @@
 
       <!-- DIRECCION ORIGEN-->
       <ion-item class="input_direccion">
-        <ion-label stacked>{{texto.label.origen}}</ion-label>
+        <ion-label stacked>{{idioma.pag_viaje_cliente.label.origen}}</ion-label>
         <ion-avatar item-start>
           <img src="assets/imgs/marker1.png">
         </ion-avatar>
@@ -52,7 +52,7 @@
 
       <!-- DIRECCION DESTINO-->
       <ion-item class="input_direccion">
-        <ion-label stacked>{{texto.label.destino}}</ion-label>
+        <ion-label stacked>{{idioma.pag_viaje_cliente.label.destino}}</ion-label>
         <ion-avatar item-start>
           <img src="assets/imgs/marker2.png">
         </ion-avatar>
@@ -63,12 +63,12 @@
 
       <!-- HORARIO DE SALIDA -->
       <ion-item class="input_direccion">
-        <ion-label>{{texto.label.hora}}</ion-label>
+        <ion-label>{{idioma.pag_viaje_cliente.label.hora}}</ion-label>
         <ion-avatar item-start>
           <img src="assets/imgs/clock.png">
         </ion-avatar>
         <ion-datetime id="hora" name="hora" [(ngModel)]="viaje.hora" [min]="hora"
-                      [doneText]="texto.label.button_ok" cancelText="" displayFormat="HH:mm" pickerFormat="HH:mm"
+                      [doneText]="idioma.pag_viaje_cliente.label.button_ok" cancelText="" displayFormat="HH:mm" pickerFormat="HH:mm"
           required></ion-datetime>
       </ion-item>
     </ion-grid>
@@ -82,7 +82,7 @@
   <div *ngIf="mostrarPrecio">
     <p class="text_precio" text-center>
       <ion-icon name="radio-button-on" color="primary" item-start></ion-icon>
-      {{viaje.distancia}}{{texto.unidad_medida}} = {{texto.moneda_simbolo}}{{viaje.precio}}
+      {{viaje.distancia}}{{idioma.unidad_medida}} = {{idioma.moneda_simbolo}}{{viaje.precio}}
     </p>
   </div>
 
@@ -97,9 +97,9 @@
         <img src="assets/imgs/default_chofer.png">
       </ion-avatar>
       <ion-label class="msj_size_2">
-            <strong>{{texto.chofer.titulo}}</strong>
-        <br><strong>{{texto.chofer.nombre}} </strong>  {{chofer.nombre}}
-        <br><strong>{{texto.chofer.patente}} </strong> {{viaje.id_vehiculo}}
+            <strong>{{idioma.pag_viaje_cliente.chofer.titulo}}</strong>
+        <br><strong>{{idioma.pag_viaje_cliente.chofer.nombre}} </strong>  {{chofer.nombre}}
+        <br><strong>{{idioma.pag_viaje_cliente.chofer.patente}} </strong> {{viaje.id_vehiculo}}
       </ion-label>
     </ion-item>
   </div>

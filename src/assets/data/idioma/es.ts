@@ -32,7 +32,7 @@ export const Idioma = {
       pag_registro:{
           placeholder:{
             user:  'Correo',
-            pass1:  'Contraseña',
+            pass1: 'Contraseña',
             pass2: 'Repetir contraseña'
           },
           error:{
@@ -92,7 +92,10 @@ export const Idioma = {
           label: 'Dirección'
       },
       pag_qr:{
-        msj: 'Centre el código sobre el rectángulo'
+        msj:         "Centre el código sobre el rectángulo",
+        inaccesible: "Acceso no disponible",
+        desconocido: "Código desconocido",
+        navegador:   "ALERTA: esto es una prueba desde el navegador"
       },
       pag_lista_general:{
         placeholder: 'buscar'
@@ -127,10 +130,6 @@ export const Idioma = {
           cumplido:          "Viaje finalizado",
           cancelado_cliente: "Viaje cancelado",
           cancelado_sistema: "Viaje cancelado por sistema"
-        },
-        qr_msj:{
-          inaccesible: "Acceso no disponible",
-          desconocido: "Código desconocido"
         }
       },
       pag_reserva_cliente:{
@@ -139,12 +138,18 @@ export const Idioma = {
           fecha:     "Fecha",
           hora:      "Hora",
           destino:   "Dirección destino",
-          button_ok: "Guardar"
-        }
+          button:    "Guardar"
+        },
+        mensaje: "Reserva generada"
+      },
+      pag_reservas_cliente:{
+        titulo: "Reservas",
+        mensaje: "Reserva eliminada"
       },
       pag_encuesta_cliente:{
         perfil: 'Cliente',
         titulo: 'Encuesta de satisfacción',
+        mensaje: "¡Gracias por participar!",
         preguntas:{
           //SELECT
           p_1: {

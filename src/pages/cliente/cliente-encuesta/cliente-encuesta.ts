@@ -10,6 +10,8 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-encuesta',
@@ -30,6 +32,8 @@ export class ClienteEncuestaPage {
   hora:string;
   foto_preview:string;
   foto_subir:string;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -37,8 +41,19 @@ export class ClienteEncuestaPage {
               private camera: Camera,
               private _utilitiesServ: UtilidadesProvider,
               private _encuestaService:ClienteEncuestaServicio) {
-
+      //IDIOMA
+      this.cargar_idioma();
       this.mostrarSpinner = true;
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -171,7 +186,7 @@ export class ClienteEncuestaPage {
           .then(()=>{
             console.log("Cambios guardados!");
             this.mostrarSpinner = false;
-            this._utilitiesServ.showToast("¡Gracias por participar!");
+            this._utilitiesServ.showToast(this.idioma.pag_encuesta_cliente.mensaje);
             this.navCtrl.setRoot(ClienteViajePage);
           })
           .catch((error)=>{

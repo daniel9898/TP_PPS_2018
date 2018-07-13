@@ -3,10 +3,10 @@
   <ion-toolbar no-border-top>
     <ion-segment [(ngModel)]="estadistica" (ionChange)="cambioSegmento($event)">
       <ion-segment-button value="individual">
-        Individual
+        {{idioma.pag_estadistica_cliente.subtitulo_1}}
       </ion-segment-button>
       <ion-segment-button value="general">
-        General
+        {{idioma.pag_estadistica_cliente.subtitulo_2}}
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
@@ -29,7 +29,7 @@
           <ion-item class="cartel">
             <ion-label text-center>
               <ion-icon class="icon" name="ios-person"></ion-icon>
-              Calidad del servicio
+              {{idioma.pag_estadistica_cliente.tema}}
             </ion-label>
           </ion-item>
           <!-- GRAFICO -->
@@ -49,7 +49,7 @@
         <ion-item class="cartel">
           <ion-label text-center>
             <ion-icon class="icon" name="ios-people"></ion-icon>
-            Calidad del servicio
+            {{idioma.pag_estadistica_cliente.tema}}
           </ion-label>
         </ion-item>
         <!-- GRAFICO -->

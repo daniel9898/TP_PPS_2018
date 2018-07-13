@@ -1,18 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { ClienteReservaPage } from '../cliente-reserva/cliente-reserva';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
-/**
- * Generated class for the ClienteReservasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-cliente-reservas',
   templateUrl: 'cliente-reservas.html',
@@ -24,15 +19,28 @@ export class ClienteReservasPage {
  */
   public reservas: any[] = [];
   private usuario: any;
+  //TEXTO
+  idioma:any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     public reservasSrv: ReservasProvider,
-    public alertCtrl: AlertController,
     private auth: AuthServicioProvider,
-    private usuarioServicio: UsuarioServicioProvider
-  ) {
+    private usuarioServicio: UsuarioServicioProvider,
+    private _utilitiesServ:UtilidadesProvider) {
+    //IDIOMA
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -111,29 +119,11 @@ export class ClienteReservasPage {
 
 
   /**
-   * Elimina muestra una alerta y elimina la reserva
    * @param i indice de la colección
    */
   eliminarReserva(i) {
-    const confirm = this.alertCtrl.create({
-      title: '¿Está seguro?',
-      message: 'Esta por eliminar una reserva',
-      buttons: [
-        {
-          text: 'No',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
-        },
-        {
-          text: 'Si',
-          handler: () => {
-            this.reservasSrv.deleteItem(this.reservas[i].key);
-          }
-        }
-      ]
-    });
-    confirm.present();
+    this.reservasSrv.deleteItem(this.reservas[i].key);
+    this._utilitiesServ.showToast(this.idioma.pag_reservas_cliente.mensaje);
   }
 
 }

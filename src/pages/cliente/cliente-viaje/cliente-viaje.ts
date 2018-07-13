@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MapaPage, PerfilPage, ClienteEncuestaPage } from '../../index-paginas';
 //CLASES
 import { Usuario } from '../../../classes/usuario';
-import { Viaje, Viaje_texto } from '../../../classes/viaje';
+import { Viaje } from '../../../classes/viaje';
 //Interface MARKER
 import { Marker } from '../../../interfaces/marker';
 //SERVICIOS
@@ -14,6 +14,8 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-cliente-viaje',
@@ -49,14 +51,14 @@ export class ClienteViajePage {
   request_directions:any;
   precio:number = 18; // por KM
   precio_minimo:number = 60;
-  //texto
-  texto:any = Viaje_texto;
   msj_estado:string;
   //SUSCRIBER
   clienteSuv:Subscription;
   viajeIniciado:boolean = false;
   //CALLBACK function (para retornar dirección/coordenadas desde MapaPage)
   myCallbackFunction:Function;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
@@ -68,11 +70,22 @@ export class ClienteViajePage {
               private _utilitiesServ: UtilidadesProvider,
               private platform:Platform) {
 
+      //IDIOMA
+      this.cargar_idioma();
       this.mostrarSpinner = true;
       this.directionsService = new google.maps.DirectionsService();
       this.options = {
           suppressMarkers: true,
       };
+  }
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -224,7 +237,7 @@ export class ClienteViajePage {
       mostrar_direccion = this.viaje.origen;
     else
       mostrar_direccion = this.viaje.destino;
-      
+
     this.navCtrl.push(MapaPage, {'direccion' : mostrar_direccion, 'callback':this.myCallbackFunction});
   }
 
@@ -313,8 +326,8 @@ export class ClienteViajePage {
           switch(this.viaje.estado){
         // 1) VIAJE A LA ESPERA DE UN CHOFER
             case "pendiente":
-            this._utilitiesServ.showToast(this.texto.estados.pendiente);
-            this.msj_estado = this.texto.estados.pendiente;
+            this._utilitiesServ.showToast(this.idioma.pag_viaje_cliente.estados.pendiente);
+            this.msj_estado = this.idioma.pag_viaje_cliente.estados.pendiente;
             this.mostrarSpinner = true;
             //Asignar marcadores
             this.origen_marker = ({
@@ -343,8 +356,8 @@ export class ClienteViajePage {
             break;
         // 2) VIAJE TOMADO POR UN CHOFER
             case "tomado":
-            this._utilitiesServ.showToast(this.texto.estados.tomado);
-            this.msj_estado = this.texto.estados.tomado;
+            this._utilitiesServ.showToast(this.idioma.pag_viaje_cliente.estados.tomado);
+            this.msj_estado = this.idioma.pag_viaje_cliente.estados.tomado;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
@@ -378,8 +391,8 @@ export class ClienteViajePage {
             break;
         // 3) VIAJE EN CURSO
             case "en curso":
-            this._utilitiesServ.showToast(this.texto.estados.en_curso);
-            this.msj_estado = this.texto.estados.en_curso;
+            this._utilitiesServ.showToast(this.idioma.pag_viaje_cliente.estados.en_curso);
+            this.msj_estado = this.idioma.pag_viaje_cliente.estados.en_curso;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
@@ -414,8 +427,8 @@ export class ClienteViajePage {
         // 4) VIAJE CUMPLIDO
             case "cumplido":
             this.clienteSuv.unsubscribe();
-            this._utilitiesServ.showToast(this.texto.estados.cumplido);
-            //this.msj_estado = this.texto.estados.cumplido;
+            this._utilitiesServ.showToast(this.idioma.pag_viaje_cliente.estados.cumplido);
+            //this.msj_estado = this.idioma.pag_viaje_cliente.estados.cumplido;
             this.mostrarSpinner = true;
             //Datos del chofer
             this.traer_usuario(this.viaje.id_chofer, "chofer")
@@ -455,8 +468,8 @@ export class ClienteViajePage {
             break;
         // 5) VIAJE CANCELADO POR SISTEMA
             case "cancelado":
-            this._utilitiesServ.showToast(this.texto.estados.cancelado_sistema);
-            //this.msj_estado = this.texto.estados.cancelado_sistema;
+            this._utilitiesServ.showToast(this.idioma.pag_viaje_cliente.estados.cancelado_sistema);
+            //this.msj_estado = this.idioma.pag_viaje_cliente.estados.cancelado_sistema;
             this.mostrarSpinner = true;
             this.usuario.viajando = false;
             this._userService.modificar_usuario(this.usuario)
@@ -496,7 +509,7 @@ export class ClienteViajePage {
             this.mostrarPrecio = false;
             this.mostrarMsjMedio = false;
             this.mostrarSpinner = false;
-            this._utilitiesServ.showWarningToast(this.texto.estados.cancelado_cliente);
+            this._utilitiesServ.showWarningToast(this.idioma.pag_viaje_cliente.estados.cancelado_cliente);
           })
       })
       .catch((error)=>{ console.log("Error al eliminar viaje: " + error); })
@@ -506,12 +519,12 @@ export class ClienteViajePage {
   direccionar(){
       //Validación para el navegador web (probar servicio)
       if(!this.platform.is('cordova')){
-        this._utilitiesServ.showWarningToast("ALERTA: esto es una prueba desde el navegador");//Existe el código y YA fue cargado
+        this._utilitiesServ.showWarningToast(this.idioma.pag_qr.msj.navegador);//Existe el código y YA fue cargado
         return;
       }
 
       //LECTURA DE SCANNER QR
-      this._qrScannerSrv.inicializar("Centre el código sobre el rectángulo");
+      this._qrScannerSrv.inicializar(this.idioma.pag_qr.msj);
       this._qrScannerSrv.lector_qr()
         .then((texto)=>{
           console.log("Texto capturado: " + texto);
@@ -522,18 +535,18 @@ export class ClienteViajePage {
               if(this.viaje.estado == "cumplido")
                 this.ir_encuesta();
               else
-                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
+                this._utilitiesServ.showWarningToast(this.idioma.pag_qr.msj.inaccesible);
             break;
             //QR PARA DATOS DEL CHOFER
             case this.viaje.id_vehiculo.toString().trim():
               if(this.viaje.estado != "pendiente")
                 this.ir_datos_chofer();
               else
-                this._utilitiesServ.showWarningToast(this.texto.qr_msj.inaccesible);
+                this._utilitiesServ.showWarningToast(this.idioma.pag_qr.msj.inaccesible);
             break;
             //QR DESCONOCIDO
             default:
-            this._utilitiesServ.showErrorToast(this.texto.qr_msj.desconocido);
+            this._utilitiesServ.showErrorToast(this.idioma.pag_qr.msj.desconocido);
             break;
           }
 

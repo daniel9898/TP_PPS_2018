@@ -52,15 +52,13 @@ export class RegistroPage {
   ionViewWillEnter(){
     this.cargar_idioma();
   }
-
-  //PAGINA CARGADA
-  ionViewDidLoad() {
-    console.log('Página registro cargada!');
-  }
-
   //CARGAR IDIOMA
   cargar_idioma(){
     this.idioma = Idioma.es;
+  }
+  //PAGINA CARGADA
+  ionViewDidLoad() {
+    console.log('Página registro cargada!');
   }
 
   registrarUsuario(){

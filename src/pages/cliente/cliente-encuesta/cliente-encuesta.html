@@ -11,7 +11,7 @@
     <!-- FORMULARIO -->
     <div class="formulario">
         <ion-item no-lines>
-          <ion-label class="lbl_titulo">{{texto.titulo}}</ion-label>
+          <ion-label class="lbl_titulo">{{idioma.pag_encuesta_cliente.titulo}}</ion-label>
           <ion-avatar item-end>
             <img src="assets/imgs/encuesta_default.png">
           </ion-avatar>
@@ -19,19 +19,19 @@
 
         <!-- PREGUNTA 1: calidad del servicio -->
         <ion-item no-lines class="item_pregunta">
-          <ion-label stacked>{{texto.preguntas.p_1.p}}</ion-label>
+          <ion-label stacked>{{idioma.pag_encuesta_cliente.preguntas.p_1.p}}</ion-label>
               <ion-select [(ngModel)]="encuesta.pregunta_1" [disabled]="!modificar" interface="popover" (ionChange)="hay_diferencias">
-                <ion-option [value]=1>{{texto.preguntas.p_1.op[1]}}</ion-option>
-                <ion-option [value]=2>{{texto.preguntas.p_1.op[2]}}</ion-option>
-                <ion-option [value]=3>{{texto.preguntas.p_1.op[3]}}</ion-option>
-                <ion-option [value]=4>{{texto.preguntas.p_1.op[4]}}</ion-option>
-                <ion-option [value]=5>{{texto.preguntas.p_1.op[5]}}</ion-option>
+                <ion-option [value]=1>{{idioma.pag_encuesta_cliente.preguntas.p_1.op[1]}}</ion-option>
+                <ion-option [value]=2>{{idioma.pag_encuesta_cliente.preguntas.p_1.op[2]}}</ion-option>
+                <ion-option [value]=3>{{idioma.pag_encuesta_cliente.preguntas.p_1.op[3]}}</ion-option>
+                <ion-option [value]=4>{{idioma.pag_encuesta_cliente.preguntas.p_1.op[4]}}</ion-option>
+                <ion-option [value]=5>{{idioma.pag_encuesta_cliente.preguntas.p_1.op[5]}}</ion-option>
               </ion-select>
         </ion-item>
 
         <!-- PREGUNTA 2: sobre el chofer -->
         <ion-item no-lines class="item_pregunta">
-        <ion-label stacked>{{texto.preguntas.p_2.p}}</ion-label>
+        <ion-label stacked>{{idioma.pag_encuesta_cliente.preguntas.p_2.p}}</ion-label>
           <ion-range min="0" max="5" step="1" pin="true" [(ngModel)]="encuesta.pregunta_2" [disabled]="!modificar" (ionChange)="hay_diferencias">
             <ion-icon range-left small name="md-sad"></ion-icon>
             <ion-icon range-right name="md-happy"></ion-icon>
@@ -39,30 +39,30 @@
         </ion-item>
         <!-- PREGUNTA 3: sobre el vehículo -->
         <ion-item no-lines class="item_pregunta">
-        <ion-label stacked>{{texto.preguntas.p_3.p}}</ion-label>
+        <ion-label stacked>{{idioma.pag_encuesta_cliente.preguntas.p_3.p}}</ion-label>
         </ion-item>
         <ion-list radio-group [(ngModel)]="encuesta.pregunta_3" [disabled]="!modificar" (ionChange)="hay_diferencias">
             <ion-item>
-              <ion-label>{{texto.preguntas.p_3.op[1]}}</ion-label>
+              <ion-label>{{idioma.pag_encuesta_cliente.preguntas.p_3.op[1]}}</ion-label>
               <ion-radio value=1></ion-radio>
             </ion-item>
             <ion-item>
-              <ion-label>{{texto.preguntas.p_3.op[2]}}</ion-label>
+              <ion-label>{{idioma.pag_encuesta_cliente.preguntas.p_3.op[2]}}</ion-label>
               <ion-radio value=2></ion-radio>
             </ion-item>
             <ion-item>
-              <ion-label>{{texto.preguntas.p_3.op[3]}}</ion-label>
+              <ion-label>{{idioma.pag_encuesta_cliente.preguntas.p_3.op[3]}}</ion-label>
               <ion-radio value=3></ion-radio>
             </ion-item>
         </ion-list>
         <!-- PREGUNTA 4: sobre la ruta -->
         <ion-item no-lines class="item_pregunta">
-        <ion-label stacked>{{texto.preguntas.p_4.p}}</ion-label>
+        <ion-label stacked>{{idioma.pag_encuesta_cliente.preguntas.p_4.p}}</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="encuesta.pregunta_4" [disabled]="!modificar" item-end (ionChange)="hay_diferencias"></ion-checkbox>
         </ion-item>
         <!-- PREGUNTA 5: comentario -->
         <ion-item no-lines class="item_pregunta">
-        <ion-label stacked>{{texto.preguntas.p_5.p}}</ion-label>
+        <ion-label stacked>{{idioma.pag_encuesta_cliente.preguntas.p_5.p}}</ion-label>
           <ion-input type="text" maxlength="140" [(ngModel)]="encuesta.pregunta_5" [disabled]="!modificar" (ionChange)="hay_diferencias"></ion-input>
         </ion-item>
 
