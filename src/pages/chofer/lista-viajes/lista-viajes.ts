@@ -11,6 +11,8 @@ import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio'
 //OTROS
 import * as firebase from 'firebase/app';
 import { Subscription } from 'rxjs/Subscription';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @IonicPage()
 @Component({
@@ -35,6 +37,8 @@ export class ListaViajesPage {
   liberoVehiculo:boolean = false;
   fecha:string;
   hora:string;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public viajesProv : ViajeServicio,
@@ -43,7 +47,8 @@ export class ListaViajesPage {
               public menu: MenuController,
               public utils: UtilidadesProvider,
               public aut : AuthServicioProvider) {
-
+    //IDIOMA
+    this.cargar_idioma();
     this.mostrarSpinner = true;
     this.menu.enable(true);
     this.usuarioSesion = firebase.auth().currentUser;
@@ -52,9 +57,14 @@ export class ListaViajesPage {
 
   ionViewWillEnter(){
     console.log("Se está ingresando en lista viajes");
+    this.cargar_idioma();
     this.inicializar();
     this.generar_fecha();
     this.traerViajes();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   //PRIMERA VALIDACION: chofer + viaje actual
@@ -80,7 +90,7 @@ export class ListaViajesPage {
                         this.viajesProv.modificar_viaje(this.viaje)
                         .then(v =>{
 
-                            this.utils.showToast('Tiene un viaje asignado');
+                            this.utils.showToast(this.idioma.pag_lista_viajes_chofer.mensaje.msj_1);
                             this.mostrarSpinner = false;
                             this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer: this.chofer[0]});
 
@@ -90,12 +100,12 @@ export class ListaViajesPage {
                     else
                       this.mostrarSpinner = false;
                 },
-                error => this.utils.showErrorToast('Atención ! ' + error.json())
+                error => this.utils.showErrorToast(this.idioma.pag_lista_viajes_chofer.mensaje.msj_2 + error.json())
             )
         }else
           this.mostrarSpinner = false;
       },
-      error => this.utils.showErrorToast('Atención ! ' + error.json())
+      error => this.utils.showErrorToast(this.idioma.pag_lista_viajes_chofer.mensaje.msj_2 + error.json())
     )
   }
 

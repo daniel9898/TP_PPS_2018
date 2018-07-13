@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Detalle del viaje
+      {{idioma.pag_modal_viaje_chofer.titulo}}
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
-        <span ion-text color="primary" showWhen="ios">Cancelar</span>
+        <span ion-text color="primary" showWhen="ios">{{idioma.pag_modal_viaje_chofer.button}}</span>
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
@@ -23,15 +23,15 @@
       </ion-item>
 
       <ion-item>
-        Monto a abonar :
+        {{idioma.pag_modal_viaje_chofer.label.monto}}
         <ion-note item-end>
-        $ {{viaje.precio}}
+        {{idioma.moneda_simbolo}} {{viaje.precio}}
         </ion-note>
       </ion-item>
       <ion-item>
-         Distancia Recorrida :
+         {{idioma.pag_modal_viaje_chofer.label.distancia}}
         <ion-note item-end>
-         {{viaje.distancia}} KM
+         {{viaje.distancia}} {{idioma.unidad_medida}}
         </ion-note>
       </ion-item>
   </ion-list>

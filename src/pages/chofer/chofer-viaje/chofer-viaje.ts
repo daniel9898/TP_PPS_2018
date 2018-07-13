@@ -8,6 +8,8 @@ import { ChoferEncuestaPage, ListaViajesPage } from '../../index-paginas';
 import { ModalPage } from '../modal/modal';
 //OTROS
 import { Subscription } from 'rxjs/Subscription';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-chofer-viaje',
@@ -21,6 +23,8 @@ export class ChoferViajePage {
   viaje: any;
   //SUSCRIPCION
   viajesSubs : Subscription;
+  //TEXTO
+  idioma:any;
 
   constructor(
     public navParams: NavParams,
@@ -28,14 +32,21 @@ export class ChoferViajePage {
     public userProv: UsuarioServicioProvider,
     public viajesProv: ViajeServicio,
     public utils: UtilidadesProvider) {
-
+      //IDIOMA
+      this.cargar_idioma();
       this.chofer = this.navParams.get('chofer');
       this.viaje = this.navParams.get('viaje');
   }
 
   ionViewWillEnter() {
+    this.cargar_idioma();
     this.inicializar();
     this.traerCliente();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   inicializar(){
@@ -48,8 +59,8 @@ export class ChoferViajePage {
             this.viaje = lista.filter(v => v.id_viaje == this.chofer.id_viaje)[0];
             console.log('this.viaje ',this.viaje);
 //4) VALIDAR ESTADO DEL VIAJE
-              if(this.viaje.estado === 'pendiente'){
-                  this.utils.showToast('Viaje desasignado');
+              if(this.viaje.estado === 'pendiente' || this.viaje.estado === 'cancelado'){
+                  this.utils.showToast(this.idioma.pag_viaje_chofer.mensaje.msj_2);
                   this.mostrarSpinner = false;
                   this.navCtrl.setRoot(ListaViajesPage);
               }
@@ -57,7 +68,7 @@ export class ChoferViajePage {
               else
                 this.mostrarSpinner = false;
             },
-            error => this.utils.showErrorToast('Atención ! ' + error.json())
+            error => this.utils.showErrorToast(this.idioma.pag_viaje_chofer.mensaje.msj_3 + error.json())
         )
   }
 
@@ -74,12 +85,13 @@ export class ChoferViajePage {
     console.log('viaje ', this.viaje);
     switch(estado){
       case 'pendiente'://Chofer cancela el viaje
-      //this.chofer.id_viaje = "" //Desasignación
+      this.viajesSubs.unsubscribe();
+      this.chofer.id_viaje = "" //Desasignación
       this.userProv.modificar_usuario(this.chofer)
         .then(()=>{ this.navCtrl.setRoot(ListaViajesPage) })
       break;
       case 'en curso':
-      this.utils.showToast('Viaje en Estado : ' + estado);
+      this.utils.showToast(this.idioma.pag_viaje_chofer.mensaje.msj_1);
       break;
       case 'cumplido':
       this.showPage();

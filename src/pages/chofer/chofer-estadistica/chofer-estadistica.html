@@ -10,12 +10,12 @@
     <ion-item>
       <ion-label text-center class="label">
         <ion-icon class="icon" name="ios-person"></ion-icon>
-        Reputación
+        {{idioma.pag_estadistica_chofer.titulo}}
       </ion-label>
     </ion-item>
     <div *ngIf="encuestas_al_chofer.length != 0" class="graphic_box">
       <!-- VIAJES -->
-      <ion-label text-center>Viajes realizados: {{viajes.length}}</ion-label>
+      <ion-label text-center>{{idioma.pag_estadistica_chofer.viajes}} {{viajes.length}}</ion-label>
       <!-- GRAFICO -->
         <canvas class="graphic" baseChart
           height="100"

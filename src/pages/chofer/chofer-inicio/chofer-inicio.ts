@@ -10,6 +10,8 @@ import { vehiculo } from '../../../classes/vehiculo.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @IonicPage()
 @Component({
@@ -32,6 +34,8 @@ export class ChoferInicioPage {
   vehiculosSubs : Subscription;
   asignado: boolean = false;
   seBuscanViajes:boolean = false;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
     public utils: UtilidadesProvider,
@@ -40,11 +44,19 @@ export class ChoferInicioPage {
     public menu: MenuController,
     public viajesProv: ViajeServicio,
     private _qrScannerSrv: QrServicioProvider) {
-
+    //IDIOMA
+    this.cargar_idioma();
     this.mostrarSpinner = true;
     this.usuarioSesion = firebase.auth().currentUser;
   }
-
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
+  }
   ionViewDidLoad(){
     this.inicializar();
   }
@@ -73,7 +85,7 @@ export class ChoferInicioPage {
                           this.viajesProv.modificar_viaje(this.viaje)
                           .then(v =>{
 
-                              this.utils.showToast('Tiene un viaje asignado');
+                              this.utils.showToast(this.idioma.pag_inicio_chofer.mensaje.msj_1);
                               this.mostrarSpinner = false;
                               this.viajesSubs.unsubscribe();
                               this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer: this.chofer[0]});
@@ -98,10 +110,10 @@ export class ChoferInicioPage {
                       this.mostrarSpinner = false;
                   }
                 },
-                error => this.utils.showErrorToast('Atención ! ' + error.json())
+                error => this.utils.showErrorToast(this.idioma.pag_inicio_chofer.mensaje.msj_3 + error.json())
             )
       },
-      error => this.utils.showErrorToast('Atención ! ' + error.json())
+      error => this.utils.showErrorToast(this.idioma.pag_inicio_chofer.mensaje.msj_3 + error.json())
     )
   }
 
@@ -112,7 +124,7 @@ export class ChoferInicioPage {
     //ESCANEAR CÓDIGO QR DEL VEHICULO
     try {
       this.asignado = false;
-      this._qrScannerSrv.inicializar("Centre el código sobre el rectángulo");
+      this._qrScannerSrv.inicializar(this.idioma.pag_qr.msj);
       this._qrScannerSrv.lector_qr()
       .then(texto => {
         this.vehiculosSubs = this.vehiculosProv.getListaVehiculos().subscribe(vehiculos => {
@@ -130,7 +142,7 @@ export class ChoferInicioPage {
           else {
             this.vehiculosSubs.unsubscribe();
             console.log('this.vehiculoAsignado', this.vehiculoAsignado);
-            this.utils.showWarningToast('Atención ! Vehiculo no disponible o codigo incorrecto, reintente.');
+            this.utils.showWarningToast(this.idioma.pag_inicio_chofer.mensaje.msj_2);
           }
         });
         console.log('Barcode data', texto);
@@ -147,7 +159,7 @@ export class ChoferInicioPage {
         await this.actualizarDisponibilidad(this.vehiculoAsignado.key, this.vehiculoAsignado.vehiculo);
       }
     } catch (e) {
-      this.utils.showErrorToast('Atención : ' + e.message);
+      this.utils.showErrorToast(this.idioma.pag_inicio_chofer.mensaje.msj_3 + e.message);
     }
 
   }
@@ -159,7 +171,7 @@ export class ChoferInicioPage {
 
   async actualizarDisponibilidad(key: string, vehiculo: vehiculo) {
     this.vehiculosProv.updateItem(key, vehiculo);
-    this.utils.showToast('Vehiculo Asignado correctamente !');
+    this.utils.showToast(this.idioma.pag_inicio_chofer.mensaje.msj_4);
   }
 
   encuestaChofer() {

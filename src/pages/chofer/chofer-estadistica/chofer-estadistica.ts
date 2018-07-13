@@ -7,6 +7,8 @@ import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-chofer-estadistica',
@@ -18,7 +20,8 @@ export class ChoferEstadisticaPage {
   viajes:Viaje[] = [];
   encuestas:Encuesta_cliente[] = [];
   encuestas_al_chofer:Encuesta_cliente[] = [];
-
+  //TEXTO
+  idioma:any;
   // CANVAS (data)
   public chartLabels:string[];
   public chartData:any[];
@@ -29,8 +32,18 @@ export class ChoferEstadisticaPage {
               private _authService:AuthServicioProvider,
               private _viajeService:ViajeServicio,
               private _encuestaService:ClienteEncuestaServicio) {
-
+        //IDIOMA
+        this.cargar_idioma();
         this.mostrarSpinner = true;
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -93,7 +106,11 @@ export class ChoferEstadisticaPage {
         }
       }
       this.chartData = [count1,count2,count3,count4,count5];
-      this.chartLabels = ['Excelente', 'Eficiente', 'Regular', 'Deficiente', 'Nefasto'];
+      this.chartLabels = [this.idioma.pag_estadistica_chofer.valores[1],
+                          this.idioma.pag_estadistica_chofer.valores[2],
+                          this.idioma.pag_estadistica_chofer.valores[3],
+                          this.idioma.pag_estadistica_chofer.valores[4],
+                          this.idioma.pag_estadistica_chofer.valores[5]];
       this.chartType = 'pie';
       resolve();
     });

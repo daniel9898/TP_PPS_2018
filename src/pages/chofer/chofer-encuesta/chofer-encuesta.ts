@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 //CLASE
-import { Encuesta_chofer, Encuesta_texto } from '../../../classes/encuesta_chofer';
+import { Encuesta_chofer } from '../../../classes/encuesta_chofer';
 //SERVICIO
 import { ChoferEncuestaProvider } from '../../../providers/chofer-encuesta/chofer-encuesta';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
 import { ListaViajesPage } from '../../../pages/index-paginas';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-chofer-encuesta',
@@ -21,7 +24,6 @@ export class ChoferEncuestaPage {
   encuesta:Encuesta_chofer;
   encuesta_byDefault:any;
   encuesta_foto:string = "assets/imgs/encuesta_default.png";
-  texto:any = Encuesta_texto;
   cambios:boolean;
   //VALORES
   fecha:string;
@@ -31,17 +33,31 @@ export class ChoferEncuestaPage {
   id_chofer : any;
   id_vehiculo : any;
   desdeInicio:boolean = false;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
               private camera: Camera,
-              private _encuestaService:ChoferEncuestaProvider) {
-
+              private _encuestaService:ChoferEncuestaProvider,
+              private _utilitiesServ:UtilidadesProvider) {
+    //IDIOMA
+    this.cargar_idioma();
+    this.mostrarSpinner = true;
     if(this.navParams.get('chofer') != undefined){ this.id_chofer = this.navParams.get('chofer')};
     if(this.navParams.get('vehiculo') != undefined){ this.id_vehiculo = this.navParams.get('vehiculo')};
     if(this.navParams.get('desdeInicio') != undefined){ this.desdeInicio = this.navParams.get('desdeInicio')};
-    this.mostrarSpinner = true;
+
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -168,7 +184,7 @@ export class ChoferEncuestaPage {
 
                console.log("Cambios guardados!");
              this.mostrarSpinner = false;
-             this.mostrarAlerta("Cambios realizados con éxito");
+             this._utilitiesServ.showToast(this.idioma.pag_encuesta_chofer.mensaje);
              if(this.desdeInicio)
                this.navCtrl.setRoot(ListaViajesPage);
             else
@@ -189,7 +205,7 @@ export class ChoferEncuestaPage {
 
                    console.log("Cambios guardados!");
                  this.mostrarSpinner = false;
-                 this.mostrarAlerta("Cambios realizados con éxito");
+                 this._utilitiesServ.showToast(this.idioma.pag_encuesta_chofer.mensaje);
                  if(this.desdeInicio)
                    this.navCtrl.setRoot(ListaViajesPage);
                 else
@@ -229,16 +245,6 @@ export class ChoferEncuestaPage {
 
       });
       return promesa;
-  }
-
-  //ALERTA
-  mostrarAlerta(msj:string){
-    let toast = this.toastCtrl.create({
-      message: msj,
-      duration: 3000,
-      position: "top"
-    });
-    toast.present();
   }
 
   cancelar(){

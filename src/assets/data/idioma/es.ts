@@ -236,7 +236,7 @@ export const Idioma = {
         }
       },
       pag_viaje_chofer:{
-        titulo: 'Viaje a realizar',
+        titulo: 'Datos del viaje',
         label:{
           direccion: 'Dirección de búsqueda',
           destino:   'Destino',
@@ -248,7 +248,11 @@ export const Idioma = {
           b_2: 'En curso',
           b_3: 'Cumplido'
         },
-        mensaje: 'Viaje en estado: '
+        mensaje:{
+          msj_1: 'Viaje en estado: en curso',
+          msj_2: 'Viaje desasignado',
+          msj_3: 'Atención: '
+        },
       },
       pag_modal_viaje_chofer:{
         titulo:'Detalle del viaje',
@@ -259,9 +263,9 @@ export const Idioma = {
         }
       },
       pag_encuesta_chofer:{
-        perfil: 'Chofer',
-        titulo: 'Control de Unidad Asignada ',
+        titulo: 'Control de Unidad Asignada',
         patente: 'Patente',
+        mensaje: "Encuesta registrada",
         preguntas:{
           //SELECT
           p_1: {

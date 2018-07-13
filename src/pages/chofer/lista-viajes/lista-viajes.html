@@ -1,7 +1,7 @@
 <ion-content padding>
 
 <ion-item>
-  <ion-label text-center><strong>Viajes Pendientes</strong></ion-label>
+  <ion-label text-center><strong>{{idioma.pag_lista_viajes_chofer.titulo}}</strong></ion-label>
 </ion-item>
 
 <!-- SPINNER -->
@@ -15,9 +15,9 @@
     	<ion-avatar item-start>
         <img src="http://pngimg.com/uploads/gps/gps_PNG8.png">
       </ion-avatar>
-      <h2>Fecha : {{ viaje.fecha }} Hora: {{ viaje.hora }}</h2>
-      <h3>Desde : {{ viaje.origen }}</h3>
-      <h3>Hasta : {{ viaje.destino }}</h3>
+      <h2>{{idioma.pag_lista_viajes_chofer.label.fecha}} {{ viaje.fecha }} {{idioma.pag_lista_viajes_chofer.label.hora}} {{ viaje.hora }}</h2>
+      <h3>{{idioma.pag_lista_viajes_chofer.label.desde}} {{ viaje.origen }}</h3>
+      <h3>{{idioma.pag_lista_viajes_chofer.label.hasta}} {{ viaje.destino }}</h3>
     </ion-item>
   </ion-list>
   <!-- ENCUESTA -->
