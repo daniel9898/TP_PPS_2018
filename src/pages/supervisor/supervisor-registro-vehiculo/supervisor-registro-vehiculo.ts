@@ -3,13 +3,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { vehiculo } from '../../../classes/vehiculo.model';
 import { PhotoTakerPage } from '../photo-taker/photo-taker';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
-/**
- * Generated class for the SupervisorRegistroVehiculoPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-supervisor-registro-vehiculo',
@@ -19,14 +16,33 @@ export class SupervisorRegistroVehiculoPage {
   key: string = '';
   vehiculo: vehiculo;
   isEditable: boolean = false;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private vehiculoSrv: VehiculosProvider) {
+  //TEXTO
+  idioma:any;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              private vehiculoSrv: VehiculosProvider,
+              private _utilitiesServ:UtilidadesProvider) {
+
     this.vehiculo = new vehiculo();
     this.vehiculo.patente = '';
     this.vehiculo.ano = "1995";
+
+    //IDIOMA
+    this.cargar_idioma();
+
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SupervisorRegistroVehiculoPage');
     if (this.navParams.data.vehiculo) {
       this.vehiculo = this.navParams.data.vehiculo;
       this.key = this.navParams.data.key;
@@ -49,6 +65,7 @@ export class SupervisorRegistroVehiculoPage {
     } else if (this.key !== '') {
       this.vehiculoSrv.updateItem(this.key, this.vehiculo);
     }
+    this._utilitiesServ.showToast(this.idioma.pag_registro_vehiculo_supervisor.mensaje);
     this.navCtrl.pop();
   }
 

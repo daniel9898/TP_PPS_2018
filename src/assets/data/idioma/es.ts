@@ -72,7 +72,8 @@ export const Idioma = {
             msj_3:    'Usuario eliminado',
             msj_4:    'Correo no disponible',
             msj_5:    'Correo inválido',
-            msj_6:    'Cambios realizados con éxito'
+            msj_6:    'Cambios realizados con éxito',
+            msj_7:    'Usuario creado'
           }
       },
       pag_clave:{
@@ -335,10 +336,9 @@ export const Idioma = {
           1:'Disponibles',
           2:'No disponibles'
         },
-        mensajes:{
+        mensaje:{
           msj_1:  'No hay choferes disponibles para ese vehículo',
-          msj_2:  'No es un código válido',
-          msj_qr: 'Centre el código sobre el rectángulo'
+          msj_2:  'Código inválido'
         }
       },
       pag_lista_viajes_supervisor:{
@@ -350,38 +350,19 @@ export const Idioma = {
         label:  'Destino: '
       },
       pag_lista_usuarios_supervisor:{
-        placeholder: 'buscar',
         mensaje:{
           msj_1: 'Usuario eliminado',
           msj_2: 'Error al realizar acción: '
         }
       },
       pag_lista_vehiculos_supervisor:{
-        placeholder: 'buscar'
+        mensaje: 'Vehículo eliminado'
       },
       pag_registro_usuario:{
         cliente: 'Cliente',
         chofer:  'Chofer'
       },
-      pag_registro_cliente_supervisor:{
-        label:{
-          correo:     'Correo',
-          nombre:     'Nombre',
-          edad:       'Edad',
-          direccion:  'Dirección',
-          perfil:     'Perfil',
-          viajando:   'Viajando',
-          activo:     'Activo',
-          verificado: 'Verificado'
-        },
-        mensaje:{
-          msj_1: 'Usuario creado',
-          msj_2: 'Correo no disponible',
-          msj_3: 'Correo inválido'
-        }
-      },
       pag_registro_chofer_supervisor:{
-        titulo: 'Alta de choferes',
         label:{
           nombre:    'Nombre',
           apellido:  'Apellido',
@@ -392,16 +373,17 @@ export const Idioma = {
         },
         mensaje:{
           msj_1:'Registro exitoso',
-          msj_2:'Atención: '
+          msj_2:'Error: '
         },
         button: 'Guardar'
       },
       pag_registro_vehiculo_supervisor:{
         button: 'Editar',
+        mensaje: 'Vehículo agregado',
         label:{
           marca:   'Marca',
           modelo:  'Modelo',
-          año:     'Año',
+          ano:     'Año',
           patente: 'Patente',
           activo:  'Activo'
         },
@@ -411,15 +393,15 @@ export const Idioma = {
         },
         error:{
           marca:     'Mínimo 3 caracteres',
-          patente_1: 'Sin espacios',
-          patente_2: 'Formato incorrecto [ABC123]',
-          patente_3: 'Formato incorrecto [AB123CD]'
+          patente_1: 'No agregar espacios',
+          patente_2: 'Formato correcto [ ABC123 ]',
+          patente_3: 'Formato correcto [ AB123CD ]'
         }
       },
       pag_photoTaker_supervisor:{
         button:{
           b_1: 'Guardar',
-          b_2: 'Subir a '
+          b_2: 'Subir'
         },
         mensaje:{
           msj_1: 'Foto subida',
@@ -435,7 +417,9 @@ export const Idioma = {
           chofer:  'Chofer: ',
           datos:   'Datos del viaje',
           origen:  'Origen: ',
-          destino: 'Destino: '
+          destino: 'Destino: ',
+          fecha:   'Fecha:',
+          hora:    'Hora:'
         },
         button:{
           b_1: 'Asignar',

@@ -1,16 +1,10 @@
-<!--
-  Generated template for the SupervisorRegistroVehiculoPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
       <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || ((vehiculo.ano > 1994 && vehiculo.ano < 2016) && patente.invalid ) || ( vehiculo.ano > 2015 && patente2.invalid)">Guardar</button>
-      <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button>
+      <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">{{idioma.pag_registro_vehiculo_supervisor.button}}</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
       </button>
@@ -21,36 +15,31 @@
 
 <ion-content padding>
   <ion-item>
-    <!-- <ion-avatar item-end>
-      <img [src]="fotos[0]" *ngIf="fotos.lenght > 0">
-    </ion-avatar> -->
-    <ion-label stacked>Marca</ion-label>
+    <ion-label stacked>{{idioma.pag_registro_vehiculo_supervisor.label.marca}}</ion-label>
     <ion-input type="text" id="marca" name="marca" [disabled]="!isEditable" #marca="ngModel" [(ngModel)]="vehiculo.marca" [minlength]="3" required></ion-input>
   </ion-item>
-  <p color="danger" ion-text [hidden]="!(marca.invalid && marca.dirty)">Debe tener una marca mayor 3 carateres</p>
+  <p color="danger" ion-text [hidden]="!(marca.invalid && marca.dirty)">{{idioma.pag_registro_vehiculo_supervisor.error.marca}}</p>
   <ion-item>
-    <ion-label stacked>Modelo</ion-label>
+    <ion-label stacked>{{idioma.pag_registro_vehiculo_supervisor.label.modelo}}</ion-label>
     <ion-input type="text" [disabled]="!isEditable" [(ngModel)]="vehiculo.modelo"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label stacked>Año</ion-label>
+    <ion-label stacked>{{idioma.pag_registro_vehiculo_supervisor.label.ano}}</ion-label>
     <ion-datetime id="ano" name="ano" #ano="ngModel" min="1995" displayFormat="YYYY" doneText="Listo" cancelText="Cancelar" [disabled]="!isEditable" [(ngModel)]="vehiculo.ano" required></ion-datetime>
   </ion-item>
   <ion-item [hidden]="!(vehiculo.ano > 1994 && vehiculo.ano < 2016)">
-    <ion-label stacked>Patente</ion-label>
-    <ion-input type="text" id="patente" name="patente"  placeholder="ABC123" pattern="^([A-Z]{3})([0-9]{3})$" [disabled]="!isEditable" #patente="ngModel" [ngModel]="vehiculo.patente" (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
-    <!-- <ion-input type="text" id="patente2" name="patente2" [hidden]="!(vehiculo.ano >= 2016)" [disabled]="!isEditable" #patente2="ngModel" placeholder="AB123CD" pattern="^([A-Z]{2})([0-9]{3})([A-Z]{2})$" [(ngModel)]="vehiculo.patente"  (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input> -->
+    <ion-label stacked>{{idioma.pag_registro_vehiculo_supervisor.label.patente}}</ion-label>
+    <ion-input type="text" id="patente" name="patente"  [placeholder]="idioma.pag_registro_vehiculo_supervisor.placeholder[1]" pattern="^([A-Z]{3})([0-9]{3})$" [disabled]="!isEditable" #patente="ngModel" [ngModel]="vehiculo.patente" (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
   </ion-item>
   <ion-item [hidden]="!(vehiculo.ano >= 2016)">
-    <ion-label stacked>Patente</ion-label>
-    <!-- <ion-input type="text" id="patente" name="patente" [hidden]="!(vehiculo.ano > 1994 && vehiculo.ano < 2016)" placeholder="ABC123" pattern="^([A-Z]{3})([0-9]{3})$" [disabled]="!isEditable" #patente="ngModel" [ngModel]="vehiculo.patente" (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input> -->
-    <ion-input type="text" id="patente2" name="patente2"  [disabled]="!isEditable" #patente2="ngModel" placeholder="AB123CD" pattern="^([A-Z]{2})([0-9]{3})([A-Z]{2})$" [(ngModel)]="vehiculo.patente"  (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
+    <ion-label stacked>{{idioma.pag_registro_vehiculo_supervisor.label.patente}}</ion-label>
+    <ion-input type="text" id="patente2" name="patente2"  [disabled]="!isEditable" #patente2="ngModel" [placeholder]="idioma.pag_registro_vehiculo_supervisor.placeholder[2]" pattern="^([A-Z]{2})([0-9]{3})([A-Z]{2})$" [(ngModel)]="vehiculo.patente"  (ngModelChange)="vehiculo.patente = $event.toLocaleUpperCase().trim()" required></ion-input>
   </ion-item>
-  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length > 1 && patente.invalid )">No debe contenter espacios</p>
-  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente.invalid && (patente.dirty) && (vehiculo.ano > 1994 && vehiculo.ano < 2016))">El formato debe ser ABC123</p>
-  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente2.invalid && (patente2.dirty) && (vehiculo.ano >= 2016))">El formato debe ser AB123CD</p>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length > 1 && patente.invalid )">{{idioma.pag_registro_vehiculo_supervisor.error.patente_1}}</p>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente.invalid && (patente.dirty) && (vehiculo.ano > 1994 && vehiculo.ano < 2016))">{{idioma.pag_registro_vehiculo_supervisor.error.patente_2}}</p>
+  <p color="danger" ion-text [hidden]="!(vehiculo.patente.split(' ').length === 1 && patente2.invalid && (patente2.dirty) && (vehiculo.ano >= 2016))">{{idioma.pag_registro_vehiculo_supervisor.error.patente_3}}</p>
   <ion-item>
-    <ion-label>Activo</ion-label>
+    <ion-label>{{idioma.pag_registro_vehiculo_supervisor.label.activo}}</ion-label>
     <ion-toggle [(ngModel)]="vehiculo.activo" [disabled]="!isEditable"></ion-toggle>
   </ion-item>
   <ion-item>
@@ -64,17 +53,8 @@
         <ion-slide *ngFor="let foto of vehiculo.fotos">
           <img [src]="foto" *ngIf="foto" alt="">
         </ion-slide>
-        <!-- <ion-slide>
-          <img src="https://loremflickr.com/320/240/car,sport?random=2" alt="">
-        </ion-slide>
-        <ion-slide>
-          <img src="https://loremflickr.com/320/240/car,sport?random=3" alt="">
-        </ion-slide> -->
       </ion-slides>
     </ion-card-content>
   </ion-card>
-  <!-- <ion-item>
-
-  </ion-item> -->
 
 </ion-content>

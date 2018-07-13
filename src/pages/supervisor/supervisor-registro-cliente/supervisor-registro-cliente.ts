@@ -10,6 +10,8 @@ import { SupervisorListaUsuariosPage, MapaPage } from '../../index-paginas';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -39,6 +41,8 @@ export class SupervisorRegistroClientePage {
   from_lista:boolean;
   //CALLBACK function (para retornar dirección desde MapaPage)
   myCallbackFunction:Function;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
@@ -47,6 +51,9 @@ export class SupervisorRegistroClientePage {
               public _auth: AuthAdministradorProvider,
               public _usuarioServicio: UsuarioServicioProvider,
               public _utilidadesSrv: UtilidadesProvider) {
+
+              //IDIOMA
+              this.cargar_idioma();
 
               //Habilita botón atrás (hacia la lista usuarios)
               if(this.navParams.get("fromLista"))
@@ -75,6 +82,15 @@ export class SupervisorRegistroClientePage {
                 userAge:    [null, [ Validators.min(14), Validators.max(100) ] ]
 
               });
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -121,7 +137,7 @@ export class SupervisorRegistroClientePage {
                  this._usuarioServicio.modificar_usuario(this.usuario)
                    .then(()=>{
                        this.mostrarSpinner = false;
-                       this._utilidadesSrv.showToast("Usuario creado");
+                       this._utilidadesSrv.showToast(this.idioma.pag_perfil.mensaje.msj_7);
                    })
                    .catch((error)=>{ console.log("Error al actualizar key usuario en DB: " + error); })
                  })
@@ -136,10 +152,10 @@ export class SupervisorRegistroClientePage {
         this.mostrarSpinner = false;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this._utilidadesSrv.showWarningToast("Cuenta no disponible");
+          this._utilidadesSrv.showWarningToast(this.idioma.pag_perfil.mensaje.msj_4);
           break;
           case "auth/invalid-email":
-          this._utilidadesSrv.showErrorToast("Correo inválido");
+          this._utilidadesSrv.showErrorToast(this.idioma.pag_perfil.mensaje.msj_5);
           break;
         }
       })

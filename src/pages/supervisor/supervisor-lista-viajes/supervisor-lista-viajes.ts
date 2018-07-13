@@ -2,13 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { SupervisorChoferesDisponiblesPage } from '../supervisor-choferes-disponibles/supervisor-choferes-disponibles';
-
-/**
- * Generated class for the SupervisorListaViajesPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @IonicPage()
 @Component({
@@ -18,11 +13,26 @@ import { SupervisorChoferesDisponiblesPage } from '../supervisor-choferes-dispon
 export class SupervisorListaViajesPage {
 
   viajes: Array<any>;
+  //TEXTO
+  idioma:any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private viajeSrv: ViajeServicio) {
+
+      //IDIOMA
+      this.cargar_idioma();
+
+  }
+  
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {

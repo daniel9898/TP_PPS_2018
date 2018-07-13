@@ -6,16 +6,8 @@ import { VehiculoImagenProvider } from '../../../providers/vehiculo-imagen/vehic
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { vehiculo } from '../../../classes/vehiculo.model';
-// import { ImageModel } from '../../models/imageModel';
-// import { User } from '@firebase/auth-types';
-// import { ImageDbProvider } from '../../providers/firebase/firebase';
-
-/**
- * Generated class for the PhotoTakerPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @IonicPage()
 @Component({
@@ -28,6 +20,8 @@ export class PhotoTakerPage implements OnInit {
   vehiculo: vehiculo;
   public base64Image: string;
   public photos: string[];
+  //TEXTO
+  idioma:any;
 
   constructor(
     public navCtrl: NavController,
@@ -37,9 +31,20 @@ export class PhotoTakerPage implements OnInit {
     private vehiculoSrv: VehiculosProvider,
     private utilidadesSrv: UtilidadesProvider
   ) {
+    //IDIOMA
+    this.cargar_idioma();
     this.vehiculo = this.navParams.data;
     console.log(this.navParams.data);
     this.photos = [];
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ngOnInit(): void {
@@ -63,7 +68,7 @@ export class PhotoTakerPage implements OnInit {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PhotoTakerPage');
+    console.log('PhotoTakerPage página cargada');
   }
 
   /**
@@ -84,7 +89,7 @@ export class PhotoTakerPage implements OnInit {
    */
   deletePhoto(index) {
     this.photos.splice(index, 1);
-    this.utilidadesSrv.showToast("Foto eliminada");
+    this.utilidadesSrv.showToast(this.idioma.pag_photoTaker_supervisor.mensaje.msj_2);
   }
 
   /**
@@ -100,7 +105,7 @@ export class PhotoTakerPage implements OnInit {
 
     }
     this.vehiculoSrv.updateItem(this.key,this.vehiculo);
-    this.utilidadesSrv.showToast("Foto subida");
+    this.utilidadesSrv.showToast(this.idioma.pag_photoTaker_supervisor.mensaje.msj_1);
     this.navCtrl.pop();
   }
 

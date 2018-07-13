@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { SupervisorRegistroVehiculoPage } from '../../index-paginas';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
+import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
-/**
- * Generated class for the SupervisorListaVehiculosPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -20,19 +17,30 @@ export class SupervisorListaVehiculosPage {
    * colección de vehículos
    */
   public vehiculos: any[];
-
+  //TEXTO
+  idioma:any;
   /**
    *
    * @param navCtrl controller de navegación
    * @param navParams controller de parametros entre paginas
    * @param vehiculosSrv servicio de vehículo
-   * @param alertCtrl controller de ventana de alerta
    */
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private vehiculosSrv: VehiculosProvider,
-    public alertCtrl: AlertController) {
+    private _utilitiesServ:UtilidadesProvider) {
+      //IDIOMA
+      this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   ionViewDidLoad() {
@@ -98,6 +106,7 @@ export class SupervisorListaVehiculosPage {
    */
   eliminarVehiculo(i) {
     this.vehiculosSrv.deleteItem(this.vehiculos[i].key);
+    this._utilitiesServ.showToast(this.idioma.pag_lista_vehiculos_supervisor.mensaje);
 
   }
 

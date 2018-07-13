@@ -1,13 +1,7 @@
-<!--
-  Generated template for the SupervisorAsignaViajePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Asignar viaje</ion-title>
+    <ion-title>{{idioma.pag_asignar_viaje_supervisor.titulo}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,33 +10,33 @@
 <ion-content padding>
   <ion-card>
     <ion-card-header>
-      Chofer: {{chofer.correo}}
+      <strong>{{idioma.pag_asignar_viaje_supervisor.label.chofer}}</strong> {{chofer.correo}}
     </ion-card-header>
     <ion-card-content>
       <ion-row>
-        <h3>Datos del viaje</h3>
+        <h3><strong>{{idioma.pag_asignar_viaje_supervisor.label.datos}}</strong></h3>
       </ion-row>
       <ion-row>
         <ion-col>
-          Origen: {{viaje.origen}}
+          {{idioma.pag_asignar_viaje_supervisor.label.origen}} {{viaje.origen}}
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          Destino: {{viaje.destino}}
+          {{idioma.pag_asignar_viaje_supervisor.label.destino}} {{viaje.destino}}
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          {{viaje.fecha}} - {{viaje.hora}}
+          {{idioma.pag_asignar_viaje_supervisor.label.fecha}} {{viaje.fecha}} - {{idioma.pag_asignar_viaje_supervisor.label.hora}} {{viaje.hora}}
         </ion-col>
       </ion-row>
-      <button ion-button block [disabled]="viaje.estado !=='pendiente'" (click)="asignarViaje()">Asignar</button>
+      <button ion-button block [disabled]="viaje.estado !=='pendiente'" (click)="asignarViaje()">{{idioma.pag_asignar_viaje_supervisor.button.b_1}}</button>
       <button ion-button block color="danger" (click)="liberarViaje()"
               [disabled]="viaje.estado === 'cumplido' ||
                           viaje.estado ==='pendiente' ||
                           viaje.id_chofer != chofer.id_usuario"
-              >Desasignar
+              >{{idioma.pag_asignar_viaje_supervisor.button.b_2}}
       </button>
     </ion-card-content>
 

@@ -8,6 +8,8 @@ import { Usuario } from '../../../classes/usuario';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-supervisor-lista-usuarios',
@@ -20,6 +22,8 @@ export class SupervisorListaUsuariosPage {
   usuariosBackUp:Usuario[] = [];
   usuarioActual:string;
   usuarioDePrueba:boolean;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -28,7 +32,18 @@ export class SupervisorListaUsuariosPage {
               public _usuarioServicio: UsuarioServicioProvider,
               public _utilidadesSrv: UtilidadesProvider) {
 
+        //IDIOMA
+        this.cargar_idioma();
         this.mostrarSpinner = true;
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   //PAGINA CARGADA
@@ -71,11 +86,11 @@ export class SupervisorListaUsuariosPage {
     this._usuarioServicio.baja_usuario(key)
     .then(()=>{
           console.log("OK: usuario eliminado de database");
-          this._utilidadesSrv.showToast("Usuario eliminado");
+          this._utilidadesSrv.showToast(this.idioma.pag_lista_usuarios_supervisor.mensaje.msj_1);
           this.initializeItems();
     })
     .catch((error)=>{
-      this._utilidadesSrv.showErrorToast("Error al realizar acción: " + error);
+      this._utilidadesSrv.showErrorToast(this.idioma.pag_lista_usuarios_supervisor.mensaje.msj_2 + error);
       console.log("Error al borrar usuario de database: " + error);
     })
   }

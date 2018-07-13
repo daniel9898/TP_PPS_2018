@@ -9,6 +9,8 @@ import { UsuarioImagenProvider } from '../../../providers/usuario-imagen/usuario
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @IonicPage()
 @Component({
@@ -23,6 +25,8 @@ export class SupervisorRegistroChoferPage {
   userProfile:string = "chofer";
   viewImage  : string ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevjT5_rnSGE76WpJQLuyBb99skuZmJ3DqLGwkT8UUQopXugUrQQ';
   image : string;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
   	          private fb: FormBuilder,
@@ -31,8 +35,18 @@ export class SupervisorRegistroChoferPage {
               public usrFoto: UsuarioImagenProvider,
               public utils: UtilidadesProvider,
               public _authAdmin: AuthAdministradorProvider) {
-
+    //IDIOMA
+    this.cargar_idioma();
   	this.setFormValidator();
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   setFormValidator(){
@@ -78,13 +92,13 @@ export class SupervisorRegistroChoferPage {
         chofer.id_usuario = authOk.user.uid;
      	  await this._chofer.actualizarChofer(chofer);
         this.utils.dismissLoading();
-        this.utils.showToast('REGISTRO EXITOSO !');
+        this.utils.showToast(this.idioma.pag_registro_chofer_supervisor.mensaje.msj_1);
         this.navCtrl.setRoot(SupervisorListaUsuariosPage);
 
     }catch(e){
         this.utils.dismissLoading();
         console.log('error ',e.message);
-        this.utils.showWarningToast('Atención ! '+e.message);
+        this.utils.showWarningToast(this.idioma.pag_registro_chofer_supervisor.mensaje.msj_2 + e.message);
     }
 
   }
@@ -96,7 +110,7 @@ export class SupervisorRegistroChoferPage {
         this.viewImage = 'data:image/jpeg;base64,'+this.image;
     }catch(e){
         console.log(e.message);
-        this.utils.showWarningToast('Atención ! '+e.message);
+        this.utils.showWarningToast(this.idioma.pag_registro_chofer_supervisor.mensaje.msj_2 + e.message);
     }
   }
 
