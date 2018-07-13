@@ -6,11 +6,10 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ChoferEncuestaPage,ChoferViajePage } from '../../../pages/index-paginas';
-// import { ListaViajesPage } from '../../../pages/index-paginas';
-import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { vehiculo } from '../../../classes/vehiculo.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
+import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
 
 @IonicPage()
 @Component({
@@ -38,9 +37,9 @@ export class ChoferInicioPage {
     public utils: UtilidadesProvider,
     public vehiculosProv: VehiculosProvider,
     public userProv: UsuarioServicioProvider,
-    private barcodeScanner: BarcodeScanner,
     public menu: MenuController,
-    public viajesProv: ViajeServicio) {
+    public viajesProv: ViajeServicio,
+    private _qrScannerSrv: QrServicioProvider,) {
 
     this.mostrarSpinner = true;
     this.usuarioSesion = firebase.auth().currentUser;
@@ -76,9 +75,9 @@ export class ChoferInicioPage {
 
                               this.utils.showToast('Tiene un viaje asignado');
                               this.mostrarSpinner = false;
+                              this.viajesSubs.unsubscribe();
                               this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer: this.chofer[0]});
-
-                          } )
+                          })
                           .catch(error => console.log('error ',error))
                       }
                       //Chofer tiene vehiculo asignado + viaje asignado PERO es un viaje pasado
@@ -86,21 +85,21 @@ export class ChoferInicioPage {
                           this.mostrarSpinner = false;
                           this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.chofer[0].id_vehiculo, chofer: this.chofer[0].id_usuario, desdeInicio: true });
                       }
+                  }
+  //5) SIN VIAJE ASIGNADO: validar entonces sólo si tiene auto asignado.
+                  else{
+                    //CHOFER no tiene ningún viaje asignado pero sí vehiculo
+                    if(this.chofer[0].id_vehiculo != null && this.chofer[0].id_vehiculo != ''){
+                      this.mostrarSpinner = false;
+                      this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.chofer[0].id_vehiculo, chofer: this.chofer[0].id_usuario, desdeInicio: true });
                     }
-                    else{
-                      //CHOFER no tiene ningún viaje asignado pero sí vehiculo
-                      if(this.chofer[0].id_vehiculo != null && this.chofer[0].id_vehiculo != ''){
-                        this.mostrarSpinner = false;
-                        this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.chofer[0].id_vehiculo, chofer: this.chofer[0].id_usuario, desdeInicio: true });
-                      }
-                      //CHOFER no tiene ningún viaje asignado ni tampoco vehículo
-                      else
-                        this.mostrarSpinner = false;
-                    }
+                    //CHOFER no tiene ningún viaje asignado ni tampoco vehículo
+                    else
+                      this.mostrarSpinner = false;
+                  }
                 },
                 error => this.utils.showErrorToast('Atención ! ' + error.json())
             )
-//5) SIN VIAJE ASIGNADO: validar entonces sólo si tiene auto asignado.
       },
       error => this.utils.showErrorToast('Atención ! ' + error.json())
     )
@@ -110,21 +109,23 @@ export class ChoferInicioPage {
 
     console.log('vehiculos', this.vehiculos);
 
+    //ESCANEAR CÓDIGO QR DEL VEHICULO
     try {
       this.asignado = false;
-      this.barcodeScanner.scan().then(value => {
+      this._qrScannerSrv.inicializar("Centre el código sobre el rectángulo");
+      this._qrScannerSrv.lector_qr()
+      .then(texto => {
         this.vehiculosSubs = this.vehiculosProv.getListaVehiculos().subscribe(vehiculos => {
-          const result = (vehiculos.filter(v => value.text === v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado).length > 0);
+          const result = (vehiculos.filter(v => texto === v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado).length > 0);
           console.log(result);
           if (result) {
-            const vehiculo = vehiculos.filter(v => value.text == v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado)[0];
+            const vehiculo = vehiculos.filter(v => texto == v.vehiculo.patente && v.vehiculo.activo && !v.vehiculo.ocupado)[0];
             console.log(vehiculos);
             vehiculo.vehiculo.ocupado = true;
             this.vehiculoAsignado = vehiculo;
             this.asignado = true;
             this.vehiculosProv.updateItem(vehiculo.key, vehiculo.vehiculo);
             this.asignarVehiculo();
-            //this.vehiculosSubs.unsubscribe();
           }
           else {
             this.vehiculosSubs.unsubscribe();
@@ -132,7 +133,7 @@ export class ChoferInicioPage {
             this.utils.showWarningToast('Atención ! Vehiculo no disponible o codigo incorrecto, reintente.');
           }
         });
-        console.log('Barcode data', value);
+        console.log('Barcode data', texto);
       });
     } catch (e) {
       console.log(e);

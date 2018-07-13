@@ -74,7 +74,7 @@ export class ChoferViajePage {
     console.log('viaje ', this.viaje);
     switch(estado){
       case 'pendiente'://Chofer cancela el viaje
-      this.chofer.id_viaje = "" //Desasignación
+      //this.chofer.id_viaje = "" //Desasignación
       this.userProv.modificar_usuario(this.chofer)
         .then(()=>{ this.navCtrl.setRoot(ListaViajesPage) })
       break;

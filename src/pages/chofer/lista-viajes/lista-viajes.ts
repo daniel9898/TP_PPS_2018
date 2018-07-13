@@ -61,6 +61,7 @@ export class ListaViajesPage {
   inicializar(){
     this.mostrarSpinner = true;
     this.usersSubs = this.usuarioSrv.getUsers().subscribe(
+    //Si se cambia un dato de chofer se re-ejecuta. Por ejemplo: supervisor asigna viaje
     lista => {
 
   //1) OBTENER CHOFER
@@ -79,7 +80,7 @@ export class ListaViajesPage {
                         this.viajesProv.modificar_viaje(this.viaje)
                         .then(v =>{
 
-                            this.utils.showToast('Tiene un viaje Asignado');
+                            this.utils.showToast('Tiene un viaje asignado');
                             this.mostrarSpinner = false;
                             this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer: this.chofer[0]});
 

@@ -64,7 +64,7 @@ export class ClienteViajePage {
               private _userService:UsuarioServicioProvider,
               private _authService:AuthServicioProvider,
               private _viajeService:ViajeServicio,
-              private _qrScanner: QrServicioProvider,
+              private _qrScannerSrv: QrServicioProvider,
               private _utilitiesServ: UtilidadesProvider,
               private platform:Platform) {
 
@@ -493,7 +493,9 @@ export class ClienteViajePage {
         return;
       }
 
-      this._qrScanner.lector_qr()
+      //LECTURA DE SCANNER QR
+      this._qrScannerSrv.inicializar("Centre el código sobre el rectángulo");
+      this._qrScannerSrv.lector_qr()
         .then((texto)=>{
           console.log("Texto capturado: " + texto);
           console.log("Id vehiculo del chofer: " + this.chofer.id_vehiculo);
