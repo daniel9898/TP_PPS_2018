@@ -7,7 +7,7 @@
 </div>
 
 <!-- MENU -->
-<ion-menu [content]="content">
+<ion-menu [content]="content" [class]="selectedTheme">
   <ion-header>
     <ion-toolbar>
       <ion-title>Menu</ion-title>
@@ -45,4 +45,4 @@
 </ion-menu>
 
 <!-- CONTENIDO -->
-<ion-nav [root]="rootPage" #content></ion-nav>
+<ion-nav [root]="rootPage" #content [class]="selectedTheme"></ion-nav>

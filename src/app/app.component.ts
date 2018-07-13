@@ -19,6 +19,7 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
+import { ThemeSettingsProvider } from '../providers/theme-settings/theme-settings';
 
 @Component({
   templateUrl: 'app.html'
@@ -36,7 +37,7 @@ export class MyApp {
   vista_cliente:boolean = false;
   vista_chofer:boolean = false;
   vista_supervisor:boolean = false;
-
+  selectedTheme: String;
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
@@ -44,7 +45,8 @@ export class MyApp {
               public auth: AuthServicioProvider,
               public usuarioSrv: UsuarioServicioProvider,
               public vehiculoSrv: VehiculosProvider,
-              public _soundsServ:SonidosProvider) {
+              public _soundsServ:SonidosProvider, 
+              private colorSettings: ThemeSettingsProvider) {
 
       this.inicializarApp();
 
@@ -61,7 +63,7 @@ export class MyApp {
         let sound = this._soundsServ.get_soundCar();
         this._soundsServ.reproducirSonido(sound);
       });
-
+      this.colorSettings.getActiveTheme().subscribe(val => this.selectedTheme = val);
     });
 
     this.auth.afAuth.user
