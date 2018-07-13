@@ -11,6 +11,7 @@ export class SonidosProvider {
   habilitado:boolean;
   //AUDIO
   audio = new Audio();
+  click_sound:string = "assets/sounds/click_sound.mp3";
   error_sound:string = "assets/sounds/error_sound.mp3";
   warning_sound:string = "assets/sounds/warning_sound.mp3";
   success_sound:string = "assets/sounds/success_sound.mp3";
@@ -46,6 +47,10 @@ export class SonidosProvider {
 
       });
       return promesa;
+  }
+
+  get_soundClick(){
+    return this.click_sound;
   }
 
   get_soundError(){
