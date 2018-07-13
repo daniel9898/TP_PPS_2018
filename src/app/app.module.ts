@@ -70,6 +70,7 @@ import { SupervisorChoferesDisponiblesPage } from '../pages/supervisor/superviso
 import { SupervisorAsignaViajePage } from '../pages/supervisor/supervisor-asigna-viaje/supervisor-asigna-viaje';
 import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-lista-reservas/supervisor-lista-reservas';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
+import { ThemeSettingsProvider } from '../providers/theme-settings/theme-settings';
 
 @NgModule({
   declarations: [
@@ -204,7 +205,8 @@ import { SonidosProvider } from '../providers/sonidos/sonidos';
     UtilidadesProvider,
     ChoferEncuestaProvider,
     ChartsModule,
-    SonidosProvider
+    SonidosProvider,
+    ThemeSettingsProvider
   ]
 })
 export class AppModule { }
