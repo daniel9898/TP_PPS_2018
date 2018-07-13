@@ -1,12 +1,55 @@
-<ion-header>
+<ion-content>
 
-  <ion-navbar>
-    <ion-title>config</ion-title>
-  </ion-navbar>
+  <div>
 
-</ion-header>
+    <div>
+      <ion-item class="language_selected" no-lines>
+        <!-- BACK BUTTON -->
+        <button class="back_button" ion-button item-left color="secondary" (click)="back()">
+          <ion-icon name="md-arrow-round-back"></ion-icon>
+        </button>
+        <!-- MAIN TITLE -->
+        <ion-label text-center>{{language.name}}</ion-label>
+      </ion-item>
+    </div>
 
+    <!-- FLAGS -->
+    <div class="flags_container">
+      <img #flag_es class="flag" src="assets/imgs/flags/es.png" alt="" (click)="clickLanguage('es')">
+      <img #flag_en class="flag" src="assets/imgs/flags/en.png" alt="" (click)="clickLanguage('en')">
+      <img #flag_de class="flag" src="assets/imgs/flags/de.png" alt="" (click)="clickLanguage('de')">
+      <img #flag_ru class="flag" src="assets/imgs/flags/ru.png" alt="" (click)="clickLanguage('ru')">
+      <img #flag_fr class="flag" src="assets/imgs/flags/fr.png" alt="" (click)="clickLanguage('fr')">
+      <img #flag_pt class="flag" src="assets/imgs/flags/pt.png" alt="" (click)="clickLanguage('pt')">
+    </div>
+  </div>
 
-<ion-content padding>
+  <!-- SPINNER -->
+  <div *ngIf="showSpinner" class="spinner">
+    <img src="assets/imgs/spinner_black.png" alt="spinner">
+  </div>
+
+  <!-- MAP -->
+  <div *ngIf="!showSpinner" xFlex="100" class="map-full-card-content">
+    <agm-map [latitude]="lat"
+             [longitude]="lng"
+             [zoom]="3"
+             [disableDefaultUI]="true"
+             [streetViewControl]="false"
+             (mapClick)="selectLocation($event)">
+        <agm-marker
+          [latitude]="lat"
+          [longitude]="lng">
+        </agm-marker>
+    </agm-map>
+  </div>
+
+  <!-- SAVE BUTTON -->
+  <ion-fab bottom center>
+    <button ion-fab color="secondary"
+            (click)="saveChanges()">
+      <ion-icon class="button_fab" name="md-folder"></ion-icon>
+    </button>
+  </ion-fab>
 
 </ion-content>

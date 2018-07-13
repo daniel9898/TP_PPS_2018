@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
+//STORAGE
+import { Storage } from '@ionic/storage';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //PAGINAS
@@ -32,6 +34,7 @@ export class RegistroPage {
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
               public toastCtrl: ToastController,
+              private storage  : Storage,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthAdministradorProvider,
               public _utilitiesServ: UtilidadesProvider) {
@@ -55,7 +58,21 @@ export class RegistroPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this.mostrarSpinner = true;
+    this.storage.get('language')
+      .then((lang)=>{
+        if(lang !== null){
+          console.log("LANGUAGE: " + lang);
+          this.idioma = lang;
+        }
+        else{
+            // BY DEFAULT
+            this.idioma = Idioma.es;
+        }
+        this.mostrarSpinner = false;
+      })
+      .catch((error)=>{ console.log("Error al leer storage: " + error);
+      })
   }
   //PAGINA CARGADA
   ionViewDidLoad() {

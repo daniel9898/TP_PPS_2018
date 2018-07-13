@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+//STORAGE
+import { Storage } from '@ionic/storage';
 //PAGINAS
 import { RegistroPage } from '../../index-paginas';
 import { ConfigPage } from '../../config/config';
@@ -14,7 +16,7 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //jQUERY
 import * as $ from 'jquery';
 //IDIOMA
-import { Idioma } from '../../../assets/data/idioma/es';
+import { Idioma } from '../../../assets/data/idioma/es';//-----ESPAÑOL
 
 @Component({
   selector: 'page-login',
@@ -43,10 +45,11 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
-              public _usuarioServicio:UsuarioServicioProvider,
-              public _authServicio:AuthServicioProvider,
-              public _authAdmin:AuthAdministradorProvider,
-              public _utilitiesServ: UtilidadesProvider) {
+              private storage  : Storage,
+              private _usuarioServicio:UsuarioServicioProvider,
+              private _authServicio:AuthServicioProvider,
+              private _authAdmin:AuthAdministradorProvider,
+              private _utilitiesServ: UtilidadesProvider) {
 
         console.log("¿Sesión activa?: " + this._authServicio.authenticated);
         //IDIOMA
@@ -72,7 +75,21 @@ export class LoginPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this.mostrarSpinner = true;
+    this.storage.get('language')
+      .then((lang)=>{
+        if(lang !== null){
+          console.log("LANGUAGE: " + lang);
+          this.idioma = lang;
+        }
+        else{
+            // BY DEFAULT
+            this.idioma = Idioma.es;
+        }
+        this.mostrarSpinner = false;
+      })
+      .catch((error)=>{ console.log("Error al leer storage: " + error);
+      })
   }
 
   //DATOS DE PRUEBA
