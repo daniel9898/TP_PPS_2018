@@ -12,6 +12,7 @@ import { LoginPage, PerfilPage,
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
 import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
+import { ConfigPage } from '../pages/config/config';
 //CLASE
 import { Usuario } from '../classes/usuario';
 //SERVICIOS
@@ -31,6 +32,7 @@ export class MyApp {
   rootPage:any = LoginPage;
   mostrarSplash:boolean = true;
   pagesApp: Array<{title: string, component: any, visibility: boolean}>;
+  pageConfig:any;
   usuarioSesion:boolean;
   usuario:Usuario;
   sound:boolean = false;
@@ -55,10 +57,6 @@ export class MyApp {
 
   }
 
-  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
-  ionViewWillEnter(){
-    this.cargar_idioma();
-  }
   //CARGAR IDIOMA
   cargar_idioma(){
     this.idioma = Idioma.es;
@@ -83,6 +81,7 @@ export class MyApp {
       user => {
         if (user) {
           this.usuario_db();
+          this.cargar_idioma();
           this.menu.enable(true);
           console.log("USUARIO EN APP: " + JSON.stringify(user));
           switch(user.displayName){
@@ -106,7 +105,7 @@ export class MyApp {
             this.rootPage = SupervisorInicioPage;
             break;
           }
-
+          this.pageConfig = { title: "Configuración", component: ConfigPage, visibility: false };
           this.pagesApp = [
             //PAGINAS CLIENTE (7)
             { title: this.idioma.pag_menu.opcion[1], component: ClienteInicioPage, visibility: this.vista_cliente },
@@ -170,6 +169,11 @@ export class MyApp {
     }
   }
 
+  config(){
+    this.openPage(this.pageConfig);
+    this.menu.close();
+  }
+
   sonido(){
     if(this.usuario.sonido){
       this.usuario.sonido = false;
@@ -179,7 +183,8 @@ export class MyApp {
       this.usuario.sonido = true;
       this.sound = true;
     }
-    this.usuarioSrv.modificar_usuario(this.usuario)
+    this.usuarioSrv.modificar_usuario(this.usuario);
+    this._soundsServ.reproducirSonido(this._soundsServ.get_soundSuccess());
   }
 
   logout() {

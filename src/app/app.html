@@ -10,36 +10,45 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar>
-      <ion-title>{{idioma.pag_menu.titulo}}</ion-title>
+      <ion-title text-center>{{idioma.pag_menu.titulo}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
-    <!-- OPCIONES MENU -->
-    <ion-list>
+
+    <ion-list class="box_list">
+
+        <!-- SESION ACTUAL -->
+        <div class="box_userEmail">
+          <ion-label text-center *ngIf="auth.get_userEmail()"><strong>{{idioma.pag_menu.label}}</strong> {{auth.get_userEmail()}}</ion-label>
+        </div>
+
+        <!-- OPCIONES MENU -->
         <div *ngFor="let p of pagesApp">
           <button menuClose ion-item *ngIf="p.visibility" (click)="openPage(p)">
             {{p.title}}
           </button>
         </div>
+        <!-- IDIOMA -->
+        <div class="box_config" (click)="config()">
+          <ion-icon id="config_icon" name="md-cog" item-left></ion-icon>
+        </div>
+        <!-- SONIDO -->
+        <div class="box_sound" *ngIf="sound" (click)="sonido()">
+          <ion-icon id="sound_icon" name="md-volume-up" item-left></ion-icon>
+        </div>
+        <div class="box_sound" *ngIf="!sound" (click)="sonido()">
+          <ion-icon id="sound_icon" name="md-volume-off" item-left></ion-icon>
+        </div>
+        <div class="box_empty">
+
+        </div>
+        <!-- BOTON LOGOUT -->
+        <div class="box_logOut">
+          <ion-icon (click)="logout()" *ngIf="auth.authenticated" class="iconLogOut" name="md-log-out"></ion-icon>
+        </div>
+
     </ion-list>
-
-    <ion-item (click)="sonido()" *ngIf="sound">
-      <ion-icon name="md-volume-up" item-left></ion-icon>
-    </ion-item>
-    <ion-item (click)="sonido()" *ngIf="!sound">
-      <ion-icon name="md-volume-off" item-left></ion-icon>
-    </ion-item>
-
-    <!-- BOTONES LOG -->
-    <ion-list-header *ngIf="auth.get_userEmail()">{{idioma.pag_menu.label}} {{auth.get_userEmail()}}</ion-list-header>
-      <ion-item (click)="logout()" *ngIf="auth.authenticated">
-        <ion-icon class="iconLogOut" name="md-log-out" item-left></ion-icon>
-      </ion-item>
-
-      <ion-item (click)="login()" *ngIf="!auth.authenticated">
-        <ion-icon name="md-log-in" item-left></ion-icon>
-      </ion-item>
   </ion-content>
 
 </ion-menu>
