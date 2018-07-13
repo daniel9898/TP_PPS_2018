@@ -18,31 +18,31 @@
 
               <!-- Correo -->
               <ion-item>
-                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" placeholder="Correo"></ion-input>
+                  <ion-input formControlName="userCorreo" id="inputCorreo" type="text" [placeholder]="idioma.pag_registro.placeholder.user"></ion-input>
                   <ion-icon *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email') ||
                                    registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required')" color="danger" name="alert" item-right>
                   </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('required') ||
                                registroForm.get('userCorreo').dirty && registroForm.get('userCorreo').hasError('email')" class="alerta_form">
-                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('required')">Campo requerido</p>
-                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('email') && !registroForm.get('userCorreo').hasError('required')">Formato incorrecto</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('required')">{{idioma.pag_registro.error.required}}</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userCorreo').hasError('email') && !registroForm.get('userCorreo').hasError('required')">{{idioma.pag_registro.error.email}}</p>
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
-                <ion-input formControlName="userClave1" id="inputClave1" type="password" placeholder="Contraseña"></ion-input>
+                <ion-input formControlName="userClave1" id="inputClave1" type="password" [placeholder]="idioma.pag_registro.placeholder.pass1"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
                                  registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" color="danger" name="alert" item-right>
                 </ion-icon>
               </ion-item>
               <ion-item *ngIf="registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('required') ||
                                registroForm.get('userClave1').dirty && registroForm.get('userClave1').hasError('minlength')" class="alerta_form">
-                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('required')">Campo requerido</p>
-                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('minlength') && !registroForm.get('userClave1').hasError('required')">La clave debe ser minimo de 6 caracteres</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('required')">{{idioma.pag_registro.error.required}}</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave1').hasError('minlength') && !registroForm.get('userClave1').hasError('required')">{{idioma.pag_registro.error.pass_1}}</p>
               </ion-item>
               <!-- Contraseña -->
               <ion-item>
-                <ion-input formControlName="userClave2" id="inputClave2" type="password" placeholder="Repetir contraseña"></ion-input>
+                <ion-input formControlName="userClave2" id="inputClave2" type="password" [placeholder]="idioma.pag_registro.placeholder.pass2"></ion-input>
                 <ion-icon *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                  registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
                                  registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" color="danger" name="alert" item-right>
@@ -51,17 +51,17 @@
               <ion-item *ngIf="registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('required') ||
                                registroForm.get('userClave2').dirty && registroForm.get('userClave2').hasError('minlength') ||
                                registroForm.get('userClave2').dirty && registroForm.value.userClave1 != registroForm.value.userClave2" class="alerta_form">
-                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('required')">Campo requerido</p>
-                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('minlength') && !registroForm.get('userClave2').hasError('required')">La clave debe ser de mínimo 6 caracteres</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('required')">{{idioma.pag_registro.error.required}}</p>
+                <p color="danger" ion-text *ngIf="registroForm.get('userClave2').hasError('minlength') && !registroForm.get('userClave2').hasError('required')">{{idioma.pag_registro.error.pass_1}}</p>
                 <p color="danger" ion-text *ngIf="registroForm.value.userClave1 != registroForm.value.userClave2 &&
                                                   !registroForm.get('userClave2').hasError('minlength') &&
-                                                  !registroForm.get('userClave2').hasError('required')">La clave no es idéntica a la ingresada</p>
+                                                  !registroForm.get('userClave2').hasError('required')">{{idioma.pag_registro.error.pass_2}}</p>
               </ion-item>
 
               <!-- SUBMIT -->
                 <button type="submit" ion-button color="register" icon-left block [disabled]="registroForm.invalid || registroForm.value.userClave1 != registroForm.value.userClave2">
                   <ion-icon name="md-contact"></ion-icon>
-                  Registrarse
+                  {{idioma.pag_registro.button}}
                 </button>
 
             </ion-col>

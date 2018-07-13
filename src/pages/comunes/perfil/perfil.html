@@ -56,7 +56,7 @@
                     <ion-avatar item-end>
                       <img [src]=foto_byDefault alt="...">
                     </ion-avatar>
-                    <ion-label stacked>Correo</ion-label>
+                    <ion-label stacked>{{idioma.pag_perfil.label.correo}}</ion-label>
                     <ion-input class="input_correo" [formControl]="registroForm.controls['userEmail']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar || vistaSupervisor"></ion-input>
                     <ion-icon *ngIf="registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('email') ||
                                      registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('required')" color="danger" name="alert" item-right>
@@ -64,13 +64,13 @@
                 </ion-item>
                 <ion-item *ngIf="registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('required') ||
                                      registroForm.get('userEmail').dirty && registroForm.get('userEmail').hasError('email')" class="alerta_form">
-                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('required')">Campo requerido</p>
-                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('email') && !registroForm.get('userEmail').hasError('required')">Formato incorrecto</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('required')">{{idioma.pag_perfil.error.required}}</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userEmail').hasError('email') && !registroForm.get('userEmail').hasError('required')">{{idioma.pag_perfil.error.email}}</p>
                 </ion-item>
 
                 <!-- NOMBRE -->
                 <ion-item>
-                    <ion-label stacked>Nombre</ion-label>
+                    <ion-label stacked>{{idioma.pag_perfil.label.nombre}}</ion-label>
                     <ion-input class="input_nombre" [formControl]="registroForm.controls['userName']" type="text" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
                     <ion-icon *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
                                      registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" color="danger" name="alert" item-right>
@@ -78,12 +78,12 @@
                 </ion-item>
                 <ion-item *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength') ||
                                  registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')" class="alerta_form">
-                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength')">Mínimo: 5 caracteres</p>
-                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')">Máximo: 30 caracteres</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('minlength')">{{idioma.pag_perfil.error.nombre_1}}</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userName').dirty && registroForm.get('userName').hasError('maxlength')">{{idioma.pag_perfil.error.nombre_2}}</p>
                 </ion-item>
                 <!-- EDAD -->
                 <ion-item>
-                    <ion-label stacked>Edad</ion-label>
+                    <ion-label stacked>{{idioma.pag_perfil.label.edad}}</ion-label>
                     <ion-input class="input_edad" [formControl]="registroForm.controls['userAge']" type="number" (ionChange)="hay_diferencias" [disabled]="!modificar"></ion-input>
                     <ion-icon *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
                                      registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" color="danger" name="alert" item-right>
@@ -91,8 +91,8 @@
                 </ion-item>
                 <ion-item *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min') ||
                                  registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')" class="alerta_form">
-                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min')">Edad mínima: 14</p>
-                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')">Edad máxima: 100</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('min')">{{idioma.pag_perfil.error.edad_1}}</p>
+                      <p color="danger" ion-text *ngIf="registroForm.get('userAge').dirty && registroForm.get('userAge').hasError('max')">{{idioma.pag_perfil.error.edad_2}}</p>
                 </ion-item>
 
               </ion-col>
@@ -102,7 +102,7 @@
           <ion-row>
             <ion-col>
               <ion-item>
-                <ion-label stacked>Dirección</ion-label>
+                <ion-label stacked>{{idioma.pag_perfil.label.direccion}}</ion-label>
                 <ion-input type="text" [disabled]="!modificar" [(ngModel)]="usuario.direccion"
                            (ionFocus)="verMapa()" (ionChange)="hay_diferencias"></ion-input>
               </ion-item>
@@ -112,7 +112,7 @@
 
       <!-- PERFIL (NO modificable)-->
       <ion-item class="perfilBox">
-        <ion-label stacked>Perfil</ion-label>
+        <ion-label stacked>{{idioma.pag_perfil.label.perfil}}</ion-label>
         <ion-input  type="text" required disabled="true" [(ngModel)]="usuario.perfil"></ion-input>
       </ion-item>
 
@@ -129,17 +129,17 @@
       <div class="dinamicValues" *ngIf="vistaSupervisor || usuario.perfil == 'supervisor' || usuario.perfil == 'superusuario'">
         <!-- VIAJE -->
         <ion-item>
-          <ion-label stacked>Viajando</ion-label>
+          <ion-label stacked>{{idioma.pag_perfil.label.viajando}}</ion-label>
           <ion-checkbox [(ngModel)]="usuario.viajando" disabled="true"></ion-checkbox>
         </ion-item>
         <!-- ESTADO -->
         <ion-item>
-          <ion-label stacked>Activo</ion-label>
+          <ion-label stacked>{{idioma.pag_perfil.label.activo}}</ion-label>
           <ion-checkbox [(ngModel)]="usuario.activo" [disabled]="!vistaSupervisor || !modificar" (ionChange)="hay_diferencias"></ion-checkbox>
         </ion-item>
         <!-- VERIFICADO -->
         <ion-item>
-          <ion-label stacked>Verificado</ion-label>
+          <ion-label stacked>{{idioma.pag_perfil.label.verificado}}</ion-label>
           <ion-checkbox [(ngModel)]="usuario.verificado" disabled="true"></ion-checkbox>
         </ion-item>
       </div>

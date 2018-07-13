@@ -3,6 +3,8 @@ import { NavController, NavParams, ModalController, FabContainer } from 'ionic-a
 //SERVICIOS GEOCODING + GEOLOCATE
 import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 import { GeolocationProvider } from '../../../providers/geolocation/geolocation';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-mapa',
@@ -15,6 +17,8 @@ export class MapaPage {
   direccion:string;
   callback:Function;
   mostrarSpinner:boolean = false;
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl:   NavController,
               public navParams: NavParams,
@@ -22,23 +26,37 @@ export class MapaPage {
               private _geoCoding:GeocodingProvider,
               private _geoLocate:GeolocationProvider) {
 
-      if(this.navParams.get('direccion')){
-        this.direccion = this.navParams.get('direccion');
-        console.log("Direccion recibida: " + this.direccion);
-      }
-      //Se setea el callback siempre ya que el if anterior
-      //no siempre sirve como verificacion
-      if (this.navParams.get("callback") !== null) {
-        this.callback = this.navParams.get("callback");
-      }
+      //IDIOMA
+      this.cargar_idioma();
   }
 
-  ionViewDidLoad() {
-    if(this.direccion && this.direccion != "*****" && this.direccion != "N/N")
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+    this.asignar_valores();
+
+    if(this.direccion && this.direccion !== "*****" && this.direccion !== "N/N"){
       this.marcarDireccion();
+    }
     else{
       this.lat = -34.662305;
       this.lng = -58.36472349999997;
+    }
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
+  }
+
+  //ASIGNAR VALORES
+  asignar_valores(){
+    if(this.navParams.get('direccion') !== undefined){
+      this.direccion = this.navParams.get('direccion');
+      console.log("Direccion recibida: " + this.direccion);
+    }
+    if (this.navParams.get("callback") !== undefined) {
+      this.callback = this.navParams.get("callback");
     }
   }
 

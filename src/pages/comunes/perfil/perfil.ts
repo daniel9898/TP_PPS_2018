@@ -14,6 +14,8 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-perfil',
@@ -46,6 +48,9 @@ export class PerfilPage {
   //CALLBACK function (para retornar dirección desde MapaPage)
   myCallbackFunction:Function;
 
+  //TEXTO
+  idioma:any;
+
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public toastCtrl: ToastController,
@@ -57,7 +62,14 @@ export class PerfilPage {
               public _utilitiesServ: UtilidadesProvider) {
 
       this.mostrarSpinner = true;
+      //IDIOMA
+      this.cargar_idioma();
       this.modificar = false;
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
   }
 
   //PAGINA CARGADA
@@ -72,6 +84,11 @@ export class PerfilPage {
                resolve();
            });
     }
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   traer_usuario(){
@@ -212,13 +229,13 @@ export class PerfilPage {
         this._auth.update_userPassword(credentials.passNew)
           .then(()=>{
             this.mostrarSpinner = false;
-            this._utilitiesServ.showToast("Clave cambiada");
+            this._utilitiesServ.showToast(this.idioma.pag_perfil.mensaje.msj_1);
           })
       })
       .catch((error)=>{
         console.log("Error al intentar cambiar clave: " + error);
         this.mostrarSpinner = false;
-        this._utilitiesServ.showErrorToast("Clave inválida");
+        this._utilitiesServ.showErrorToast(this.idioma.pag_perfil.mensaje.msj_2);
       })
   }
 
@@ -240,7 +257,7 @@ export class PerfilPage {
             .then(()=>{
                   console.log("OK: usuario eliminado de database");
                   this.mostrarSpinner = false;
-                  this._utilitiesServ.showErrorToast("Usuario eliminado");
+                  this._utilitiesServ.showErrorToast(this.idioma.pag_perfil.mensaje.msj_3);
                   this.navCtrl.setRoot(LoginPage);
             })
           }).catch((error)=>{console.log("Error al borrar usuario de database" + error);});
@@ -248,7 +265,7 @@ export class PerfilPage {
         .catch((error)=>{
           console.log("Error al intentar cambiar clave: " + error);
           this.mostrarSpinner = false;
-          this._utilitiesServ.showErrorToast("Clave inválida");
+          this._utilitiesServ.showErrorToast(this.idioma.pag_perfil.mensaje.msj_2);
         })
     }
 
@@ -257,7 +274,7 @@ export class PerfilPage {
       this._usuarioServicio.baja_usuario(this.usuario.key)
       .then(()=>{
             console.log("OK: usuario eliminado de database");
-            this._utilitiesServ.showToast("Usuario eliminado");
+            this._utilitiesServ.showToast(this.idioma.pag_perfil.mensaje.msj_3);
             this.navCtrl.setRoot(SupervisorListaUsuariosPage);
       })
       .catch((error)=>{
@@ -291,7 +308,7 @@ export class PerfilPage {
     .catch((error)=>{
       console.log("Error al intentar cambiar clave: " + error);
       this.mostrarSpinner = false;
-      this._utilitiesServ.showErrorToast("Clave inválida");
+      this._utilitiesServ.showErrorToast(this.idioma.pag_perfil.mensaje.msj_2);
     })
   }
 
@@ -360,10 +377,10 @@ export class PerfilPage {
             //var errorMessage = error.message;
             switch(errorCode){
               case "auth/email-already-in-use":
-              this._utilitiesServ.showWarningToast("Correo no disponible");
+              this._utilitiesServ.showWarningToast(this.idioma.pag_perfil.mensaje.msj_4);
               break;
               case "auth/invalid-email":
-              this._utilitiesServ.showErrorToast("Correo inválido");
+              this._utilitiesServ.showErrorToast(this.idioma.pag_perfil.mensaje.msj_5);
               break;
             }
             this.mostrarSpinner = false;
@@ -384,7 +401,7 @@ export class PerfilPage {
       .then(()=>{
         console.log("Cambios guardados!");
         this.mostrarSpinner = false;
-        this._utilitiesServ.showToast("Cambios realizados con éxito");
+        this._utilitiesServ.showToast(this.idioma.pag_perfil.mensaje.msj_6);
         this.modificar = false;
         this.cambios = false;
         this.traer_usuario();

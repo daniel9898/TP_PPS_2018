@@ -8,6 +8,8 @@ import { LoginPage } from '../../index-paginas';;
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-registro',
@@ -23,6 +25,8 @@ export class RegistroPage {
   userEmail:string;
   userProfile:string = "cliente";
   userFoto:string = "assets/imgs/default_cliente.png";
+  //TEXTO
+  idioma:any;
 
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
@@ -31,6 +35,9 @@ export class RegistroPage {
               public _authServicio:AuthAdministradorProvider,
               public _utilitiesServ: UtilidadesProvider) {
 
+    //IDIOMA
+    this.cargar_idioma();
+    //FORMULARIO
     this.registroForm = this.fbRegistration.group({
 
       userCorreo: ['', [Validators.required, Validators.email] ],
@@ -41,9 +48,19 @@ export class RegistroPage {
 
   }
 
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
   //PAGINA CARGADA
   ionViewDidLoad() {
     console.log('Página registro cargada!');
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   registrarUsuario(){
@@ -92,11 +109,11 @@ export class RegistroPage {
         //var errorMessage = error.message;
         switch(errorCode){
           case "auth/email-already-in-use":
-          this._utilitiesServ.showWarningToast("Cuenta no disponible");
+          this._utilitiesServ.showWarningToast(this.idioma.pag_registro.mensaje.msj_1);
           this.registroForm.reset();
           break;
           case "auth/invalid-email":
-          this._utilitiesServ.showErrorToast("Correo inválido");
+          this._utilitiesServ.showErrorToast(this.idioma.pag_registro.mensaje.msj_2);
           break;
         }
         this.mostrarSpinner = false;

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-popover-clave',
@@ -16,11 +18,15 @@ export class PopoverClavePage {
   insertarClave:boolean = false;
   //CREDENTIALS
   credentials:any = '';
+  //TEXTO
+  idioma:any;
 
   constructor(public navParams:NavParams,
               public viewCtrl:ViewController,
               public fbRegistration:FormBuilder) {
-
+                
+    //IDIOMA
+    this.cargar_idioma();
     switch(navParams.data.opcion){
       case "cambiarClave":
         this.cambiarClave = true;
@@ -39,6 +45,16 @@ export class PopoverClavePage {
         this.cambiarClave = false;
         break;
     }
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   volver(){

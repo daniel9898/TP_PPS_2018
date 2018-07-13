@@ -24,36 +24,36 @@
       <form [formGroup]="myLoginForm" (ngSubmit)="validarUsuario()" novalidate class="top-1">
         <ion-row>
           <ion-col>
-            <h5>KB REMISERIA</h5>
+            <h5>{{idioma.pag_login.titulo}}</h5>
             <!-- USUARIO -->
             <ion-item>
-                <ion-input formControlName="userEmail" id="userNameInput" type="text" placeholder="Usuario" [(ngModel)]="userNameTxt" (ionFocus)='tieneFoco(1)' (ionBlur)='perdioFoco(1)'></ion-input>
+                <ion-input formControlName="userEmail" id="userNameInput" type="text" [placeholder]="idioma.pag_login.placeholder.user" [(ngModel)]="userNameTxt" (ionFocus)='tieneFoco(1)' (ionBlur)='perdioFoco(1)'></ion-input>
             </ion-item>
             <ion-item *ngIf="myLoginForm.get('userEmail').errors && myLoginForm.get('userEmail').dirty && !focus1" class="alerta_form">
-              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required') && !focus1">Campo requerido ↑</p>
-              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email') && !myLoginForm.get('userEmail').hasError('required') && !focus1">Formato de email incorrecto ↑</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('required') && !focus1">{{idioma.pag_login.error.required}}</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userEmail').hasError('email') && !myLoginForm.get('userEmail').hasError('required') && !focus1">{{idioma.pag_login.error.email}}</p>
             </ion-item>
             <!-- CONTRASEÑA -->
             <ion-item>
-              <ion-input formControlName="userPassword" id="userPassInput" type="password" placeholder="Contraseña" [(ngModel)]="userPassTxt" (ionFocus)='tieneFoco(2)' (ionBlur)='perdioFoco(2)'></ion-input>
+              <ion-input formControlName="userPassword" id="userPassInput" type="password" [placeholder]="idioma.pag_login.placeholder.pass" [(ngModel)]="userPassTxt" (ionFocus)='tieneFoco(2)' (ionBlur)='perdioFoco(2)'></ion-input>
             </ion-item>
             <ion-item *ngIf="myLoginForm.get('userPassword').errors && myLoginForm.get('userPassword').dirty && !focus2" class="alerta_form">
-              <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required') && !focus2">Campo requerido ↑</p>
+              <p color="danger" ion-text *ngIf="myLoginForm.get('userPassword').hasError('required') && !focus2">{{idioma.pag_login.error.required}}</p>
             </ion-item>
             <!-- SUBMIT -->
               <button type="submit" ion-button color="signin" icon-left block
                 [disabled]="myLoginForm.invalid">
                 <ion-icon name="md-contact"></ion-icon>
-                Ingresar
+                {{idioma.pag_login.button.login}}
               </button>
           </ion-col>
         </ion-row>
       </form>
 
       <div>
-        <p id="mensajeRegistro">¿No tienes una cuenta?</p>
+        <p id="mensajeRegistro">{{idioma.pag_login.button.registro_1}}</p>
         <p id="mensajeRegistro2" (click)="registrarse()">
-          ¡Regístrate gratis!
+          {{idioma.pag_login.button.registro_2}}
           <ion-icon name="md-contact"></ion-icon>
         </p>
       </div>

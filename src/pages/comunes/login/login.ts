@@ -12,6 +12,8 @@ import { AuthAdministradorProvider } from '../../../providers/auth-administrador
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //jQUERY
 import * as $ from 'jquery';
+//IDIOMA
+import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
   selector: 'page-login',
@@ -33,6 +35,8 @@ export class LoginPage {
   userNameTxt:string;
   userPassTxt:string;
   usuariosDePrueba:any[] = [];
+  //TEXTO
+  idioma:any;
 
   //CONSTRUCTOR
   constructor(public navCtrl: NavController,
@@ -43,8 +47,10 @@ export class LoginPage {
               public _authAdmin:AuthAdministradorProvider,
               public _utilitiesServ: UtilidadesProvider) {
 
-        //this.user = afAuth.authState;
         console.log("¿Sesión activa?: " + this._authServicio.authenticated);
+        //IDIOMA
+        this.cargar_idioma();
+
         this.userNameTxt = "";
         this.userPassTxt = null;
         this.myLoginForm = this.fbLogin.group({
@@ -56,6 +62,16 @@ export class LoginPage {
   //INICIO
   ionViewDidLoad(){
     console.log("Página cargada!");
+  }
+
+  //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
+  ionViewWillEnter(){
+    this.cargar_idioma();
+  }
+
+  //CARGAR IDIOMA
+  cargar_idioma(){
+    this.idioma = Idioma.es;
   }
 
   //DATOS DE PRUEBA
@@ -155,11 +171,11 @@ export class LoginPage {
       let errorCode = error.code;
       switch(errorCode){
         case "auth/wrong-password":
-        this._utilitiesServ.showWarningToast("Usuario y/o contraseña incorrecta");
+        this._utilitiesServ.showWarningToast(this.idioma.pag_login.mensaje.msj_1);
         break;
         case "auth/invalid-email":
         case "auth/user-not-found":
-        this._utilitiesServ.showErrorToast("Cuenta inexistente");
+        this._utilitiesServ.showErrorToast(this.idioma.pag_login.mensaje.msj_2);
         break;
       }
       this.mostrarSpinner = false;
@@ -197,7 +213,7 @@ export class LoginPage {
   usuario_inexistente(){ //Usuario borrado por supervisor (faltaba eliminar auth)
     console.log("El usuario fue eliminado!");
     this._authAdmin.delete_externalUserAccount();
-    this._utilitiesServ.showErrorToast("Cuenta inexistente");
+    this._utilitiesServ.showErrorToast(this.idioma.pag_login.mensaje.msj_2);
     this.navCtrl.setRoot(LoginPage);
   }
 
@@ -221,7 +237,7 @@ export class LoginPage {
   loguearse(){
     this._authServicio.signInWithEmail(this.credenciales)
       .then(()=>{
-        this._utilitiesServ.showToast("Bienvenido");
+        this._utilitiesServ.showToast(this.idioma.pag_login.mensaje.msj_4);
         this.mostrarSpinner = false;
       })
   }
@@ -230,7 +246,7 @@ export class LoginPage {
     this._authAdmin.signOutExternal()
       .then(()=>{
         this.mostrarSpinner = false;
-        this._utilitiesServ.showWarningToast("Cuenta desactivada");
+        this._utilitiesServ.showWarningToast(this.idioma.pag_login.mensaje.msj_3);
       })
   }
 
