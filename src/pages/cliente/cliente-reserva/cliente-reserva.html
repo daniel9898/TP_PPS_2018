@@ -3,7 +3,7 @@
   <ion-navbar>
     <!-- <ion-title>Crear Reserva</ion-title> -->
     <ion-buttons right>
-      <button ion-button clear color="primary" (click)="guardarReserva()" [disabled]="origen.invalid || fecha.invalid || hora.invalid || destino.invalid">{{idioma.pag_reserva_cliente.label.button}}</button>
+      <button ion-button clear color="primary" (click)="guardarReserva()" [disabled]="origen.invalid || fecha.invalid || hora.invalid || destino.invalid">{{idioma.pag_reserva_cliente.button.b_1}}</button>
       <!-- <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">Editar</button> -->
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
@@ -24,7 +24,7 @@
   <ion-item>
     <ion-label>{{idioma.pag_reserva_cliente.label.fecha}}</ion-label>
     <ion-datetime id="fecha" name="fecha" [(ngModel)]="reserva.fecha" [monthNames]="monthNames" [monthShortNames]="monthShortNames" [min]="fecha"
-      [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" doneText="Listo" cancelText="Cancelar" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
+      [dayShortNames]="daysShortNames" [dayNames]="daysNames" displayFormat="DD/MM/YYYY" [doneText]="idioma.pag_reserva_cliente.button.b_2" [cancelText]="idioma.pag_reserva_cliente.button.b_3" pickerFormat="MMMM-DD-YYYY" required></ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label>{{idioma.pag_reserva_cliente.label.hora}}</ion-label>

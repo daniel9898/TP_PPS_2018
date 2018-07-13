@@ -38,7 +38,7 @@ export const Idioma = {
           error:{
             required: 'Campo requerido',
             email:    'Formato incorrecto',
-            pass_1:   'La clave debe ser minimo de 6 caracteres',
+            pass_1:   'La clave debe ser mínimo de 6 caracteres',
             pass_2:   'La clave no es idéntica a la ingresada'
           },
           button:  'Registrarse',
@@ -139,9 +139,13 @@ export const Idioma = {
           fecha:     "Fecha",
           hora:      "Hora",
           destino:   "Dirección destino",
-          button:    "Guardar"
         },
-        mensaje: "Reserva generada"
+        mensaje: "Reserva generada",
+        button:{
+          b_1: "Guardar",
+          b_2: "Listo",
+          b_3: "Cancelar"
+        }
       },
       pag_reservas_cliente:{
         titulo: "Reservas",
