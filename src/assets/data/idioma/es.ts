@@ -322,7 +322,7 @@ export const Idioma = {
           },
           //CHECKBOX
           p_4: {
-            p:"¿Arrancó sin problemas?"
+            p:"¿Arranca sin problemas?"
           },
           //INPUT
           p_5: {

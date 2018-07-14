@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { Idioma } from '../../assets/data/idioma/es';//-----ESPAÑOL
 import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
 import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
+import { Idioma_ru} from '../../assets/data/idioma/ru';//---RUSO
 //SERVICE
 import { GeocodingProvider } from '../../providers/geocoding/geocoding';
 import { SonidosProvider } from '../../providers/sonidos/sonidos';
@@ -133,7 +134,7 @@ export class ConfigPage implements AfterViewInit {
                   this.flag_pt.nativeElement.className = 'flag';
                   break;
 
-      case "ru":  this.language = Idioma_en.en;
+      case "ru":  this.language = Idioma_ru.ru;
                   this.flag_es.nativeElement.className = 'flag';
                   this.flag_en.nativeElement.className = 'flag';
                   this.flag_ru.nativeElement.className = 'flag flag_selected';

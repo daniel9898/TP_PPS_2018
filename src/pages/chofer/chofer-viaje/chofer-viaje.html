@@ -27,7 +27,7 @@
   		</ion-item>
   		<ion-item>
   			<ion-label stacked color="primary">{{idioma.pag_viaje_chofer.label.precio}}</ion-label>
-  			<ion-input [disabled]="true" type="text" value="{{idioma.moneda_simbolo}} {{viaje.precio }}"></ion-input>
+  			<ion-input [disabled]="true" type="text" value="${{viaje.precio }}"></ion-input>
   		</ion-item>
 
   	  <button ion-button block icon-end color="danger" (click)="modificarEstado('pendiente')">{{idioma.pag_viaje_chofer.button.b_1}}</button>
