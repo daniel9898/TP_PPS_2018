@@ -1,0 +1,464 @@
+@import "variables";
+
+@font-face {
+  font-family: 'alternative-icons';
+  src:  url('#{$icomoon-font-path}/alternative-icons.eot?1smc2l');
+  src:  url('#{$icomoon-font-path}/alternative-icons.eot?1smc2l#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/alternative-icons.ttf?1smc2l') format('truetype'),
+    url('#{$icomoon-font-path}/alternative-icons.woff?1smc2l') format('woff'),
+    url('#{$icomoon-font-path}/alternative-icons.svg?1smc2l#alternative-icons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ion-md"], [class*=" ion-md"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'alternative-icons' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ion-mdnoun_locate_1210201 {
+  &:before {
+    content: $ion-mdnoun_locate_1210201; 
+  }
+}
+.ion-mdnoun_Location_787906 {
+  &:before {
+    content: $ion-mdnoun_Location_787906; 
+  }
+}
+.ion-mdnoun_Location_1495944 {
+  &:before {
+    content: $ion-mdnoun_Location_1495944; 
+  }
+}
+.ion-mdnoun_User_47391 {
+  &:before {
+    content: $ion-mdnoun_User_47391; 
+  }
+}
+.ion-mdnoun_User_770797 {
+  &:before {
+    content: $ion-mdnoun_User_770797; 
+  }
+}
+.ion-mdnoun_User_839010 {
+  &:before {
+    content: $ion-mdnoun_User_839010; 
+  }
+}
+.ion-mdnoun_User_1829305 {
+  &:before {
+    content: $ion-mdnoun_User_1829305; 
+  }
+}
+.ion-mdnoun_erase_1169215 {
+  &:before {
+    content: $ion-mdnoun_erase_1169215; 
+  }
+}
+.ion-mdnoun_Trash_151564 {
+  &:before {
+    content: $ion-mdnoun_Trash_151564; 
+  }
+}
+.ion-mdnoun_Trash_453943 {
+  &:before {
+    content: $ion-mdnoun_Trash_453943; 
+  }
+}
+.ion-mdnoun_Trash_568696 {
+  &:before {
+    content: $ion-mdnoun_Trash_568696; 
+  }
+}
+.ion-mdnoun_hour_1163725 {
+  &:before {
+    content: $ion-mdnoun_hour_1163725; 
+  }
+}
+.ion-mdnoun_Smiling-Alarm-Clock_1166597 {
+  &:before {
+    content: $ion-mdnoun_Smiling-Alarm-Clock_1166597; 
+  }
+}
+.ion-mdnoun_Time_26878 {
+  &:before {
+    content: $ion-mdnoun_Time_26878; 
+  }
+}
+.ion-mdnoun_Time_990548 {
+  &:before {
+    content: $ion-mdnoun_Time_990548; 
+  }
+}
+.ion-mdnoun_locate_1746876 {
+  &:before {
+    content: $ion-mdnoun_locate_1746876; 
+  }
+}
+.ion-mdnoun_locator_1058838 {
+  &:before {
+    content: $ion-mdnoun_locator_1058838; 
+  }
+}
+.ion-mdnoun_map-pin_924148 {
+  &:before {
+    content: $ion-mdnoun_map-pin_924148; 
+  }
+}
+.ion-mdnoun_Target_811669 {
+  &:before {
+    content: $ion-mdnoun_Target_811669; 
+  }
+}
+.ion-mdnoun_Save_429225 {
+  &:before {
+    content: $ion-mdnoun_Save_429225; 
+  }
+}
+.ion-mdnoun_Save_847854 {
+  &:before {
+    content: $ion-mdnoun_Save_847854; 
+  }
+}
+.ion-mdnoun_Save_315957 {
+  &:before {
+    content: $ion-mdnoun_Save_315957; 
+  }
+}
+.ion-mdnoun_Sad_350804 {
+  &:before {
+    content: $ion-mdnoun_Sad_350804; 
+  }
+}
+.ion-mdnoun_Sad_819738 {
+  &:before {
+    content: $ion-mdnoun_Sad_819738; 
+  }
+}
+.ion-mdnoun_Sad_858640 {
+  &:before {
+    content: $ion-mdnoun_Sad_858640; 
+  }
+}
+.ion-mdnoun_Sad_1820928 {
+  &:before {
+    content: $ion-mdnoun_Sad_1820928; 
+  }
+}
+.ion-mdnoun_Arrow_1823888 {
+  &:before {
+    content: $ion-mdnoun_Arrow_1823888; 
+  }
+}
+.ion-mdnoun_right_446097 {
+  &:before {
+    content: $ion-mdnoun_right_446097; 
+  }
+}
+.ion-mdnoun_right_550163 {
+  &:before {
+    content: $ion-mdnoun_right_550163; 
+  }
+}
+.ion-mdnoun_reload_1110710 {
+  &:before {
+    content: $ion-mdnoun_reload_1110710; 
+  }
+}
+.ion-mdnoun_reload_1686799 {
+  &:before {
+    content: $ion-mdnoun_reload_1686799; 
+  }
+}
+.ion-mdnoun_reload_1691436 {
+  &:before {
+    content: $ion-mdnoun_reload_1691436; 
+  }
+}
+.ion-mdnoun_barcode-scanner_547392 {
+  &:before {
+    content: $ion-mdnoun_barcode-scanner_547392; 
+  }
+}
+.ion-mdnoun_scan_1782560 {
+  &:before {
+    content: $ion-mdnoun_scan_1782560; 
+  }
+}
+.ion-mdnoun_scanning_939949 {
+  &:before {
+    content: $ion-mdnoun_scanning_939949; 
+  }
+}
+.ion-mdnoun_Plus_1154742 {
+  &:before {
+    content: $ion-mdnoun_Plus_1154742; 
+  }
+}
+.ion-mdnoun_Plus_1591116 {
+  &:before {
+    content: $ion-mdnoun_Plus_1591116; 
+  }
+}
+.ion-mdnoun_Plus_1829000 {
+  &:before {
+    content: $ion-mdnoun_Plus_1829000; 
+  }
+}
+.ion-mdnoun_Flag_1401388 {
+  &:before {
+    content: $ion-mdnoun_Flag_1401388; 
+  }
+}
+.ion-mdnoun_Pin_577298 {
+  &:before {
+    content: $ion-mdnoun_Pin_577298; 
+  }
+}
+.ion-mdnoun_place_1446673 {
+  &:before {
+    content: $ion-mdnoun_place_1446673; 
+  }
+}
+.ion-mdnoun_no-music_231569 {
+  &:before {
+    content: $ion-mdnoun_no-music_231569; 
+  }
+}
+.ion-mdnoun_Sound_796283 {
+  &:before {
+    content: $ion-mdnoun_Sound_796283; 
+  }
+}
+.ion-mdnoun_Sound_920424 {
+  &:before {
+    content: $ion-mdnoun_Sound_920424; 
+  }
+}
+.ion-mdnoun_Music_608798 {
+  &:before {
+    content: $ion-mdnoun_Music_608798; 
+  }
+}
+.ion-mdnoun_Sound_208568 {
+  &:before {
+    content: $ion-mdnoun_Sound_208568; 
+  }
+}
+.ion-mdnoun_menu_67738 {
+  &:before {
+    content: $ion-mdnoun_menu_67738; 
+  }
+}
+.ion-mdnoun_menu_100508 {
+  &:before {
+    content: $ion-mdnoun_menu_100508; 
+  }
+}
+.ion-mdnoun_menu_1017200 {
+  &:before {
+    content: $ion-mdnoun_menu_1017200; 
+  }
+}
+.ion-mdnoun_menu_1119824 {
+  &:before {
+    content: $ion-mdnoun_menu_1119824; 
+  }
+}
+.ion-mdnoun_Exit_1680412 {
+  &:before {
+    content: $ion-mdnoun_Exit_1680412; 
+  }
+}
+.ion-mdnoun_Log-Out_1019083 {
+  &:before {
+    content: $ion-mdnoun_Log-Out_1019083; 
+  }
+}
+.ion-mdnoun_Happy_350864 {
+  &:before {
+    content: $ion-mdnoun_Happy_350864; 
+  }
+}
+.ion-mdnoun_Happy_819772 {
+  &:before {
+    content: $ion-mdnoun_Happy_819772; 
+  }
+}
+.ion-mdnoun_Happy_1691516 {
+  &:before {
+    content: $ion-mdnoun_Happy_1691516; 
+  }
+}
+.ion-mdnoun_find_145621 {
+  &:before {
+    content: $ion-mdnoun_find_145621; 
+  }
+}
+.ion-mdnoun_find_1110925 {
+  &:before {
+    content: $ion-mdnoun_find_1110925; 
+  }
+}
+.ion-mdnoun_find_1163384 {
+  &:before {
+    content: $ion-mdnoun_find_1163384; 
+  }
+}
+.ion-mdnoun_File_168234 {
+  &:before {
+    content: $ion-mdnoun_File_168234; 
+  }
+}
+.ion-mdnoun_File_926234 {
+  &:before {
+    content: $ion-mdnoun_File_926234; 
+  }
+}
+.ion-mdnoun_File_926235 {
+  &:before {
+    content: $ion-mdnoun_File_926235; 
+  }
+}
+.ion-mdnoun_File_1586520 {
+  &:before {
+    content: $ion-mdnoun_File_1586520; 
+  }
+}
+.ion-mdnoun_Files_1142307 {
+  &:before {
+    content: $ion-mdnoun_Files_1142307; 
+  }
+}
+.ion-mdnoun_Files_1203160 {
+  &:before {
+    content: $ion-mdnoun_Files_1203160; 
+  }
+}
+.ion-mdnoun_edit_1213161 {
+  &:before {
+    content: $ion-mdnoun_edit_1213161; 
+  }
+}
+.ion-mdnoun_edit_1826397 {
+  &:before {
+    content: $ion-mdnoun_edit_1826397; 
+  }
+}
+.ion-mdnoun_edit_1826615 {
+  &:before {
+    content: $ion-mdnoun_edit_1826615; 
+  }
+}
+.ion-mdnoun_menu_1828995 {
+  &:before {
+    content: $ion-mdnoun_menu_1828995; 
+  }
+}
+.ion-mdnoun_Cross_738760 {
+  &:before {
+    content: $ion-mdnoun_Cross_738760; 
+  }
+}
+.ion-mdnoun_Cross_888811 {
+  &:before {
+    content: $ion-mdnoun_Cross_888811; 
+  }
+}
+.ion-mdnoun_Cross_1328387 {
+  &:before {
+    content: $ion-mdnoun_Cross_1328387; 
+  }
+}
+.ion-mdnoun_Car_7883 {
+  &:before {
+    content: $ion-mdnoun_Car_7883; 
+  }
+}
+.ion-mdnoun_Car_1033327 {
+  &:before {
+    content: $ion-mdnoun_Car_1033327; 
+  }
+}
+.ion-mdnoun_Car_1195155 {
+  &:before {
+    content: $ion-mdnoun_Car_1195155; 
+  }
+}
+.ion-mdnoun_Car_1541170 {
+  &:before {
+    content: $ion-mdnoun_Car_1541170; 
+  }
+}
+.ion-mdnoun_Car_1824135 {
+  &:before {
+    content: $ion-mdnoun_Car_1824135; 
+  }
+}
+.ion-mdnoun_Classic-Car_1262098 {
+  &:before {
+    content: $ion-mdnoun_Classic-Car_1262098; 
+  }
+}
+.ion-mdnoun_Camera_813918 {
+  &:before {
+    content: $ion-mdnoun_Camera_813918; 
+  }
+}
+.ion-mdnoun_Camera_817262 {
+  &:before {
+    content: $ion-mdnoun_Camera_817262; 
+  }
+}
+.ion-mdnoun_Camera_1133028 {
+  &:before {
+    content: $ion-mdnoun_Camera_1133028; 
+  }
+}
+.ion-mdnoun_bookmark_100771 {
+  &:before {
+    content: $ion-mdnoun_bookmark_100771; 
+  }
+}
+.ion-mdnoun_bookmark_1429202 {
+  &:before {
+    content: $ion-mdnoun_bookmark_1429202; 
+  }
+}
+.ion-mdnoun_bookmark_1497833 {
+  &:before {
+    content: $ion-mdnoun_bookmark_1497833; 
+  }
+}
+.ion-mdnoun_bookmark_1604038 {
+  &:before {
+    content: $ion-mdnoun_bookmark_1604038; 
+  }
+}
+.ion-mdnoun_back_1442962 {
+  &:before {
+    content: $ion-mdnoun_back_1442962; 
+  }
+}
+.ion-mdnoun_back_1442955 {
+  &:before {
+    content: $ion-mdnoun_back_1442955; 
+  }
+}
+.ion-mdnoun_back_694553 {
+  &:before {
+    content: $ion-mdnoun_back_694553; 
+  }
+}
+
