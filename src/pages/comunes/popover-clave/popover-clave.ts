@@ -3,6 +3,7 @@ import { ViewController, NavParams } from 'ionic-angular';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //IDIOMA
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
@@ -23,10 +24,11 @@ export class PopoverClavePage {
 
   constructor(public navParams:NavParams,
               public viewCtrl:ViewController,
-              public fbRegistration:FormBuilder) {
-                
+              public fbRegistration:FormBuilder,
+              public _idiomaSrv: IdiomaProvider) {
+
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     switch(navParams.data.opcion){
       case "cambiarClave":
         this.cambiarClave = true;
@@ -54,7 +56,10 @@ export class PopoverClavePage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   volver(){

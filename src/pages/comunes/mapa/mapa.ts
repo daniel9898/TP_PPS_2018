@@ -5,6 +5,7 @@ import { GeocodingProvider } from '../../../providers/geocoding/geocoding';
 import { GeolocationProvider } from '../../../providers/geolocation/geolocation';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @Component({
   selector: 'page-mapa',
@@ -24,10 +25,11 @@ export class MapaPage {
               public navParams: NavParams,
               public modalCtrl: ModalController,
               private _geoCoding:GeocodingProvider,
-              private _geoLocate:GeolocationProvider) {
+              private _geoLocate:GeolocationProvider,
+              private _idiomaSrv: IdiomaProvider) {
 
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
   }
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
@@ -46,7 +48,10 @@ export class MapaPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   //ASIGNAR VALORES

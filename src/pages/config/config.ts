@@ -10,7 +10,6 @@ import { GeocodingProvider } from '../../providers/geocoding/geocoding';
 import { SonidosProvider } from '../../providers/sonidos/sonidos';
 import { UtilidadesProvider } from '../../providers/utilidades/utilidades';
 import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
-import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
 
 @Component({
   selector: 'page-config',
@@ -40,7 +39,6 @@ export class ConfigPage implements AfterViewInit {
               private storage    : Storage,
               private menu       : MenuController,
               private _authSrv   : AuthServicioProvider,
-              private _userSrv   : UsuarioServicioProvider,
               private _geoCoding : GeocodingProvider,
               private _sounds    : SonidosProvider,
               private _toastSrv  : UtilidadesProvider) {
