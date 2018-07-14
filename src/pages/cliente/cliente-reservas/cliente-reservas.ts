@@ -6,6 +6,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //IDIOMA
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 import { Idioma } from '../../../assets/data/idioma/es';
 
 @Component({
@@ -28,9 +29,10 @@ export class ClienteReservasPage {
     public reservasSrv: ReservasProvider,
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
-    private _utilitiesServ:UtilidadesProvider) {
+    private _utilitiesServ:UtilidadesProvider,
+    private _idiomaSrv: IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
   }
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
@@ -40,7 +42,10 @@ export class ClienteReservasPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {

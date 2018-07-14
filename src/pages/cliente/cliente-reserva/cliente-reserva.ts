@@ -9,6 +9,7 @@ import { Usuario } from '../../../classes/usuario';
 import { Reserva } from '../../../classes/viaje.model';
 import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { DirectionsRenderer } from '@ngui/map';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -47,20 +48,16 @@ export class ClienteReservaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    dateTimeSrv: DateTimeProvider,
+    public dateTimeSrv: DateTimeProvider,
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
     private reservasSrv : ReservasProvider,
     private cdr: ChangeDetectorRef,
-    private _utilitiesServ:UtilidadesProvider) {
+    private _utilitiesServ:UtilidadesProvider,
+    private _idiomaSrv: IdiomaProvider) {
 
     //IDIOMA
-    this.cargar_idioma();
-    dateTimeSrv.initialized('es');
-    this.monthNames = dateTimeSrv.getMonthNames();
-    this.daysNames = dateTimeSrv.getWeekDays();
-    this.daysShortNames = dateTimeSrv.getWeekDaysShort();
-    this.monthShortNames = dateTimeSrv.getMonthNamesShort();
+    this.idioma = Idioma.es;
     this.fecha = dateTimeSrv.getDate();
     console.log("Fecha actual: " + this.fecha);
     this.hora = dateTimeSrv.getHour();
@@ -84,7 +81,15 @@ export class ClienteReservaPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+      this._idiomaSrv.getLanguageFromStorage()
+        .then((idioma)=>{
+          this.idioma = idioma;
+          this.dateTimeSrv.initialized(this.idioma.code);
+          this.monthNames = this.dateTimeSrv.getMonthNames();
+          this.daysNames = this.dateTimeSrv.getWeekDays();
+          this.daysShortNames = this.dateTimeSrv.getWeekDaysShort();
+          this.monthShortNames = this.dateTimeSrv.getMonthNamesShort();
+        })
   }
 
   /**

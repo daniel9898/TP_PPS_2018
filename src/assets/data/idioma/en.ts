@@ -5,7 +5,7 @@ export const Idioma_en = {
       code: "en",
       name: "English",
       moneda_simbolo: "U$S",
-      unidad_medida: "Miles",
+      unidad_medida: "Mi",
       //PAGINAS COMUNES*******************************************************//
       pag_menu:{
         titulo: "Menu",

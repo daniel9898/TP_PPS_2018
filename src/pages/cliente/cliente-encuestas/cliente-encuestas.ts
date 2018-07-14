@@ -11,6 +11,7 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -33,9 +34,10 @@ export class ClienteEncuestasPage {
               private _authService:AuthServicioProvider,
               private _userService:UsuarioServicioProvider,
               private _viajeService:ViajeServicio,
-              private _encuestaService:ClienteEncuestaServicio) {
+              private _encuestaService:ClienteEncuestaServicio,
+              private _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.mostrarSpinner = true;
   }
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
@@ -44,7 +46,10 @@ export class ClienteEncuestasPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
   ionViewDidLoad() {
     this._userService.traer_un_usuario(this._authService.get_userUID())

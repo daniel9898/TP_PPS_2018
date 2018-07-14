@@ -14,6 +14,7 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -52,6 +53,9 @@ export class ClienteViajePage {
   precio:number = 18; // por KM
   precio_minimo:number = 60;
   msj_estado:string;
+  //VALORES QUE VARIAN (para mostrar)
+  precioMostrar:number;
+  distancia:number; //Para mostrar al usuario
   //SUSCRIBER
   clienteSuv:Subscription;
   viajeIniciado:boolean = false;
@@ -68,10 +72,11 @@ export class ClienteViajePage {
               private _viajeService:ViajeServicio,
               private _qrScannerSrv: QrServicioProvider,
               private _utilitiesServ: UtilidadesProvider,
+              private _idiomaSrv:IdiomaProvider,
               private platform:Platform) {
 
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.mostrarSpinner = true;
       this.directionsService = new google.maps.DirectionsService();
       this.options = {
@@ -85,7 +90,10 @@ export class ClienteViajePage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+      this._idiomaSrv.getLanguageFromStorage()
+        .then((idioma)=>{
+          this.idioma = idioma;
+        })
   }
 
   ionViewDidLoad() {
@@ -207,18 +215,16 @@ export class ClienteViajePage {
         this.markers = [this.origen_marker, this.destino_marker];
         //Tomar distancia
         this.medir_distancia()
-          .then((distancia:number)=>{
-            this.viaje.distancia = Math.round(distancia);
-            //Definir precio
-            if(this.viaje.distancia * this.precio < this.precio_minimo)
-              this.viaje.precio = this.precio_minimo;
-            else
-              this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
-            //Mostrar mapa
-            this.mostrarMapa = true;
-            this.mostrarPrecio = true;
-            this.boton_pedir = true;
-            resolve();
+          .then(()=>{
+        //Calcular costo
+            this.calcular_precio()
+              .then(()=>{
+                //Mostrar mapa
+                this.mostrarMapa = true;
+                this.mostrarPrecio = true;
+                this.boton_pedir = true;
+                resolve();
+              })
           })
           .catch((error)=>{ console.log("Error al calcular distancia: " + error); })
       }
@@ -241,11 +247,40 @@ export class ClienteViajePage {
     this.navCtrl.push(MapaPage, {'direccion' : mostrar_direccion, 'callback':this.myCallbackFunction});
   }
 
+  //CALCULAR PRECIO
+  calcular_precio(){
+    let promesa = new Promise((resolve, reject)=>{
+      //Definir precio (a guardar)
+      if(this.viaje.distancia * this.precio < this.precio_minimo){
+        this.viaje.precio = this.precio_minimo;
+      }
+      else{
+        this.viaje.precio = Math.round( this.viaje.distancia * this.precio);
+      }
+      //Definir precio (a mostrar)
+      switch(this.idioma.code){
+        case 'es':
+        this.precioMostrar = this.viaje.precio; break;
+        case 'en':
+        this.precioMostrar = Math.round(this.viaje.precio / 27.22); break;
+        case 'de':
+        this.precioMostrar = Math.round(this.viaje.precio / 31.85); break;
+        case 'ru':
+        this.precioMostrar = Math.round(this.viaje.precio * 1.43);  break;
+        case 'fr':
+        this.precioMostrar = Math.round(this.viaje.precio / 31.85); break;
+        case 'pt':
+        this.precioMostrar = Math.round(this.viaje.precio / 7.08);  break;
+      }
+      resolve();
+    });
+    return promesa;
+  }
   //MEDIR DISTANCIA CON DIRECTIONS
   medir_distancia(){
 
     let promesa = new Promise((resolve, reject)=>{
-        let distancia:number;
+        let fijo:number;
         //Tomar distancia
         this.request_directions= {
           origin      : this.viaje.origen,
@@ -254,8 +289,16 @@ export class ClienteViajePage {
         };
         this.directionsService.route(this.request_directions, (response, status)=> {
           if ( status == google.maps.DirectionsStatus.OK ) {
-            distancia = response.routes[0].legs[0].distance.value / 1000; // the distance in metres / 1000 = KM
-            resolve(distancia);
+            if(this.idioma.code !== 'en'){
+              this.distancia = response.routes[0].legs[0].distance.value * 0.001; //En kilómetros
+            }
+            else{
+              this.distancia = response.routes[0].legs[0].distance.value * 0.000621371//En millas
+            }
+            this.distancia = Math.round(this.distancia * 100) / 100//Para mostrar
+            fijo = response.routes[0].legs[0].distance.value * 0.001;
+            this.viaje.distancia = Math.round(fijo * 100) / 100; //Lo que en definitiva se guarda
+            resolve();
           }
           else {
             console.log("Error al calcular distancia");
@@ -346,13 +389,21 @@ export class ClienteViajePage {
             });
             //Refrescar marcadores
             this.markers = [this.origen_marker, this.destino_marker];
-            //Habilitar vistas
-            this.mostrarMsjMedio = true;
-            this.boton_pedir = false;
-            this.mostrarMapa = true;
-            this.boton_cancelar = true;
-            this.mostrarPrecio = true;
-            this.mostrarDatos_chofer = false;
+            //Tomar distancia
+            this.medir_distancia()
+              .then(()=>{
+            //Calcular costo
+                this.calcular_precio()
+                  .then(()=>{
+                //Habilitar vistas
+                this.mostrarMsjMedio = true;
+                this.boton_pedir = false;
+                this.mostrarMapa = true;
+                this.boton_cancelar = true;
+                this.mostrarPrecio = true;
+                this.mostrarDatos_chofer = false;
+              })
+            })
             break;
         // 2) VIAJE TOMADO POR UN CHOFER
             case "tomado":
@@ -379,14 +430,21 @@ export class ClienteViajePage {
                 });
                 //Refrescar marcadores
                 this.markers = [this.origen_marker, this.destino_marker];
+                this.medir_distancia()
+                  .then(()=>{
+                //Calcular costo
+                  this.calcular_precio()
+                    .then(()=>{
                 //Habilitar vistas
-                this.mostrarMsjMedio = true;
-                this.mostrarDatos_chofer = true;
-                this.boton_pedir = false;
-                this.mostrarMapa = true;
-                this.boton_cancelar = true;
-                this.boton_qr = true;
-                this.mostrarPrecio = true;
+                  this.mostrarMsjMedio = true;
+                  this.mostrarDatos_chofer = true;
+                  this.boton_pedir = false;
+                  this.mostrarMapa = true;
+                  this.boton_cancelar = true;
+                  this.boton_qr = true;
+                  this.mostrarPrecio = true;
+                })
+              })
             })
             break;
         // 3) VIAJE EN CURSO
@@ -414,14 +472,21 @@ export class ClienteViajePage {
                 });
                 //Refrescar marcadores
                 this.markers = [this.origen_marker, this.destino_marker];
-                //Habilitar vistas
-                this.mostrarMsjMedio = true;
-                this.mostrarDatos_chofer = true;
-                this.boton_pedir = false;
-                this.mostrarMapa = true;
-                this.boton_cancelar = false;
-                this.boton_qr = true;
-                this.mostrarPrecio = true;
+                this.medir_distancia()
+                  .then(()=>{
+                //Calcular costo
+                  this.calcular_precio()
+                    .then(()=>{
+                  //Habilitar vistas
+                  this.mostrarMsjMedio = true;
+                  this.mostrarDatos_chofer = true;
+                  this.boton_pedir = false;
+                  this.mostrarMapa = true;
+                  this.boton_cancelar = false;
+                  this.boton_qr = true;
+                  this.mostrarPrecio = true;
+                })
+              })
             })
             break;
         // 4) VIAJE CUMPLIDO

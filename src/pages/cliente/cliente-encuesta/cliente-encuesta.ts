@@ -7,6 +7,7 @@ import { Encuesta_cliente, Encuesta_texto } from '../../../classes/encuesta_clie
 //SERVICIO
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -40,9 +41,10 @@ export class ClienteEncuestaPage {
               public toastCtrl: ToastController,
               private camera: Camera,
               private _utilitiesServ: UtilidadesProvider,
-              private _encuestaService:ClienteEncuestaServicio) {
+              private _encuestaService:ClienteEncuestaServicio,
+              public _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.mostrarSpinner = true;
   }
 
@@ -53,7 +55,10 @@ export class ClienteEncuestaPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {
