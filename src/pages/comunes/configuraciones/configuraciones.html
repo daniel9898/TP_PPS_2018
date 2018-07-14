@@ -7,12 +7,114 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>configuraciones</ion-title>
+    <ion-title>Configuraciones</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-list no-lines>
+    <ion-item-group>
+      <ion-list-header>
+        <h2>Temas de aplicación</h2>
+      </ion-list-header>
+      <button ion-button block large class="argentina" (click)="setTheme('argentina-theme')">Argentina</button>
+      <button ion-button block large class="original" (click)="setTheme('default-theme')">Tema original</button>
+      <button ion-button block large class="naif" (click)="setTheme('naif-theme')">Naif</button>
+      <button ion-button block large class="profesional" (click)="setTheme('profesional-theme')">Profesional</button>
+    </ion-item-group>
+    <ion-item-group>
+      <ion-list-header>
+        <ion-label><h2>Tema personalizado</h2></ion-label>
+        <ion-toggle checked="false"></ion-toggle>
+      </ion-list-header>
+      <ion-item-divider>
+        Fuentes
+      </ion-item-divider>
+      <ion-item>
+        <ion-label>Elegir una fuente</ion-label>
+        <ion-select [(ngModel)]="font" interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+          <ion-option value="denk-one-font">DenkOne Regular</ion-option>
+          <ion-option value="exo-font">Exo Regular</ion-option>
+          <ion-option value="oleo-font">Oleo Regular</ion-option>
+          <ion-option value="katibeh-font">Katibeh Regular</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Tamaño de fuente</ion-label>
+        <ion-select [(ngModel)]="fontSize"  interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+          <ion-option value="small-font-size">Chico</ion-option>
+          <ion-option value="medium-font-size">Mediano</ion-option>
+          <ion-option value="big-font-size">Grande</ion-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item-divider>
+        Colores
+      </ion-item-divider>
+      <ion-item>
+        <ion-label>Color de cabecera</ion-label>
+        <ion-select [(ngModel)]="headerColor" interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+          <ion-option value="toolbar-header-background-red">Rojo</ion-option>
+          <ion-option value="toolbar-header-background-aqua">Celeste claro</ion-option>
+          <ion-option value="toolbar-header-background-darksalmon">Salmón</ion-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Color fuente cabecera</ion-label>
+        <ion-select [(ngModel)]="headerFontColor" interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+          <ion-option value="toolbar-header-font-color-red">Rojo</ion-option>
+          <ion-option value="toolbar-header-font-color-black">Negro</ion-option>
+          <ion-option value="toolbar-header-font-color-navy">Azul Marino</ion-option>
+          <ion-option value="toolbar-header-font-color-saddlebrown">Marrón</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Color fondo elementos</ion-label>
+        <ion-select [(ngModel)]="itemsBackgroundColor" interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+          <ion-option value="list-item-background-color-aqua" >Celeste</ion-option>
+          <ion-option value="list-item-background-color-coral" >Coral</ion-option>
+          <ion-option value="list-item-background-color-darksalmon" >Salmon</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+          <ion-label>Color de letra listas</ion-label>
+          <ion-select [(ngModel)]="itemsListBackgroundColor" interface="action-sheet" [(selectOptions)]="ionSelectOptions" (ionChange)="onChangeConfiguration()">
+            <ion-option value="list-item-font-color-black" >Negro</ion-option>
+            <ion-option value="list-item-font-color-indigo" >Índigo</ion-option>
+            <ion-option value="list-item-font-color-mediumblue">Azul</ion-option>
+            <ion-option value="list-item-font-color-orangered" >Naranja</ion-option>
+          </ion-select>
+        </ion-item>
+      <ion-item-divider>
+          Sonidos
+        </ion-item-divider>
+        <ion-item>
+          <ion-label>Conjunto de sonidos</ion-label>
+          <ion-select [(ngModel)]="soundSet" multiple="" >
+            <ion-option value="" ></ion-option>
+            
+          </ion-select>
+        </ion-item>
+        <ion-item-divider >
+          Fondos de la aplicación
+        </ion-item-divider>
+        <ion-item>
+            <button ion-button full large name="food"  class="food" value="background-food" (click)="setButtonValue('background-food')"></button>
+        </ion-item>
+        <ion-item>
+            <button ion-button full large name="anchors"  class="anchors" value="background-anchors" (click)="setButtonValue('background-anchors')"></button>
+        </ion-item>
+        <ion-item>
+            <button ion-button full large name="circles"  class="circles" value="background-circles" (click)="setButtonValue('background-circles')"></button>
+        </ion-item>
+        <ion-item>
+            <button ion-button full large name="name" class="dots" value="background-dots" (click)="setButtonValue('background-dots')"></button>
+        </ion-item>
+    </ion-item-group>
+
+  </ion-list>
 
 </ion-content>
