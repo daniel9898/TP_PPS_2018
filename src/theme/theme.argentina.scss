@@ -51,6 +51,9 @@ $celeste:#4AA2D9;
   .content-md {
     background-color: $selesteSuperClaro; //otro celeste
     background-image: url('../assets/argentina/back01.jpg');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position-y:center;
   }
   .faYellow {
     color: $azulBanderaOscuro;
@@ -60,7 +63,7 @@ $celeste:#4AA2D9;
     border-radius: 2px;
     width: calc(100% - 20px);
     font-size: 1.4rem;
-    background: $blancoBander;
+    // background: $blancoBander;
     -webkit-box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
     box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
   }
@@ -271,16 +274,25 @@ $celeste:#4AA2D9;
   .page-back02 {
     .scroll-content {
       background-image: url('../assets/argentina/obelisco.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
   .page-back03 {
     .scroll-content {
       background-image: url('../assets/argentina/glaciares.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
   .page-back04 {
     .scroll-content {
       background-image: url('../assets/argentina/cerros.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
 

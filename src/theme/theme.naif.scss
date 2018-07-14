@@ -323,18 +323,27 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
     .scroll-content {
       background-color: $verdeClaro; //otro celeste
       background-image: url('../assets/naif/background02.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
   .page-back03 {
     .scroll-content {
       background-color: $verdeClaro; //otro celeste
       background-image: url('../assets/naif/background03.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
   .page-back04 {
     .scroll-content {
       background-color: $verdeClaro; //otro celeste
       background-image: url('../assets/naif/background04.jpg');
+      background-size: auto 100%;
+      background-repeat: no-repeat;
+      background-position-y:center;
     }
   }
   /*
