@@ -11,6 +11,7 @@ import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -34,9 +35,10 @@ export class SupervisorRegistroChoferPage {
               public camera: Camera,
               public usrFoto: UsuarioImagenProvider,
               public utils: UtilidadesProvider,
-              public _authAdmin: AuthAdministradorProvider) {
+              public _authAdmin: AuthAdministradorProvider,
+              public _idiomaSrv: IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
   	this.setFormValidator();
   }
 
@@ -46,7 +48,10 @@ export class SupervisorRegistroChoferPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   setFormValidator(){

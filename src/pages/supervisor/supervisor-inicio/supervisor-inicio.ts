@@ -10,6 +10,7 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { SupervisorEncuestaPage } from '../../index-paginas';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -66,9 +67,10 @@ export class SupervisorInicioPage {
     private usuarioSrv: UsuarioServicioProvider,
     private viajesSrv: ViajeServicio,
     private _qrScannerSrv: QrServicioProvider,
-    private utilidades: UtilidadesProvider) {
+    private utilidades: UtilidadesProvider,
+    private _idiomaSrv:IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     this.user_perfil = this._auth.get_userProfile();
     this.user_photo = this._auth.get_userPhoto();
     console.log("Usuario actual: " + this.user_perfil);
@@ -88,16 +90,19 @@ export class SupervisorInicioPage {
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
     this.cargar_idioma();
-    this.doughnutChartLabels = [ this.idioma.pag_inicio_supervisor.valores_chofer[1],
-                                 this.idioma.pag_inicio_supervisor.valores_chofer[2] ];
-    this.barChartLabels = [this.idioma.pag_inicio_supervisor.valores_viaje[1],
-                           this.idioma.pag_inicio_supervisor.valores_viaje[2],
-                           this.idioma.pag_inicio_supervisor.valores_viaje[3],
-                           this.idioma.pag_inicio_supervisor.valores_viaje[4] ];
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+        this.doughnutChartLabels = [ this.idioma.pag_inicio_supervisor.valores_chofer[1],
+                                     this.idioma.pag_inicio_supervisor.valores_chofer[2] ];
+        this.barChartLabels = [this.idioma.pag_inicio_supervisor.valores_viaje[1],
+                               this.idioma.pag_inicio_supervisor.valores_viaje[2],
+                               this.idioma.pag_inicio_supervisor.valores_viaje[3],
+                               this.idioma.pag_inicio_supervisor.valores_viaje[4] ];
+      })
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad SupervisorInicioPage');

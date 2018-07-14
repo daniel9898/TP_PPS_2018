@@ -9,6 +9,7 @@ import { ReservasProvider } from '../../../providers/reservas/reservas';
 import { Reserva } from '../../../classes/viaje.model';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -29,9 +30,10 @@ export class SupervisorAsignaViajePage {
     public navParams: NavParams,
     public usuarioSrv: UsuarioServicioProvider,
     public viajeSrv: ViajeServicio,
-    private reservaSrv: ReservasProvider) {
+    private reservaSrv: ReservasProvider,
+    private _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       if (!this.navParams.data.esReserva) {
         if (this.navParams.data.viaje && this.navParams.data.chofer) {
           this.viaje = this.navParams.data.viaje;
@@ -53,7 +55,10 @@ export class SupervisorAsignaViajePage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {

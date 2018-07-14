@@ -6,6 +6,7 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -22,14 +23,15 @@ export class SupervisorRegistroVehiculoPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private vehiculoSrv: VehiculosProvider,
-              private _utilitiesServ:UtilidadesProvider) {
+              private _utilitiesServ:UtilidadesProvider,
+              private _idiomaSrv: IdiomaProvider) {
 
     this.vehiculo = new vehiculo();
     this.vehiculo.patente = '';
     this.vehiculo.ano = "1995";
 
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
 
   }
 
@@ -39,7 +41,10 @@ export class SupervisorRegistroVehiculoPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {

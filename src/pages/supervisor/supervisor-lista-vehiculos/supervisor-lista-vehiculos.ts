@@ -5,6 +5,7 @@ import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 
 @IonicPage()
@@ -29,9 +30,10 @@ export class SupervisorListaVehiculosPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private vehiculosSrv: VehiculosProvider,
-    private _utilitiesServ:UtilidadesProvider) {
+    private _utilitiesServ:UtilidadesProvider,
+    private _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
   }
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
@@ -40,11 +42,15 @@ export class SupervisorListaVehiculosPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+        this.initializeItems();
+      })
   }
 
   ionViewDidLoad() {
-    this.initializeItems();
+
   }
 
   /**

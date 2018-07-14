@@ -399,7 +399,10 @@ export const Idioma = {
         button: 'Guardar'
       },
       pag_registro_vehiculo_supervisor:{
-        button: 'Editar',
+        button:{
+          b_1: "Guardar",
+          b_2: "Editar"
+        },
         mensaje: 'Vehículo agregado',
         label:{
           marca:   'Marca',

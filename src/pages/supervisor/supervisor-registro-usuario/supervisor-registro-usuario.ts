@@ -4,6 +4,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { SupervisorRegistroClientePage, SupervisorRegistroChoferPage } from '../../index-paginas';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @Component({
   selector: 'page-supervisor-registro-usuario',
@@ -17,9 +18,10 @@ export class SupervisorRegistroUsuarioPage {
   idioma:any;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              public _idiomaSrv: IdiomaProvider) {
          //IDIOMA
-         this.cargar_idioma();
+         this.idioma = Idioma.es;
          this.alta_cliente = SupervisorRegistroClientePage;
    	     this.alta_chofer = SupervisorRegistroChoferPage;
   }
@@ -30,7 +32,10 @@ export class SupervisorRegistroUsuarioPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+  this._idiomaSrv.getLanguageFromStorage()
+    .then((idioma)=>{
+      this.idioma = idioma;
+    })
   }
 
 }

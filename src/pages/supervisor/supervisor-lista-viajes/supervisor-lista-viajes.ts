@@ -4,6 +4,7 @@ import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio'
 import { SupervisorChoferesDisponiblesPage } from '../supervisor-choferes-disponibles/supervisor-choferes-disponibles';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -19,20 +20,24 @@ export class SupervisorListaViajesPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private viajeSrv: ViajeServicio) {
+    private viajeSrv: ViajeServicio,
+    private _idiomaSrv: IdiomaProvider) {
 
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
 
   }
-  
+
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
     this.cargar_idioma();
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {

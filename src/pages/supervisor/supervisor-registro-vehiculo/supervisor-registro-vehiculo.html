@@ -3,8 +3,9 @@
   <ion-navbar>
     <ion-title>{{vehiculo.marca}}</ion-title>
     <ion-buttons right>
-      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || ((vehiculo.ano > 1994 && vehiculo.ano < 2016) && patente.invalid ) || ( vehiculo.ano > 2015 && patente2.invalid)">Guardar</button>
-      <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">{{idioma.pag_registro_vehiculo_supervisor.button}}</button>
+      <button *ngIf="isEditable" ion-button clear color="primary" (click)="guardar()" [disabled]="marca.invalid || ((vehiculo.ano > 1994 && vehiculo.ano < 2016) && patente.invalid )
+                      || ( vehiculo.ano > 2015 && patente2.invalid)">{{idioma.pag_registro_vehiculo_supervisor.button.b_1}}</button>
+      <button *ngIf="!isEditable" ion-button clear color="primary" (click)="enableEdit()">{{idioma.pag_registro_vehiculo_supervisor.button.b_2}}</button>
       <button ion-button icon-only>
         <ion-icon name="more"></ion-icon>
       </button>

@@ -10,6 +10,7 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @Component({
   selector: 'page-supervisor-lista-usuarios',
@@ -30,10 +31,11 @@ export class SupervisorListaUsuariosPage {
               public toastCtrl: ToastController,
               public _auth: AuthServicioProvider,
               public _usuarioServicio: UsuarioServicioProvider,
-              public _utilidadesSrv: UtilidadesProvider) {
+              public _utilidadesSrv: UtilidadesProvider,
+              public _idiomaSrv: IdiomaProvider) {
 
         //IDIOMA
-        this.cargar_idioma();
+        this.idioma = Idioma.es;
         this.mostrarSpinner = true;
   }
 
@@ -43,13 +45,17 @@ export class SupervisorListaUsuariosPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+        this.usuarioActual = this._auth.get_userEmail();
+        this.initializeItems();
+      })
   }
 
   //PAGINA CARGADA
   ionViewDidLoad() {
-    this.usuarioActual = this._auth.get_userEmail();
-    this.initializeItems();
+
   }
 
   initializeItems(){

@@ -399,7 +399,10 @@ export const Idioma_en = {
         button: 'Save'
       },
       pag_registro_vehiculo_supervisor:{
-        button: 'Edit',
+        button:{
+          b_1: "Save",
+          b_2: "Edit"
+        },
         mensaje: 'Vehicle added',
         label:{
           marca:   'Brand',

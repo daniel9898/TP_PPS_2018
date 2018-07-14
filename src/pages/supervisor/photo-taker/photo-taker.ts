@@ -8,6 +8,7 @@ import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 import { vehiculo } from '../../../classes/vehiculo.model';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @IonicPage()
 @Component({
@@ -29,10 +30,11 @@ export class PhotoTakerPage implements OnInit {
     private camera: Camera,
     private vehiculoImagenSrv: VehiculoImagenProvider,
     private vehiculoSrv: VehiculosProvider,
-    private utilidadesSrv: UtilidadesProvider
+    private utilidadesSrv: UtilidadesProvider,
+    private _idiomaSrv: IdiomaProvider
   ) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     this.vehiculo = this.navParams.data;
     console.log(this.navParams.data);
     this.photos = [];
@@ -44,7 +46,10 @@ export class PhotoTakerPage implements OnInit {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ngOnInit(): void {

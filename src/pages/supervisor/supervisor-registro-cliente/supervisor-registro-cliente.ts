@@ -12,6 +12,7 @@ import { AuthAdministradorProvider } from '../../../providers/auth-administrador
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @Component({
   selector: 'page-supervisor-registro-cliente',
@@ -50,10 +51,11 @@ export class SupervisorRegistroClientePage {
               public frRegistration:FormBuilder,
               public _auth: AuthAdministradorProvider,
               public _usuarioServicio: UsuarioServicioProvider,
-              public _utilidadesSrv: UtilidadesProvider) {
+              public _utilidadesSrv: UtilidadesProvider,
+              public _idiomaSrv: IdiomaProvider) {
 
               //IDIOMA
-              this.cargar_idioma();
+              this.idioma = Idioma.es;
 
               //Habilita botón atrás (hacia la lista usuarios)
               if(this.navParams.get("fromLista"))
@@ -90,7 +92,10 @@ export class SupervisorRegistroClientePage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {
