@@ -17,7 +17,7 @@
   <ion-list>
     <ion-item>
       <ion-label>¿Cuanto demora en la toma de cada viaje?</ion-label>
-      <ion-select [(ngModel)]="gaming">
+      <ion-select [(ngModel)]="gaming" interface="action-sheet" [(selectOptions)]="ionSelectOptions">
         <ion-option value="nes">Mucho</ion-option>
         <ion-option value="n64">Normal</ion-option>
         <ion-option value="ps">Poco</ion-option>
@@ -27,7 +27,7 @@
       <ion-label>Pepperoni</ion-label>
       <ion-checkbox></ion-checkbox>
     </ion-item> -->
-    <ion-item-divider color="light">¿Cuanto es tiempo de descanso diario?</ion-item-divider>
+    <ion-item-divider color="light" >¿Cuanto es tiempo de descanso diario?</ion-item-divider>
     <ion-item>
       <ion-range [(ngModel)]="brightness">
         <ion-icon range-left small name="time"></ion-icon>
