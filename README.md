@@ -2,6 +2,13 @@
 
 > ¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio.
 
+## Fecha Final
+## Ezequiel Caballero - Internacionalización
+RAMA: [caballero-internacionalizacion](https://github.com/lucasbonanni/TP_PPS_2018/tree/caballero-internacionalizacion)
+
+## Lucas Bonanni - Temas de interfaz
+RAMA: [lucas-temas-interfaces](https://github.com/lucasbonanni/TP_PPS_2018/tree/lucas-temas-interfaces)
+
 ## Para el sábado 22/06/2018
 
 
