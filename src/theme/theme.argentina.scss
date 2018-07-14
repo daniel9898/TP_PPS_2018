@@ -50,6 +50,7 @@ $celeste:#4AA2D9;
   }
   .content-md {
     background-color: $selesteSuperClaro; //otro celeste
+    background-image: url('../assets/argentina/back01.jpg');
   }
   .faYellow {
     color: $azulBanderaOscuro;
@@ -262,6 +263,25 @@ $celeste:#4AA2D9;
   .ion-ios-person::before{
     @extend .fa-icons-general !optional;
     content: "\f2bd";
+  }
+
+    /*
+    Fondos de las paginas
+  */
+  .page-back02 {
+    .scroll-content {
+      background-image: url('../assets/argentina/obelisco.jpg');
+    }
+  }
+  .page-back03 {
+    .scroll-content {
+      background-image: url('../assets/argentina/glaciares.jpg');
+    }
+  }
+  .page-back04 {
+    .scroll-content {
+      background-image: url('../assets/argentina/cerros.jpg');
+    }
   }
 
   $font-family-oleo: Oleo-Regular;

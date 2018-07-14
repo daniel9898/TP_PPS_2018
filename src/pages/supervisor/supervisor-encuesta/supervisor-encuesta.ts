@@ -19,7 +19,7 @@ export class SupervisorEncuestaPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public themeSetting: ThemeSettingsProvider) {
-    this.themeSetting.getActiveTheme().subscribe(val => this.ionSelectOptions.cssClass = val);
+    this.themeSetting.getActiveTheme().subscribe(val => this.ionSelectOptions.cssClass = val.toString());
   }
 
   ionViewDidLoad() {

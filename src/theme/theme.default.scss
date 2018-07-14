@@ -60,6 +60,15 @@
     background-image: linear-gradient(130deg, #ded9bf 21.74%, #F6F0CF 21.74%, #F6F0CF 43.48%, #fff 43.48%, #fff 50%, #ded9bf 50%, #ded9bf 71.74%, #F6F0CF 71.74%, #F6F0CF 93.48%, #fff 93.48%, #fff 100%);
     background-size: 60.05px 71.56px;
   }
+  .page-back02 {
+    .scroll-content {
+      background-color: black;
+      background-image: url('../assets/imgs/inicio_chofer.gif');
+      background-repeat: no-repeat;
+      background-position-x: center;
+      background-position-y:center;
+    }
+  }
   .content {
     .item-md {
       background: rgb(255, 255, 255);

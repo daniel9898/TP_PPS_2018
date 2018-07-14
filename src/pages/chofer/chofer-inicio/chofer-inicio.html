@@ -7,18 +7,11 @@
 
 </ion-header>
 
-<ion-content padding class="masters">
+<ion-content padding class="page-back02">
  <button ion-button block icon-end (click)="comenzarActividad()" [disabled]="asignado">
  	Comenzar Actividad
    <ion-icon ios="ios-car" md="md-car"></ion-icon>
  </button>
-
-
-<ion-slides *ngIf="!asignado">
-  <ion-slide>
-    <img src="assets/imgs/inicio_chofer.gif"/>
-  </ion-slide>
-</ion-slides>
 
 
 	<ion-card *ngIf="asignado">

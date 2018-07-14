@@ -319,10 +319,22 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
   /*
     Fondos de las paginas
   */
-  .page-home {
+  .page-back02 {
     .scroll-content {
       background-color: $verdeClaro; //otro celeste
       background-image: url('../assets/naif/background02.jpg');
+    }
+  }
+  .page-back03 {
+    .scroll-content {
+      background-color: $verdeClaro; //otro celeste
+      background-image: url('../assets/naif/background03.jpg');
+    }
+  }
+  .page-back04 {
+    .scroll-content {
+      background-color: $verdeClaro; //otro celeste
+      background-image: url('../assets/naif/background04.jpg');
     }
   }
   /*
