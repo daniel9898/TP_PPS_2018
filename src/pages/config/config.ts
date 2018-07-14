@@ -10,6 +10,7 @@ import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
 import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
 import { Idioma_ru} from '../../assets/data/idioma/ru';//---RUSO
 import { Idioma_fr} from '../../assets/data/idioma/fr';//---FRANCÉS
+import { Idioma_pt} from '../../assets/data/idioma/pt';//---PORTUGUÉS
 //SERVICE
 import { GeocodingProvider } from '../../providers/geocoding/geocoding';
 import { SonidosProvider } from '../../providers/sonidos/sonidos';
@@ -153,7 +154,7 @@ export class ConfigPage implements AfterViewInit {
                   this.flag_pt.nativeElement.className = 'flag';
                   break;
 
-      case "pt":  this.language = Idioma_en.en;
+      case "pt":  this.language = Idioma_pt.pt;
                   this.flag_es.nativeElement.className = 'flag';
                   this.flag_en.nativeElement.className = 'flag';
                   this.flag_ru.nativeElement.className = 'flag';

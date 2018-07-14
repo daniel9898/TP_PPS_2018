@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController } from 'ionic-angular';
-//STORAGE
-import { Storage } from '@ionic/storage';
 //FORM
 import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 //PAGINAS
@@ -35,7 +33,6 @@ export class RegistroPage {
   constructor(public navCtrl: NavController,
               public fbRegistration:FormBuilder,
               public toastCtrl: ToastController,
-              private storage  : Storage,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthAdministradorProvider,
               public _utilitiesServ: UtilidadesProvider,

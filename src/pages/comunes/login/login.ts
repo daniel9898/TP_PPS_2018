@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, FabContainer } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
-//STORAGE
-import { Storage } from '@ionic/storage';
 //PAGINAS
 import { RegistroPage } from '../../index-paginas';
 import { ConfigPage } from '../../config/config';
@@ -46,7 +44,6 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public toastCtrl: ToastController,
               public fbLogin:FormBuilder,
-              private storage  : Storage,
               private _usuarioServicio:UsuarioServicioProvider,
               private _authServicio:AuthServicioProvider,
               private _authAdmin:AuthAdministradorProvider,
@@ -72,28 +69,14 @@ export class LoginPage {
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
-    this._idiomaSrv.getLanguageFromStorage()
-      .then((idioma)=>{
-        this.idioma = idioma;
-      })
+    this.cargar_idioma();
   }
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.mostrarSpinner = true;
-    this.storage.get('language')
-      .then((lang)=>{
-        if(lang !== null){
-          //console.log("LANGUAGE: " + lang);
-          this.idioma = lang;
-        }
-        else{
-            // BY DEFAULT
-            this.idioma = Idioma.es;
-        }
-        this.mostrarSpinner = false;
-      })
-      .catch((error)=>{ console.log("Error al leer storage: " + error);
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
       })
   }
 

@@ -27,87 +27,87 @@ export const Idioma = {
       pag_login:{
           titulo: "KB REMISERIA",
           placeholder:{
-            user: 'Usuario',
-            pass: 'Contraseña'
+            user: "Usuario",
+            pass: "Contraseña"
           },
           error:{
-            required: 'Campo requerido ↑',
-            email:    'Formato incorrecto ↑',
+            required: "Campo requerido ↑",
+            email:    "Formato incorrecto ↑",
           },
           button:{
-            login:      'Ingresar',
-            registro_1: '¿No tienes una cuenta?',
-            registro_2: '¡Regístrate gratis!'
+            login:      "Ingresar",
+            registro_1: "¿No tienes una cuenta?",
+            registro_2: "¡Regístrate gratis!"
           },
           mensaje:{
-            msj_1:'Usuario y/o contraseña incorrecta',
-            msj_2:'Cuenta inexistente',
-            msj_3:'Cuenta desactivada',
-            msj_4:'Bienvenido'
+            msj_1:"Usuario y/o contraseña incorrecta",
+            msj_2:"Cuenta inexistente",
+            msj_3:"Cuenta desactivada",
+            msj_4:"Bienvenido"
           }
       },
       pag_registro:{
           placeholder:{
-            user:  'Correo',
-            pass1: 'Contraseña',
-            pass2: 'Repetir contraseña'
+            user:  "Correo",
+            pass1: "Contraseña",
+            pass2: "Repetir contraseña"
           },
           error:{
-            required: 'Campo requerido',
-            email:    'Formato incorrecto',
-            pass_1:   'La clave debe ser mínimo de 6 caracteres',
-            pass_2:   'La clave no es idéntica a la ingresada'
+            required: "Campo requerido",
+            email:    "Formato incorrecto",
+            pass_1:   "La clave debe ser mínimo de 6 caracteres",
+            pass_2:   "La clave no es idéntica a la ingresada"
           },
-          button:  'Registrarse',
+          button:  "Registrarse",
           mensaje:{
-            msj_1: 'Cuenta no disponible',
-            msj_2: 'Correo inválido'
+            msj_1: "Cuenta no disponible",
+            msj_2: "Correo inválido"
           }
       },
       pag_perfil:{
           label:{
-            correo:     'Correo',
-            nombre:     'Nombre',
-            edad:       'Edad',
-            direccion:  'Dirección',
-            perfil:     'Perfil',
-            viajando:   'Viajando',
-            activo:     'Activo',
-            verificado: 'Verificado'
+            correo:     "Correo",
+            nombre:     "Nombre",
+            edad:       "Edad",
+            direccion:  "Dirección",
+            perfil:     "Perfil",
+            viajando:   "Viajando",
+            activo:     "Activo",
+            verificado: "Verificado"
           },
           error:{
-            required: 'Campo requerido',
-            email:    'Formato incorrecto',
-            nombre_1: 'Mínimo: 5 caracteres',
-            nombre_2: 'Máximo: 30 caracteres',
-            edad_1:   'Edad mínima: 14',
-            edad_2:   'Edad máxima: 100'
+            required: "Campo requerido",
+            email:    "Formato incorrecto",
+            nombre_1: "Mínimo: 5 caracteres",
+            nombre_2: "Máximo: 30 caracteres",
+            edad_1:   "Edad mínima: 14",
+            edad_2:   "Edad máxima: 100"
           },
           mensaje:{
-            msj_1:    'Clave cambiada',
-            msj_2:    'Clave inválida',
-            msj_3:    'Usuario eliminado',
-            msj_4:    'Correo no disponible',
-            msj_5:    'Correo inválido',
-            msj_6:    'Cambios realizados con éxito',
-            msj_7:    'Usuario creado'
+            msj_1:    "Clave cambiada",
+            msj_2:    "Clave inválida",
+            msj_3:    "Usuario eliminado",
+            msj_4:    "Correo no disponible",
+            msj_5:    "Correo inválido",
+            msj_6:    "Cambios realizados con éxito",
+            msj_7:    "Usuario creado"
           }
       },
       pag_clave:{
           placeholder:{
-            pass1:  'Contraseña',
-            pass2:  'Nueva contraseña',
-            pass3:  'Repetir contraseña'
+            pass1:  "Contraseña",
+            pass2:  "Nueva contraseña",
+            pass3:  "Repetir contraseña"
           },
           error:{
-            required: 'Campo requerido',
-            pass_1:   'Mínimo 6 caracteres',
-            pass_2:   'Clave no idéntica'
+            required: "Campo requerido",
+            pass_1:   "Mínimo 6 caracteres",
+            pass_2:   "Clave no idéntica"
           },
-          button: 'Aceptar'
+          button: "Aceptar"
       },
       pag_mapa:{
-          label: 'Dirección'
+          label: "Dirección"
       },
       pag_qr:{
         msj:         "Centre el código sobre el rectángulo",
@@ -116,7 +116,7 @@ export const Idioma = {
         navegador:   "ALERTA: esto es una prueba desde el navegador"
       },
       pag_lista_general:{
-        placeholder: 'buscar'
+        placeholder: "buscar"
       },
       //PAGINAS CLIENTE*******************************************************//
       pag_viaje_cliente:{
@@ -169,8 +169,8 @@ export const Idioma = {
         mensaje: "Reserva eliminada"
       },
       pag_encuesta_cliente:{
-        perfil: 'Cliente',
-        titulo: 'Encuesta de satisfacción',
+        perfil: "Cliente",
+        titulo: "Encuesta de satisfacción",
         mensaje: "¡Gracias por participar!",
         preguntas:{
           //SELECT
@@ -215,18 +215,18 @@ export const Idioma = {
         }
       },
       pag_encuestas_cliente:{
-        titulo: 'VIAJES',
-        subtitulo: '-sin encuesta-'
+        titulo: "VIAJES",
+        subtitulo: "-sin encuesta-"
       },
       pag_historial_cliente:{
-        viajes:    'Viajes',
-        reservas:  'Reservas',
-        encuestas: 'Encuestas'
+        viajes:    "Viajes",
+        reservas:  "Reservas",
+        encuestas: "Encuestas"
       },
       pag_estadistica_cliente:{
-        subtitulo_1: 'Individual',
-        subtitulo_2: 'General',
-        tema:        'Calidad del servicio',
+        subtitulo_1: "Individual",
+        subtitulo_2: "General",
+        tema:        "Calidad del servicio",
         valores:{
           1:"Excelente",
           2:"Bueno",
@@ -238,55 +238,55 @@ export const Idioma = {
       //PAGINAS CHOFER********************************************************//
       pag_inicio_chofer:{
         mensaje:{
-          msj_1: 'Tiene un viaje asignado',
-          msj_2: 'Atención: vehículo no disponible o código incorrecto',
-          msj_3: 'Atención: ',
-          msj_4: 'Vehículo asignado correctamente'
+          msj_1: "Tiene un viaje asignado",
+          msj_2: "Atención: vehículo no disponible o código incorrecto",
+          msj_3: "Atención: ",
+          msj_4: "Vehículo asignado correctamente"
         }
       },
       pag_lista_viajes_chofer:{
-        titulo:  'Viajes pendientes',
+        titulo:  "Viajes pendientes",
         label:{
-          fecha: 'Fecha:',
-          hora:  'Hora',
-          desde: 'Desde:',
-          hasta: 'Hasta:'
+          fecha: "Fecha:",
+          hora:  "Hora",
+          desde: "Desde:",
+          hasta: "Hasta:"
         },
         mensaje:{
-          msj_1: 'Tiene un viaje asignado',
-          msj_2: 'Atención: '
+          msj_1: "Tiene un viaje asignado",
+          msj_2: "Atención: "
         }
       },
       pag_viaje_chofer:{
-        titulo: 'Datos del viaje',
+        titulo: "Datos del viaje",
         label:{
-          direccion: 'Dirección de búsqueda',
-          destino:   'Destino',
-          hora:      'Hora',
-          precio:    'Precio'
+          direccion: "Dirección de búsqueda",
+          destino:   "Destino",
+          hora:      "Hora",
+          precio:    "Precio"
         },
         button:{
-          b_1: 'Cancelar',
-          b_2: 'En curso',
-          b_3: 'Cumplido'
+          b_1: "Cancelar",
+          b_2: "En curso",
+          b_3: "Cumplido"
         },
         mensaje:{
-          msj_1: 'Viaje en estado: en curso',
-          msj_2: 'Viaje desasignado',
-          msj_3: 'Atención: '
+          msj_1: "Viaje en estado: en curso",
+          msj_2: "Viaje desasignado",
+          msj_3: "Atención: "
         },
       },
       pag_modal_viaje_chofer:{
-        titulo:'Detalle del viaje',
-        button:'Cerrar',
+        titulo:"Detalle del viaje",
+        button:"Cerrar",
         label:{
-          monto:     'Monto a abonar:',
-          distancia: 'Distancia recorrida:'
+          monto:     "Monto a abonar:",
+          distancia: "Distancia recorrida:"
         }
       },
       pag_encuesta_chofer:{
-        titulo: 'Control de Unidad Asignada',
-        patente: 'Patente',
+        titulo: "Control de Unidad Asignada",
+        patente: "Patente",
         mensaje: "Encuesta registrada",
         preguntas:{
           //SELECT
@@ -331,8 +331,8 @@ export const Idioma = {
         }
       },
       pag_estadistica_chofer:{
-        titulo: 'Reputación',
-        viajes: 'Viajes realizados: ',
+        titulo: "Reputación",
+        viajes: "Viajes realizados: ",
         valores:{
           1:"Excelente",
           2:"Bueno",
@@ -344,110 +344,110 @@ export const Idioma = {
       //PAGINAS SUPERVISOR****************************************************//
       pag_inicio_supervisor:{
         temas:{
-          choferes: 'Choferes disponibles',
-          viajes:   'Viajes según estados'
+          choferes: "Choferes disponibles",
+          viajes:   "Viajes según estados"
         },
         valores_viaje:{
-          1:'pendiente',
-          2:'cancelado',
-          3:'en curso',
-          4:'cumplido'
+          1:"pendiente",
+          2:"cancelado",
+          3:"en curso",
+          4:"cumplido"
         },
         valores_chofer:{
-          1:'Disponibles',
-          2:'No disponibles'
+          1:"Disponibles",
+          2:"No disponibles"
         },
         mensaje:{
-          msj_1:  'No hay choferes disponibles para ese vehículo',
-          msj_2:  'Código inválido'
+          msj_1:  "No hay choferes disponibles para ese vehículo",
+          msj_2:  "Código inválido"
         }
       },
       pag_lista_viajes_supervisor:{
-        titulo: 'Viajes pendientes',
-        label:  'Destino: '
+        titulo: "Viajes pendientes",
+        label:  "Destino: "
       },
       pag_lista_reservas_supervisor:{
-        titulo: 'Lista de reservas',
-        label:  'Destino: '
+        titulo: "Lista de reservas",
+        label:  "Destino: "
       },
       pag_lista_usuarios_supervisor:{
         mensaje:{
-          msj_1: 'Usuario eliminado',
-          msj_2: 'Error al realizar acción: '
+          msj_1: "Usuario eliminado",
+          msj_2: "Error al realizar acción: "
         }
       },
       pag_lista_vehiculos_supervisor:{
-        mensaje: 'Vehículo eliminado'
+        mensaje: "Vehículo eliminado"
       },
       pag_registro_usuario:{
-        cliente: 'Cliente',
-        chofer:  'Chofer'
+        cliente: "Cliente",
+        chofer:  "Chofer"
       },
       pag_registro_chofer_supervisor:{
         label:{
-          nombre:    'Nombre',
-          apellido:  'Apellido',
-          edad:      'Edad',
-          direccion: 'Dirección',
-          correo:    'Correo electrónico',
-          password:  'Contraseña'
+          nombre:    "Nombre",
+          apellido:  "Apellido",
+          edad:      "Edad",
+          direccion: "Dirección",
+          correo:    "Correo electrónico",
+          password:  "Contraseña"
         },
         mensaje:{
-          msj_1:'Registro exitoso',
-          msj_2:'Error: '
+          msj_1:"Registro exitoso",
+          msj_2:"Error: "
         },
-        button: 'Guardar'
+        button: "Guardar"
       },
       pag_registro_vehiculo_supervisor:{
         button:{
           b_1: "Guardar",
           b_2: "Editar"
         },
-        mensaje: 'Vehículo agregado',
+        mensaje: "Vehículo agregado",
         label:{
-          marca:   'Marca',
-          modelo:  'Modelo',
-          ano:     'Año',
-          patente: 'Patente',
-          activo:  'Activo'
+          marca:   "Marca",
+          modelo:  "Modelo",
+          ano:     "Año",
+          patente: "Patente",
+          activo:  "Activo"
         },
         placeholder:{
-          1: 'ABC123',
-          2: 'AB123CD'
+          1: "ABC123",
+          2: "AB123CD"
         },
         error:{
-          marca:     'Mínimo 3 caracteres',
-          patente_1: 'No agregar espacios',
-          patente_2: 'Formato correcto [ ABC123 ]',
-          patente_3: 'Formato correcto [ AB123CD ]'
+          marca:     "Mínimo 3 caracteres",
+          patente_1: "No agregar espacios",
+          patente_2: "Formato correcto [ ABC123 ]",
+          patente_3: "Formato correcto [ AB123CD ]"
         }
       },
       pag_photoTaker_supervisor:{
         button:{
-          b_1: 'Guardar',
-          b_2: 'Subir'
+          b_1: "Guardar",
+          b_2: "Subir"
         },
         mensaje:{
-          msj_1: 'Foto subida',
-          msj_2: 'Foto eliminada'
+          msj_1: "Foto subida",
+          msj_2: "Foto eliminada"
         }
       },
       pag_choferes_disponibles_supervisor:{
-        titulo: 'Choferes disponibles'
+        titulo: "Choferes disponibles"
       },
       pag_asignar_viaje_supervisor:{
-        titulo: 'Asignar viaje',
+        titulo: "Asignar viaje",
         label:{
-          chofer:  'Chofer: ',
-          datos:   'Datos del viaje',
-          origen:  'Origen: ',
-          destino: 'Destino: ',
-          fecha:   'Fecha:',
-          hora:    'Hora:'
+          chofer:  "Chofer: ",
+          datos:   "Datos del viaje",
+          origen:  "Origen: ",
+          destino: "Destino: ",
+          fecha:   "Fecha:",
+          hora:    "Hora:"
         },
         button:{
-          b_1: 'Asignar',
-          b_2: 'Desasignar'
+          b_1: "Asignar",
+          b_2: "Desasignar"
         }
       }
 

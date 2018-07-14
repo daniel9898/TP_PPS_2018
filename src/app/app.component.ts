@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
-         ChoferInicioPage, ChoferHistorialPage, ChoferEstadisticaPage,//--------------------------------------------------------CHOFER
+         ChoferInicioPage, ChoferEstadisticaPage,//----------------------------------------------------------------------------------------------CHOFER
          SupervisorInicioPage,SupervisorListaUsuariosPage, SupervisorListaVehiculosPage} from '../pages/index-paginas';//------------------------SUPERVISOR
 import { SupervisorViajesReservasPage } from '../pages/supervisor/supervisor-viajes-reservas/supervisor-viajes-reservas';
 import { ClienteReservasPage } from '../pages/cliente/cliente-reservas/cliente-reservas';
@@ -136,7 +136,6 @@ export class MyApp {
             { title: this.idioma.pag_menu.opcion[5], component: ClienteHistorialPage, visibility: this.vista_chofer },
             { title: this.idioma.pag_menu.opcion[6], component: ChoferEstadisticaPage, visibility: this.vista_chofer },
             { title: this.idioma.pag_menu.opcion[7], component: ClienteEncuestasPage, visibility: this.vista_chofer },
-            { title: this.idioma.pag_menu.opcion[8], component: ChoferHistorialPage, visibility: this.vista_chofer },
             //PAGINAS SUPERVISOR (10)
             { title: this.idioma.pag_menu.opcion[1], component: SupervisorInicioPage, visibility: this.vista_supervisor },
             { title: this.idioma.pag_menu.opcion[2], component: PerfilPage, visibility: this.vista_supervisor },
@@ -184,7 +183,6 @@ export class MyApp {
       { title: this.idioma.pag_menu.opcion[5], component: ClienteHistorialPage, visibility: this.vista_chofer },
       { title: this.idioma.pag_menu.opcion[6], component: ChoferEstadisticaPage, visibility: this.vista_chofer },
       { title: this.idioma.pag_menu.opcion[7], component: ClienteEncuestasPage, visibility: this.vista_chofer },
-      { title: this.idioma.pag_menu.opcion[8], component: ChoferHistorialPage, visibility: this.vista_chofer },
       //PAGINAS SUPERVISOR (10)
       { title: this.idioma.pag_menu.opcion[1], component: SupervisorInicioPage, visibility: this.vista_supervisor },
       { title: this.idioma.pag_menu.opcion[2], component: PerfilPage, visibility: this.vista_supervisor },

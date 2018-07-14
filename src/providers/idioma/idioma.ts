@@ -8,10 +8,18 @@ import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
 import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
 import { Idioma_ru} from '../../assets/data/idioma/ru';//---RUSO
 import { Idioma_fr} from '../../assets/data/idioma/fr';//---FRANCÉS
+import { Idioma_pt} from '../../assets/data/idioma/pt';//---PORTUGUÉS
+//OTROS
+import { Observable } from "rxjs/Rx"
+
 
 @Injectable()
 export class IdiomaProvider {
 
+  public idioma$ = new Observable((observer)=>{
+    observer.next(this.idioma);
+    //observer.complete();
+  })
   idioma:any;
 
   constructor(private storage:Storage) {
@@ -73,7 +81,7 @@ export class IdiomaProvider {
       case "fr":  this.idioma = Idioma_fr.fr;
                   break;
 
-      case "pt":  this.idioma = Idioma_en.en;
+      case "pt":  this.idioma = Idioma_pt.pt;
                   break;
     }
   }
