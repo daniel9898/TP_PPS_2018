@@ -1,5 +1,21 @@
-.iconLogOut {
-  color: red;
+@font-face {
+  font-family: DenkOne-Regular;
+  src: url('../assets/fonts/DenkOne-Regular.ttf');
+}
+
+@font-face {
+  font-family: Exo-Regular;
+  src: url('../assets/fonts/exo/Exo2-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Oleo-Regular;
+  src: url('../assets/fonts/oleo/OleoScript-Regular.ttf');
+}
+
+@font-face {
+  font-family: Katibeh-Regular;
+  src: url('../assets/fonts/Katibeh/Katibeh-Regular.ttf');
 }
 
 .splashScreen {
@@ -68,91 +84,24 @@
     -webkit-transform: scale(1.0);
   }
 }
-
-.my-alert .alert-wrapper {
-  background-color: rgba(0, 0, 0, 0.59);
-  color: white;
-  -webkit-box-shadow: 10px 10px 58px 21px rgba(0, 0, 0, 0.59);
-  -moz-box-shadow: 10px 10px 58px 21px rgba(0, 0, 0, 0.59);
-  box-shadow: 10px 10px 58px 21px rgba(0, 0, 0, 0.59);
-  border-radius: 15px;
-}
-
-.my-alert .alert-message {
-  overflow: hidden;
-  color: white;
-}
-
-.alert-md .alert-button-group {
-  justify-content: center
-}
-
-.alert-md .alert-button {
-  color: white;
-}
-
-//Toast general
-.toast-container {
-  border-radius: 15px;
-  .toast-message {
-    text-align: center;
+.popover-md .popover-content{
+  background-color: rgba(242, 242, 242, 0.685);
+  .item-md{
+    background-color: rgba(242, 242, 242, 0.685);
   }
 }
-
-.toast-wrapper {
-  border-radius: 15px;
+.label-md {
+  word-wrap: normal;
+  word-break: break-all;
+  white-space: normal;
 }
 
-//Toast para mensajes de errores
-.error-toast {
-  .toast-wrapper {
-    background-color: rgba(197, 28, 28, 0.61);
-    .toast-container {
-      background-color: rgba(197, 28, 28, 0.61);
-    }
-    .toast-message {
-      background-color: rgba(197, 28, 28, 0.61);
-    }
-  }
-}
-
-.warning-toast {
-  .toast-wrapper {
-    background-color: rgba(231, 220, 171, 0.651); // color: red;
-    .toast-container {
-      background-color: rgba(240, 231, 113, 0.651);
-    }
-    .toast-message {
-      color: red;
-      font-weight: bold;
-      background-color: rgba(240, 231, 113, 0.651);
-    }
-  }
-}
-
-.scroll-content {
-  // background-image: linear-gradient(127deg, #B2A2CD 16.67%, #5F5370 16.67%, #5F5370 33.33%, #c9d6b4 33.33%, #c9d6b4 50%, #B2A2CD 50%, #B2A2CD 66.67%, #5F5370 66.67%, #5F5370 83.33%, #c9d6b4 83.33%, #c9d6b4 100%);
-  // background-size: 75.13px 99.70px;
-  background-image: linear-gradient(130deg, #ded9bf 21.74%, #F6F0CF 21.74%, #F6F0CF 43.48%, #fff 43.48%, #fff 50%, #ded9bf 50%, #ded9bf 71.74%, #F6F0CF 71.74%, #F6F0CF 93.48%, #fff 93.48%, #fff 100%);
-  background-size: 60.05px 71.56px;
-}
-
-.content {
-  .item-md {
-    background: rgb(255, 255, 255);
-    background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
-    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
-    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%, rgba(246, 246, 246, 1) 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6', GradientType=0);
-  }
-}
-
-
-.toolbar-background-md {
-
-  background: rgb(245, 246, 246);
-  background: -moz-linear-gradient(top, rgba(245, 246, 246, 1) 0%, rgba(219, 220, 226, 1) 45%, rgba(184, 186, 198, 1) 93%, rgba(221, 223, 227, 1) 97%, rgba(245, 246, 246, 1) 100%);
-  background: -webkit-linear-gradient(top, rgba(245, 246, 246, 1) 0%, rgba(219, 220, 226, 1) 45%, rgba(184, 186, 198, 1) 93%, rgba(221, 223, 227, 1) 97%, rgba(245, 246, 246, 1) 100%);
-  background: linear-gradient(to bottom, rgba(245, 246, 246, 1) 0%, rgba(219, 220, 226, 1) 45%, rgba(184, 186, 198, 1) 93%, rgba(221, 223, 227, 1) 97%, rgba(245, 246, 246, 1) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f6f6', endColorstr='#f5f6f6', GradientType=0);
+.card-md {
+  margin: 10px;
+  border-radius: 2px;
+  width: calc(100% - 20px);
+  font-size: $buttonFontSize;
+  background: rgba(255, 255, 255, 0.664);
+  -webkit-box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
 }
