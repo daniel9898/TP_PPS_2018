@@ -18,6 +18,8 @@ import { Idioma } from '../../../assets/data/idioma/es';
   templateUrl: 'cliente-reserva.html',
 })
 export class ClienteReservaPage {
+
+  mostrarDate:boolean = false;
   //Nombres de meses y días para el date picker
   monthNames: string[];
   monthShortNames: string[];
@@ -48,7 +50,7 @@ export class ClienteReservaPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public dateTimeSrv: DateTimeProvider,
+    private dateTimeSrv: DateTimeProvider,
     private auth: AuthServicioProvider,
     private usuarioServicio: UsuarioServicioProvider,
     private reservasSrv : ReservasProvider,
@@ -58,6 +60,7 @@ export class ClienteReservaPage {
 
     //IDIOMA
     this.idioma = Idioma.es;
+    this.mostrarDate = false;
     this.inicializarReserva();
   }
 
@@ -73,13 +76,16 @@ export class ClienteReservaPage {
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
     this.cargar_idioma();
+    this.loadUser();
   }
 
   //CARGAR IDIOMA
   cargar_idioma(){
+      this.mostrarDate = false;
       this._idiomaSrv.getLanguageFromStorage()
         .then((idioma)=>{
           this.idioma = idioma;
+          console.log("Código de lenguaje: " + this.idioma.code);
           this.dateTimeSrv.initialized(this.idioma.code);
           this.monthNames = this.dateTimeSrv.getMonthNames();
           this.daysNames = this.dateTimeSrv.getWeekDays();
@@ -89,6 +95,7 @@ export class ClienteReservaPage {
           console.log("Fecha actual: " + this.fecha);
           this.hora = this.dateTimeSrv.getHour();
           console.log("Hora actual: " + this.hora);
+          this.mostrarDate = true;
         })
   }
 
@@ -136,13 +143,6 @@ export class ClienteReservaPage {
   directionsChanged() {
     this.directionsResult = this.directionsRenderer.getDirections();
     this.cdr.detectChanges();
-  }
-
-  /**
-   * ion view can enter
-   */
-  ionViewCanEnter() {
-    this.loadUser();
   }
 
   /**

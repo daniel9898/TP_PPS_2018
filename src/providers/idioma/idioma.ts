@@ -7,6 +7,7 @@ import { Idioma } from '../../assets/data/idioma/es';//-----ESPAÑOL
 import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
 import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
 import { Idioma_ru} from '../../assets/data/idioma/ru';//---RUSO
+import { Idioma_fr} from '../../assets/data/idioma/fr';//---FRANCÉS
 
 @Injectable()
 export class IdiomaProvider {
@@ -69,7 +70,7 @@ export class IdiomaProvider {
       case "ru":  this.idioma = Idioma_ru.ru;
                   break;
 
-      case "fr":  this.idioma = Idioma_en.en;
+      case "fr":  this.idioma = Idioma_fr.fr;
                   break;
 
       case "pt":  this.idioma = Idioma_en.en;
