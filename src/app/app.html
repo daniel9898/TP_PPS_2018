@@ -7,7 +7,7 @@
 </div>
 
 <!-- MENU -->
-<ion-menu [content]="content">
+<ion-menu *ngIf="!mostrarSplash" [content]="content">
   <ion-header>
     <ion-toolbar>
       <ion-title text-center>{{idioma.pag_menu.titulo}}</ion-title>

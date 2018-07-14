@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms'
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -59,16 +60,18 @@ export class PerfilPage {
               public _auth: AuthServicioProvider,
               private camera: Camera,
               public _usuarioServicio: UsuarioServicioProvider,
-              public _utilitiesServ: UtilidadesProvider) {
+              public _utilitiesServ: UtilidadesProvider,
+              public _idiomaSrv: IdiomaProvider) {
 
       this.mostrarSpinner = true;
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.modificar = false;
   }
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
+    //this.idioma = Idioma.es;
     this.cargar_idioma();
   }
 
@@ -88,7 +91,10 @@ export class PerfilPage {
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   traer_usuario(){

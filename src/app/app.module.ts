@@ -74,6 +74,7 @@ import { SupervisorListaReservasPage } from '../pages/supervisor/supervisor-list
 import { ModalPage } from '../pages/chofer/modal/modal';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
 import { ConfigPage } from '../pages/config/config';
+import { IdiomaProvider } from '../providers/idioma/idioma';
 
 @NgModule({
   declarations: [
@@ -213,7 +214,8 @@ import { ConfigPage } from '../pages/config/config';
     UtilidadesProvider,
     ChoferEncuestaProvider,
     ChartsModule,
-    SonidosProvider
+    SonidosProvider,
+    IdiomaProvider
   ]
 })
 export class AppModule { }

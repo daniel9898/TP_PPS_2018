@@ -79,7 +79,7 @@ export class LoginPage {
     this.storage.get('language')
       .then((lang)=>{
         if(lang !== null){
-          console.log("LANGUAGE: " + lang);
+          //console.log("LANGUAGE: " + lang);
           this.idioma = lang;
         }
         else{

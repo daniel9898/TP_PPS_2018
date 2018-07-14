@@ -16,6 +16,7 @@ export class Usuario{
     id_vehiculo:string;
     id_viaje:string;
     sonido:boolean;
+    idioma:string;
 
     constructor(user_data:any){
         //REGISTRO

@@ -1,7 +1,7 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { NavController, NavParams, MenuController } from 'ionic-angular';
+//STORAGE
 import { Storage } from '@ionic/storage';
-
 //LANGUAGE PACKAGE
 import { Idioma } from '../../assets/data/idioma/es';//-----ESPAÑOL
 import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
@@ -9,6 +9,8 @@ import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
 import { GeocodingProvider } from '../../providers/geocoding/geocoding';
 import { SonidosProvider } from '../../providers/sonidos/sonidos';
 import { UtilidadesProvider } from '../../providers/utilidades/utilidades';
+import { AuthServicioProvider } from '../../providers/auth-servicio/auth-servicio';
+import { UsuarioServicioProvider } from '../../providers/usuario-servicio/usuario-servicio';
 
 @Component({
   selector: 'page-config',
@@ -31,11 +33,14 @@ export class ConfigPage implements AfterViewInit {
   lng:number;
   formatted_address:any;
   address_components:any;
+  usuario:any;
 
   constructor(public navCtrl     : NavController,
               public navParams   : NavParams,
               private storage    : Storage,
               private menu       : MenuController,
+              private _authSrv   : AuthServicioProvider,
+              private _userSrv   : UsuarioServicioProvider,
               private _geoCoding : GeocodingProvider,
               private _sounds    : SonidosProvider,
               private _toastSrv  : UtilidadesProvider) {
@@ -45,6 +50,7 @@ export class ConfigPage implements AfterViewInit {
 
   ngAfterViewInit() {
     this.showSpinner = true;
+    console.log("Usuario activo en config: " + this._authSrv.get_userEmail());
     this.storage.get('language')
       .then((lang)=>{
         if(lang !== null){
@@ -84,10 +90,12 @@ export class ConfigPage implements AfterViewInit {
   }
 
   saveChanges(){
-    console.log("Save changes in storage");
-    this.storage.clear();
-    this.storage.set('language', this.language);
-    this._toastSrv.showToast(this.language.pag_perfil.mensaje.msj_6);
+    this.showSpinner = true;
+      console.log("Cambios guardados sólo en el storage");
+      this.storage.clear();
+      this.storage.set('language', this.language);
+      this.showSpinner = false;
+      this._toastSrv.showToast(this.language.pag_perfil.mensaje.msj_6);
   }
 
   clickLanguage(code:string){

@@ -24,7 +24,7 @@ export class AuthServicioProvider {
   }
 
   get authenticated_2():boolean{
-    return this.afAuth.user !== undefined;
+    return this.afAuth.user != undefined || this.afAuth.user != null;
   }
 
   //Iniciar sesión (email + password)

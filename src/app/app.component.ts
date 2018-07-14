@@ -3,8 +3,8 @@ import { Platform, Nav, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { timer } from 'rxjs/observable/timer';
-//jQUERY
-import * as $ from 'jquery';
+//STORAGE
+import { Storage } from '@ionic/storage';
 //PAGES
 import { LoginPage, PerfilPage,
          ClienteInicioPage, ClienteViajePage, ClienteHistorialPage, ClienteEncuestasPage, ClienteEstadisticaPage, //-----------------------------CLIENTE
@@ -20,6 +20,7 @@ import { AuthServicioProvider } from '../providers/auth-servicio/auth-servicio';
 import { UsuarioServicioProvider } from '../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../providers/vehiculos/vehiculos';
 import { SonidosProvider } from '../providers/sonidos/sonidos';
+import { IdiomaProvider } from '../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../assets/data/idioma/es';
 
@@ -47,19 +48,24 @@ export class MyApp {
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
               public menu: MenuController,
+              public storage: Storage,
               public auth: AuthServicioProvider,
               public usuarioSrv: UsuarioServicioProvider,
               public vehiculoSrv: VehiculosProvider,
-              public _soundsServ:SonidosProvider) {
+              public _soundsServ:SonidosProvider,
+              public _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.inicializarApp();
 
   }
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((language)=>{
+        this.idioma = language;
+      })
   }
 
   inicializarApp(){
@@ -68,8 +74,9 @@ export class MyApp {
 
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.cargar_idioma();
       timer(3000).subscribe(()=> {
-        $('.splashScreen').addClass('animated fadeOutUp');
+        this.mostrarSplash = false;
         let sound = this._soundsServ.get_soundCar();
         this._soundsServ.reproducirSonido(sound);
       });
