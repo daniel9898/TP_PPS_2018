@@ -60,11 +60,17 @@ export class MyApp {
 
   }
 
+  ionViewWillEnter(){
+    console.log("Se cargo idioma al iniciar");
+    this.cargar_idioma();
+  }
+
   //CARGAR IDIOMA
   cargar_idioma(){
     this._idiomaSrv.getLanguageFromStorage()
       .then((language)=>{
         this.idioma = language;
+        this.refrescar_menu();
       })
   }
 
@@ -158,6 +164,39 @@ export class MyApp {
         this.rootPage = LoginPage;
       }
     );
+  }
+
+  refrescar_menu(){
+    this.pagesApp = [
+      //PAGINAS CLIENTE (7)
+      { title: this.idioma.pag_menu.opcion[1], component: ClienteInicioPage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[2], component: PerfilPage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[3], component: ClienteViajePage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[4], component: ClienteReservasPage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[5], component: ClienteHistorialPage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[6], component: ClienteEstadisticaPage, visibility: this.vista_cliente },
+      { title: this.idioma.pag_menu.opcion[7], component: ClienteEncuestasPage, visibility: this.vista_cliente },
+      //PAGINAS CHOFER (8)
+      { title: this.idioma.pag_menu.opcion[1], component: ChoferInicioPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[2], component: PerfilPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[3], component: ClienteViajePage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[4], component: ClienteReservasPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[5], component: ClienteHistorialPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[6], component: ChoferEstadisticaPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[7], component: ClienteEncuestasPage, visibility: this.vista_chofer },
+      { title: this.idioma.pag_menu.opcion[8], component: ChoferHistorialPage, visibility: this.vista_chofer },
+      //PAGINAS SUPERVISOR (10)
+      { title: this.idioma.pag_menu.opcion[1], component: SupervisorInicioPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[2], component: PerfilPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[3], component: ClienteViajePage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[4], component: ClienteReservasPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[5], component: ClienteHistorialPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[6], component: ClienteEstadisticaPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[7], component: ClienteEncuestasPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[9], component: SupervisorListaUsuariosPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[10], component: SupervisorListaVehiculosPage, visibility: this.vista_supervisor },
+      { title: this.idioma.pag_menu.opcion[11], component: SupervisorViajesReservasPage, visibility: this.vista_supervisor },
+    ];
   }
 
   openPage(page) {

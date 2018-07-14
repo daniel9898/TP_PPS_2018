@@ -1,10 +1,13 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { NavController, NavParams, MenuController } from 'ionic-angular';
+//PAGES
+import { MyApp } from '../../app/app.component';
 //STORAGE
 import { Storage } from '@ionic/storage';
 //LANGUAGE PACKAGE
 import { Idioma } from '../../assets/data/idioma/es';//-----ESPAÑOL
 import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
+import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
 //SERVICE
 import { GeocodingProvider } from '../../providers/geocoding/geocoding';
 import { SonidosProvider } from '../../providers/sonidos/sonidos';
@@ -82,7 +85,7 @@ export class ConfigPage implements AfterViewInit {
     }
     else{
       this.menu.enable(true);
-      this.menu.open();
+      this.navCtrl.setRoot(MyApp);
     }
 
   }
@@ -121,7 +124,7 @@ export class ConfigPage implements AfterViewInit {
                   this.flag_pt.nativeElement.className = 'flag';
                   break;
 
-      case "de":  this.language = Idioma_en.en;
+      case "de":  this.language = Idioma_de.de;
                   this.flag_es.nativeElement.className = 'flag';
                   this.flag_en.nativeElement.className = 'flag';
                   this.flag_ru.nativeElement.className = 'flag';

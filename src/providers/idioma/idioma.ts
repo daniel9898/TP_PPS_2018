@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 //IDIOMA
 import { Idioma } from '../../assets/data/idioma/es';//-----ESPAÑOL
 import { Idioma_en } from '../../assets/data/idioma/en';//--INGLÉS
+import { Idioma_de} from '../../assets/data/idioma/de';//---ALEMÁN
 
 @Injectable()
 export class IdiomaProvider {
@@ -61,7 +62,7 @@ export class IdiomaProvider {
       case "en":  this.idioma = Idioma_en.en;
                   break;
 
-      case "de":  this.idioma = Idioma_en.en;
+      case "de":  this.idioma = Idioma_de.de;
                   break;
 
       case "ru":  this.idioma = Idioma_en.en;

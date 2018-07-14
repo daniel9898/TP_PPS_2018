@@ -58,10 +58,6 @@ export class ClienteReservaPage {
 
     //IDIOMA
     this.idioma = Idioma.es;
-    this.fecha = dateTimeSrv.getDate();
-    console.log("Fecha actual: " + this.fecha);
-    this.hora = dateTimeSrv.getHour();
-    console.log("Hora actual: " + this.hora);
     this.inicializarReserva();
   }
 
@@ -89,6 +85,10 @@ export class ClienteReservaPage {
           this.daysNames = this.dateTimeSrv.getWeekDays();
           this.daysShortNames = this.dateTimeSrv.getWeekDaysShort();
           this.monthShortNames = this.dateTimeSrv.getMonthNamesShort();
+          this.fecha = this.dateTimeSrv.getDate();
+          console.log("Fecha actual: " + this.fecha);
+          this.hora = this.dateTimeSrv.getHour();
+          console.log("Hora actual: " + this.hora);
         })
   }
 

@@ -13,6 +13,7 @@ import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usu
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //jQUERY
 import * as $ from 'jquery';
 //IDIOMA
@@ -49,11 +50,12 @@ export class LoginPage {
               private _usuarioServicio:UsuarioServicioProvider,
               private _authServicio:AuthServicioProvider,
               private _authAdmin:AuthAdministradorProvider,
-              private _utilitiesServ: UtilidadesProvider) {
+              private _utilitiesServ: UtilidadesProvider,
+              private _idiomaSrv: IdiomaProvider) {
 
         console.log("¿Sesión activa?: " + this._authServicio.authenticated);
         //IDIOMA
-        this.cargar_idioma();
+        this.idioma = Idioma.es;
 
         this.userNameTxt = "";
         this.userPassTxt = null;
@@ -70,7 +72,10 @@ export class LoginPage {
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
-    this.cargar_idioma();
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   //CARGAR IDIOMA

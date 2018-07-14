@@ -11,6 +11,7 @@ import { ConfigPage } from '../../config/config';
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { AuthAdministradorProvider } from '../../../providers/auth-administrador/auth-administrador';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -37,10 +38,11 @@ export class RegistroPage {
               private storage  : Storage,
               public _usuarioServicio:UsuarioServicioProvider,
               public _authServicio:AuthAdministradorProvider,
-              public _utilitiesServ: UtilidadesProvider) {
+              public _utilitiesServ: UtilidadesProvider,
+              public _idiomaSrv: IdiomaProvider) {
 
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     //FORMULARIO
     this.registroForm = this.fbRegistration.group({
 
@@ -58,20 +60,9 @@ export class RegistroPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.mostrarSpinner = true;
-    this.storage.get('language')
-      .then((lang)=>{
-        if(lang !== null){
-          console.log("LANGUAGE: " + lang);
-          this.idioma = lang;
-        }
-        else{
-            // BY DEFAULT
-            this.idioma = Idioma.es;
-        }
-        this.mostrarSpinner = false;
-      })
-      .catch((error)=>{ console.log("Error al leer storage: " + error);
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
       })
   }
   //PAGINA CARGADA

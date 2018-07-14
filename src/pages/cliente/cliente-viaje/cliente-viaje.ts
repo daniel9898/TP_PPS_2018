@@ -97,27 +97,32 @@ export class ClienteViajePage {
   }
 
   ionViewDidLoad() {
-    this.generar_fecha();
-    let hora = this.hora.split(':');
-    let horaActual = parseInt(hora[0]);
-    //VALIDAR = NUEVA VIAJE vs VIAJE PROCESADO
-    this.traer_usuario(this._authService.get_userUID(), "cliente")
-      .then(()=>{
-        this.viajeIniciado = false;
-        this._viajeService.traer_un_viaje_actual(this.usuario.id_usuario, this.fecha, horaActual)
-          .then((data:any)=>{
-            if(data){
-              console.log("DATA: " + JSON.stringify(data));
-              this.viaje = data;
-              this.validar_espera();
-            }
-            else{
-              console.log("SIN VIAJE");
-              this.generar_viaje_default();
-              this.mostrarSpinner = false;
-            }
+    this.mostrarSpinner = true;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+        this.generar_fecha();
+        let hora = this.hora.split(':');
+        let horaActual = parseInt(hora[0]);
+        //VALIDAR = NUEVA VIAJE vs VIAJE PROCESADO
+        this.traer_usuario(this._authService.get_userUID(), "cliente")
+          .then(()=>{
+            this.viajeIniciado = false;
+            this._viajeService.traer_un_viaje_actual(this.usuario.id_usuario, this.fecha, horaActual)
+              .then((data:any)=>{
+                if(data){
+                  console.log("DATA: " + JSON.stringify(data));
+                  this.viaje = data;
+                  this.validar_espera();
+                }
+                else{
+                  console.log("SIN VIAJE");
+                  this.generar_viaje_default();
+                  this.mostrarSpinner = false;
+                }
+              })
           })
-      })
+        })
 
     //callBack para mapa
     this.myCallbackFunction = (datos)=> {

@@ -5,7 +5,7 @@ export const Idioma = {
       code: "es",
       name: "Español",
       moneda_simbolo: "$",
-      unidad_medida: "KM",
+      unidad_medida: "Km",
       //PAGINAS COMUNES*******************************************************//
       pag_menu:{
         titulo: "Menú",
@@ -20,7 +20,7 @@ export const Idioma = {
           7:  "Encuestas pendientes",
           8:  "Ganancias",
           9:  "Lista usuarios",
-          10: "Lista vehiculos",
+          10: "Lista vehículos",
           11: "Viajes/Reservas"
         }
       },
