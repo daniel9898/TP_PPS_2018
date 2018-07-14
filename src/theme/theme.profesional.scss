@@ -92,7 +92,7 @@ background-position: center;
     border-radius: 2px;
     width: calc(100% - 20px);
     font-size: $buttonFontSize;
-    background: $blanco;
+    background: rgba(255, 255, 255, 0.664);
     -webkit-box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
     box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
   }
@@ -218,14 +218,190 @@ background-position: center;
     //   background-image: url('../assets/naif/background02.jpg');
     }
   }
+
+    /*
+    Configuración de iconos
+  */
+  .fa-icons-general {
+    display: inline-block;
+    font: normal normal normal 30px/1 alternative-icons, FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+  }
+  .ion-md-arrow-back::before {
+    @extend .fa-icons-general !optional;
+    content: "\e954";
+    color: white;
+  }
+  .ion-md-add::before {
+    @extend .fa-icons-general !optional;
+    content: "\e923";
+  }
+  .ion-md-home::before {
+    @extend .fa-icons-general !optional;
+    content: "\f015";
+  }
+  .ion-md-search::before {
+    @extend .fa-icons-general !optional;
+    content: "\f002";
+  }
+  .ion-md-cog::before {
+    @extend .fa-icons-general !optional;
+    content: "\f085";
+  }
+  .ion-md-qr-scanner::before {
+    @extend .fa-icons-general !optional;
+    content: "\e921";
+    font-size: 5.0rem;
+  }
+  .ion-md-close::before {
+    @extend .fa-icons-general !optional;
+    content: "\e944";
+    // color: $rojoArbol;
+  }
+  .ion-md-menu::before {
+    @extend .fa-icons-general !optional;
+    content: "\e92e";
+    // color: $rojoArbol;
+  }
+  .ion-md-sync::before {
+    @extend .fa-icons-general !optional;
+    content: "\e940";
+    // color: $verdeClaro;
+  }
+  .ion-md-camera::before {
+    @extend .fa-icons-general !optional;
+    content: "\e94d";
+    // color: $rojoArbol;
+  }
+  .ion-ios-folder-open::before {
+    @extend .fa-icons-general !optional;
+    content: "\e913";
+    // color: $rojoArbol;
+  }
+  .ion-md-radio-button-on::before {
+    //f261
+    @extend .fa-icons-general !optional;
+    content: "\f261";
+    // color: $azulOscuro;
+  }
+  .ion-ios-arrow-forward::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a4";
+    // color: $rojoArbol;
+  }
+  .ion-md-arrow-round-back::before {
+    @extend .fa-icons-general !optional;
+    content: "\e955";
+    // color: $rojoArbol;
+  }
+  .ion-md-volume-off::before {
+    @extend .fa-icons-general !optional;
+    content: "\e929";
+    // color: $rojoArbol;
+  }
+  .ion-md-volume-up::before {
+    @extend .fa-icons-general !optional;
+    content: "\e92c";
+    // color: $rojoArbol;
+  }
+  .ion-md-log-out::before {
+    @extend .fa-icons-general !optional;
+    content: "\e932"; //f52b
+    // color: $rojoArbol;
+  }
+  .ion-md-filing::before {
+    @extend .fa-icons-general !optional;
+    content: "\e93a";
+  }
+  .ion-md-bookmarks::before {
+    @extend .fa-icons-general !optional;
+    content: "\e950";
+  }
+  .ion-md-car::before {
+    @extend .fa-icons-general !optional;
+    content: "\f1ba";
+  }
+  .ion-ios-person-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\e903";
+  }
+  .ion-ios-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\e904";
+  }
+  .ion-ios-contacts::before {
+    //f0c0
+    @extend .fa-icons-general !optional;
+    content: "\e905";
+  }
+  .ion-ios-people::before {
+    @extend .fa-icons-general !optional;
+    content: "\e906";
+  }
+  .ion-md-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\f007";
+  }
+  .ion-md-swap::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0c7";
+  }
+  .ion-md-close-circle::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a5";
+  }
+  .ion-ios-locate-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\f05b";
+    // color: $rojoArbol;
+  }
+  .ion-ios-list-box-outline::before{
+    @extend .fa-icons-general !optional;
+    content: "\f022";
+  }
+  .ion-md-sad::before{
+    @extend .fa-icons-general !optional;
+    content: "\e916";
+  }
+  .ion-md-happy::before{
+    @extend .fa-icons-general !optional;
+    content: "\e936";
+  }
+  .ion-ios-person::before{
+    @extend .fa-icons-general !optional;
+    content: "\f2bd";
+  }
   /*
     Fuentes generales de la aplicación
   */
+  $font-family-exo: Exo-Regular;
+  /*
+      Fuentes generales de la aplicación
+    */
   ion-app.md {
-    // font-family: DenkOne-Regular, sans-serif !important;
-    font-size: 2rem;
+    font-family: $font-family-exo, sans-serif !important;
   }
   * {
-    // font-family: DenkOne-Regular, sans-serif;
+    font-family: $font-family-exo, sans-serif;
+  }
+  .fab{
+    border-radius: 0px;
+    -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+
+  .action-sheet-group{
+    background-color: $peruColor !important;
+    background: $peruColor !important;
+  }
+  .action-sheet-title{
+    color:$indianRed !important;
+  }
+  .action-sheet-button{
+    color: $indianRed !important;
   }
 }

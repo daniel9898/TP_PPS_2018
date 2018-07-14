@@ -10,7 +10,6 @@ $amarilloSol:#EDB319;
 $azulBanderaOscuro:#1763A6;
 $celesteClaro:#8FBADC;
 $celeste:#4AA2D9;
-
 .argentina-theme {
   .toolbar-title {
     font-size: 4.0rem;
@@ -108,4 +107,191 @@ $celeste:#4AA2D9;
     -webkit-box-shadow: inset 0 -1px 0 0 $azulBanderaOscuro;
     box-shadow: inset 0 -1px 0 0 $azulBanderaOscuro;
   }
+  /*
+    Configuración de iconos
+  */
+  .fa-icons-general {
+    display: inline-block;
+    font: normal normal normal 30px/1 alternative-icons, FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+  }
+  .ion-md-arrow-back::before {
+    @extend .fa-icons-general !optional;
+    content: "\e954";
+    color: white;
+  }
+  .ion-md-add::before {
+    @extend .fa-icons-general !optional;
+    content: "\e923";
+  }
+  .ion-md-home::before {
+    @extend .fa-icons-general !optional;
+    content: "\f015";
+  }
+  .ion-md-search::before {
+    @extend .fa-icons-general !optional;
+    content: "\f002";
+  }
+  .ion-md-cog::before {
+    @extend .fa-icons-general !optional;
+    content: "\f085";
+  }
+  .ion-md-qr-scanner::before {
+    @extend .fa-icons-general !optional;
+    content: "\e921";
+    font-size: 5.0rem;
+  }
+  .ion-md-close::before {
+    @extend .fa-icons-general !optional;
+    content: "\e944";
+    // color: $rojoArbol;
+  }
+  .ion-md-menu::before {
+    @extend .fa-icons-general !optional;
+    content: "\e92e";
+    // color: $rojoArbol;
+  }
+  .ion-md-sync::before {
+    @extend .fa-icons-general !optional;
+    content: "\e940";
+    // color: $verdeClaro;
+  }
+  .ion-md-camera::before {
+    @extend .fa-icons-general !optional;
+    content: "\e94d";
+    // color: $rojoArbol;
+  }
+  .ion-ios-folder-open::before {
+    @extend .fa-icons-general !optional;
+    content: "\e913";
+    // color: $rojoArbol;
+  }
+  .ion-md-radio-button-on::before {
+    //f261
+    @extend .fa-icons-general !optional;
+    content: "\f261";
+    // color: $azulOscuro;
+  }
+  .ion-ios-arrow-forward::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a4";
+    // color: $rojoArbol;
+  }
+  .ion-md-arrow-round-back::before {
+    @extend .fa-icons-general !optional;
+    content: "\e955";
+    // color: $rojoArbol;
+  }
+  .ion-md-volume-off::before {
+    @extend .fa-icons-general !optional;
+    content: "\e929";
+    // color: $rojoArbol;
+  }
+  .ion-md-volume-up::before {
+    @extend .fa-icons-general !optional;
+    content: "\e92c";
+    // color: $rojoArbol;
+  }
+  .ion-md-log-out::before {
+    @extend .fa-icons-general !optional;
+    content: "\e932"; //f52b
+    // color: $rojoArbol;
+  }
+  .ion-md-filing::before {
+    @extend .fa-icons-general !optional;
+    content: "\e93a";
+  }
+  .ion-md-bookmarks::before {
+    @extend .fa-icons-general !optional;
+    content: "\e950";
+  }
+  .ion-md-car::before {
+    @extend .fa-icons-general !optional;
+    content: "\f1ba";
+  }
+  .ion-ios-person-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\e903";
+  }
+  .ion-ios-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\e904";
+  }
+  .ion-ios-contacts::before {
+    //f0c0
+    @extend .fa-icons-general !optional;
+    content: "\e905";
+  }
+  .ion-ios-people::before {
+    @extend .fa-icons-general !optional;
+    content: "\e906";
+  }
+  .ion-md-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\f007";
+  }
+  .ion-md-swap::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0c7";
+  }
+  .ion-md-close-circle::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a5";
+  }
+  .ion-ios-locate-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\f05b";
+    // color: $rojoArbol;
+  }
+  .ion-ios-list-box-outline::before{
+    @extend .fa-icons-general !optional;
+    content: "\f022";
+  }
+  .ion-md-sad::before{
+    @extend .fa-icons-general !optional;
+    content: "\e916";
+  }
+  .ion-md-happy::before{
+    @extend .fa-icons-general !optional;
+    content: "\e936";
+  }
+  .ion-ios-person::before{
+    @extend .fa-icons-general !optional;
+    content: "\f2bd";
+  }
+
+  $font-family-oleo: Oleo-Regular;
+  /*
+        Fuentes generales de la aplicación
+      */
+  ion-app.md {
+    font-family: $font-family-oleo, sans-serif !important;
+  }
+  * {
+    font-family: $font-family-oleo, sans-serif;
+  }
+  .fab {
+    border-radius: 0px;
+    -webkit-clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  }
+  .button-md{
+      -webkit-clip-path: polygon(9% 16%, 0 0, 18% 7%, 79% 7%, 100% 0, 92% 16%, 93% 84%, 100% 100%, 87% 94%, 15% 94%, 0 100%, 6% 89%);
+  clip-path: polygon(9% 16%, 0 0, 18% 7%, 79% 7%, 100% 0, 92% 16%, 93% 84%, 100% 100%, 87% 94%, 15% 94%, 0 100%, 6% 89%);
+  }
+  .action-sheet-group{
+    background-color: $celesteClaro !important;
+    background: $celesteClaro !important;
+  }
+  .action-sheet-title{
+    color:$azulBanderaOscuro !important;
+  }
+  .action-sheet-button{
+    color: $blancoBander !important;
+  }
+
 }

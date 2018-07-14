@@ -14,10 +14,13 @@ $app-direction: ltr;
 
 @import "ionic.globals";
 
+@import "alternative.icons";
 @import "theme.dark";
 @import "theme.argentina";
 @import "theme.naif";
 @import "theme.profesional";
+@import "theme.default";
+@import "theme.custom";
 
 // Shared Variables
 // --------------------------------------------------
@@ -88,7 +91,7 @@ $toast-md-background: green;
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/ionicons/
 
-@import "ionic.ionicons";
+@import "ionicons";
 
 
 // Fonts

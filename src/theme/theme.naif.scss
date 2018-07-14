@@ -70,7 +70,7 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
     border-radius: 2px;
     width: calc(100% - 20px);
     font-size: $buttonFontSize;
-    background: $blanco;
+    background: rgba(255, 255, 255, 0.664);
     -webkit-box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
     box-shadow: 0 2px 2px 0 rgba(23, 99, 23, 0.14), 0 3px 1px -2px rgba(23, 99, 23, 0.2), 0 1px 5px 0 rgba(23, 99, 23, 0.12);
   }
@@ -99,6 +99,7 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
   }
   .toggle-md.toggle-checked .toggle-inner {
     background-color: $rojoArbol;
+    @extend .fa-icons-general !optional;
     content: "\f185"; // content: 
   }
   .select-md .select-icon .select-icon-inner {
@@ -185,6 +186,136 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
     @extend .fa-icons-general !optional;
     content: "\f085";
   }
+  .ion-md-qr-scanner::before {
+    @extend .fa-icons-general !optional;
+    content: "\f029"
+  }
+  .ion-md-close::before {
+    @extend .fa-icons-general !optional;
+    content: "\f057";
+    color: $rojoArbol;
+  }
+  .ion-md-menu::before {
+    @extend .fa-icons-general !optional;
+    content: "\f137";
+    color: $rojoArbol;
+  }
+  .ion-md-sync::before {
+    @extend .fa-icons-general !optional;
+    content: "\f044";
+    color: $verdeClaro;
+  }
+  .ion-md-camera::before {
+    @extend .fa-icons-general !optional;
+    content: "\f030";
+    color: $rojoArbol;
+  }
+  .ion-ios-folder-open::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0c7";
+    color: $rojoArbol;
+  }
+  .ion-md-radio-button-on::before {
+    //f261
+    @extend .fa-icons-general !optional;
+    content: "\f261";
+    color: $azulOscuro;
+  }
+  .ion-ios-arrow-forward::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a4";
+    color: $rojoArbol;
+  }
+  .ion-md-arrow-round-back::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a5";
+    color: $rojoArbol;
+  }
+  .ion-md-volume-off::before {
+    @extend .fa-icons-general !optional;
+    content: "\f026";
+    color: $rojoArbol;
+  }
+  .ion-md-volume-up::before {
+    @extend .fa-icons-general !optional;
+    content: "\f028";
+    color: $rojoArbol;
+  }
+  .ion-md-log-out::before {
+    @extend .fa-icons-general !optional;
+    content: "\f057"; //f52b
+    color: $rojoArbol;
+  }
+  .ion-md-filing::before {
+    @extend .fa-icons-general !optional;
+    content: "\f16c";
+  }
+  .ion-md-bookmarks::before {
+    @extend .fa-icons-general !optional;
+    content: "\f02d";
+  }
+  .ion-md-car::before {
+    @extend .fa-icons-general !optional;
+    content: "\f1ba";
+  }
+  .ion-ios-person-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\f2bd";
+  }
+  .ion-ios-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\f007";
+  }
+  .ion-ios-contacts::before {
+    //f0c0
+    @extend .fa-icons-general !optional;
+    content: "\f0c0";
+  }
+  .ion-ios-people::before {
+    @extend .fa-icons-general !optional;
+    content: "\f281";
+  }
+  .ion-md-contact::before {
+    @extend .fa-icons-general !optional;
+    content: "\f007";
+  }
+  .ion-md-swap::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0c7";
+  }
+  .ion-md-close-circle::before {
+    @extend .fa-icons-general !optional;
+    content: "\f0a5";
+  }
+  .ion-ios-locate-outline::before {
+    @extend .fa-icons-general !optional;
+    content: "\f05b";
+    color: $rojoArbol;
+  }
+  .ion-ios-list-box-outline::before{
+    @extend .fa-icons-general !optional;
+    content: "\f022";
+  }
+  .ion-md-sad::before{
+    @extend .fa-icons-general !optional;
+    content: "\f119";
+  }
+  .ion-md-happy::before{
+    @extend .fa-icons-general !optional;
+    content: "\f118";
+  }
+  .ion-ios-person::before{
+    @extend .fa-icons-general !optional;
+    content: "\f2bd";
+  }
+  .buttonSearch {
+    border: 0px;
+  }
+  .fab {
+    border-radius: 0px;
+    -webkit-clip-path: polygon(0% 15%, 23% 23%, 15% 0%, 85% 0%, 72% 24%, 100% 15%, 100% 85%, 74% 76%, 85% 100%, 15% 100%, 21% 78%, 0% 85%);
+    clip-path: polygon(0% 15%, 23% 23%, 15% 0%, 85% 0%, 72% 24%, 100% 15%, 100% 85%, 74% 76%, 85% 100%, 15% 100%, 21% 78%, 0% 85%);
+  }
   /*
     Fondos de las paginas
   */
@@ -204,4 +335,16 @@ $barBackGroundColor:hsla(39, 98%, 51%, 0.89);
   * {
     font-family: DenkOne-Regular, sans-serif;
   }
+  .action-sheet-group{
+    background-color: hsla(39, 63%, 52%, 0.904) !important;
+    background: hsla(39, 63%, 52%, 0.904) !important;
+  }
+  .action-sheet-title{
+    color:$azulOscuro !important;
+  }
+  .action-sheet-button{
+    color:$rojoArbol !important;
+  }
+
 }
+
