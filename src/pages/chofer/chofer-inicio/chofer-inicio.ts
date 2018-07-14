@@ -17,7 +17,8 @@ import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio'
   templateUrl: 'chofer-inicio.html',
 })
 export class ChoferInicioPage {
-
+  //SPINNER
+mostrarSpinner:boolean = false;
   usuarioSesion: any;
   asignado: boolean;
   vehiculos: any;
@@ -28,7 +29,7 @@ export class ChoferInicioPage {
   vehiculosSubs : Subscription;
   usersSubs : Subscription;
   viajesSubs : Subscription;
-
+  seBuscanViajes:boolean = false;
   constructor(public navCtrl: NavController,
     public utils: UtilidadesProvider,
     public vehiculosProv: VehiculosProvider,
@@ -43,42 +44,62 @@ export class ChoferInicioPage {
       lista => this.vehiculos = lista,
       error => this.utils.showErrorToast('Atención ! ' + error.json())
     )*/
-
+    this.mostrarSpinner = true;
     this.usersSubs = this.userProv.getUsers().subscribe(
       lista => {
-        this.chofer = lista.filter(v => v.id_usuario == this.usuarioSesion.uid);
-        console.log('this.chofer ',this.chofer);
-
-        if(this.chofer[0].id_viaje != '' && this.chofer[0].id_viaje != null){
-
-            this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
-                lista => {
-                    this.viaje = lista.filter(v => v.id_viaje == this.chofer[0].id_viaje)[0];
-                    console.log('this.viaje ',this.viaje);
-
-                      this.viaje.id_vehiculo = this.chofer[0].id_vehiculo;
-                      this.viajesProv.modificar_viaje(this.viaje)
-                      .then(v =>{
-
-                          this.utils.showToast('Tiene un viaje Asignado !!');
-                          this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
-
-                      } )
-                      .catch(error => console.log('error ',error))
-
-                    this.utils.showToast('Tiene un viaje Asignado !!');
-                    this.navCtrl.push(ChoferViajePage,{viaje :this.viaje});
-      
-                },
-                error => this.utils.showErrorToast('Atención ! ' + error.json())
-            )
-        }
-      },
-      error => this.utils.showErrorToast('Atención ! ' + error.json())
-    )
-
-
+  
+   //1) OBTENER CHOFER
+          this.chofer = lista.filter(v => v.id_usuario == this.usuarioSesion.uid);
+          console.log('this.chofer ',this.chofer);
+  //2) ¿HAY UN VIAJE ASIGNADO? (SUSCRIBER - a la espera de cambios)
+              this.viajesSubs = this.viajesProv.getAllTrips().subscribe(
+                  lista => {
+  //3) OBTENER VIAJE
+                  this.seBuscanViajes = true;
+                  if(this.chofer[0].id_viaje != '' && this.chofer[0].id_viaje != null && this.chofer[0].id_vehiculo != '' && this.chofer[0].id_vehiculo != null){
+  
+                        this.viaje = lista.filter(v => v.id_viaje == this.chofer[0].id_viaje)[0];
+                        console.log('this.viaje ',this.viaje);
+    //4) VALIDAR ESTADO DEL VIAJE
+                        if(this.viaje.estado != 'pendiente' && this.viaje.estado != 'cancelado' && this.viaje.estado != 'cumplido'){
+                            this.viaje.id_vehiculo = this.chofer[0].id_vehiculo;
+                            this.viajesProv.modificar_viaje(this.viaje)
+                            .then(v =>{
+  
+                                this.utils.showToast('Tiene un viaje asignado');
+                                this.mostrarSpinner = false;
+                                this.viajesSubs.unsubscribe();
+                                this.navCtrl.push(ChoferViajePage,{viaje :this.viaje, chofer: this.chofer[0]});
+                            })
+                            .catch(error => console.log('error ',error))
+                        }
+                        //Chofer tiene vehiculo asignado + viaje asignado PERO es un viaje pasado
+                        else{
+                            this.mostrarSpinner = false;
+                            this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.chofer[0].id_vehiculo, chofer: this.chofer[0].id_usuario, desdeInicio: true });
+                        }
+                    }
+    //5) SIN VIAJE ASIGNADO: validar entonces sólo si tiene auto asignado.
+                    else{
+                      //CHOFER no tiene ningún viaje asignado pero sí vehiculo
+                      if(this.chofer[0].id_vehiculo != null && this.chofer[0].id_vehiculo != ''){
+                        this.mostrarSpinner = false;
+                        this.navCtrl.push(ChoferEncuestaPage, { vehiculo: this.chofer[0].id_vehiculo, chofer: this.chofer[0].id_usuario, desdeInicio: true });
+                      }
+                      //CHOFER no tiene ningún viaje asignado ni tampoco vehículo
+                      else
+                        this.mostrarSpinner = false;
+                    }
+                  },
+                  error => this.utils.showErrorToast('Atención: ' + error.json())
+              )
+        },
+        error => this.utils.showErrorToast('Atención: ' + error.json())
+      )
   }
+
+
+  
 
   async comenzarActividad() {
 
