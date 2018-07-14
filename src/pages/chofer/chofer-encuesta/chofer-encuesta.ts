@@ -5,6 +5,7 @@ import { Encuesta_chofer } from '../../../classes/encuesta_chofer';
 //SERVICIO
 import { ChoferEncuestaProvider } from '../../../providers/chofer-encuesta/chofer-encuesta';
 import { UtilidadesProvider } from '../../../providers/utilidades/utilidades';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //CAMARA
 import { Camera } from '@ionic-native/camera';
 import { cameraConfig } from '../../../config/camera.config';
@@ -41,9 +42,10 @@ export class ChoferEncuestaPage {
               public toastCtrl: ToastController,
               private camera: Camera,
               private _encuestaService:ChoferEncuestaProvider,
-              private _utilitiesServ:UtilidadesProvider) {
+              private _utilitiesServ:UtilidadesProvider,
+              private _idiomaSrv: IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     this.mostrarSpinner = true;
     if(this.navParams.get('chofer') != undefined){ this.id_chofer = this.navParams.get('chofer')};
     if(this.navParams.get('vehiculo') != undefined){ this.id_vehiculo = this.navParams.get('vehiculo')};
@@ -57,7 +59,10 @@ export class ChoferEncuestaPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+  this._idiomaSrv.getLanguageFromStorage()
+    .then((idioma)=>{
+      this.idioma = idioma;
+    })
   }
 
   ionViewDidLoad() {
@@ -76,10 +81,14 @@ export class ChoferEncuestaPage {
   //TRAER ENCUESTA DEL DIA
   traer_encuesta_del_dia(){
     let promesa = new Promise((resolve, reject)=>{
+      this.encuestasDelChofer = [];
       this._encuestaService.traer_encuestas(this.fecha, "fecha")
         .then((encuestas:any)=>{
-
-          this.encuestasDelChofer = encuestas;
+          for(let enc of encuestas){
+            if(enc.id_chofer == this.id_chofer){
+              this.encuestasDelChofer.push(enc);
+            }
+          }
           console.log("Encuestas!: " + JSON.stringify(this.encuestasDelChofer[0]));
           resolve();
         })
@@ -177,12 +186,12 @@ export class ChoferEncuestaPage {
     if(this.hay_diferencias){
 
       //SI YA EXISTE UNA ENCUESTA DE CHOFER EN EL DIA
-      if(this.encuestasDelChofer != []){
+      if(this.encuestasDelChofer != [] && this.encuestasDelChofer[0] !== undefined){
       this.guardar_nuevaFoto().then(()=>{
 
           this._encuestaService.modificar_encuesta(this.encuesta).then(()=>{
 
-               console.log("Cambios guardados!");
+               console.log("Cambios guardados encuesta existente!");
              this.mostrarSpinner = false;
              this._utilitiesServ.showToast(this.idioma.pag_encuesta_chofer.mensaje);
              if(this.desdeInicio)
@@ -193,9 +202,8 @@ export class ChoferEncuestaPage {
           }).catch((error)=>{ console.log("Error al actualizar datos de encuesta: " + error); })
         }).catch(e => console.log("Error al guardar foto en encuesta: " + e))
       }
-
       //SI ES LA PRIMER ENCUESTA DEL DIA
-      if(this.encuestasDelChofer == []){
+      else{
           this._encuestaService.alta_encuesta(this.encuesta).then((key:any)=>{
 
           this.encuesta.id_encuesta = key;
@@ -203,7 +211,7 @@ export class ChoferEncuestaPage {
 
               this._encuestaService.modificar_encuesta(this.encuesta).then(()=>{
 
-                   console.log("Cambios guardados!");
+                   console.log("Cambios guardados primera encuesta!");
                  this.mostrarSpinner = false;
                  this._utilitiesServ.showToast(this.idioma.pag_encuesta_chofer.mensaje);
                  if(this.desdeInicio)

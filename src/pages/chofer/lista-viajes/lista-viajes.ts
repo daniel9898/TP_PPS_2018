@@ -8,6 +8,7 @@ import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-serv
 import { UsuarioServicioProvider } from '../../../providers/usuario-servicio/usuario-servicio';
 import { VehiculosProvider } from '../../../providers/vehiculos/vehiculos';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //OTROS
 import * as firebase from 'firebase/app';
 import { Subscription } from 'rxjs/Subscription';
@@ -46,9 +47,10 @@ export class ListaViajesPage {
               public vehiculoSrv: VehiculosProvider,
               public menu: MenuController,
               public utils: UtilidadesProvider,
-              public aut : AuthServicioProvider) {
+              public aut : AuthServicioProvider,
+              public _idiomaSrv: IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     this.mostrarSpinner = true;
     this.menu.enable(true);
     this.usuarioSesion = firebase.auth().currentUser;
@@ -58,13 +60,16 @@ export class ListaViajesPage {
   ionViewWillEnter(){
     console.log("Se está ingresando en lista viajes");
     this.cargar_idioma();
-    this.inicializar();
-    this.generar_fecha();
-    this.traerViajes();
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+  this._idiomaSrv.getLanguageFromStorage()
+    .then((idioma)=>{
+      this.idioma = idioma;
+      this.inicializar();
+      this.generar_fecha();
+      this.traerViajes();
+    })
   }
 
   //PRIMERA VALIDACION: chofer + viaje actual

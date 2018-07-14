@@ -37,7 +37,7 @@ export class IdiomaProvider {
         this.storage.get('language')
         .then((lang)=>{
           if(lang !== null){
-            console.log("LANGUAGE GET: " + JSON.stringify(lang));
+            //console.log("LANGUAGE GET: " + JSON.stringify(lang));
             this.idioma = lang;
             resolve(this.idioma);
           }

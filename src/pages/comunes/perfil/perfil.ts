@@ -71,7 +71,6 @@ export class PerfilPage {
 
   //CARGAR IDIOMA CADA VEZ QUE SE INGRESA
   ionViewWillEnter(){
-    //this.idioma = Idioma.es;
     this.cargar_idioma();
   }
 

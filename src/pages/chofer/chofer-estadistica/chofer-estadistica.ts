@@ -7,6 +7,7 @@ import { Encuesta_cliente } from '../../../classes/encuesta_cliente';
 import { AuthServicioProvider } from '../../../providers/auth-servicio/auth-servicio';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { ClienteEncuestaServicio } from '../../../providers/cliente-encuesta-servicio/cliente-encuesta-servicio';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -31,9 +32,10 @@ export class ChoferEstadisticaPage {
               public navParams: NavParams,
               private _authService:AuthServicioProvider,
               private _viajeService:ViajeServicio,
-              private _encuestaService:ClienteEncuestaServicio) {
+              private _encuestaService:ClienteEncuestaServicio,
+              private _idiomaSrv: IdiomaProvider) {
         //IDIOMA
-        this.cargar_idioma();
+        this.idioma = Idioma.es;
         this.mostrarSpinner = true;
   }
 
@@ -43,7 +45,10 @@ export class ChoferEstadisticaPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+      })
   }
 
   ionViewDidLoad() {

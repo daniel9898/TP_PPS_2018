@@ -10,6 +10,7 @@ import { vehiculo } from '../../../classes/vehiculo.model';
 import { Subscription } from 'rxjs/Subscription';
 import { ViajeServicio } from '../../../providers/viaje-servicio/viaje-servicio';
 import { QrServicioProvider } from '../../../providers/qr-servicio/qr-servicio';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
 
@@ -43,9 +44,10 @@ export class ChoferInicioPage {
     public userProv: UsuarioServicioProvider,
     public menu: MenuController,
     public viajesProv: ViajeServicio,
-    private _qrScannerSrv: QrServicioProvider) {
+    private _qrScannerSrv: QrServicioProvider,
+    private _idiomaSrv: IdiomaProvider) {
     //IDIOMA
-    this.cargar_idioma();
+    this.idioma = Idioma.es;
     this.mostrarSpinner = true;
     this.usuarioSesion = firebase.auth().currentUser;
   }
@@ -55,10 +57,14 @@ export class ChoferInicioPage {
   }
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+    this._idiomaSrv.getLanguageFromStorage()
+      .then((idioma)=>{
+        this.idioma = idioma;
+        this.inicializar();
+      })
   }
   ionViewDidLoad(){
-    this.inicializar();
+
   }
 
   //PRIMERA VALIDACION: chofer + viaje actual + auto asignado

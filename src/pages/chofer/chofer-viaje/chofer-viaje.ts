@@ -10,6 +10,7 @@ import { ModalPage } from '../modal/modal';
 import { Subscription } from 'rxjs/Subscription';
 //IDIOMA
 import { Idioma } from '../../../assets/data/idioma/es';
+import { IdiomaProvider } from '../../../providers/idioma/idioma';
 
 @Component({
   selector: 'page-chofer-viaje',
@@ -31,22 +32,26 @@ export class ChoferViajePage {
     public navCtrl: NavController,
     public userProv: UsuarioServicioProvider,
     public viajesProv: ViajeServicio,
-    public utils: UtilidadesProvider) {
+    public utils: UtilidadesProvider,
+    public _idiomaSrv: IdiomaProvider) {
       //IDIOMA
-      this.cargar_idioma();
+      this.idioma = Idioma.es;
       this.chofer = this.navParams.get('chofer');
       this.viaje = this.navParams.get('viaje');
   }
 
   ionViewWillEnter() {
     this.cargar_idioma();
-    this.inicializar();
-    this.traerCliente();
   }
 
   //CARGAR IDIOMA
   cargar_idioma(){
-    this.idioma = Idioma.es;
+  this._idiomaSrv.getLanguageFromStorage()
+    .then((idioma)=>{
+      this.idioma = idioma;
+      this.inicializar();
+      this.traerCliente();
+    })
   }
 
   inicializar(){
