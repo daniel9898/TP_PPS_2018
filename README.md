@@ -2,6 +2,22 @@
 
 > ¡Atención!:  El sistema va a sufrir cambios de requerimientos durante el desarrollo del mismo, Verificar periódicamente el repositorio.
 
+## Objetivos fecha final
+
+* Tema Profecional
+* Tema Argentina
+* Tema Naif
+* Tema Custom (configurable)
+* Cambiar entre temas los siguientes ítems:
+* Formas de botones
+* Posición de los botones
+* Tipo de letra y tamaño
+* Paleta de colores
+* Imágenes de botones y cabeceras
+* Imágenes de fondo
+* Tipos de iconos
+* Sonidos
+
 rama lucas-temas-interfaces
 
 ## Para el sábado 22/06/2018
